@@ -93,8 +93,6 @@ Class CI_Constant {
 
 	/*zujuan qcount timeout*/
     const REDIS_AUTHLOGIN_TIMEOUT = 14400;//默认auto login用户名的缓存时间
-    const REDIS_QCOUNT_TIMEOUT = 604800;//页面总数页面缓存的缓存时间，上线测试暂定24小时，上线后更改为7天
-    const REDIS_INTELLIGENT_TIMEOUT = 604800;//智能选题结果保存七天
 
     function __construct()
 	{
