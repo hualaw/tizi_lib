@@ -30,6 +30,10 @@ Class CI_Constant {
 	const NO_PASSWORD_EXPIRE_TIME = 1800;//用户登录后，免输入密码验证的过期时间,30分钟
 
 	const COOKIE_TZUSERNAME = "TZU";//自动登录cookie name
+	const COOKIE_TZMYSUBJECT = "_ms";//mysubject cookie name
+	const COOKIE_TZMYSUBJECT_PAPER = "_msp";//mysubject cookie name
+	const COOKIE_TZMYSUBJECT_DOC = "_msd";//mysubject cookie name
+	const COOKIE_TZMYSUBJECT_HOMEWORK = "_msh";//mysubject cookie name
 	const COOKIE_TZTIPS = "_tp_";//tips cookie perfix name
 	const COOKIE_NOREDIS = "_nrd";//no redis cookie name
 	const COOKIE_INVITE = "invite";//invite cookie name
