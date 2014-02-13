@@ -1,8 +1,6 @@
 <?php
-//  CI 2.0 Compatibility
-if(!class_exists('CI_Model')) { class CI_Model extends CI_Model {  } }
 
-class Authitem_model extends CI_Model {
+class Authitem_model extends LI_Model {
     const TYPE_OPERATION=0;
     const TYPE_TASK=1;
     const TYPE_ROLE=2;
