@@ -6,6 +6,8 @@ class LI_Config extends CI_Config {
 
 	function __construct()
 	{
+		if(isset($_SERVER['HTTPS']) && empty($_SERVER['HTTPS'])) $_SERVER['HTTPS'] = "off";
+
 		parent::__construct();
 
 		if ($this->config['login_url'] == '')
