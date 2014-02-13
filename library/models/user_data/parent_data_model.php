@@ -1,6 +1,6 @@
 <?php
 
-class Parent_Data_Model extends CI_Model {
+class Parent_Data_Model extends LI_Model {
 
     private $_table='user_parent_data';
 

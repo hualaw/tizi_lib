@@ -1,8 +1,9 @@
 <?php
 
-class Redis_Model extends CI_Model {
+class Redis_Model extends LI_Model {
 
-	 public function __construct(){
+	 public function __construct()
+	 {
         parent::__construct();
 		//delete_cookie(Constant::COOKIE_NOREDIS);
      }

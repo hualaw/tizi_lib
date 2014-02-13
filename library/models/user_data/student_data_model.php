@@ -4,7 +4,7 @@
  * @description 学生资料
  */
 
-class Student_Data_Model extends CI_Model {
+class Student_Data_Model extends LI_Model {
 
     function __construct()
     {

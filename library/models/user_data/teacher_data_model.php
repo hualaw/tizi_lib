@@ -1,6 +1,6 @@
 <?php
 
-class Teacher_Data_Model extends CI_Model {
+class Teacher_Data_Model extends LI_Model {
 
     private $_table='user_teacher_data';
 
