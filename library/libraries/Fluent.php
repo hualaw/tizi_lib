@@ -11,19 +11,18 @@ class CI_Fluent{
 
     protected $business_allow = array();
 
-    protected $default_data = array();
-
     protected static $default_config = array(
         'host' => 'localhost',
         'port' => '24224',
         'access' => 'tizi.access',
-        'business_allow' => array('tizi'),
-        'default_data' => array(
-            'uid' => 'nginx_uid',
-            'userid' => 'userid',
-            'host' => 'www.tizi.com',
-            'status' => 1
-        )
+        'business_allow' => array()
+    );
+
+    protected $default_data = array(
+        'uid' => 'nginx_uid',
+        'userid' => 'userid',
+        'host' => 'www.tizi.com',
+        'status' => 1
     );
 
     function __construct() 
@@ -46,20 +45,23 @@ class CI_Fluent{
 
         $this->access = $config['access'];
         $this->business_allow = $config['business_allow'];
-        $this->default_data = $config['default_data'];
     }
 
     public function post($data)
     {
-        if(isset($data['business']) && in_array($data['business'], $this->business_allow))
+        if(isset($data['business']))
         {
+            if(!empty($this->business_allow) && in_array($data['business'], $this->business_allow))
+            {
+                return array('code' => -1, 'msg' => 'business is not allowed');
+            }
             $data = array_merge($this->default_data, $data);
             $this->fluent->post($this->access, $data);
             return array('code' => 1, 'msg' => '');
         }
         else
         {
-            return array('code' => -1, 'msg' => 'business is not allowed');
+            return array('code' => -2, 'msg' => 'business is invalid');
         }
     }
 
