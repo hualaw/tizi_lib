@@ -6,9 +6,8 @@ class Captcha {
 
     private $_ci;          // CI object
     private $word;         // 验证码显示内容;
-    private $img_url;      // 图片源码;
-    private $img_path;     // 图片路径
     private $font_path;    // 字体文件路径;
+    private $font;          // 字体文件;
     private $expiration;   // Session 过期时间;
     private $img_height;   // 验证码高；
     private $img_width;    // 验证码宽;
@@ -69,11 +68,10 @@ class Captcha {
 
     public function setFontPath(){
         $this->font_path = $this->_ci->config->item('font_path');
+        $this->font = $this->_ci->config->item('font');
     }
 
     public function setImgOptions(){
-        $this->img_url = $this->_ci->config->item('img_url'); 
-        $this->img_path = $this->_ci->config->item('img_path');
         $this->img_width  = $this->_ci->config->item('img_width');
         $this->img_height = $this->_ci->config->item('img_height');
     }
@@ -83,10 +81,13 @@ class Captcha {
     }
 
     public function getOptions(){
-		$img_url=base_url().$this->img_url;
-        return array('word'=>$this->word, 'img_path'=>$this->img_path,
-            'img_url' => $img_url, 'font_path'=>$this->font_path,
-            'img_width'=>$this->img_width, 'img_height'=>$this->img_height,
-            'expiration'=> $this->expiration);
+        return array(
+            'word'=>$this->word, 
+            'font_path'=>$this->font_path,
+            'font'=>$this->font,
+            'img_width'=>$this->img_width, 
+            'img_height'=>$this->img_height,
+            'expiration'=> $this->expiration
+        );
     }
 }
