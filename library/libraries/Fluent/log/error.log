@@ -1,0 +1,16 @@
+Fluent\Logger\FluentLogger stream_socket_client(): unable to connect to tcp://localhost:24224 (Connection refused) waijiao.access: {"hello":"world"}
+Fluent\Logger\FluentLogger stream_socket_client(): unable to connect to tcp://localhost:24224 (Connection refused) waijiao.access: {"hello":"world"}
+Fluent\Logger\FluentLogger stream_socket_client(): unable to connect to tcp://localhost:24224 (Connection refused) waijiao.access: {"hello":"world"}
+Fluent\Logger\FluentLogger stream_socket_client(): unable to connect to tcp://localhost:24224 (Connection refused) waijiao.access: {"hello":"world"}
+Fluent\Logger\FluentLogger stream_socket_client(): unable to connect to tcp://localhost:24224 (Connection refused) waijiao.access: {"hello":"world"}
+Fluent\Logger\FluentLogger stream_socket_client(): unable to connect to tcp://localhost:24224 (Connection refused) waijiao.access: {"hello":"world"}
+Fluent\Logger\FluentLogger stream_socket_client(): unable to connect to tcp://localhost:24224 (Connection refused) waijiao.access: {"hello":"world"}
+Fluent\Logger\FluentLogger  tizi.access: {"uid":"nginx_uid","userid":"userid","host":"www.tizi.com","business":"tizi"}
+Fluent\Logger\FluentLogger  tizi.access: {"uid":"nginx_uid","userid":"userid","host":"www.tizi.com","business":"tizi"}
+Fluent\Logger\FluentLogger  tizi.access: {"uid":"nginx_uid","userid":"userid","host":"www.tizi.com","business":"tizi"}
+Fluent\Logger\FluentLogger  tizi.access: {"uid":"nginx_uid","userid":"userid","host":"www.tizi.com","business":"tizi"}
+Fluent\Logger\FluentLogger  tizi.access: {"uid":"nginx_uid","userid":"userid","host":"www.tizi.com","business":"tizi"}
+Fluent\Logger\FluentLogger  tizi.access: {"uid":"nginx_uid","userid":"userid","host":"www.tizi.com","business":"tizi"}
+Fluent\Logger\FluentLogger  tizi.access: {"uid":"nginx_uid","userid":"userid","host":"www.tizi.com","business":"tizi"}
+Fluent\Logger\FluentLogger  tizi.access: {"uid":"nginx_uid","userid":"userid","host":"www.tizi.com","business":"tizi"}
+Fluent\Logger\FluentLogger  tizi.access: {"uid":"nginx_uid","userid":"userid","host":"www.tizi.com","status":1,"business":"tizi"}
