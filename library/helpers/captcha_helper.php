@@ -41,7 +41,7 @@ if ( ! function_exists('create_captcha'))
 {
 	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '', $output_file = false, $line_pattern = false)
 	{
-		$defaults = array('word' => '', 'img_path' => '', 'img_url' => '', 'img_width' => '113', 'img_height' => '34', 'font_path' => '', 'expiration' => 7200);
+		$defaults = array('word' => '', 'img_path' => '', 'img_url' => '', 'img_width' => '113', 'img_height' => '34', 'font_path' => '', 'font' => array(), 'expiration' => 7200);
 
 		foreach ($defaults as $key => $val)
 		{
@@ -154,8 +154,8 @@ if ( ! function_exists('create_captcha'))
 		$bg_color		= imagecolorallocate ($im, 255, 255, 255);
 		$border_color	= imagecolorallocate ($im, 155, 155, 155);
 		$text_color		= imagecolorallocate ($im, 42, 141, 106);
-		$grid_color		= imagecolorallocate($im, 156, 194, 128);
-		$shadow_color	= imagecolorallocate($im, 255, 240, 240);
+		$grid_color		= imagecolorallocate ($im, 42, 141, 106);
+		$shadow_color	= imagecolorallocate ($im, 255, 240, 240);
 
 		// -----------------------------------
 		//  Create the rectangle
@@ -194,7 +194,8 @@ if ( ! function_exists('create_captcha'))
 		//  Write the text
 		// -----------------------------------
 
-		$use_font = ($font_path != '' AND file_exists($font_path) AND function_exists('imagettftext')) ? TRUE : FALSE;
+		$font_file = $font_path.$font[0];
+		$use_font = ($font_file != '' AND file_exists($font_file) AND function_exists('imagettftext')) ? TRUE : FALSE;
 
 		if ($use_font == FALSE)
 		{
@@ -211,6 +212,8 @@ if ( ! function_exists('create_captcha'))
 
 		for ($i = 0; $i < strlen($word); $i++)
 		{
+			$font_file = $font_path.$font[rand(0,count($font)-1)];
+			$use_font = ($font_file != '' AND file_exists($font_file) AND function_exists('imagettftext')) ? TRUE : FALSE;
 			if ($use_font == FALSE)
 			{
 				$y = rand(0 , $img_height/2);
@@ -220,12 +223,14 @@ if ( ! function_exists('create_captcha'))
 			else
 			{
 				$y = rand($img_height-5, $img_height/2+3);//纵向坐标
-				imagettftext($im, $font_size, $angle, $x, $y, $text_color, $font_path, substr($word, $i, 1));
+				$angle = rand(-30, 30);
+				imagettftext($im, $font_size, $angle, $x, $y, $text_color, $font_file, substr($word, $i, 1));
 				$x += $font_size;
 			}
 		}
 
-
+		//writeCurve($im, $img_width, $img_height, $font_size, $grid_color);
+		//writeNoise($im, $img_width, $img_height, '12312');
 		// -----------------------------------
 		//  Create the border
 		// -----------------------------------
@@ -257,6 +262,64 @@ if ( ! function_exists('create_captcha'))
 	}
 }
 
+if ( ! function_exists('writeCurve'))
+{
+	function writeCurve($im, $width, $height, $fontsize, $color) {
+        $A = mt_rand($height/4, $height/2);                  // 振幅  
+        $b = mt_rand(-$height/4, $height/4);   // Y轴方向偏移量  
+        $f = mt_rand(-$height/4, $height/4);   // X轴方向偏移量  
+        $T = mt_rand($height*1.5, $width*2);  // 周期  
+        $w = (2* M_PI)/$T;  
+                          
+        $px1 = 0;  // 曲线横坐标起始位置  
+        $px2 = mt_rand($width/2, $width * 0.667);  // 曲线横坐标结束位置             
+        for ($px=$px1; $px<=$px2; $px=$px+ 0.9) {  
+            if ($w!=0) {  
+                $py = $A * sin($w*$px + $f)+ $b + $height/2;  // y = Asin(ωx+φ) + b  
+                $i = (int) (($fontsize - 6)/4);  
+                while ($i > 0) {   
+                    imagesetpixel($im, $px + $i, $py + $i, $color);  // 这里画像素点比imagettftext和imagestring性能要好很多                    
+                    $i--;  
+                }  
+            }  
+        } 
+        
+        $A = mt_rand($height/4, $height/2);                  // 振幅          
+        $f = mt_rand(-$height/4, $height/4);   // X轴方向偏移量  
+        $T = mt_rand($height*1.5, $width*2);  // 周期  
+        $w = (2* M_PI)/$T;        
+        $b = $py - $A * sin($w*$px + $f) - $height/2;  
+        $px1 = $px2;  
+        $px2 = $width;  
+        for ($px=$px1; $px<=$px2; $px=$px+ 0.9) {  
+            if ($w!=0) {  
+                $py = $A * sin($w*$px + $f)+ $b + $height/2;  // y = Asin(ωx+φ) + b  
+                $i = (int) (($fontsize - 8)/4);  
+                while ($i > 0) {           
+                    imagesetpixel($im, $px + $i, $py + $i, $color);  // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多      
+                    $i--;  
+                }  
+            }  
+        }  
+    }
+}
+
+if ( ! function_exists('writeNoise'))
+{
+    function writeNoise($im, $width, $height, $text) {  
+        for($i = 0; $i < 10; $i++){  
+            //杂点颜色  
+            $noiseColor = imagecolorallocate($im, mt_rand(150,225), mt_rand(150,225), mt_rand(150,225));  
+            for($j = 0; $j < 5; $j++) {  
+                // 绘杂点  
+                imagestring($im, 3, mt_rand(-10, $width), mt_rand(-10, $height), 
+                	$text, // 杂点文本为随机的字母或数字  
+                    $noiseColor  
+                );  
+            }  
+        }  
+    }
+}
 // ------------------------------------------------------------------------
 
 /* End of file captcha_helper.php */
