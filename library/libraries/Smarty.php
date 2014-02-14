@@ -6,7 +6,7 @@ class CI_Smarty extends Smarty{
 
 	private $_CI;
 
-    protected static $_default_config = array(
+    protected static $default_config = array(
         'template_dir' => 'views',
         'compile_dir' => 'templates_c',
         'cache_dir' => 'cache',
@@ -31,7 +31,7 @@ class CI_Smarty extends Smarty{
             $config = $this->_CI->config->item('smarty');
         }
 
-        $config = array_merge(self::$_default_config, $config);
+        $config = array_merge(self::$default_config, $config);
 
         $this->template_dir = $config['template_dir'];
         $this->compile_dir = $config['compile_dir'];
