@@ -41,7 +41,9 @@ if ( ! function_exists('create_captcha'))
 {
 	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
 	{
-		$defaults = array('word' => '', 'img_path' => '', 'img_url' => '', 
+		$defaults = array(
+			'word' => '', 'word_angle' => 15, 
+			'img_path' => '', 'img_url' => '', 
 			'img_width' => '113', 'img_height' => '34', 
 			'font_path' => '', 'font' => array(), 'font_random' => false,
 			'expiration' => 7200,
@@ -229,7 +231,7 @@ if ( ! function_exists('create_captcha'))
 			else
 			{
 				$y = rand($img_height-5, $img_height/2+3);//纵向坐标
-				$ag = 30;
+				$ag = $word_angle;
 				if($i == 0) $angle = rand(-$ag, 10);
 				else if($i == strlen($word) - 1) $angle = rand(-10, $ag);
 				else $angle = rand(-$ag, $ag);
