@@ -229,7 +229,7 @@ if ( ! function_exists('create_captcha'))
 			}
 		}
 
-		writeCurve($im, $img_width, $img_height, $font_size, $grid_color);
+		//writeCurve($im, $img_width, $img_height, $font_size, $grid_color);
 		//writeNoise($im, $img_width, $img_height, '12312');
 		// -----------------------------------
 		//  Create the border
