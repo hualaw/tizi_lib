@@ -212,7 +212,7 @@ if ( ! function_exists('create_captcha'))
 
 		for ($i = 0; $i < strlen($word); $i++)
 		{
-			$font_file = $font_path.$font[mt_rand(0,count($font)-1)];
+			$font_file = $font_path.$font[rand(0,count($font)-1)];
 			$use_font = ($font_file != '' AND file_exists($font_file) AND function_exists('imagettftext')) ? TRUE : FALSE;
 			if ($use_font == FALSE)
 			{
@@ -223,6 +223,7 @@ if ( ! function_exists('create_captcha'))
 			else
 			{
 				$y = rand($img_height-5, $img_height/2+3);//纵向坐标
+				$angle = rand(-30, 30);
 				imagettftext($im, $font_size, $angle, $x, $y, $text_color, $font_file, substr($word, $i, 1));
 				$x += $font_size;
 			}
@@ -259,7 +260,10 @@ if ( ! function_exists('create_captcha'))
 		}
 		
 	}
+}
 
+if ( ! function_exists('writeCurve'))
+{
 	function writeCurve($im, $width, $height, $fontsize, $color) {
         $A = mt_rand($height/4, $height/2);                  // 振幅  
         $b = mt_rand(-$height/4, $height/4);   // Y轴方向偏移量  
@@ -298,7 +302,10 @@ if ( ! function_exists('create_captcha'))
             }  
         }  
     }
+}
 
+if ( ! function_exists('writeNoise'))
+{
     function writeNoise($im, $width, $height, $text) {  
         for($i = 0; $i < 10; $i++){  
             //杂点颜色  
@@ -313,7 +320,6 @@ if ( ! function_exists('create_captcha'))
         }  
     }
 }
-
 // ------------------------------------------------------------------------
 
 /* End of file captcha_helper.php */
