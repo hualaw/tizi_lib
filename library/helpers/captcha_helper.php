@@ -39,9 +39,14 @@
  */
 if ( ! function_exists('create_captcha'))
 {
-	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '', $output_file = false, $line_pattern = false)
+	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
 	{
-		$defaults = array('word' => '', 'img_path' => '', 'img_url' => '', 'img_width' => '113', 'img_height' => '34', 'font_path' => '', 'font' => array(), 'expiration' => 7200);
+		$defaults = array('word' => '', 'img_path' => '', 'img_url' => '', 
+			'img_width' => '113', 'img_height' => '34', 
+			'font_path' => '', 'font' => array(), 'font_random' => false,
+			'expiration' => 7200,
+			'output_file' => false, 'line_pattern' => false, 'line_curve' => true
+		);
 
 		foreach ($defaults as $key => $val)
 		{
@@ -195,7 +200,7 @@ if ( ! function_exists('create_captcha'))
 		// -----------------------------------
 
 		$font_file = $font_path.$font[0];
-		$use_font = ($font_file != '' AND file_exists($font_file) AND function_exists('imagettftext')) ? TRUE : FALSE;
+		$use_font = ($font_path != '' AND file_exists($font_file) AND function_exists('imagettftext')) ? TRUE : FALSE;
 
 		if ($use_font == FALSE)
 		{
@@ -212,8 +217,9 @@ if ( ! function_exists('create_captcha'))
 
 		for ($i = 0; $i < strlen($word); $i++)
 		{
-			$font_file = $font_path.$font[rand(0,count($font)-1)];
-			$use_font = ($font_file != '' AND file_exists($font_file) AND function_exists('imagettftext')) ? TRUE : FALSE;
+			if($font_random) $font_file = $font_path.$font[rand(0,count($font)-1)];
+			else $font_file = $font_path.$font[0];
+
 			if ($use_font == FALSE)
 			{
 				$y = rand(0 , $img_height/2);
@@ -223,13 +229,16 @@ if ( ! function_exists('create_captcha'))
 			else
 			{
 				$y = rand($img_height-5, $img_height/2+3);//纵向坐标
-				$angle = rand(-30, 30);
+				$ag = 30;
+				if($i == 0) $angle = rand(-$ag, 10);
+				else if($i == strlen($word) - 1) $angle = rand(-10, $ag);
+				else $angle = rand(-$ag, $ag);
 				imagettftext($im, $font_size, $angle, $x, $y, $text_color, $font_file, substr($word, $i, 1));
 				$x += $font_size;
 			}
 		}
 
-		//writeCurve($im, $img_width, $img_height, $font_size, $grid_color);
+		if($line_curve) writeCurve($im, $img_width, $img_height, $font_size, $grid_color);
 		//writeNoise($im, $img_width, $img_height, '12312');
 		// -----------------------------------
 		//  Create the border
