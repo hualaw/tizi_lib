@@ -11,7 +11,7 @@ class Captcha {
     public function __construct(){
         $this->_ci = & get_instance();
         $this->_ci->load->library('session');
-        $this->_ci->load->config('captcha',true);
+        $this->_ci->load->config('captcha', true, true);
 		$this->_ci->load->helper('url');
         $this->_ci->load->helper('string');
         $this->_ci->load->helper('captcha');
