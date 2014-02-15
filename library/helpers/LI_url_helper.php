@@ -33,7 +33,9 @@ if ( ! function_exists('static_url'))
 	{
 		if($site) $site = $site.'_';
 		$CI =& get_instance();
-		return $CI->config->item($site.'static_url');
+		$static_url = $CI->config->item($site.'static_url');
+		if(stripos($static_url,'http') === false) $static_url = site_url($static_url).'/';
+		return $static_url;
 	}
 }
 /* End of file LI_url_helper.php */
