@@ -23,6 +23,8 @@ $config['login_url'] = 'http://i.tizi.com/';
 $config['jxt_url'] = 'http://jxt.tizi.com/';
 
 $config['static_url'] = 'http://static.tizi.com/';
+
+$config['tizi_static_url'] = 'http://tizi-static.tizi.com/';
 /*
 |--------------------------------------------------------------------------
 | Index File
