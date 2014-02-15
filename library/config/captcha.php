@@ -5,6 +5,6 @@ $config['expiration'] = 60;
 
 $config['font_random'] = false;
 $config['font_path'] = LIBPATH.'views/static/fonts/';
-$config['font'] = array('default.ttf','ITCKRIST.TTF');
+$config['font'] = array('default.ttf','the_score_normal.ttf');
 
 $config['line_curve'] = false;
