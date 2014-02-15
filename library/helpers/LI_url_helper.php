@@ -31,7 +31,7 @@ if ( ! function_exists('static_url'))
 {
 	function static_url($site = '')
 	{
-		if($site) $site = $site.'-';
+		if($site) $site = $site.'_';
 		$CI =& get_instance();
 		return $CI->config->item($site.'static_url');
 	}
