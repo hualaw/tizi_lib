@@ -26,5 +26,15 @@ if ( ! function_exists('jxt_url'))
 		return $CI->config->site_url($uri,'jxt');
 	}
 }
+
+if ( ! function_exists('static_url'))
+{
+	function static_url($site = '')
+	{
+		if($site) $site = $site.'-';
+		$CI =& get_instance();
+		return $CI->config->item($site.'static_url');
+	}
+}
 /* End of file LI_url_helper.php */
 /* Location: ./system/helpers/LI_url_helper.php */
