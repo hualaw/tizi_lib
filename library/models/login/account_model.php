@@ -3,27 +3,6 @@ if (!defined("BASEPATH")) exit("No direct script access allowed");
 
 class account_model extends LI_Model {
 	
-	$phone = "18501371443";
-	$this->load->model("login/account_model");
-	
-	if (1 === $this->account_model->p_addas_phone($phone, rand6pwd())){
-		//add phone account successfully.
-	}
-	
-	$account_phone_exists = $this->account_model->p_phone_exists($phone);
-	if (true === $account_phone_exists){
-		//this phone has exists.
-		$res = $this->account_model->p_delete($phone);
-		if (1 === $res){
-			//delete not loged account successfully.
-		}
-	} else {
-		
-	}
-	
-	
-	
-	
 	/**
 	 * 方法开头解释
 	 * s_开头:学生相关
