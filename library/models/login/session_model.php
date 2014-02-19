@@ -4,6 +4,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Session_Model extends LI_Model {
 	
 	private $_table="session";
+	private $_api_table="session_api";
 
 	function __construct()
 	{
@@ -136,6 +137,31 @@ class Session_Model extends LI_Model {
 			return $result[0]["generate_time"];
 		}
 		return null;
+	}
+
+	public function generate_api_session($user_id,$api_type=1)
+	{
+		$session_id = sha1(md5($user_id).uniqid().mt_rand(1000000,5555555));
+		$data=$this->bind_session($session_id,$user_id);
+		$data['api_type']=$api_type;
+		$this->db->where('user_id',$user_id);
+		$this->db->where('api_type',$api_type);
+		$query=$this->db->get($this->_api_table);
+		if($query->num_rows() > 0)
+		{
+			$this->db->where('user_id',$user_id);
+			$this->db->where('api_type',$api_type);
+			$this->db->delete($this->_api_table); 
+		}
+		$this->db->insert($this->_api_table,$data);
+		return $session_id;
+	}
+	
+	public function get_api_session($oauth)
+	{
+		$result = $this->db->query("select data from apps_oauth where 
+			oauth=?", array($oauth))->result_array();
+		return isset($result[0]["data"]) ? unserialize($result[0]["data"]) : null;
 	}
 }
 /* End of file session_model.php */
