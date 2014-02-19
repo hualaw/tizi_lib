@@ -32,7 +32,7 @@ class Sms {
        //$this->_content = $content;
        $this->signature = $this->buildSignature();
 
-       $this->version = $this->_ci->config->item('version'); // 获取配置文件中的版本号
+       $this->version = $this->_ci->config->item('smsversion'); // 获取配置文件中的版本号
     }
 
     //根据version选择相应的发送短信的方法
