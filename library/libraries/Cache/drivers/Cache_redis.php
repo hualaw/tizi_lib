@@ -464,7 +464,12 @@ class CI_Cache_redis extends CI_Driver
             return $this->_redis->sadd($key,$data);  
         }
     }
-    
+    public function srem($key,$data){
+
+        if($this->_redis){
+            return $this->_redis->srem($key,$data);  
+        }
+    }
     public function smembers($key){
         if ($this->_slave)
         {
