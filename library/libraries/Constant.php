@@ -58,6 +58,11 @@ Class CI_Constant {
 	const LOGIN_TYPE_UNAME = 4;
 	const LOGIN_TYPE_ERROR = 9;
 
+	/*tizi api type*/
+	const API_TYPE_TIZI = 1;
+	const API_TYPE_JXT = 2;
+	const API_TYPE_AQ = 3;
+
 	/*zujuan verify type*/
 	const VERIFY_TYPE_EMAIL = 1;
 	const VERIFY_TYPE_PHONE = 2;
