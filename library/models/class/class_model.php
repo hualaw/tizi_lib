@@ -53,7 +53,7 @@ class class_model extends LI_Model {
 	/**
 	 * 创建一条老师和班级的绑定信息，并更新班级老师数量
 	 */ 
-	public function i_join_class($class_id, $teacher_id, $subject_id, $join_date = time()){
+	public function i_join_class($class_id, $teacher_id, $subject_id, $join_date){
 		$total = $this->db->query("select count(*) as total from classes_teacher where class_id=? 
 			and teacher_id=?", array($class_id, $teacher_id))->row();
 		if ($total->total == 0){
