@@ -158,9 +158,10 @@ class Session_Model extends LI_Model {
 		return $session_id;
 	}
 	
-	public function get_api_session($session_id,$api_type=Constant::API_TYPE_TIZI)
+	public function get_api_session($session_id,$api_type=Constant::API_TYPE_TIZI,$select='')
 	{
-		$this->db->where('user_id',$user_id);
+		if($select) $this->db->select($select);
+		$this->db->where('session_id',$session_id);
 		$this->db->where('api_type',$api_type);
 		$query=$this->db->get($this->_api_table);
 		return $query->row_array();
