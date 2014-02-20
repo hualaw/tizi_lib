@@ -1,5 +1,5 @@
 <?php
-class Homework_Assign_Model extends CI_Model{
+class Homework_Assign_Model extends MY_Model{
     private $_table = 'homework_assign';
     function __construct(){
         parent::__construct();
@@ -173,14 +173,14 @@ class Homework_Assign_Model extends CI_Model{
                     // if($paper_val['online']){
                     //     $online_status = true;
                     // }
-                    $this->load->model("homework/student_homework_model",'shm');
+                    $this->load->model("homework/student_task_model",'stm');
                     $data = array();
                     $result = true;
                     $save_work_data = null;
                     $save_work_data = array('aid'=>$assignment_id,'deadline'=>$val['deadline'],'uid_list'=>'');
                     $data[] = array('assignment_id' => $assignment_id,
                         'student_id' => $uid);
-                    $result = $this->shm->advance_save($data);
+                    $result = $this->stm->advance_save($data);
                 } // end of if loop
             }//end of if count 
         } // end of foreach loop     

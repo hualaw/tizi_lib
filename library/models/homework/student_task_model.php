@@ -3,7 +3,7 @@
  * @description
  *
  */
-class Student_Task_Model extends CI_Model{
+class Student_Task_Model extends MY_Model{
 
 
     public $uid;
@@ -120,7 +120,27 @@ class Student_Task_Model extends CI_Model{
         return $videos;
     }
 
-    
+    /**
+     * @param student_id 学号
+     * @param assiment_id 作业id
+     * @param question_num 问题数量
+     * @param date 日期
+     * @info 预先存储
+     */
+    public function advance_save($data){
+        $this->db->trans_start();
+        foreach($data as $workinfo){
+            $this->db->insert('student_homework',$workinfo);
+            $id = $this->db->insert_id();
+            $this->pushTaskOnAddHomework($workinfo['student_id'],$id);
+        }
+        $this->db->trans_complete();
+        if (!$this->db->trans_status())                                 
+        {                                                                        
+            return false;
+        }
+        return true;
+    }
     
 
 
