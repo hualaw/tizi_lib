@@ -1,5 +1,5 @@
 <?php
-class Classes_student extends MY_Model{
+class Classes_student extends LI_Model{
 	
 	const JOIN_METHOD_REGISTER	= 1;				//通过注册-邀请码方式加入
 	const JOIN_METHOD_TCREATE	= 2;				//通过教师生成账号直接加入班级 
