@@ -1,5 +1,5 @@
 <?php
-class classes_student_create extends MY_Model{
+class classes_student_create extends LI_Model{
 	
 	/**
 	 * 学号发生器

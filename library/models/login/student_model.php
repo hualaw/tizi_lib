@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Student_Model extends CI_Model {
+class Student_Model extends LI_Model {
 	
 	private $_table="student_reset_password";
 	

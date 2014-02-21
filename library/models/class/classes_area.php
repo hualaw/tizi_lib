@@ -1,6 +1,6 @@
 <?php
 
-class Classes_Area extends MY_Model{
+class Classes_Area extends LI_Model{
 	
 	/**
 	 * 通过父节点获取所有孩子节点数据[area表]

@@ -1,5 +1,5 @@
 <?php
-class Homework_Assign_Model extends MY_Model{
+class Homework_Assign_Model extends LI_Model{
     private $_table = 'homework_assign';
     function __construct(){
         parent::__construct();

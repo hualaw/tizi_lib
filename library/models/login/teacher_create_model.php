@@ -1,7 +1,7 @@
 <?php
 if (!defined("BASEPATH")) exit("No direct script access allowed");
 
-class Teacher_Create_Model extends CI_Model {
+class Teacher_Create_Model extends LI_Model {
 	
 	public function __construct(){
 		parent::__construct();
