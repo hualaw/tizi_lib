@@ -1,6 +1,6 @@
 <?php
 
-class Classes extends MY_Model{
+class Classes extends LI_Model{
 		
 	public function __construct(){
 		parent::__construct();

@@ -1,5 +1,5 @@
 <?php
-class Classes_actionlog extends MY_Model{
+class Classes_actionlog extends LI_Model{
 	
 	const TEACHER_JOIN_CLASS 	= 1;			//老师加入班级动作
 	const TEACHER_LEAVE_CLASS 	= 2;			//老师主动离开班级的动作（主动）

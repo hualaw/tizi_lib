@@ -1,7 +1,7 @@
 <?php
 if ( ! defined("BASEPATH")) exit("No direct script access allowed");
 
-class classes_notify extends MY_Model{
+class classes_notify extends LI_Model{
 	
 	/**
 	 * 获取某人的notify

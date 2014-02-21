@@ -1,6 +1,6 @@
 <?php
 
-class Classes_teacher_apply extends MY_Model{
+class Classes_teacher_apply extends LI_Model{
 	
 	/**
 	 * 老师申请加入某班级
