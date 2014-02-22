@@ -1,6 +1,6 @@
 <?php
 
-class Question_Subject_Model extends CI_Model {
+class Question_Subject_Model extends LI_Model {
     
     function __construct()
     {

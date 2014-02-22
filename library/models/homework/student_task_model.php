@@ -3,7 +3,7 @@
  * @description
  *
  */
-class Student_Task_Model extends MY_Model{
+class Student_Task_Model extends LI_Model{
 
 
     public $uid;
