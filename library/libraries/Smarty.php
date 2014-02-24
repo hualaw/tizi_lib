@@ -48,7 +48,9 @@ class CI_Smarty extends Smarty{
 
     public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false)
     {
-        if ($this->_CI->agent->is_mobile())
+        $exclude_agent = array('iPad');
+
+        if ($this->_CI->agent->is_mobile() && !in_array($this->_CI->agent->mobile, $exclude_agent))
         {
             if(strpos($template,':') !== false)
             {
