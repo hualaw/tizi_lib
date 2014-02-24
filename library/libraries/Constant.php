@@ -8,7 +8,7 @@ Class CI_Constant {
 	const USER_TYPE_STUDENT = 2;
 	const USER_TYPE_TEACHER = 3;
 	const USER_TYPE_PARENT = 4;
-	const USER_TYPE_INSTRUCTOR = 5;
+	const USER_TYPE_RESEARCHER = 5;
 
 	/*zujuan register origien*/
 	const REG_ORIGEN_WEB_PHONE = 1;
