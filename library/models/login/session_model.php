@@ -117,6 +117,12 @@ class Session_Model extends LI_Model {
 		delete_cookie(Constant::COOKIE_TZMYSUBJECT_HOMEWORK);
 		return array('errorcode'=>true);
 	}
+
+	function clear_current_dir_cookie()
+	{
+		delete_cookie(Constant::COOKIE_CURRENT_CLOUD_DIR);
+		return array('errorcode'=>true);
+	}
 	
 	function clear_cookie()
 	{
