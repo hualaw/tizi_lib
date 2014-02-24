@@ -46,6 +46,28 @@ class CI_Smarty extends Smarty{
         $this->right_delimiter = $config['right_delimiter'];
 	}
 
+    public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false)
+    {
+        if ($this->_CI->agent->is_mobile())
+        {
+            if(strpos($template,':') !== false)
+            {
+                $template_key = explode(':', $template);
+                $template_key = $template_key[0];
+            }
+            else
+            {
+                $template_key = 'default';
+            }
+            $template_mobile=str_replace('.html', '.mobile.html', $template);
+            if(file_exists($this->template_dir[$template_key].$template_mobile))
+            {
+                $template=$template_mobile;
+            }
+        }
+        return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+    }
+
 }
 /* End of file Smarty.php */
 /* Location: ./application/libraries/Smarty.php */
