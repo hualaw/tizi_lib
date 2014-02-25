@@ -52,7 +52,7 @@ class CI_Smarty extends Smarty{
     {
         $exclude_agent = array('iPad');
 
-        if ($this->_CI->agent->is_mobile() && !in_array($this->_CI->agent->mobile, $exclude_agent))
+        if (($this->_CI->agent->is_mobile() && !in_array($this->_CI->agent->mobile, $exclude_agent)) || $this->_CI->input->cookie(Constant::COOKIE_TZMOBILE))
         {
             if(strpos($template,':') !== false)
             {

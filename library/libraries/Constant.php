@@ -40,6 +40,7 @@ Class CI_Constant {
 	const COOKIE_NOREDIS = "_nrd";//no redis cookie name
 	const COOKIE_INVITE = "invite";//invite cookie name
 	const COOKIE_CURRENT_CLOUD_DIR = "_mdir";//cloud cookie name
+	const COOKIE_TZMOBILE = "_mobile";//cloud cookie name
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
