@@ -26,6 +26,8 @@ class CI_Smarty extends Smarty{
                 
         $this->_CI = &get_instance();
 
+        $this->_CI->load->library('user_agent');
+
         if ($this->_CI->config->load('smarty', true, true))
         {
             $config = $this->_CI->config->item('smarty');
