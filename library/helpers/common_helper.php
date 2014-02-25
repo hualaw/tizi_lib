@@ -43,7 +43,7 @@ if (!function_exists('preg_utype')) {
 }
 
 if (!function_exists('get_remote_ip')) {
-	function get_remote_ip(){
+	function get_remote_ip() {
 		if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown")) $ip = getenv("HTTP_CLIENT_IP"); 
 		else if (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown")) $ip = getenv("HTTP_X_FORWARDED_FOR"); 
 		else if (getenv("REMOTE_ADDR") && strcasecmp(getenv("REMOTE_ADDR"), "unknown")) $ip = getenv("REMOTE_ADDR"); 
@@ -52,6 +52,26 @@ if (!function_exists('get_remote_ip')) {
 		return $ip;
 	}
 }	
+
+if(!function_exists('user_agent')) {
+    function user_agent() {
+        $ci = &get_instance();
+        $agent = 'Agent:Unidentified User Agent';
+        if ($ci->agent->is_browser())
+        {
+            $agent = 'Browser: '.$ci->agent->browser().' | '.$ci->agent->version().' | '.$ci->agent->platform();
+        }
+        if ($ci->agent->is_robot())
+        {
+            $agent = 'Robot: '.$ci->agent->robot().' | '.$ci->agent->version().' | '.$ci->agent->platform();
+        }
+        if ($ci->agent->is_mobile())
+        {
+            $agent = 'Mobile: '.$ci->agent->mobile().' | '.$ci->agent->version().' | '.$ci->agent->platform();
+        }
+        return $agent;
+    }
+}
 
 if (!function_exists('strap')) {
     function strap($content)

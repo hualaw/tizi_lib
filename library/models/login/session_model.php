@@ -79,6 +79,7 @@ class Session_Model extends LI_Model {
 				'name'=>$name,
 				'student_id'=>$user->student_id,
 				'ip'=>ip2long(get_remote_ip()),
+				'user_agent'=>user_agent(),
 				'generate_time'=>date("Y-m-d H:i:s"),
 				'expire_time'=>'',
 				'user_data'=>json_encode(
@@ -115,6 +116,12 @@ class Session_Model extends LI_Model {
 		delete_cookie(Constant::COOKIE_TZMYSUBJECT_PAPER);
 		delete_cookie(Constant::COOKIE_TZMYSUBJECT_DOC);
 		delete_cookie(Constant::COOKIE_TZMYSUBJECT_HOMEWORK);
+		return array('errorcode'=>true);
+	}
+
+	function clear_current_dir_cookie()
+	{
+		delete_cookie(Constant::COOKIE_CURRENT_CLOUD_DIR);
 		return array('errorcode'=>true);
 	}
 	
