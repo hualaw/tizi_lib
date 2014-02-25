@@ -79,6 +79,7 @@ class Session_Model extends LI_Model {
 				'name'=>$name,
 				'student_id'=>$user->student_id,
 				'ip'=>ip2long(get_remote_ip()),
+				'user_agent'=>user_agent(),
 				'generate_time'=>date("Y-m-d H:i:s"),
 				'expire_time'=>'',
 				'user_data'=>json_encode(
