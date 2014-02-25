@@ -25,24 +25,24 @@
   in PHP4 based on code written by Damien Miller <djm@mindrot.org>
  
   Usage:
-
   $key = "pear";
   $message = "PEAR rulez!";
  
-  $rc4 = new Crypt_RC4;
+  $rc4 = new RC4;
   $rc4->setKey($key);
   echo "Original message: $message <br>\n";
   $rc4->crypt($message);
   echo "Encrypted message: $message <br>\n";
   $rc4->decrypt($message);
   echo "Decrypted message: $message <br>\n";
- 
+
+/* 
   @version $Revision$
   @access public
   @package Crypt
   @author Dave Mertens <zyprexia@php.net>
  */
-class Crypt_Rc4 {
+class Rc4 {
 
 	/**
 	 * Real programmers...
