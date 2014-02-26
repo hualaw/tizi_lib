@@ -18,6 +18,15 @@ if ( ! function_exists('tizi_url'))
 	}
 }
 
+if ( ! function_exists('vip_url'))
+{
+	function vip_url($uri = '')
+	{
+		$CI =& get_instance();
+		return $CI->config->site_url($uri,'vip');
+	}
+}
+
 if ( ! function_exists('jxt_url'))
 {
 	function jxt_url($uri = '')
