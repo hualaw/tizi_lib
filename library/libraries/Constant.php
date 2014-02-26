@@ -99,6 +99,7 @@ Class CI_Constant {
 	const AUTHCODE_REDIS_EXPIRE_PHONE = 1800;//短信验证码有效时间，30分钟
 
 	const DEFAULT_PER_PAGE = 10;
+	const DEFAULT_PAGE_LIMIT = 100;
 
 	/*zujuan qcount timeout*/
     const REDIS_AUTHLOGIN_TIMEOUT = 14400;//默认auto login用户名的缓存时间

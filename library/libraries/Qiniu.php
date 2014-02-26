@@ -64,6 +64,7 @@ class Qiniu {
         return $privateUrl;
     }
 
+    //删除七牛上的资源
     function qiniu_del($key){
         $bucket = $this->bucket;
         $domain = $this->domain;
@@ -96,8 +97,9 @@ class Qiniu {
         $imgView = new Qiniu_ImageView;
         $imgView->Mode = $mode;
         $imgView->Width = $width;
-        $imgView->Height = $height;
+        if($height)$imgView->Height = $height;
         $imgViewUrl = $imgView->MakeRequest($baseUrl);
+        // echo $imgViewUrl;die;
 
         //对fopUrl 进行签名，生成privateUrl。 公有bucket 此步可以省去。
         $getPolicy = new Qiniu_RS_GetPolicy();
