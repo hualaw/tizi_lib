@@ -42,7 +42,7 @@ if ( ! function_exists('create_captcha'))
 	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
 	{
 		$defaults = array(
-			'word' => '', 'word_angle' => 15, 
+			'word' => '', 'word_angle' => 15, 'word_space' => 0, 
 			'img_path' => '', 'img_url' => '', 
 			'img_width' => '113', 'img_height' => '34', 
 			'font_path' => '', 'font' => array(), 'font_random' => false,
@@ -236,7 +236,7 @@ if ( ! function_exists('create_captcha'))
 				else if($i == strlen($word) - 1) $angle = rand(-10, $ag);
 				else $angle = rand(-$ag, $ag);
 				imagettftext($im, $font_size, $angle, $x, $y, $text_color, $font_file, substr($word, $i, 1));
-				$x += $font_size;
+				$x += $font_size + $word_space;
 			}
 		}
 
