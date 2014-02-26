@@ -24,6 +24,7 @@ class Captcha {
     {
         if(!$page_name) return false;
         if(empty($input_captcha_word)) return false;
+        $input_captcha_word = $this->formatWord($input_captcha_word);
         $captcha_token = $this->_ci->session->userdata('captcha_token');
         if($captcha_token) $captcha_token=json_decode($captcha_token,true);      
         else return false;
@@ -58,11 +59,20 @@ class Captcha {
     }
 
     private function setWord($count=4){
-        $this->word = random_string('alnum','4');
+        $this->word = $this->formatWord(random_string('alnum','4'));
+        
     }
 
     public function setImgOptions(){
         $this->config = $this->_ci->config->item('captcha');
+    }
+
+    private function formatWord($word){
+        if($word){
+            $word = str_ireplace(array('i','1'), 'I', $word);
+            $word = str_ireplace(array('0','o'), 'O', $word);
+        }
+        return $word;
     }
 
 }

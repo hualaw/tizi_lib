@@ -79,6 +79,7 @@ class Session_Model extends LI_Model {
 				'name'=>$name,
 				'student_id'=>$user->student_id,
 				'ip'=>ip2long(get_remote_ip()),
+				'user_agent'=>user_agent(),
 				'generate_time'=>date("Y-m-d H:i:s"),
 				'expire_time'=>'',
 				'user_data'=>json_encode(
@@ -115,6 +116,12 @@ class Session_Model extends LI_Model {
 		delete_cookie(Constant::COOKIE_TZMYSUBJECT_PAPER);
 		delete_cookie(Constant::COOKIE_TZMYSUBJECT_DOC);
 		delete_cookie(Constant::COOKIE_TZMYSUBJECT_HOMEWORK);
+		return array('errorcode'=>true);
+	}
+
+	function clear_current_dir_cookie()
+	{
+		delete_cookie(Constant::COOKIE_CURRENT_CLOUD_DIR);
 		return array('errorcode'=>true);
 	}
 	
@@ -158,9 +165,10 @@ class Session_Model extends LI_Model {
 		return $session_id;
 	}
 	
-	public function get_api_session($session_id,$api_type=Constant::API_TYPE_TIZI)
+	public function get_api_session($session_id,$api_type=Constant::API_TYPE_TIZI,$select='')
 	{
-		$this->db->where('user_id',$user_id);
+		if($select) $this->db->select($select);
+		$this->db->where('session_id',$session_id);
 		$this->db->where('api_type',$api_type);
 		$query=$this->db->get($this->_api_table);
 		return $query->row_array();
