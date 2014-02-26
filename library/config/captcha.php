@@ -10,4 +10,4 @@ $config['font'] = array('default.ttf','the_score_normal.ttf');
 
 $config['line_curve'] = false;
 $config['word_angle'] = 15;
-$config['word_space'] = -4;
+$config['word_space'] = -2;
