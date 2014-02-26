@@ -17,8 +17,8 @@ class LI_Pagination extends CI_Pagination {
 	var $prev_link				= FALSE;
 	var $ajax_func              = 'ajax_page';
 	
-	var $per_page				= 10;
-	var $page_limit				= 100;
+	var $per_page				= Constant::DEFAULT_PER_PAGE;
+	var $page_limit				= Constant::DEFAULT_PAGE_LIMIT;
 	var $uri_segment			= 4;
 	var $cur_tag_open			= '<a href="javascript:void(0);" class="active">';
 	var $cur_tag_close			= '</a>';
