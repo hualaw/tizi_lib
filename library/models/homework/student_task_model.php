@@ -44,6 +44,23 @@ class Student_Task_Model extends LI_Model{
          
     }
 
+    //分享 文件
+    public function pushTaskOnShare($uids,$file_id){
+        $date = time();
+        if(is_array($uids)){
+            $this->db->trans_start();
+            foreach($uids as $uid){
+                $this->db
+                    ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$file_id},3,{$uid},{$date})");//类型3是分享
+            }
+            $this->db->trans_complete();
+            return $this->db->trans_status();      
+        }else{
+            return $this->db
+                ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$file_id},3,{$uids},{$date})");
+        }
+    }
+
     //push video
     public function pushTaskOnRegister($uid){
 
@@ -81,12 +98,18 @@ class Student_Task_Model extends LI_Model{
         foreach($data  as $val){
             if($val['task_type'] == 1){
                 $homework = $this->student_homework_model->get_homework($this->uid, $val['index_value']);
+                $homework['task_type'] = 1;
                 $tasks[] = $homework;
             }elseif($val['task_type'] == 2){
                 $video = $this->db
                     ->query("select * from `student_video` where `id` = {$val['index_value']}")
                     ->row_array();
+                $video['task_type'] = 2;
                 $tasks[] = $video;
+            }elseif($val['task_type'] == 3){//3是分享
+                $share=$this->db->query("select f.*,s.*,f.is_del as file_is_del,s.is_del as share_is_del from cloud_share s left join cloud_user_file f on f.id=s.file_id where s.id={$val['index_value']}")->row_array();
+                $share['task_type'] = 3;
+                $tasks[] = $share;
             }
         }
         return $tasks;
