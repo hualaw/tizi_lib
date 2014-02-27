@@ -2,6 +2,8 @@
 
 class LI_Controller extends CI_Controller{
 
+	protected $site='';
+
 	protected $tizi_uid=0;
 	protected $tizi_utype=0;
 	protected $tizi_uname='';
@@ -27,9 +29,17 @@ class LI_Controller extends CI_Controller{
 	protected $_page_name='';
 	protected $_captcha_name='';
 
-	public function __construct()
+	public function __construct($site='')
 	{
 		parent::__construct();
+
+		$this->site=$site;
+		$this->init();
+		$this->auto_login();
+		$this->token_list();
+		$this->request_check();
+		$this->token();
+		$this->load_smarty();
 	}
 
 	protected function init()
@@ -55,9 +65,10 @@ class LI_Controller extends CI_Controller{
         $site_url=site_url();
         $tizi_url=tizi_url();
         $login_url=login_url();
-        $vip_url=vip_url();
+        $edu_url=edu_url();
         $jxt_url=jxt_url();
-        $static_url=static_url();
+        $static_url=static_url($this->site);
+        $static_base_url=static_url('base');
 
         $this->load->helper("img_helper");
         $avatar_url=$this->tizi_avatar?path2avatar($this->tizi_uid):'';
@@ -67,16 +78,17 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('site_url', $site_url);
         $this->smarty->assign('tizi_url', $tizi_url);
         $this->smarty->assign('login_url', $login_url);
-        $this->smarty->assign('vip_url', $vip_url);
+        $this->smarty->assign('edu_url', $edu_url);
         $this->smarty->assign('jxt_url', $jxt_url);
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
         $this->smarty->assign('tzu', Constant::COOKIE_TZUSERNAME);
         
         $this->smarty->assign('static_url', $static_url);
-        $this->smarty->assign('static_base_url', $base_url.'application/views/static/');
+        $this->smarty->assign('static_base_url', $static_base_url);
         $this->smarty->assign('version','?v='.$this->config->item('version'));
         $this->smarty->assign('swfversion','?v='.$this->config->item('swfversion'));
+        $this->smarty->assign('static_version',$this->config->item('static_version').'/');
 
         $this->smarty->assign('base_student', $site_url.Constant::REDIRECT_STUDENT);
     	$this->smarty->assign('base_teacher', $site_url.Constant::REDIRECT_TEACHER);

@@ -8,12 +8,8 @@ class Teacher_Create_Model extends LI_Model {
 	}
 	
 	public function login($username, $password){
-		$rs = $this->db->select("id,password")->from("teacher_create")->where("uname",$username)->get()->row();
-		if(isset($rs->password) && md5("ti".$rs->password."zi") == $password){
-			return $rs->id;
-		} else {
-			return -1;
-		}
+		$this->load->model("login/user_invite_model");
+		return $this->user_invite_model->login($username, $password);
 	}
 	
 	public function get($id, $fields = "*"){

@@ -18,12 +18,12 @@ if ( ! function_exists('tizi_url'))
 	}
 }
 
-if ( ! function_exists('vip_url'))
+if ( ! function_exists('edu_url'))
 {
-	function vip_url($uri = '')
+	function edu_url($uri = '')
 	{
 		$CI =& get_instance();
-		return $CI->config->site_url($uri,'vip');
+		return $CI->config->site_url($uri,'edu');
 	}
 }
 
