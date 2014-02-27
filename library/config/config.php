@@ -20,6 +20,8 @@ $config['tizi_url'] = 'http://www.tizi.com/';
 
 $config['login_url'] = 'http://i.tizi.com/';
 
+$config['vip_url'] = 'http://vip.tizi.com/';
+
 $config['jxt_url'] = 'http://jxt.tizi.com/';
 
 $config['static_url'] = 'http://static.tizi.com/';
