@@ -26,6 +26,8 @@ $config['jxt_url'] = 'http://jxt.tizi.com/';
 
 $config['static_url'] = 'http://static.tizi.com/';
 
+$config['base_static_url'] = 'application/views/static/';
+
 $config['tizi_static_url'] = 'http://tizi-static.tizi.com/';
 
 $config['login_static_url'] = 'http://i-static.tizi.com/';
