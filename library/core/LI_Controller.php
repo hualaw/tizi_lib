@@ -68,6 +68,7 @@ class LI_Controller extends CI_Controller{
         $vip_url=vip_url();
         $jxt_url=jxt_url();
         $static_url=static_url($this->site);
+        $static_base_url=static_url('base');
 
         $this->load->helper("img_helper");
         $avatar_url=$this->tizi_avatar?path2avatar($this->tizi_uid):'';
@@ -84,7 +85,7 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('tzu', Constant::COOKIE_TZUSERNAME);
         
         $this->smarty->assign('static_url', $static_url);
-        $this->smarty->assign('static_base_url', $base_url.'application/views/static/');
+        $this->smarty->assign('static_base_url', $static_base_url);
         $this->smarty->assign('version','?v='.$this->config->item('version'));
         $this->smarty->assign('swfversion','?v='.$this->config->item('swfversion'));
 
