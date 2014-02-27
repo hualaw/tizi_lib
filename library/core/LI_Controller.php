@@ -2,6 +2,8 @@
 
 class LI_Controller extends CI_Controller{
 
+	protected $site='';
+
 	protected $tizi_uid=0;
 	protected $tizi_utype=0;
 	protected $tizi_uname='';
@@ -27,9 +29,17 @@ class LI_Controller extends CI_Controller{
 	protected $_page_name='';
 	protected $_captcha_name='';
 
-	public function __construct()
+	public function __construct($site='')
 	{
 		parent::__construct();
+
+		$this->site=$site;
+		$this->init();
+		$this->auto_login();
+		$this->token_list();
+		$this->request_check();
+		$this->token();
+		$this->load_smarty();
 	}
 
 	protected function init()
@@ -57,7 +67,7 @@ class LI_Controller extends CI_Controller{
         $login_url=login_url();
         $vip_url=vip_url();
         $jxt_url=jxt_url();
-        $static_url=static_url();
+        $static_url=static_url($this->site);
 
         $this->load->helper("img_helper");
         $avatar_url=$this->tizi_avatar?path2avatar($this->tizi_uid):'';
