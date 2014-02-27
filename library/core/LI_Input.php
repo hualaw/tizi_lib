@@ -19,7 +19,7 @@ class LI_Input extends CI_Input {
 			{
 				$get[$key] = trim($this->_fetch_from_array($_GET, $key, $xss_clean));
 			}
-			return trim($get);
+			return $get;
 		}
 
 		return $this->_fetch_from_array($_GET, $index, $xss_clean);
