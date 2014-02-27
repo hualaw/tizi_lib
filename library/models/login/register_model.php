@@ -195,8 +195,8 @@ class Register_Model extends LI_Model {
 		}
 		else
 		{
-			$this->load->model("login/teacher_create_model");
-			if (true === $this->teacher_create_model->check($uname))
+			$this->load->model("login/user_invite_model");
+			if (true === $this->user_invite_model->check($uname))
 			{
 				$errorcode=true;
 			}
