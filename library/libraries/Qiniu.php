@@ -74,10 +74,10 @@ class Qiniu {
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null);
         $client = new Qiniu_MacHttpClient(null);
         $err = Qiniu_RS_Delete($client, $bucket, $key);
-        $this->qiniu_result($err);
+        return $this->qiniu_result($err);
     }
 
-    //移动文件或重命名
+    //移动文件或重命名, 暂时没用到；
     function qiniu_move($key, $new_key){
         $bucket = $this->bucket;
         $domain = $this->domain;
@@ -87,7 +87,7 @@ class Qiniu {
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null);
         $client = new Qiniu_MacHttpClient(null);
         $err = Qiniu_RS_Move($client, $bucket, $key, $bucket, $new_key);
-        $this->qiniu_result($err);
+        return $this->qiniu_result($err);
     }
 
     //获取指定大小的图片
