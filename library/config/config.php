@@ -20,11 +20,21 @@ $config['tizi_url'] = 'http://www.tizi.com/';
 
 $config['login_url'] = 'http://i.tizi.com/';
 
+$config['edu_url'] = 'http://edu.tizi.com/';
+
 $config['jxt_url'] = 'http://jxt.tizi.com/';
 
 $config['static_url'] = 'http://static.tizi.com/';
 
+$config['base_static_url'] = 'application/views/static/';
+
 $config['tizi_static_url'] = 'http://tizi-static.tizi.com/';
+
+$config['login_static_url'] = 'http://i-static.tizi.com/';
+
+$config['edu_static_url'] = 'http://edu-static.tizi.com/';
+
+$config['jxt_static_url'] = 'http://jxt-static.tizi.com/';
 /*
 |--------------------------------------------------------------------------
 | Index File

@@ -4,6 +4,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Session_Model extends LI_Model {
 	
 	private $_table="session";
+	private $_api_table="session_api";
 
 	function __construct()
 	{
@@ -78,6 +79,7 @@ class Session_Model extends LI_Model {
 				'name'=>$name,
 				'student_id'=>$user->student_id,
 				'ip'=>ip2long(get_remote_ip()),
+				'user_agent'=>user_agent(),
 				'generate_time'=>date("Y-m-d H:i:s"),
 				'expire_time'=>'',
 				'user_data'=>json_encode(
@@ -116,6 +118,12 @@ class Session_Model extends LI_Model {
 		delete_cookie(Constant::COOKIE_TZMYSUBJECT_HOMEWORK);
 		return array('errorcode'=>true);
 	}
+
+	function clear_current_dir_cookie()
+	{
+		delete_cookie(Constant::COOKIE_CURRENT_CLOUD_DIR);
+		return array('errorcode'=>true);
+	}
 	
 	function clear_cookie()
 	{
@@ -136,6 +144,34 @@ class Session_Model extends LI_Model {
 			return $result[0]["generate_time"];
 		}
 		return null;
+	}
+
+	public function generate_api_session($user_id,$api_type=Constant::API_TYPE_TIZI)
+	{
+		$session_id=sha1(md5($user_id).uniqid().mt_rand(1000000,5555555));
+		$data=$this->bind_session($session_id,$user_id);
+		$data['api_type']=$api_type;
+
+		$this->db->where('user_id',$user_id);
+		$this->db->where('api_type',$api_type);
+		$query=$this->db->get($this->_api_table);
+		if($query->num_rows() > 0)
+		{
+			$this->db->where('user_id',$user_id);
+			$this->db->where('api_type',$api_type);
+			$this->db->delete($this->_api_table); 
+		}
+		$this->db->insert($this->_api_table,$data);
+		return $session_id;
+	}
+	
+	public function get_api_session($session_id,$api_type=Constant::API_TYPE_TIZI,$select='')
+	{
+		if($select) $this->db->select($select);
+		$this->db->where('session_id',$session_id);
+		$this->db->where('api_type',$api_type);
+		$query=$this->db->get($this->_api_table);
+		return $query->row_array();
 	}
 }
 /* End of file session_model.php */

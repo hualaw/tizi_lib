@@ -1,0 +1,54 @@
+<!--全站反馈内容开始-->
+<div class="includeFeedback undis">
+	<form action="{$site_url}send_feedback" method="post" class="cFeedbackQQ feedbackForm1 cf">
+		<div class="info">
+			使用以下表格将您的意见或使用中遇到的问题提交给我们，我们将会仔细阅读您的反馈。
+		</div>
+		<div class="fl feedback_text">
+			<div class="hd">
+				<h3>反馈内容<em>（5-1000字）</em></h3>
+				<ul>
+					<li class="cf">
+						<textarea name="content" class="contentTextarea fl"></textarea>
+						<div class="ValidformTips fl">
+						    <span class="Validform_checktip"></span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="bd">
+				<ul>
+					<li class="cf">
+				        <label class="label">QQ号</label>
+					</li>
+					<li class="cf">
+						<input type="text" name="qq" class="fl QQText{if !$user_type}Unlogin{/if}" value=""/>
+					</li>
+				</ul>
+				<ul>
+					<li class="cf">
+				        <label class="label">验证码</label>
+					</li>
+					<li class="cf">
+						<input type="text" name="captcha_word" class="fl textCaptcha" />
+						<span id="captcha" class="fl">
+							<img class="imgCaptcha fl changeCaptchaFBimgCaptcha" />
+							<a href="javascript:void(0);" class="changeCaptcha changeCaptchaFB">换一张</a>
+						</span>
+						<span class="captchaChecks"></span>
+					</li>
+				</ul>
+			</div>	
+		</div>
+		<!-- <div class="fl line_dotted"></div> -->
+		<div class="fr feedback_QQ">
+			<div class="qq_tip">
+                <div id="qq2" class="qq_contact"></div>
+                <span id="qq_span" class="qq_span">QQ客服在线时间<br />周一至周六 9:00-18:00</span>
+           </div>
+		</div>
+		<input type="hidden" name="captcha_name" value="feedbackBox" />
+		<input type="submit" class="undis" value="" />
+	</form>
+</div>
+<!--全站反馈内容结束-->

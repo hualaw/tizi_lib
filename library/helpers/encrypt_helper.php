@@ -64,7 +64,7 @@ if (!function_exists('encrypt_encode')) {
 if (!function_exists('encrypt_decode')) {
 
     function encrypt_decode($data) {
-	    $ci = get_instance();
+	    $ci = &get_instance();
         $ci->load->library('encrypt');
         $data = str_replace("-","/",str_replace("_","+",$data));
         $data = $ci->encrypt->decode($data);

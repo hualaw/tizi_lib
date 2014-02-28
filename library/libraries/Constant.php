@@ -8,6 +8,7 @@ Class CI_Constant {
 	const USER_TYPE_STUDENT = 2;
 	const USER_TYPE_TEACHER = 3;
 	const USER_TYPE_PARENT = 4;
+	const USER_TYPE_RESEARCHER = 5;
 
 	/*zujuan register origien*/
 	const REG_ORIGEN_WEB_PHONE = 1;
@@ -28,6 +29,7 @@ Class CI_Constant {
 	const COOKIE_TIPS_EXPIRE_TIME = 604800;//tips保存七天
 	const PAGE_TOKEN_LIFE_CIRCLE = 604800;/*Page Token 过期时间 单位(秒)*/
 	const NO_PASSWORD_EXPIRE_TIME = 1800;//用户登录后，免输入密码验证的过期时间,30分钟
+	const COOKIE_MYDIR_EXPIRE_TIME = 0;//MYDIR随浏览器
 
 	const COOKIE_TZUSERNAME = "TZU";//自动登录cookie name
 	const COOKIE_TZMYSUBJECT = "_ms";//mysubject cookie name
@@ -37,6 +39,8 @@ Class CI_Constant {
 	const COOKIE_TZTIPS = "_tp_";//tips cookie perfix name
 	const COOKIE_NOREDIS = "_nrd";//no redis cookie name
 	const COOKIE_INVITE = "invite";//invite cookie name
+	const COOKIE_CURRENT_CLOUD_DIR = "_mdir";//cloud cookie name
+	const COOKIE_TZMOBILE = "_mobile";//cloud cookie name
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
@@ -57,6 +61,11 @@ Class CI_Constant {
 	const LOGIN_TYPE_STUID = 3;
 	const LOGIN_TYPE_UNAME = 4;
 	const LOGIN_TYPE_ERROR = 9;
+
+	/*tizi api type*/
+	const API_TYPE_TIZI = 1;
+	const API_TYPE_JXT = 2;
+	const API_TYPE_AQ = 3;
 
 	/*zujuan verify type*/
 	const VERIFY_TYPE_EMAIL = 1;
@@ -90,6 +99,7 @@ Class CI_Constant {
 	const AUTHCODE_REDIS_EXPIRE_PHONE = 1800;//短信验证码有效时间，30分钟
 
 	const DEFAULT_PER_PAGE = 10;
+	const DEFAULT_PAGE_LIMIT = 100;
 
 	/*zujuan qcount timeout*/
     const REDIS_AUTHLOGIN_TIMEOUT = 14400;//默认auto login用户名的缓存时间

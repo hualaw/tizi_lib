@@ -12,7 +12,8 @@ class LI_Exceptions extends CI_Exceptions {
 		$heading = "404 Page Not Found";
 		$message = "The page you requested was not found.";
 
-		$site_url = site_url();
+		$_ci =& load_class('Config', 'core');
+		$site_url = $_ci->site_url();
 
 		// By default we log this, but allow a dev to skip it
 		if ($log_error)

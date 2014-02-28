@@ -18,6 +18,15 @@ if ( ! function_exists('tizi_url'))
 	}
 }
 
+if ( ! function_exists('edu_url'))
+{
+	function edu_url($uri = '')
+	{
+		$CI =& get_instance();
+		return $CI->config->site_url($uri,'edu');
+	}
+}
+
 if ( ! function_exists('jxt_url'))
 {
 	function jxt_url($uri = '')

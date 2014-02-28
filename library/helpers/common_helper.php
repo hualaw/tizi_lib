@@ -1,8 +1,49 @@
 <?php 
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+if (!function_exists('preg_phone')) {
+    function preg_phone($phone) {
+        return preg_match("/^1(3|4|5|8)\d{9}$/",$phone);
+    }   
+}
+
+if (!function_exists('preg_email')) {
+    function preg_email($email) {
+        return preg_match("/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/",$email);
+    }   
+}
+
+if (!function_exists('preg_stuid')) {
+    function preg_stuid($stuid) {
+        return preg_match("/^\d{8,}$/",$stuid);
+    }   
+}
+
+if (!function_exists('preg_uname')) {
+    function preg_uname($uname) {
+        return preg_match("/^[a-zA-Z]{1}\w{5,17}$/",$uname);
+    }
+}
+
+if (!function_exists('preg_qq')) {
+    function preg_qq($qq) {
+        return preg_match("/^\d{5,12}$/",$qq);
+    }   
+}
+
+if (!function_exists('preg_utype')) {
+    function preg_utype($username) {
+        if(preg_phone($username)) $login_type=Constant::LOGIN_TYPE_PHONE;
+        else if(preg_email($username)) $login_type=Constant::LOGIN_TYPE_EMAIL;
+        else if(preg_stuid($username)) $login_type=Constant::LOGIN_TYPE_STUID;
+        else if(preg_uname($username)) $login_type=Constant::LOGIN_TYPE_UNAME;
+        else $login_type=Constant::LOGIN_TYPE_ERROR;
+        return $login_type;
+    }
+}
+
 if (!function_exists('get_remote_ip')) {
-	function get_remote_ip(){
+	function get_remote_ip() {
 		if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown")) $ip = getenv("HTTP_CLIENT_IP"); 
 		else if (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown")) $ip = getenv("HTTP_X_FORWARDED_FOR"); 
 		else if (getenv("REMOTE_ADDR") && strcasecmp(getenv("REMOTE_ADDR"), "unknown")) $ip = getenv("REMOTE_ADDR"); 
@@ -11,6 +52,26 @@ if (!function_exists('get_remote_ip')) {
 		return $ip;
 	}
 }	
+
+if(!function_exists('user_agent')) {
+    function user_agent() {
+        $ci = &get_instance();
+        $agent = 'Agent:Unidentified User Agent';
+        if ($ci->agent->is_browser())
+        {
+            $agent = 'Browser: '.$ci->agent->browser().' | '.$ci->agent->version().' | '.$ci->agent->platform();
+        }
+        if ($ci->agent->is_robot())
+        {
+            $agent = 'Robot: '.$ci->agent->robot().' | '.$ci->agent->version().' | '.$ci->agent->platform();
+        }
+        if ($ci->agent->is_mobile())
+        {
+            $agent = 'Mobile: '.$ci->agent->mobile().' | '.$ci->agent->version().' | '.$ci->agent->platform();
+        }
+        return $agent;
+    }
+}
 
 if (!function_exists('strap')) {
     function strap($content)

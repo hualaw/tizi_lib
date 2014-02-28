@@ -195,8 +195,8 @@ class Register_Model extends LI_Model {
 		}
 		else
 		{
-			$this->load->model("login/teacher_create_model");
-			if (true === $this->teacher_create_model->check($uname))
+			$this->load->model("login/user_invite_model");
+			if (true === $this->user_invite_model->check($uname))
 			{
 				$errorcode=true;
 			}
@@ -712,6 +712,24 @@ class Register_Model extends LI_Model {
 		}
 		return;
 	}
+
+	public function my_current_cloud_dir()
+	{
+		return $this->input->cookie(Constant::COOKIE_CURRENT_CLOUD_DIR);
+	}
+
+	public function set_current_cloud_dir($dir)
+	{
+		$cookie = Constant::COOKIE_CURRENT_CLOUD_DIR;
+		$old_my_dir=$this->input->cookie($cookie);
+		if($dir != $old_my_dir)
+		{
+			$this->input->set_cookie($cookie,$dir,Constant::COOKIE_MYDIR_EXPIRE_TIME);
+		}
+		return;
+	}
+
+
 	/**
 	 * get_user bind subject_id and realname
 	 * @param integer $user_id
