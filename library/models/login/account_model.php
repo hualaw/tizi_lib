@@ -18,7 +18,7 @@ class account_model extends LI_Model {
 	 * false 不存在
 	 */ 
 	public function p_phone_exists($phone){
-		$res = $this->db->query("select id from parents_create where phone=?", 
+		$res = $this->db->query("select id from user_invite where phone=?", 
 			array($phone))->result_array();
 		if (isset($res[0])){
 			return true;
@@ -34,7 +34,8 @@ class account_model extends LI_Model {
 	 * 0:删除失败或者记录不存在
 	 */ 
 	public function p_delete($phone){
-		$this->db->query("delete from parents_create where phone=? and user_id=0", array($phone));
+		$this->db->query("delete from user_invite where phone=? and user_id=0 and user_type=?", 
+			array($phone, Constant::USER_TYPE_PARENT));
 		return $this->db->affected_rows();
 	}
 	
@@ -45,7 +46,8 @@ class account_model extends LI_Model {
 	 * 0：添加失败或者用户已经存在
 	 */
 	public function p_addas_phone($phone, $password){
-		$this->db->query("insert into parents_create(phone,password) values(?,?)", array($phone, $password));
+		$this->db->query("insert into user_invite(phone,password,user_type) values(?,?,?)", 
+			array($phone, $password, Constant::USER_TYPE_PARENT));
 		return $this->db->affected_rows();
 	}
 	
