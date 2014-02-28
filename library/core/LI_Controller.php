@@ -65,7 +65,7 @@ class LI_Controller extends CI_Controller{
         $site_url=site_url();
         $tizi_url=tizi_url();
         $login_url=login_url();
-        $vip_url=vip_url();
+        $edu_url=edu_url();
         $jxt_url=jxt_url();
         $static_url=static_url($this->site);
         $static_base_url=static_url('base');
@@ -78,7 +78,7 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('site_url', $site_url);
         $this->smarty->assign('tizi_url', $tizi_url);
         $this->smarty->assign('login_url', $login_url);
-        $this->smarty->assign('vip_url', $vip_url);
+        $this->smarty->assign('edu_url', $edu_url);
         $this->smarty->assign('jxt_url', $jxt_url);
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
@@ -88,7 +88,8 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('static_base_url', $static_base_url);
         $this->smarty->assign('version','?v='.$this->config->item('version'));
         $this->smarty->assign('swfversion','?v='.$this->config->item('swfversion'));
-        $this->smarty->assign('static_version',$this->config->item('static_version').'/');
+        $this->smarty->assign('static_version',$this->config->item('static_version')
+        	.($this->config->item('static_version')?'/':''));
 
         $this->smarty->assign('base_student', $site_url.Constant::REDIRECT_STUDENT);
     	$this->smarty->assign('base_teacher', $site_url.Constant::REDIRECT_TEACHER);

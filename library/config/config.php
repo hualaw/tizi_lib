@@ -20,7 +20,7 @@ $config['tizi_url'] = 'http://www.tizi.com/';
 
 $config['login_url'] = 'http://i.tizi.com/';
 
-$config['vip_url'] = 'http://vip.tizi.com/';
+$config['edu_url'] = 'http://edu.tizi.com/';
 
 $config['jxt_url'] = 'http://jxt.tizi.com/';
 
@@ -32,7 +32,7 @@ $config['tizi_static_url'] = 'http://tizi-static.tizi.com/';
 
 $config['login_static_url'] = 'http://i-static.tizi.com/';
 
-$config['vip_static_url'] = 'http://vip-static.tizi.com/';
+$config['edu_static_url'] = 'http://edu-static.tizi.com/';
 
 $config['jxt_static_url'] = 'http://jxt-static.tizi.com/';
 /*
