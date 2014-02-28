@@ -16,9 +16,10 @@ class LI_Pagination extends CI_Pagination {
 	var $next_link				= FALSE;
 	var $prev_link				= FALSE;
 	var $ajax_func              = 'ajax_page';
+	var $common_func			= 'Common.pagination(this);';
 	
-	var $per_page				= 10;
-	var $page_limit				= 100;
+	var $per_page				= Constant::DEFAULT_PER_PAGE;
+	var $page_limit				= Constant::DEFAULT_PAGE_LIMIT;
 	var $uri_segment			= 4;
 	var $cur_tag_open			= '<a href="javascript:void(0);" class="active">';
 	var $cur_tag_close			= '</a>';
@@ -44,7 +45,7 @@ class LI_Pagination extends CI_Pagination {
     	if($this->page_limit && $this->total_rows > $this->page_limit * $this->per_page) $this->total_rows = $this->page_limit * $this->per_page;
 
     	//add common function
-    	$this->ajax_func = 'Common.pagination(this);'.$this->ajax_func;
+    	$this->ajax_func = $this->common_func.$this->ajax_func;
 
     	//add additional params
     	if(!empty($this->params)) $additional_params = ','.implode(',',$this->params);

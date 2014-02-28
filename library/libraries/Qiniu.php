@@ -30,7 +30,7 @@ class Qiniu {
     function qiniu_upload($name='uploadfile'){
         if(!strlen($name)) {return false;}
         $filesize = $_FILES[$name]["size"];
-        file_put_contents('test_speed.txt', 'size:'.$filesize.',start time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
+        // file_put_contents('test_speed.txt', 'size:'.$filesize.',start time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
         $bucket = $this->bucket;
         if (!isset($_FILES[$name]["error"]) || $_FILES[$name]["error"] != 0){
             return false;
@@ -49,7 +49,7 @@ class Qiniu {
         $putExtra = new Qiniu_PutExtra();
         $putExtra->Crc32 = 1;
         list($ret, $err) = Qiniu_PutFile($upToken, $key, $_file_content, $putExtra);
-        file_put_contents('test_speed.txt', 'over time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
+        // file_put_contents('test_speed.txt', 'over time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
         return $this->qiniu_result($err,$ret);
     }
 
@@ -74,10 +74,10 @@ class Qiniu {
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null);
         $client = new Qiniu_MacHttpClient(null);
         $err = Qiniu_RS_Delete($client, $bucket, $key);
-        $this->qiniu_result($err);
+        return $this->qiniu_result($err);
     }
 
-    //移动文件或重命名
+    //移动文件或重命名, 暂时没用到；
     function qiniu_move($key, $new_key){
         $bucket = $this->bucket;
         $domain = $this->domain;
@@ -87,7 +87,7 @@ class Qiniu {
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null);
         $client = new Qiniu_MacHttpClient(null);
         $err = Qiniu_RS_Move($client, $bucket, $key, $bucket, $new_key);
-        $this->qiniu_result($err);
+        return $this->qiniu_result($err);
     }
 
     //获取指定大小的图片
