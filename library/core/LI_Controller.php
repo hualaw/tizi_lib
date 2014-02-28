@@ -3,6 +3,7 @@
 class LI_Controller extends CI_Controller{
 
 	protected $site='';
+	protected $need_password=false;
 
 	protected $tizi_uid=0;
 	protected $tizi_utype=0;
