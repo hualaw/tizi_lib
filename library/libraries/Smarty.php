@@ -66,7 +66,7 @@ class CI_Smarty extends Smarty{
                 $template_mobile = 'mobile/'.$template;
             }
             //$template_mobile=str_replace('.html', '.mobile.html', $template);
-            if(file_exists($this->template_dir[$template_key].$template_mobile))
+            if(isset($this->template_dir[$template_key]) && file_exists($this->template_dir[$template_key].$template_mobile))
             {
                 $template=$template_mobile;
             }

@@ -189,6 +189,9 @@ class Student_Homework_Model extends LI_Model{
         $result = $this->db
             ->query("select * from `student_video` where `date` like '{$date}%' order by rand() limit 0,1")
             ->row_array();
+        if($result){
+            $result['task_type'] = 2;
+        }
         return $result;
     }
 

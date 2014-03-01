@@ -1,26 +1,25 @@
-{include file='header/tizi_token.html'}
+{include file='file:[lib]header/tizi_token.html'}
 <div class="header">
 	<div class="hd">
         <div class="layout">
             <p class="info fr">
                 <span>
-                    您好，龚海燕！
+                    您好，{sub_str($user_name)}！
                 </span>
                 <a href="#" target="_blank" class="newMassage">新消息(3)</a>
                 <span class="l">|</span>
-                <a href="#">退出</a>
+                <a href="{$login_url}logout">退出</a>
             </p>
             <p class="fl">
-                <a href="javscript:void(0)" class="addFava">收藏梯子网</a>
-                <a href="{$site_url}about/contact" target="_blank">合作</a>
-                <a href="{$site_url}about/join" target="_blank">加入我们</a>
-                <a class="cBtnFeedback" href="javascript:void(0);">反馈</a>
+                <a href="{$tizi_url}" target="_blank">梯子网首页</a>
+                <a href="javascript:void(0)" class="addFava">收藏梯子网</a>
+                <a class="cBtnFeedback" href="javascript:void(0);">用户反馈</a>
             </p>
         </div>
     </div>
     <div class="bd layout">
         <h1 class="fl">
-            <a href="{$site_url}">梯子网</a>
+            <a href="{$tizi_url}">梯子网</a>
         </h1>
         <div class="secLogo fl">
            <h2 class="fl">
