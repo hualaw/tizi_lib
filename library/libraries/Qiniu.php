@@ -26,6 +26,16 @@ class Qiniu {
         $this->domain = $this->bucket."qiniudn.com";
     } 
 
+    /*生成token*/
+    function make_token($expires=3600)
+    {
+        $bucket = $this->bucket;
+        $putPolicy = new Qiniu_RS_PutPolicy($bucket);
+        $putPolicy->Expires = $expires;
+        $upToken = $putPolicy->Token(null);
+        return $upToken;
+    }
+
     /* $name 是上传字段的name*/
     function qiniu_upload($name='uploadfile'){
         if(!strlen($name)) {return false;}
