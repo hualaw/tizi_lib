@@ -19,12 +19,14 @@ class LI_Controller extends CI_Controller{
 	protected $tizi_debug=false;
 	protected $need_password=false;
 
+	protected $_segmenttype=array('n','an','r','ar');
+	protected $_segment=array('n'=>'','an'=>'','r'=>'','ar'=>'');
+
 	protected $_loginlist=array();
+	protected $_unloginlist=array();
 	protected $_captchalist=array();
 	protected $_postlist=array();
 
-	protected $_segment=array();
-	protected $_rsegment='';
 	protected $_errormsg='';
 	protected $_username='';
 	protected $_page_name='';
@@ -51,8 +53,12 @@ class LI_Controller extends CI_Controller{
 		$this->tizi_urname=$this->session->userdata('urname');
 		$this->tizi_avatar=$this->session->userdata("avatar");
 
-        $this->_segment=$this->uri->segment_array();
-        $this->_rsegment=$this->uri->ruri_string();
+		$this->_segment['n']=$this->uri->uri_string();
+		$segment=$this->uri->segment_array();
+        $this->_segment['an']=isset($segment[1])?$segment[1]:'';
+        $this->_segment['r']=$this->uri->ruri_string();
+        $segment=$this->uri->rsegment_array();
+        $this->_segment['ar']=isset($segment[1])?$segment[1]:'';
         $this->_errormsg=$this->session->flashdata('errormsg');
 
         $this->tizi_redirect=get_redirect($this->tizi_utype);
@@ -158,12 +164,15 @@ class LI_Controller extends CI_Controller{
 
 	protected function request_check()
 	{
-		if(!empty($this->_rsegment)&&in_array($this->_rsegment,$this->_postlist))
+		foreach($this->_segmenttype as $st)
 		{
-			if(empty($_POST))
+			if(!empty($this->_segment[$st])&&isset($this->_postlist[$st])&&in_array($this->_segment[$st],$this->_postlist[$st]))
 			{
-				$_POST=$_GET;
-				$_GET=array();
+				if(empty($_POST))
+				{
+					$_POST=$_GET;
+					$_GET=array();
+				}
 			}
 		}
 	}
@@ -177,12 +186,15 @@ class LI_Controller extends CI_Controller{
 		$token=$this->input->post('token');
 		$captcha=$this->input->post('captcha_word');
 
-		if(!empty($this->_rsegment)&&in_array($this->_rsegment,$this->_captchalist))
+		foreach($this->_segmenttype as $st)
 		{
-			$check_captcha=$this->captcha->validateCaptcha($captcha,$this->_captcha_name);
-			if(!$check_captcha)
+			if(!empty($this->_segment[$st])&&isset($this->_captchalist[$st])&&in_array($this->_segment[$st],$this->_captchalist[$st]))
 			{
-				$_POST=array();
+				$check_captcha=$this->captcha->validateCaptcha($captcha,$this->_captcha_name);
+				if(!$check_captcha)
+				{
+					$_POST=array();
+				}
 			}
 		}
 
@@ -192,11 +204,14 @@ class LI_Controller extends CI_Controller{
 			//检测未登录ajax
 			if(!$this->tizi_uid)
 			{
-				if(!empty($this->_segment) && !in_array($this->_segment[1],$this->_loginlist))
-		        {
-		            echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'token'=>false,'code'=>1));
-		            exit();
-		        }
+				foreach($this->_segmenttype as $st)
+				{
+					if(!empty($this->_segment[$st])&&isset($this->_unloginlist[$st])&&!empty($this->_unloginlist[$st])&&!in_array($this->_segment[$st],$this->_unloginlist[$st]))
+			        {
+			            echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'token'=>false,'code'=>1));
+			            exit();
+			        }
+			    }
 		    }
 
 		    //post 检测token
@@ -235,16 +250,23 @@ class LI_Controller extends CI_Controller{
 			if(!$this->tizi_uid)
 			{
 				//上传
-				if(!empty($this->_segment) && $this->_segment[1] == 'upload')
+				if(!empty($this->_segment['an'])&&$this->_segment['an'] == 'upload')
 				{
 					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'success'=>false,'login'=>false,'token'=>false,'code'=>1));
 		            exit();
 				}
-				else if(!empty($this->_segment) && !in_array($this->_segment[1],$this->_loginlist))
-		        {
-					//$this->session->set_flashdata('errormsg',$this->lang->line('default_error_login'));
-            		redirect('');
-		        }
+
+				$need_login=0;
+				foreach($this->_segmenttype as $st)
+				{
+					if(!empty($this->_segment[$st])&&isset($this->_unloginlist[$st])&&!empty($this->_unloginlist[$st])&&in_array($this->_segment[$st],$this->_unloginlist[$st]))
+			        {
+						//$this->session->set_flashdata('errormsg',$this->lang->line('default_error_login'));
+	            		$need_login++;
+			        }
+			    }
+			    echo $need_login;exit;
+			    if(!$need_login) redirect(site_url('',$this->site));
 		    }
 		    else
 		    {
@@ -260,12 +282,12 @@ class LI_Controller extends CI_Controller{
 
 	protected function token_list()
 	{
-		//不登陆情况下可以使用的ajax请求
-		$this->_loginlist=array();
+		//不登陆情况下可以访问的页面
+		$this->_unloginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//必须经过验证码验证的请求
-		$this->_captchalist=array();
+		$this->_captchalist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//强制post的请求
-		$this->_postlist=array();
+		$this->_postlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 	}
 
 }
