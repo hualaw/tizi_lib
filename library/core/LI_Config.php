@@ -7,17 +7,16 @@ class LI_Config extends CI_Config {
 	function __construct()
 	{
 		if(isset($_SERVER['HTTPS']) && empty($_SERVER['HTTPS'])) $_SERVER['HTTPS'] = "off";
-
 		parent::__construct();
-
-		if ($this->config['login_url'] == '')
-		{
-			$this->set_item('login_url', $this->slash_item('base_url'));
-		}
 	}
 
 	function site_url($uri = '', $url_prefix = 'base')
 	{
+		if (!$this->slash_item($url_prefix.'_url')&&!$this->config[$url_prefix.'_url'])
+		{
+			$this->set_item($url_prefix.'_url', $this->slash_item('base_url'));
+		}
+
 		if ($uri == '')
 		{
 			return $this->slash_item($url_prefix.'_url').$this->item('index_page');
