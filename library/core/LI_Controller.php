@@ -172,15 +172,19 @@ class LI_Controller extends CI_Controller{
 		//强制转换成post提交，进行token验证
 		if($this->_check_post)
 		{
+			$check_post=0;
 			foreach($this->_segmenttype as $st)
 			{
-				if(!empty($this->_segment[$st])&&isset($this->_postlist[$st])&&in_array($this->_segment[$st],$this->_postlist[$st]))
+				if(!empty($this->_segment[$st])&&isset($this->_postlist[$st])&&!empty($this->_postlist[$st])&&in_array($this->_segment[$st],$this->_postlist[$st]))
 				{
-					if(empty($_POST))
-					{
-						$_POST=$_GET;
-						$_GET=array();
-					}
+					$check_post++;
+				}
+			}
+			if($check_post){
+				if(empty($_POST))
+				{
+					$_POST=$_GET;
+					$_GET=array();
 				}
 			}
 		}
@@ -194,19 +198,24 @@ class LI_Controller extends CI_Controller{
 
 		$token=$this->input->post('token');
 		$captcha=$this->input->post('captcha_word');
-
+		
 		//post 检测captcha
 		if($this->_check_captcha)
 		{
+			$check_captcha=0;
 			foreach($this->_segmenttype as $st)
 			{
-				if(!empty($this->_segment[$st])&&isset($this->_captchalist[$st])&&in_array($this->_segment[$st],$this->_captchalist[$st]))
+				if(!empty($this->_segment[$st])&&isset($this->_captchalist[$st])&&!empty($this->_captchalist[$st])&&in_array($this->_segment[$st],$this->_captchalist[$st]))
 				{
-					$check_captcha=$this->captcha->validateCaptcha($captcha,$this->_captcha_name);
-					if(!$check_captcha)
-					{
-						$_POST=array();
-					}
+					$check_captcha++;
+				}
+			}
+			if($check_captcha)
+			{
+				$check_captcha=$this->captcha->validateCaptcha($captcha,$this->_captcha_name);
+				if(!$check_captcha)
+				{
+					$_POST=array();
 				}
 			}
 		}
@@ -246,15 +255,15 @@ class LI_Controller extends CI_Controller{
 		            exit();
 				}
 
-				$need_login=0;
+				$check_login=0;
 				foreach($this->_segmenttype as $st)
 				{
 					if(!empty($this->_segment[$st])&&isset($this->_unloginlist[$st])&&!empty($this->_unloginlist[$st])&&in_array($this->_segment[$st],$this->_unloginlist[$st]))
 			        {
-	            		$need_login++;
+	            		$check_login++;
 			        }
 			    }
-			    if(!$need_login)
+			    if(!$check_login)
 			    {
 			    	if($this->tizi_ajax)
 					{
