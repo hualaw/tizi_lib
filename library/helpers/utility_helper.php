@@ -1,5 +1,4 @@
-<?php 
-if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 if (!function_exists('get_date')) {
     function get_date() {
