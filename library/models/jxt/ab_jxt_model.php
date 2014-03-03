@@ -28,7 +28,9 @@ class Ab_Jxt_Model extends JXT_Model{
             'phone' => '',
             'student_name' => trim($data['student_name']),
             'parent_name' => trim($data['parent_name']),
-            'initial' => get_initial(trim($data['student_name']))
+            'initial' => get_initial(trim($data['student_name'])),
+            'update_time' => time(),
+            'update_way' => 1
             ))){
             $this->set_user_active($user_id);
             return TRUE;
@@ -54,7 +56,7 @@ class Ab_Jxt_Model extends JXT_Model{
         $this->database->where("ab_id = {$ab['id']} AND del = 0");
         $this->database->order_by('id', 'DESC');
         $this->database->limit(1);
-        return $this->database->update('ab_relation', array('active' => 1));
+        return $this->database->update('ab_relation', array('active' => 1, 'update_time' => time(), 'update_way' => 1));
     }
     
     /**
