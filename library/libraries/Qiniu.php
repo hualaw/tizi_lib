@@ -13,7 +13,7 @@ class Qiniu {
 
     function __construct(){
         $this->_CI = & get_instance();
-        $this->_CI->load->config('qiniu');
+        $this->_CI->load->config('qiniu',false,true);
         $this->accessKey = $this->_CI->config->item('accessKey');
         $this->secretKey = $this->_CI->config->item('secretKey');
         Qiniu_SetKeys($this->accessKey, $this->secretKey);
@@ -65,11 +65,12 @@ class Qiniu {
 
  
     //获取下载链接 (私有资源)
-    function qiniu_download_link($key){
+    function qiniu_download_link($key,$name = 'unknow'){
         $domain = $this->domain;
         $client = new Qiniu_MacHttpClient(null);
         $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
         $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+        $baseUrl.='?download/'.$name;
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
         return $privateUrl;
     }
