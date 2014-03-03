@@ -1,11 +1,19 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+if ( ! function_exists('site_url'))
+{
+	function site_url($uri = '', $url_prefix = 'base')
+	{
+		$CI =& get_instance();
+		return $CI->config->site_url($uri, $url_prefix);
+	}
+}
+
 if ( ! function_exists('login_url'))
 {
 	function login_url($uri = '')
 	{
-		$CI =& get_instance();
-		return $CI->config->site_url($uri,'login');
+		return site_url($uri,'login');
 	}
 }
 
@@ -13,8 +21,7 @@ if ( ! function_exists('tizi_url'))
 {
 	function tizi_url($uri = '')
 	{
-		$CI =& get_instance();
-		return $CI->config->site_url($uri,'tizi');
+		return site_url($uri,'tizi');
 	}
 }
 
@@ -22,8 +29,7 @@ if ( ! function_exists('edu_url'))
 {
 	function edu_url($uri = '')
 	{
-		$CI =& get_instance();
-		return $CI->config->site_url($uri,'edu');
+		return site_url($uri,'edu');
 	}
 }
 
@@ -31,8 +37,7 @@ if ( ! function_exists('jxt_url'))
 {
 	function jxt_url($uri = '')
 	{
-		$CI =& get_instance();
-		return $CI->config->site_url($uri,'jxt');
+		return site_url($uri,'jxt');
 	}
 }
 
