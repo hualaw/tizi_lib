@@ -20,16 +20,16 @@ class Researcher_Data_Model extends LI_Model {
     {
         if(empty($data_name)) return false;
 
-        $teacher_data=$this->get_researcher_data($user_id);
+        $researcher_data=$this->get_researcher_data($user_id);
 
-        if(empty($teacher_data))
+        if(empty($researcher_data))
         {
             $this->db->insert($this->_table,array('user_id'=>$user_id,$data_name=>$data_value));
             if($this->db->affected_rows()) return $this->db->insert_id();
         }
         else
         {
-            if($teacher_data->{$data_name}===$data_value) return true;
+            if($researcher_data->{$data_name}===$data_value) return true;
             
             $this->db->where('user_id',$user_id);
             $this->db->update($this->_table,array($data_name=>$data_value));
