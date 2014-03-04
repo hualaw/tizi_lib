@@ -1,48 +1,9 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-if (!function_exists('get_date')) {
-    function get_date() {
-        return date("Y-m-d-H-i-s");
-    }   
-}
-
-if(!function_exists('trans_filesize')){
-    function trans_filesize($filesize){
-        $kb = $filesize/1024;
-        if($kb<1){
-            return sprintf("%.1f",$filesize)."B";
-        }elseif($kb<1024){
-            return sprintf("%.1f", $kb)."K";
-        }
-        $mb = $kb/1024;
-        if($mb<1024){
-            return sprintf("%.1f", $mb)."M";
-        }
-        $gb = $mb/1024;
-        if($gb<1024){
-            return sprintf("%.1f", $gb)."G";
-        }
-    }   
-}
-
 if (!function_exists('tizi_404')) {
     function tizi_404($redirect='') {
         if($redirect) $redirect=urlencode(site_url($redirect));
         redirect('404/'.$redirect);
-    }   
-}
-
-if (!function_exists('get_redirect')) {
-    function get_redirect($user_type) {    
-        switch($user_type)
-        {
-            case Constant::USER_TYPE_STUDENT: $redirect=Constant::REDIRECT_STUDENT;break;
-            case Constant::USER_TYPE_TEACHER: $redirect=Constant::REDIRECT_TEACHER;break;
-            case Constant::USER_TYPE_PARENT: $redirect=Constant::REDIRECT_PARENT;break;
-            case Constant::USER_TYPE_RESEARCHER: $redirect=Constant::REDIRECT_RESEARCHER;break;
-            default: $redirect='';break;
-        }
-        return site_url($redirect);
     }   
 }
 
@@ -89,4 +50,23 @@ if (!function_exists('log_statistics')) {
         if($ci->curl->error_code) log_message('error_tizi','2100010:log statistics error: '.strval($ci->curl->error_code),array('data'=>$data));
         return;
     }
+}
+
+if(!function_exists('trans_filesize')){
+    function trans_filesize($filesize){
+        $kb = $filesize/1024;
+        if($kb<1){
+            return sprintf("%.1f",$filesize)."B";
+        }elseif($kb<1024){
+            return sprintf("%.1f", $kb)."K";
+        }
+        $mb = $kb/1024;
+        if($mb<1024){
+            return sprintf("%.1f", $mb)."M";
+        }
+        $gb = $mb/1024;
+        if($gb<1024){
+            return sprintf("%.1f", $gb)."G";
+        }
+    }   
 }

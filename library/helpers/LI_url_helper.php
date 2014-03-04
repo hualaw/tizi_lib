@@ -52,5 +52,14 @@ if ( ! function_exists('static_url'))
 		return $static_url;
 	}
 }
+
+if ( ! function_exists('redirect_url'))
+{
+	function redirect_url($user_type, $redirect_type = 'login')
+	{
+		//$CI =& get_instance();
+		return Constant::redirect_url($user_type, $redirect_type);
+	}
+}
 /* End of file LI_url_helper.php */
 /* Location: ./system/helpers/LI_url_helper.php */
