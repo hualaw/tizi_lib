@@ -6,7 +6,7 @@
                 <span>
                     您好，{sub_str($user_name)}！
                 </span>
-                <a href="#" target="_blank" id="notification" class="normalMassage">我的消息</a>
+                <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
                 <span class="l">|</span>
                 <a href="{$login_url}logout">退出</a>
             </p>
