@@ -52,7 +52,9 @@ class Ab_Jxt_Model extends JXT_Model{
                 ->from('address_book')
                 ->where("user_id = {$user_id} AND del = 0")
                 ->get()->row_array();
-        
+        if(!$ab){
+            return false;
+        }
         $this->database->where("ab_id = {$ab['id']} AND del = 0");
         $this->database->order_by('id', 'DESC');
         $this->database->limit(1);
