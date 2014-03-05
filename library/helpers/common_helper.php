@@ -33,7 +33,7 @@ if (!function_exists('preg_qq')) {
 
 if (!function_exists('preg_domain')){
 	function preg_domain($domain_name){
-		return preg_match("/\w{4,18}/", $domain_name);
+		return preg_match("/^[a-zA-Z]{1}[a-zA-Z_0-9]{3,17}$/", $domain_name);
 	}
 }
 
