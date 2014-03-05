@@ -56,6 +56,9 @@ class LI_Controller extends CI_Controller{
         $this->tizi_utype=$this->session->userdata("user_type");
         $this->tizi_uname=$this->session->userdata("uname");
 		$this->tizi_urname=$this->session->userdata('urname');
+		
+        $this->tizi_ursubject=$this->session->userdata("register_subject");
+        $this->tizi_urgrade=$this->session->userdata("register_grade");
 		$this->tizi_avatar=$this->session->userdata("avatar");
 
 		$this->_segment['n']=$this->uri->uri_string();
