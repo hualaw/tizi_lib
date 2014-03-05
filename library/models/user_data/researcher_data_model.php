@@ -16,6 +16,18 @@ class Researcher_Data_Model extends LI_Model {
         return $query->row();
     }
 
+    public function update_researcher_gender($user_id,$gender)
+    {
+        if(!$gender) return false;
+        return $this->update_researcher_data($user_id,$gender,'gender');
+    }
+    
+    public function update_researcher_org($user_id,$organization)
+    {
+        if(empty($organization)) return false;
+        return $this->update_researcher_data($user_id,$organization,'organization');
+    }
+
     private function update_researcher_data($user_id,$data_value,$data_name)
     {
         if(empty($data_name)) return false;
