@@ -108,6 +108,36 @@ Class CI_Constant {
 	{
 	
 	}
+
+
+
+	public static function redirect_url($user_type, $redirect_type='login')
+	{
+		$redirect_url = array(
+			'login' => array(
+				self::USER_TYPE_STUDENT => login_url("student/user/center"),
+				self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
+				self::USER_TYPE_PARENT => login_url("parent/user/center"),
+				self::USER_TYPE_RESEARCHER => login_url("researcher/user/center")
+			),
+			'register' => array(
+				self::USER_TYPE_STUDENT => login_url("student/user/center"),
+				self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
+				self::USER_TYPE_PARENT => login_url("parent/user/center"),
+				self::USER_TYPE_RESEARCHER => login_url("researcher/user/center")
+			),
+			'tizi' => array(
+				self::USER_TYPE_STUDENT => tizi_url("student/homework/home"),
+			    self::USER_TYPE_TEACHER => tizi_url("teacher/paper/question"),
+			    self::USER_TYPE_PARENT => tizi_url("parent/article"),
+			    self::USER_TYPE_RESEARCHER => edu_url('')
+			)
+		);
+
+		if(!isset($redirect_url[$redirect_type])) $redirect_url[$redirect_type] = $redirect_url['login'];
+
+		return isset($redirect_url[$redirect_type][$user_type])?$redirect_url[$redirect_type][$user_type]:site_url();
+	}
 }
 /* End of file Constant.php */
 /* Location: ./application/libraries/Constant.php */
