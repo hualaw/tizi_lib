@@ -337,6 +337,11 @@ class Spell {
  * @author caohaihong <caohaihong@91waijiao.com>
  */
 function get_initial($str, $charset = 'utf-8'){
+	$first_word = substr($str, 0, 1);
+	$first_num = ord($first_word);
+	if(($first_num >= 65 && $first_num <= 90) || ($first_num >= 97 && $first_num <= 122)){
+		return $first_word;
+	}
     $spell = new Spell();
     
     $w = $spell->getInitial(csubstr($str, 1, 0, $charset, false), $charset, $charset);
