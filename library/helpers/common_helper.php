@@ -31,6 +31,12 @@ if (!function_exists('preg_qq')) {
     }   
 }
 
+if (!function_exists('preg_domain')){
+	function preg_domain($domain_name){
+		return preg_match("/\w{4,18}/", $domain_name);
+	}
+}
+
 if (!function_exists('preg_utype')) {
     function preg_utype($username) {
         if(preg_phone($username)) $login_type=Constant::LOGIN_TYPE_PHONE;
