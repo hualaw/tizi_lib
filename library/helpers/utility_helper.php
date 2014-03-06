@@ -8,13 +8,13 @@ if (!function_exists('tizi_404')) {
 }
 
 if (!function_exists('tizi_get_contents')) {
-    function tizi_get_contents($file_path,$redirect='',$ctimeout=Constant::MAX_CONNECT_TIMEOUT)
+    function tizi_get_contents($file_path,$redirect='',$ctimeout=Constant::MAX_CONNECT_TIMEOUT,$timeout=Constant::MAX_DOWNLOAD_TIMEOUT)
     {
-        set_time_limit(Constant::MAX_DOWNLOAD_TIMEOUT);
+        set_time_limit($timeout);
         $ci = &get_instance();
         $ci->load->library('curl');
         $ci->curl->option('connecttimeout',$ctimeout);
-        $ci->curl->option('timeout',Constant::MAX_DOWNLOAD_TIMEOUT);
+        $ci->curl->option('timeout',$timeout);
         $ci->curl->create($file_path);
         $file_get_contents = $ci->curl->execute();
         if(empty($file_get_contents))
