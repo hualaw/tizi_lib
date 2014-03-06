@@ -52,6 +52,15 @@ if (!function_exists('log_statistics')) {
     }
 }
 
+//过滤文件/文件夹中的特殊字符
+if(!function_exists('filter_file_name')){
+    function filter_file_name($name){
+        $find = array("\\", "\"","/",":","*","?","<",">","|");
+        $replace = "";
+        return str_replace($find, $replace, $name);
+    }   
+}
+
 if(!function_exists('trans_filesize')){
     function trans_filesize($filesize){
         $kb = $filesize/1024;
