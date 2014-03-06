@@ -4,16 +4,18 @@
         <div class="layout">
             <p class="info fr">
                 <span>
-                    您好，{sub_str($user_name)}！
+                    您好，<em class="MyURName">{sub_str($user_name)}</em>！
                 </span>
-                <a href="#" target="_blank" class="newMassage">新消息(3)</a>
+                <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
                 <span class="l">|</span>
                 <a href="{$login_url}logout">退出</a>
             </p>
             <p class="fl">
-                <a href="{$tizi_url}" target="_blank">梯子网首页</a>
+                <a href="{$tizi_url}">梯子网首页</a>
                 <a href="javascript:void(0)" class="addFava">收藏梯子网</a>
+                <!--
                 <a class="cBtnFeedback" href="javascript:void(0);">用户反馈</a>
+                -->
             </p>
         </div>
     </div>
@@ -23,16 +25,16 @@
         </h1>
         <div class="secLogo fl">
            <h2 class="fl">
-               教师频道
-               <span>
-                   中小学优质教育资源共享平台
-               </span>
+               <span class="channel"><!--教师频道--></span>
+               <span class="info">中小学优质教育资源共享平台</span>
            </h2>
         </div>
+        <!--
         <div class="rightTips fr">
             <a href="#" target="_blank" class="stuChannel">学生频道</a>
             <a href="#" target="_blank" class="parChannel">家长频道</a>
         </div>
+        -->
     </div>
     <div class="ft"></div>
 </div>
