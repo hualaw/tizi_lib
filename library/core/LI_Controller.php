@@ -8,6 +8,7 @@ class LI_Controller extends CI_Controller{
 	protected $tizi_utype=0;
 	protected $tizi_uname='';
 	protected $tizi_urname='';
+	protected $tizi_stuid=0;
 
 	protected $tizi_ursubject=0;
 	protected $tizi_urgrade=0;
@@ -56,6 +57,7 @@ class LI_Controller extends CI_Controller{
         $this->tizi_utype=$this->session->userdata("user_type");
         $this->tizi_uname=$this->session->userdata("uname");
 		$this->tizi_urname=$this->session->userdata('urname');
+		$this->tizi_stuid=$this->session->userdata("student_id");
 		
         $this->tizi_ursubject=$this->session->userdata("register_subject");
         $this->tizi_urgrade=$this->session->userdata("register_grade");
