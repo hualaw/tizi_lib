@@ -64,6 +64,9 @@ class Researcher_Data_Model extends LI_Model {
 	}
 	
 	public function check_domain($domain_name){
+		if (preg_match("|^tizi*|", $domain_name)){
+			return true;
+		}
 		$res = $this->db->query("select id from user_researcher_data where domain_name=?", 
 			array($domain_name))->result_array();
 		return isset($res[0]["id"]) ? true : false;

@@ -292,14 +292,35 @@ class LI_Controller extends CI_Controller{
 	    {
 	    	if(!$this->tizi_ajax)
 			{
-	    		$this->binding();
+				if(!empty($this->_segment['an']))
+				{
+	    			$this->binding();
+	    		}
 	    	}
 	    }
 	}
 
 	protected function binding()
 	{
-		return;
+		//强制绑定，暂行
+		$r_urilist=array('/user_teacher/bind_mysubject','/user_student/bind_mygrade','/user_student/bind_myuname');
+		if($this->site=='login'&&!in_array($this->_segment['an'],$this->_unloginlist['an'])&&!in_array($this->_segment['r'],$r_urilist))
+		{
+			switch ($this->tizi_utype) 
+			{
+				case Constant::USER_TYPE_STUDENT: 	$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
+													if(!$this->tizi_uname) redirect($redirect['myuname']);
+													else if(!$this->tizi_urgrade) redirect($redirect['mygrade']);
+													else if($this->tizi_invite) redirect(tizi_url("invite/".$this->tizi_invite));
+													break;
+	            case Constant::USER_TYPE_TEACHER: 	if(!$this->tizi_ursubject) redirect(redirect_url(Constant::USER_TYPE_TEACHER,'perfect'));
+	            									else if($this->tizi_invite) redirect(tizi_url("invite/".$this->tizi_invite));
+	            									break;
+	            case Constant::USER_TYPE_PARENT:	break;
+	            case Constant::USER_TYPE_RESEARCHER:break;
+	            default:break;
+			}
+		}
 	}
 
 	protected function token_list()
