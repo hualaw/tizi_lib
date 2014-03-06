@@ -32,6 +32,7 @@ class Session_Model extends LI_Model {
 				'urname'=>$data['name'],
 				'user_type'=>$data['user_type'],
 				'uname'=>$data['uname'],
+				'student_id'=>$data['student_id'],
 				'avatar'=>$register_data->avatar?$register_data->avatar:0,
 				'register_subject'=>$this->question_subject_model->check_subject($register_data->register_subject,'binding')?$register_data->register_subject:0,
 				'register_grade'=>$this->student_data_model->check_grade($register_data->register_grade)?$register_data->register_grade:0,
