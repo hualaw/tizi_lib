@@ -484,6 +484,20 @@ class CI_Cache_redis extends CI_Driver
         }
     }
 
+    public function lrange($key,$start,$end){
+        if ($this->_slave)
+        {
+            return $this->_slave->lrange($key,$start,$end);
+        }   
+    }
+
+    public function llen($key){
+        if ($this->_slave)
+        {
+            return $this->_slave->llen($key);
+        }   
+    }   
+
     /*hash end*/
 	
 	/**
