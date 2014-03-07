@@ -7,19 +7,19 @@ class User_Invite_Model extends LI_Model {
 		parent::__construct();
 	}
 	
-	public function login($username, $password, $logb = "uname"){
+	public function login($username, $password, $logb = "uname", $returnobject = false){
 		$logb_array = array("uname", "phone", "student_id");
 		if (!in_array($logb, $logb_array)){
 			return -1;
 		}
-		$res = $this->db->query("select id,password from user_invite where {$logb}=?", 
+		$res = $this->db->query("select * from user_invite where {$logb}=?", 
 			array($username))->result_array();
 		if (!isset($res[0])){
 			return -1;
 		}
 		$invite = $res[0];
 		if (md5("ti".$invite["password"]."zi") == $password){
-			return $invite["id"];
+			return true === $returnobject ? $invite : $invite["id"];
 		} else {
 			return -1;
 		}

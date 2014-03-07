@@ -22,6 +22,12 @@ class Teacher_Data_Model extends LI_Model {
         return $this->update_teacher_data($user_id,$download_default,$download_type.'_download_default');
     }
 
+    public function update_teacher_gender($user_id,$gender)
+    {
+        if(!$gender) return false;
+        return $this->update_teacher_data($user_id,$gender,'gender');
+    }
+
     private function update_teacher_data($user_id,$data_value,$data_name)
     {
         if(empty($data_name)) return false;

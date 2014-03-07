@@ -298,6 +298,22 @@ class Register_Model extends LI_Model {
 		return array('errorcode'=>$errorcode);
 	}
 	
+	function update_email_verified($user_id,$verified=1)
+	{
+		$user=$this->get_user_info($user_id);
+		if($user['errorcode']&&$user['user']->email_verified==$verified)
+		{
+			$update=true;
+		}
+		else
+		{
+			$this->db->where("id",$user_id);
+	    	$this->db->update($this->_table,array("email_verified"=>$verified));
+	    	$update=$this->db->affected_rows();
+	    }
+	    return $update;
+	}
+
 	/*desc:update iphone*/
     /*input:arg(user_id,iphone,verified)*/
     /*output:return(errorcode(1-success,0-duplicate)*/

@@ -13,7 +13,7 @@ class Qiniu {
 
     function __construct(){
         $this->_CI = & get_instance();
-        $this->_CI->load->config('qiniu');
+        $this->_CI->load->config('qiniu',false,true);
         $this->accessKey = $this->_CI->config->item('accessKey');
         $this->secretKey = $this->_CI->config->item('secretKey');
         Qiniu_SetKeys($this->accessKey, $this->secretKey);
@@ -25,6 +25,16 @@ class Qiniu {
         $this->bucket = $bucket;
         $this->domain = $this->bucket."qiniudn.com";
     } 
+
+    /*生成token*/
+    function make_token($expires=3600)
+    {
+        $bucket = $this->bucket;
+        $putPolicy = new Qiniu_RS_PutPolicy($bucket);
+        $putPolicy->Expires = $expires;
+        $upToken = $putPolicy->Token(null);
+        return $upToken;
+    }
 
     /* $name 是上传字段的name*/
     function qiniu_upload($name='uploadfile'){
@@ -55,11 +65,12 @@ class Qiniu {
 
  
     //获取下载链接 (私有资源)
-    function qiniu_download_link($key){
+    function qiniu_download_link($key,$name = 'unknow'){
         $domain = $this->domain;
         $client = new Qiniu_MacHttpClient(null);
         $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
         $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+        $baseUrl.='?download/'.$name;
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
         return $privateUrl;
     }

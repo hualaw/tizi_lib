@@ -5,7 +5,6 @@
  */
 class Student_Task_Model extends LI_Model{
 
-
     public $uid;
 
     private $per_page_num ;//每页数量
@@ -14,7 +13,6 @@ class Student_Task_Model extends LI_Model{
 
     function __construct(){
         parent::__construct();
-        $this->per_page_num = Constant::STU_HOMEWORK_PER_PAGE;
     }
 
 
@@ -61,10 +59,19 @@ class Student_Task_Model extends LI_Model{
         }
     }
 
+    //学生刚加入班级的时候，获取班级以前的分享
+    public function pushShareFirstAboard($uid,$class_id){
+        $this->load->model('cloud/cloud_model');
+        $share = $this->cloud_model->get_share_files_by_class(0,$class_id,1,999);
+        if($share){
+            foreach($share as $key=>$val){
+                $this->pushTaskOnShare($uid,$val['share_id']);
+            }
+        }
+    }
+
     //push video
     public function pushTaskOnRegister($uid){
-
-
 
         $this->load->model('login/register_model');
         $this->load->model('user_data/student_data_model');
@@ -89,7 +96,8 @@ class Student_Task_Model extends LI_Model{
      */
     public function getTaskByPageNum($page_num){
         
-        $tasks = array();
+        $tasks = array();   
+        $this->per_page_num = Constant::STU_HOMEWORK_PER_PAGE;
         $offset = $this->per_page_num * ($page_num-1);
         $data = $this->db
             ->query("select * from `student_task` where `uid` = {$this->uid} and `is_delete` = 0 order by `date` desc limit {$offset},{$this->per_page_num}")
