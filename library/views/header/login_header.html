@@ -1,38 +1,28 @@
 {include file='file:[lib]header/tizi_token.html'}
-<div class="header">
-	<div class="hd">
-        <div class="layout">
-            <p class="info fr">
-                <span>
-                    您好，龚海燕！
-                </span>
-                <a href="#" target="_blank" class="newMassage">新消息(3)</a>
-                <span class="l">|</span>
-                <a href="#">退出</a>
-            </p>
-            <p class="fl">
-                <a href="{$site_url}" target="_blank">梯子网首页</a>
-                <a href="javascript:void(0)" class="addFava">收藏梯子网</a>
-                <a class="cBtnFeedback" href="javascript:void(0);">用户反馈</a>
-            </p>
-        </div>
+<!-- 顶部mini导航开始 -->
+<div class="topNav">
+    <div class="layout">
+        {include file='file:[lib]header/top_nav.html'}
     </div>
+</div>
+<!-- 顶部mini导航结束 -->
+<div class="header">
     <div class="bd layout">
         <h1 class="fl">
-            <a href="{$site_url}">梯子网</a>
+            <a href="{$tizi_url}">梯子网</a>
         </h1>
         <div class="secLogo fl">
            <h2 class="fl">
-               教师频道
-               <span>
-                   中小学优质教育资源共享平台
-               </span>
+               <span class="channel"><!--教师频道--></span>
+               <span class="info">中小学优质教育资源共享平台</span>
            </h2>
         </div>
+        <!--
         <div class="rightTips fr">
             <a href="#" target="_blank" class="stuChannel">学生频道</a>
             <a href="#" target="_blank" class="parChannel">家长频道</a>
         </div>
+        -->
     </div>
     <div class="ft"></div>
 </div>

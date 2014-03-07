@@ -29,7 +29,7 @@ if (!function_exists('json_token')) {
     {
         $ci = &get_instance();
 		$page_name=$ci->input->post('page_name',true);
-		$callback_name=$ci->input->get_post('callback_name',true);
+		$callback_name=$ci->input->post('callback_name',true);
 		$param['token']=$page_name?generate_token($page_name):'';
 		$param['callback']=$callback_name?true:false;
 

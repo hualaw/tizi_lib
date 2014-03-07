@@ -1,0 +1,112 @@
+{include file='file:[lib]header/tizi_token.html'}
+<!-- 顶部mini导航开始 -->
+<div class="topNav">
+    <div class="layout">
+        {include file='file:[lib]header/top_nav.html'}
+    </div>
+</div>
+<!-- 顶部mini导航结束 -->
+<div class="header">
+    <div class="bd layout">
+        <h1 class="fl">
+            <a href="{$tizi_url}">梯子网</a>
+        </h1>
+        <div class="secLogo fl" style="display:none">
+           <h2 class="fl">
+               <span class="channel"><!--教师频道--></span>
+               <span class="info">中小学优质教育资源共享平台</span>
+           </h2>
+        </div>
+        <div class="eduSecLogo fl">
+           <h2 class="fl">
+               西安市教育局
+               <span>
+                   www.tizi.com/xian
+               </span>
+           </h2>
+            <p class="fl">
+                <a class="orderBtn" href="javascript:;">订阅</a>
+                <a class="settingUp" href="javascript:;" title="">设置（用后删掉此标签）</a>
+                <a class="orderUp" href="javascript:;" title="">显示订阅提示框（用后删掉此标签）</a>
+            </p>
+        </div>
+        <!-- <div class="rightTips fr">
+            <a href="#" target="_blank" class="stuChannel">学生频道</a>
+            <a href="#" target="_blank" class="parChannel">家长频道</a>
+        </div> -->
+        <div class="eduAllNumber fr">
+            目前共<em>78</em>名教师,<em>134</em>名学生订阅！
+        </div>
+    </div>
+    <div class="ft"></div>
+</div>
+<!-- 登录弹出框开始 -->
+<div id="registerPop" class="pop_box">
+    <form class="indexLoginForm_beta" action="{$login_url}login/submit" method="post" dataType="jsonp" onsubmit="return false;">
+        <div class="pop_main cf">
+            <div class="regLeft fl">
+                <p>欢迎访问<span class="green">西安市教育局</span>,请先登录</p>
+                <div class="regNameLine posr">
+                    <input type="text" name="username" tabindex="1" class="cInput username regName" placeholder='用户名/学号/手机号/邮箱' />
+                    <div class="ValidformInfo">
+                      <span class="Validform_checktip"></span>
+                      <span class="dec">
+                        <s class="dec1">◆</s>
+                        <s class="dec2">◆</s>
+                      </span>
+                    </div>
+                </div>
+                <div class="posr">
+                    <input type="password" name="password" tabindex="2" class="cInput password regPass fl" placeholder='密码' />
+                    <div class="ValidformInfo">
+                      <span class="Validform_checktip"></span>
+                      <span class="dec">
+                        <s class="dec1">◆</s>
+                        <s class="dec2">◆</s>
+                      </span>
+                    </div>
+                </div>
+                <p>
+                    <input type="hidden" name="redirect" value="edu">
+                    <input class="greenBtn regBtn" type="submit" name="" value="登录">
+                </p>
+                <p class="font12">还没有注册梯子账户？<a class="green" href="javascript:;">立即注册</a></p>
+            </div>
+            <div class="regRight fl">
+                <p>登录后，您可以订阅<span class="green">西安市教育局</span>，订阅后可在“<a href="javascript:;" class="green">我的订阅</a>”里查看该单位发布的各项通知公告。</p>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 登录弹出框结束 -->
+<!-- 设置弹出框开始 -->
+<div id="settingPop" class="pop_box">
+    <form class="settingForm_beta" action="#" method="post">
+        <div class="pop_main cf">
+                <p class="orangedeep m_b_15">请设置单位名称和个性域名，设置后将不能更改！</p>
+                <p>单位名称</p>
+                <div class="posr m_b_15">
+                    <input class="unitName" type="text" name="" value="" placeholder="请输入单位名称">例如：陕西省西安市教育局
+                    <div class="ValidformInfo">
+                      <span class="Validform_checktip"></span>
+                      <span class="dec">
+                        <s class="dec1">◆</s>
+                        <s class="dec2">◆</s>
+                      </span>
+                    </div>
+                </div>
+                <p>个性域名</p>
+                <div class="unitNetworkLine posr">http://www.tizi.com/<input class="unitNetwork" type="text" name="" value="" placeholder="请输入个性域名">请使用4～20个字符的数字或字母
+                    <div class="ValidformInfo">
+                      <span class="Validform_checktip"></span>
+                      <span class="dec">
+                        <s class="dec1">◆</s>
+                        <s class="dec2">◆</s>
+                      </span>
+                    </div>  
+                </div>
+        </div>
+    </form>
+</div>
+
+<!-- 设置弹出框结束 -->
