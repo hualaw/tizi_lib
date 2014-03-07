@@ -598,7 +598,10 @@ artDialog.fn = artDialog.prototype = {
 		lockMask.bind('click', function () {
 			that._reset();
 		}).bind('dblclick', function () {
-			that._click(that.config.cancelVal);
+			//tizi
+			if (config.dblclick) {
+				that._click(that.config.cancelVal);
+			}
 		});
 		
 		if (config.duration === 0) {
@@ -1065,8 +1068,8 @@ artDialog.defaults = {
 	top: '38.2%',				// Y轴坐标
 	zIndex: 1000,				// 对话框叠加高度值(重要：此值不能超过浏览器最大限制)
 	resize: false,				// 是否允许用户调节尺寸
-	drag: true					// 是否允许用户拖动位置
-	
+	drag: true,					// 是否允许用户拖动位置
+	dblclick: true
 };
 
 window.artDialog = $.dialog = $.artDialog = $.tiziDialog = artDialog;
