@@ -1,13 +1,13 @@
 <p class="info fr">
+    {if $user_type}
     <span>
         您好，<em class="MyURName">{sub_str($user_name)}</em>！
     </span>
     <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
     <span class="l">|</span>
-    {if $user_type}
-    <a href="{$login_url}logout">退出</a>
+    <a id="tiziLogout" href="{$login_url}logout">退出</a>
     {else}
-    <a href="{$login_url}">登录</a>
+    <a id="tiziLogin" href="{$login_url}">登录</a>
     {/if}
 </p>
 <p class="fl">
