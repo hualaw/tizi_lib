@@ -1,7 +1,0 @@
-keytool -genkey -dname "cn=tizi, ou=Java Software, o=tizi, c=China" -alias tizi -keypass 91waijiao -storepass 91waijiao -validity 365 -keystore ./tizi
-keytool -list -keystore ./tizi -storepass 91waijiao
-keytool -export -keystore ./tizi -storepass 91waijiao -file tizi.cer -alias tizi
-
-
-
-jarsigner -verbose -keystore ./tizi uploader.jar tizi
