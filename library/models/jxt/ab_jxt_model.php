@@ -5,6 +5,7 @@
  *
  * @author caohaihong <caohaihong@91waijiao.com>
  */
+require_once LIBPATH."core/JXT_Model.php";
 class Ab_Jxt_Model extends JXT_Model{
     
     /**
@@ -24,7 +25,7 @@ class Ab_Jxt_Model extends JXT_Model{
         
         
         if($this->database->update('address_book', array(
-            'user_id' => $user_id, 
+            'user_id' => $data['user_id'], 
             'phone' => '',
             'student_name' => trim($data['student_name']),
             'parent_name' => trim($data['parent_name']),
@@ -32,7 +33,7 @@ class Ab_Jxt_Model extends JXT_Model{
             'update_time' => time(),
             'update_way' => 1
             ))){
-            $this->set_user_active($user_id);
+            $this->set_user_active($data['user_id']);
             return TRUE;
         }else{
             return FALSE;
@@ -52,7 +53,9 @@ class Ab_Jxt_Model extends JXT_Model{
                 ->from('address_book')
                 ->where("user_id = {$user_id} AND del = 0")
                 ->get()->row_array();
-        
+        if(!$ab){
+            return false;
+        }
         $this->database->where("ab_id = {$ab['id']} AND del = 0");
         $this->database->order_by('id', 'DESC');
         $this->database->limit(1);
@@ -73,11 +76,7 @@ class Ab_Jxt_Model extends JXT_Model{
                 ->select('student_name, parent_name')
                 ->get()->row_array();
                 
-        if($address_book['student_name'] && $address_book['parent_name']){
-            return TRUE;
-        }else{
-            return FALSE;
-        }
+        return $address_book;
     }
     
 }

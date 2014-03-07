@@ -74,9 +74,12 @@ $lang['error_invalid_name']="姓名不能为空";
 $lang['error_invalid_email']="无效的邮箱地址";
 $lang['error_invalid_phone']="无效的手机号码";
 $lang['error_invalid_qq']="无效的QQ号码";
+$lang['error_invalid_mysubject']="无效的注册学科";
+$lang['error_invalid_mygrade']="无效的注册年级";
 $lang['error_invalid_password']="无效的登录密码";
 $lang['error_invalid_uname']="无效的用户名";
 $lang['error_invalid_student_id']="无效的学生号码";
+$lang['error_invalid_confirm_password']=$lang['error_reg_confirm_password'];
 
 /*zujuan reset password errormsg*/
 $lang['error_reset_password_not_user']="对不起，没有找到您的用户信息";
