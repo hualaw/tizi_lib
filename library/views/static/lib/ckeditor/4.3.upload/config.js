@@ -35,6 +35,6 @@ CKEDITOR.editorConfig = function( config ) {
 	// Make dialogs simpler.
 	//config.removeDialogTabs = '';
 
-    config.filebrowserImageUploadUrl = __host__ +'class_zone/upload_image/index.php?type=img';
-    config.filebrowserFlashUploadUrl = __host__ +'class_zone/upload_image/index.php?type=flash';
+    config.filebrowserImageUploadUrl = ck_image_upload;//__host__ +'class_zone/upload_image/index.php?type=img';
+    config.filebrowserFlashUploadUrl = ck_flash_upload;//__host__ +'class_zone/upload_image/index.php?type=flash';
 };
