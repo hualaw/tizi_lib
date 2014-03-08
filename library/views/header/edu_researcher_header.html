@@ -13,12 +13,16 @@
         </h1>
         <div class="secLogo fl">
            <h2 class="fl">
-               <span class="channel">西安市教育局</span>
-               <span class="info">{$edu_url}xian</span>
+               <span class="channel">{$researcher['organization']}</span>
+               <span class="info">{$edu_url}{$researcher['domain_name']}</span>
            </h2>
             <p class="fl">
-                <a class="orderBtn" href="javascript:;">订阅</a>
-                <a class="orderUp" href="javascript:;" title="">显示订阅提示框（删）</a>
+                {if $researcher['is_subscribed'] == 0}
+                <a class="orderBtn subscribe_researcher" href="javascript:;" data="{$researcher['id']}">订阅</a>
+                {elseif $researcher['is_subscribed'] == 1}
+                <a class="orderBtn" href="javascript:;" data="{$researcher['id']}">已订阅</a>
+                {else}
+                {/if}
             </p>
         </div>
         <!-- <div class="rightTips fr">
@@ -26,7 +30,7 @@
             <a href="#" target="_blank" class="parChannel">家长频道</a>
         </div> -->
         <div class="eduAllNumber fr">
-            目前共<em>78</em>名教师,<em>134</em>名学生订阅！
+            目前共<em>{$researcher['teacher_subscribes_count']}</em>名教师,<em>{$researcher['student_subscribes_count']}</em>名学生订阅！
         </div>
     </div>
     <div class="ft"></div>
@@ -71,6 +75,7 @@
 </div>
 <!-- 登录弹出框结束 -->
 <!-- 设置弹出框开始 -->
+<!--
 <div id="settingPop" class="pop_box">
     <form class="settingForm_beta" action="#" method="post">
         <div class="pop_main cf">
@@ -99,5 +104,5 @@
         </div>
     </form>
 </div>
-
+-->
 <!-- 设置弹出框结束 -->
