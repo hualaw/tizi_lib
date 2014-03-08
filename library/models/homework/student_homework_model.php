@@ -380,8 +380,9 @@ class Student_Homework_Model extends LI_Model{
 
 
     function get_homework_by_student_id_and_assignment_id($stu_id,$assignment_id){
-        $sql = "select s.*,u.name from student_homework s left join user u on u.id=s.student_id where s.student_id=$stu_id and s.assignment_id=$assignment_id";
-        return $this->db->query($sql)->result_array();
+        $sql = "select s.*,u.name from student_homework s left join user u on u.id=s.student_id where s.student_id=? and s.assignment_id=?";
+        $arr = array($stu_id,$assignment_id);
+        return $this->db->query($sql,$arr)->result_array();
     }
     
 
