@@ -59,6 +59,17 @@ class Student_Task_Model extends LI_Model{
         }
     }
 
+    //学生刚加入班级的时候，获取班级以前的分享
+    public function pushShareFirstAboard($uid,$class_id){
+        $this->load->model('cloud/cloud_model');
+        $share = $this->cloud_model->get_share_files_by_class(0,$class_id,1,999);
+        if($share){
+            foreach($share as $key=>$val){
+                $this->pushTaskOnShare($uid,$val['share_id']);
+            }
+        }
+    }
+
     //push video
     public function pushTaskOnRegister($uid){
 
