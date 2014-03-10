@@ -266,7 +266,7 @@ class LI_Controller extends CI_Controller{
 				//上传，必须登录
 				if($this->_segment['an'] == 'upload')
 				{
-					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'success'=>false,'login'=>false,'token'=>false,'code'=>1));
+					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'msg'=>$this->lang->line('default_error_login'),'success'=>false,'login'=>false,'token'=>false,'code'=>1));
 		            exit();
 				}
 
