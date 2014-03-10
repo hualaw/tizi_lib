@@ -7,7 +7,7 @@
 <title>页面不存在－梯子网</title>
 {literal}
 <style>
-.cBtnFeedback,.commonHeader em {display: none;}
+.cBtnFeedback,.lineFeedback {display: none;}
 </style>
 {/literal}
 </head>
@@ -38,7 +38,9 @@ function count(){
 		window.location.href = '{$redirect}';
     return false;
 	}
+	<?php if($settimeout): ?>
 	setTimeout("count()",1000);
+	<?php endif; ?>
 }
 window.onload = count;
 </script>
