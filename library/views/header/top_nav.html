@@ -3,7 +3,11 @@
     <span>
         您好，<em class="MyURName">{sub_str($user_name)}</em>！
     </span>
+    {if isset($show_ucenter) and $show_ucenter}
+    <a href="{$login_url}{$constant.user_type[$user_type]}/user/center" target="_blank">个人中心</a>
+    {else}
     <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
+    {/if}
     <span class="l">|</span>
     <a id="tiziLogout" href="{$login_url}logout">退出</a>
     {else}
