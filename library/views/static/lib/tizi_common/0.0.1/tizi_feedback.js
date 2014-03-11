@@ -73,5 +73,5 @@ define(function(require){
         });
     });
     //调用检测用户反馈输入
-    require('module/common/basics/valid').FeedbackCheck();
+    require('tizi_valid').FeedbackCheck();
 });
