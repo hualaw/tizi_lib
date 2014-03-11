@@ -3,7 +3,6 @@
 if (!function_exists('tizi_404')) {
     function tizi_404($redirect='',$auto_redirect=true) {
         $ci = &get_instance();
-        $ci->smarty->assign('auto_redirect_404',$auto_redirect);
         if($redirect) $redirect=urlencode(site_url($redirect));
         redirect('404/'.$redirect);
     }   
