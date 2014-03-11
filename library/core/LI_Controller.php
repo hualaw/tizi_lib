@@ -131,6 +131,7 @@ class LI_Controller extends CI_Controller{
    		$this->smarty->assign('base_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,$this->site));
    		$this->smarty->assign('base_avatar', $avatar_url);
    		$this->smarty->assign('constant', $this->user_constant);
+   		$this->smarty->assign('environment', ENVIRONMENT);
 
 		//generate global user_name
         $user_name=$this->tizi_urname;
