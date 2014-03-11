@@ -13,12 +13,8 @@
 </head>
 
 <body>
-{if $environment eq 'production'}
-	{if isset($auto_redirect_404) and !$auto_redirect_404}
-	{$settimeout = false}
-	{else}
-	{$settimeout = true}
-	{/if}
+{if $environment eq 'production'}	
+	{if !isset($settimeout)}{$settimeout = true}{/if}
 {else}
 	{$settimeout = false}
 {/if}
