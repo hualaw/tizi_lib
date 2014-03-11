@@ -15,7 +15,7 @@ if (!function_exists('preg_email')) {
 
 if (!function_exists('preg_stuid')) {
     function preg_stuid($stuid) {
-        return preg_match("/^\d{8,}$/",$stuid);
+        return preg_match("/^\d{8,10}$/",$stuid);
     }   
 }
 
