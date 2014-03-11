@@ -2,7 +2,7 @@ define(function(require, exports) {
     // 请求tizi_ajax
     require("tizi_ajax");
     // 请求验证库
-    require("Validform");
+    require("validForm");
     // 请求公共验证信息
     var sDataType = require("tizi_datatype").dataType();
 
