@@ -132,10 +132,10 @@ Class CI_Constant {
 			    self::USER_TYPE_RESEARCHER => edu_url('')
 			),
 			'edu' => array(
-				self::USER_TYPE_STUDENT => edu_url("xian"),
-			    self::USER_TYPE_TEACHER => edu_url("xian"),
-			    self::USER_TYPE_PARENT => edu_url("xian"),
-			    self::USER_TYPE_RESEARCHER => edu_url("xian")
+				self::USER_TYPE_STUDENT => tizi_url("student/homework/home"),
+			    self::USER_TYPE_TEACHER => tizi_url("teacher/paper/question"),
+			    self::USER_TYPE_PARENT => tizi_url("parent/article"),
+			    self::USER_TYPE_RESEARCHER => edu_url('')
 			),
 			'perfect' => array(
 				self::USER_TYPE_STUDENT => array(

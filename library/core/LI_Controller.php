@@ -19,6 +19,7 @@ class LI_Controller extends CI_Controller{
 	protected $tizi_ajax=false;
 	protected $tizi_debug=false;
 	protected $need_password=false;
+	protected $user_constant=array();
 
 	protected $_segmenttype=array('n','an','r','ar');
 	protected $_segment=array('n'=>'','an'=>'','r'=>'','ar'=>'');
@@ -74,6 +75,21 @@ class LI_Controller extends CI_Controller{
         $this->tizi_redirect=redirect_url($this->tizi_utype,$this->site);
 
 		$this->tizi_ajax=$this->input->is_ajax_request();
+
+		$this->user_constant = array(
+   			'user_type_student'=>Constant::USER_TYPE_STUDENT,
+   			'user_type_teacher'=>Constant::USER_TYPE_TEACHER,
+   			'user_type_parent'=>Constant::USER_TYPE_PARENT,
+   			'user_type_researcher'=>Constant::USER_TYPE_RESEARCHER,
+   			'user_type'=>array(
+				Constant::USER_TYPE_STUDENT=>'student',
+				Constant::USER_TYPE_TEACHER=>'teacher',
+				Constant::USER_TYPE_PARENT=>'parent',
+				Constant::USER_TYPE_RESEARCHER=>'researcher'
+			)
+   		);
+   		$this->tizi_role=isset($this->user_constant['user_type'][$this->tizi_utype])?
+   			$this->user_constant['user_type'][$this->tizi_utype]:'';
 	}
 
 
@@ -114,20 +130,8 @@ class LI_Controller extends CI_Controller{
    		$this->smarty->assign('base_parent', redirect_url(Constant::USER_TYPE_PARENT,$this->site));
    		$this->smarty->assign('base_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,$this->site));
    		$this->smarty->assign('base_avatar', $avatar_url);
-
-   		$this->smarty->assign('constant', array(
-   			'user_type_student'=>Constant::USER_TYPE_STUDENT,
-   			'user_type_teacher'=>Constant::USER_TYPE_TEACHER,
-   			'user_type_parent'=>Constant::USER_TYPE_PARENT,
-   			'user_type_researcher'=>Constant::USER_TYPE_RESEARCHER,
-   			'user_type'=>array(
-   					Constant::USER_TYPE_STUDENT=>'student',
-   					Constant::USER_TYPE_TEACHER=>'teacher',
-   					Constant::USER_TYPE_PARENT=>'parent',
-   					Constant::USER_TYPE_RESEARCHER=>'researcher'
-   				)
-   			)
-   		);
+   		$this->smarty->assign('constant', $this->user_constant);
+   		$this->smarty->assign('environment', ENVIRONMENT);
 
 		//generate global user_name
         $user_name=$this->tizi_urname;
@@ -263,7 +267,7 @@ class LI_Controller extends CI_Controller{
 				//上传，必须登录
 				if($this->_segment['an'] == 'upload')
 				{
-					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'success'=>false,'login'=>false,'token'=>false,'code'=>1));
+					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'msg'=>$this->lang->line('default_error_login'),'success'=>false,'login'=>false,'token'=>false,'code'=>1));
 		            exit();
 				}
 
