@@ -103,7 +103,7 @@ class Classes_Teacher extends LI_Model{
 	 */ 
 	public function create($class_id, $teacher_id, $subject_id, $join_date){
 		$this->load->model("class/class_model");
-		return 1;
+		return $this->class_model->i_join_class($class_id, $teacher_id, $subject_id, $join_date);
 	}
 	
 	/***--------------------------------------old-------------------------------***/
