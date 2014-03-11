@@ -12,13 +12,16 @@
             {/if}
         </p>
     </div>
+    {if !isset($show_login)}{$show_login=true}{/if}
     <div class="info fr">
         <p>
             <a href="{$tizi_url}">梯子网首页</a>
+            {if $show_login}
             {if $user_type}
             <a href="{$login_url}logout">退出</a>
             {else}
             <a href="{$login_url}">登录</a>
+            {/if}
             {/if}
         </p>     
     </div>
