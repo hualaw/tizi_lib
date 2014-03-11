@@ -26,7 +26,13 @@
 <!--内容end-->
 <!--尾部start-->
 {include file='file:[lib]header/login_footer.html'}
+{if $environment eq 'production'}
+	{$settimeout = true}
+{else}
+	{$settimeout = false}
+{/if}
 <!--尾部end-->
+{literal}
 <script>
 var start = 5;
 var step = -1;
@@ -38,11 +44,14 @@ function count(){
 		window.location.href = '{$redirect}';
     return false;
 	}
-	<?php if($settimeout): ?>
+	{/literal}
+	{if $settimeout}
 	setTimeout("count()",1000);
-	<?php endif; ?>
+	{/if}
+	{literal}
 }
 window.onload = count;
 </script>
+{/literal}
 </body>
 </html>
