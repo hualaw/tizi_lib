@@ -485,7 +485,7 @@ class Student_Homework_Model extends LI_Model{
 
     public function separateQuestion($content){
 
-        $title = $content['body'];
+        $title = $this->_remove_attr($content['body'],false);
         $option = array();
         $analysis = '';
 
