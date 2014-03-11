@@ -14,7 +14,7 @@
 
 <body>
 {if $environment eq 'production'}
-	{if isset($no_redirect_404) and $no_redirect_404}
+	{if isset($auto_redirect_404) and !$auto_redirect_404}
 	{$settimeout = false}
 	{else}
 	{$settimeout = true}
