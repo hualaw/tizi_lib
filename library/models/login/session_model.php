@@ -50,7 +50,7 @@ class Session_Model extends LI_Model {
 		{
 			$errorcode=false;
 		}
-		return array('errorcode'=>$errorcode);
+		return array('errorcode'=>$errorcode,'user_data'=>$user_data);
 	}
 
 	function clear_session()
