@@ -13,6 +13,11 @@
 </head>
 
 <body>
+{if $environment eq 'production'}	
+	{if !isset($settimeout)}{$settimeout = true}{/if}
+{else}
+	{$settimeout = false}
+{/if}
 {include file='file:[lib]header/login_header.html'}
 <div class="headerLineGreen"></div>
 <!--内容start-->
@@ -20,18 +25,16 @@
   <h2>出错啦</h2>
   <div class="bd">
       <p>很抱歉，你访问的页面不存在，请检查您访问的网址是否正确。</p>
+      {if $settimeout}
       <p>系统将在 <span class="oTime" id="oTime">5</span> 秒后为您跳转到个人主页。</p>
+      {/if}
   </div>
 </div>
 <!--内容end-->
 <!--尾部start-->
 {include file='file:[lib]header/login_footer.html'}
-{if $environment eq 'production'}
-	{$settimeout = true}
-{else}
-	{$settimeout = false}
-{/if}
 <!--尾部end-->
+{if $settimeout}
 {literal}
 <script>
 var start = 5;
@@ -41,17 +44,14 @@ function count(){
 	oTime.innerHTML = start;
 	start += step;
 	if(start < 1){
-		window.location.href = '{$redirect}';
+		window.location.href = '{/literal}{$redirect}{literal}';
     return false;
 	}
-	{/literal}
-	{if $settimeout}
 	setTimeout("count()",1000);
-	{/if}
-	{literal}
 }
 window.onload = count;
 </script>
 {/literal}
+{/if}
 </body>
 </html>
