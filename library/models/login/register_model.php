@@ -282,6 +282,9 @@ class Register_Model extends LI_Model {
 	/*output:return(errorcode(1-success,0-duplicate)*/
 	function update_email($user_id,$email,$verified=1)
 	{
+		$email=strip_tags(trim($email));
+    	if(!$email) return array('errorcode'=>false);
+
 		$user=$this->get_user_info($user_id);
 		if($user['errorcode']&&$user['user']->email==$email&&$user['user']->email_verified==$verified)
 		{
@@ -319,6 +322,9 @@ class Register_Model extends LI_Model {
     /*output:return(errorcode(1-success,0-duplicate)*/
 	function update_phone($user_id,$phone,$verified=1)
 	{
+		$phone=strip_tags(trim($phone));
+    	if(!$phone) return array('errorcode'=>false);
+		
 		/* 更新thrift start */
 		$this->load->library("thrift");
 		$response=0;
@@ -504,7 +510,8 @@ class Register_Model extends LI_Model {
     /*output:return(errorcode(1-success,0-failed)*/
     function update_uname($user_id,$uname,$force=false)
     {
-    	if(!trim($uname)) return array('errorcode'=>false);
+    	$uname=strip_tags(trim($uname));
+    	if(!$uname) return array('errorcode'=>false);
 
 		$user=$this->get_user_info($user_id);
 		if($user['errorcode']&&$user['user']->uname==$uname)
@@ -535,7 +542,8 @@ class Register_Model extends LI_Model {
     /*output:return(errorcode(1-success,0-failed)*/
     function update_name($user_id,$name)
     {
-    	if(!trim($name)) return array('errorcode'=>false);
+    	$name=strip_tags(trim($name));
+    	if(!$name) return array('errorcode'=>false);
 
 		$user=$this->get_user_info($user_id);
 		if($user['errorcode']&&$user['user']->name==$name)
