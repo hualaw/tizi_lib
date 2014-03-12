@@ -131,6 +131,7 @@ class LI_Controller extends CI_Controller{
    		$this->smarty->assign('base_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,$this->site));
    		$this->smarty->assign('base_avatar', $avatar_url);
    		$this->smarty->assign('constant', $this->user_constant);
+   		$this->smarty->assign('environment', ENVIRONMENT);
 
 		//generate global user_name
         $user_name=$this->tizi_urname;
@@ -266,7 +267,7 @@ class LI_Controller extends CI_Controller{
 				//上传，必须登录
 				if($this->_segment['an'] == 'upload')
 				{
-					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'success'=>false,'login'=>false,'token'=>false,'code'=>1));
+					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'msg'=>$this->lang->line('default_error_login'),'success'=>false,'login'=>false,'token'=>false,'code'=>1));
 		            exit();
 				}
 

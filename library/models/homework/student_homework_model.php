@@ -485,10 +485,11 @@ class Student_Homework_Model extends LI_Model{
 
     public function separateQuestion($content){
 
-        $body = $content['body'];
-        $title = '';
+        $title = $this->_remove_attr($content['body'],false);
         $option = array();
         $analysis = '';
+
+        /*
         if(preg_match_all("/.*(?=A[．|.])/s",$body,$matches)){
             if(!isset($matches[0][0])) goto tran;
             $title = $this->_remove_attr($matches[0][0]);
@@ -520,6 +521,8 @@ class Student_Homework_Model extends LI_Model{
                 $option = array();
             }
         }
+         */
+
         $analysis = $this->_remove_attr($content['analysis']);
         $answer = isset($content['answer'])?$this->_remove_attr($content['answer']):'';
         $content['title'] = $title;
