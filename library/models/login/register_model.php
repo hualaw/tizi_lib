@@ -15,6 +15,9 @@ class Register_Model extends LI_Model {
 	/*output:return(userid,errorcode(1-success,0-duplicate))*/
 	function insert_register($username,$password,$name,$type,$user_type=Constant::USER_TYPE_TEACHER,$user_data=false)
 	{
+		$username=strip_tags(trim($username));
+    	if(!$username) return array('errorcode'=>false,'user_id'=>0,'student_id'=>0);
+
 		$data=$this->bind_register($username,$password,$name,$type,$user_type,$user_data);
 		$this->db->insert($this->_table,$data);
 		$insert_id = $this->db->insert_id();
@@ -139,6 +142,7 @@ class Register_Model extends LI_Model {
 	/*output:return(errorcode(1-success,0-duplicate))*/
 	function check_email($email,$verify=false)
 	{
+		$email=strip_tags(trim($email));
 		if(empty($email)) return array('errorcode'=>false,'verified'=>0,'email_verified'=>0,'user_id'=>0);
 		$this->db->where('email',$email);
 		if($verify) $this->db->where('email_verified',1);
@@ -166,6 +170,7 @@ class Register_Model extends LI_Model {
     /*output:return(errorcode(1-exist,0-not exist))*/
     function check_phone($phone)
     {
+    	$phone=strip_tags(trim($phone));
     	if(empty($phone)) return array('errorcode'=>false,'user_id'=>0);
     	$this->load->library("thrift");
     	$phone = $this->thrift->get_uid($phone);
@@ -185,6 +190,7 @@ class Register_Model extends LI_Model {
 	/*output:return(errorcode(1-success,0-duplicate))*/
 	function check_uname($uname)
 	{
+		$uname=strip_tags(trim($uname));
 		if(empty($uname)) return array('errorcode'=>false);
 		$this->db->where('uname',$uname);
 		$query=$this->db->get($this->_table);
@@ -213,6 +219,7 @@ class Register_Model extends LI_Model {
 	/*output:return(errorcode(1-success,0-duplicate))*/
 	function check_stuid($stuid)
 	{
+		$stuid=strip_tags(trim($stuid));
 		if(empty($stuid)) return array('errorcode'=>false);
 		$this->db->where('student_id',$stuid);
 		$query=$this->db->get($this->_table);

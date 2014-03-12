@@ -19,12 +19,16 @@ class LI_Input extends CI_Input {
 			{
 				$get[$key] = trim($this->_fetch_from_array($_GET, $key, $xss_clean));
 				if($tags_clean) $get[$key] = htmlspecialchars(strip_tags($get[$key]));
-				if(!$get[$key] && $default) $get[$key] = $default;
 			}
 			return $get;
 		}
-
-		return $this->_fetch_from_array($_GET, $index, $xss_clean);
+		else
+		{
+			$get = $this->_fetch_from_array($_GET, $index, $xss_clean);
+			if($tags_clean) $get = htmlspecialchars(strip_tags($get));
+			if(!$get && $default) $get = $default;
+			return $get;
+		}
 	}
 
 	function post($index = NULL, $xss_clean = FALSE, $tags_clean = FALSE, $default = FALSE)
@@ -43,6 +47,7 @@ class LI_Input extends CI_Input {
 				else
 				{
 					$post[$key] = trim($this->_fetch_from_array($_POST, $key, $xss_clean));
+					if($tags_clean) $post[$key] = htmlspecialchars(strip_tags($post[$key]));
 				}
 				
 			}
