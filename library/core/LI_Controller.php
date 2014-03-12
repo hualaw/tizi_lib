@@ -309,6 +309,7 @@ class LI_Controller extends CI_Controller{
 	protected function binding()
 	{
 		return;
+		/*
 		//强制绑定，暂行
 		$r_urilist=array('/user_teacher/bind_mysubject','/user_student/bind_mygrade','/user_student/bind_myuname');
 		if($this->site=='login'&&!in_array($this->_segment['an'],$this->_unloginlist['an'])&&!in_array($this->_segment['r'],$r_urilist))
@@ -328,6 +329,7 @@ class LI_Controller extends CI_Controller{
 	            default:break;
 			}
 		}
+		*/
 	}
 
 	protected function token_list()
