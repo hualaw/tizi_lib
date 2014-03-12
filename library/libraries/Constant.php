@@ -138,13 +138,10 @@ Class CI_Constant {
 			    self::USER_TYPE_RESEARCHER => edu_url('')
 			),
 			'perfect' => array(
-				self::USER_TYPE_STUDENT => array(
-					'myuname'=>login_url("student/user/myuname"),
-					'mygrade'=>login_url("student/user/mygrade")
-				),
-			    self::USER_TYPE_TEACHER => login_url("teacher/user/mysubject"),
-			    self::USER_TYPE_PARENT => '',
-			    self::USER_TYPE_RESEARCHER => ''
+				self::USER_TYPE_STUDENT => login_url("student/user/perfect"),
+			    self::USER_TYPE_TEACHER => login_url("teacher/user/perfect"),
+			    self::USER_TYPE_PARENT => login_url("parent/user/perfect"),
+			    self::USER_TYPE_RESEARCHER => login_url("researcher/user/perfect"),
 			)
 		);
 
