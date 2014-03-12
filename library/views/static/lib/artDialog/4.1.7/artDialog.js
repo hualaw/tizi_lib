@@ -1058,7 +1058,7 @@ artDialog.defaults = {
 	show: true,					// 初始化后是否显示对话框
 	follow: null,				// 跟随某元素(即让对话框在元素附近弹出)
 	path: _path,				// artDialog路径
-	iconPath:$('#base-url-con').html() + 'application/views/static/' + $('#static-version').html() + 'image/tizi_dialog',     // icon图片路径
+	iconPath:$('#static-base-url-con').html() + $('#static-version').html() + 'image/tizi_dialog',     // icon图片路径
 	lock: true,				    // 是否锁屏
 	background: '#000',			// 遮罩颜色
 	opacity: .4,				// 遮罩透明度

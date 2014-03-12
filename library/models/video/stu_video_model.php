@@ -22,7 +22,7 @@ class Stu_Video_Model extends LI_Model {
 		if($page_num<=0) $page_num=1;
         $offset=($page_num-1)*$limit;
         $this->db->limit($limit,$offset);
-        $this->db->order_by('id','desc');
+        $this->db->order_by('date,id','desc');
 		$query=$this->db->get($this->_table);
 		return $query->result();
 	}
@@ -39,7 +39,7 @@ class Stu_Video_Model extends LI_Model {
 	{
 		$this->db->where('grade_id',$grade);
 		$this->db->where('online',1);
-		$this->db->order_by('id','desc');
+		$this->db->order_by('date,id','desc');
 		$query=$this->db->get($this->_table);
 		return $query->result();
 	}
