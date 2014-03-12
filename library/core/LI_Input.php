@@ -7,7 +7,7 @@ class LI_Input extends CI_Input {
 		parent::__construct();
 	}
 
-	function get($index = NULL, $xss_clean = FALSE)
+	function get($index = NULL, $xss_clean = FALSE, $tags_clean = FALSE, $default = FALSE)
 	{
 		// Check if a field has been provided
 		if ($index === NULL AND ! empty($_GET))
@@ -18,6 +18,8 @@ class LI_Input extends CI_Input {
 			foreach (array_keys($_GET) as $key)
 			{
 				$get[$key] = trim($this->_fetch_from_array($_GET, $key, $xss_clean));
+				if($tags_clean) $get[$key] = htmlspecialchars(strip_tags($get[$key]));
+				if(!$get[$key] && $default) $get[$key] = $default;
 			}
 			return $get;
 		}
@@ -25,7 +27,7 @@ class LI_Input extends CI_Input {
 		return $this->_fetch_from_array($_GET, $index, $xss_clean);
 	}
 
-	function post($index = NULL, $xss_clean = FALSE)
+	function post($index = NULL, $xss_clean = FALSE, $tags_clean = FALSE, $default = FALSE)
 	{
 		// Check if a field has been provided
 		if ($index === NULL AND ! empty($_POST))
@@ -56,6 +58,8 @@ class LI_Input extends CI_Input {
 			else
 			{
 				$post = trim($this->_fetch_from_array($_POST, $index, $xss_clean));
+				if($tags_clean) $post = htmlspecialchars(strip_tags($post));
+				if(!$post && $default) $post = $default;
 			}
 			return $post;
 		}
