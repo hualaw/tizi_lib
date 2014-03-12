@@ -5,7 +5,7 @@ class LI_Model extends CI_Model {
 	function __construct($database='tizi')
 	{
 		parent::__construct();
-		$this->load->database($database);
+		$this->db = $this->load->database($database,true);
 	}
 
 }
