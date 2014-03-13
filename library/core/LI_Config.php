@@ -66,10 +66,7 @@ class LI_Config extends CI_Config {
 					$this->config[$file] = $config;
 				}
 			}
-			else
-			{
-				$this->config = array_merge($this->config, $config);
-			}
+			$this->config = array_merge($this->config, $config);
 
 			$this->is_loaded[] = $file;//$file_path
 			unset($config);
