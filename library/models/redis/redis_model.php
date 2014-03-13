@@ -11,7 +11,7 @@ class Redis_Model extends LI_Model {
 	function connect($type=null)
 	{
 	    $this->load->driver('cache',array('adapter'=>'redis'));
-	    $this->config->load('redis',true);
+	    $this->config->load('redis',true,true);
 		$redis_config=$this->config->item('redis');
 		$db=$type&&isset($redis_config['redis_db'][$type])?$redis_config['redis_db'][$type]:0;
 		if($this->cache->redis->select($db))
