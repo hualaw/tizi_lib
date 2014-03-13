@@ -89,6 +89,26 @@ define(function(require, exports) {
                 nullmsg:"请输入班级编号",
                 errormsg:"长度6-8个字符"
             },
+            setHomework:{
+                datatype:"*",
+                nullmsg:"请选择班级",
+                errormsg:"选择错误！"
+            },
+            selCourse:{
+                datatype:"*",
+                nullmsg:"请选择授课科目",
+                errormsg:"选择错误！"
+            },
+            filenames:{
+                datatype:"*1-50",
+                nullmsg:"请输入文件夹名称",
+                errormsg:"长度1-50字符之间"
+            },
+            resetFiles:{
+                datatype:"*1-50",
+                nullmsg:"请输入文件名称",
+                errormsg:"长度1-50字符之间"
+            },
             radioValid:{
                 datatype:"*"
             }
