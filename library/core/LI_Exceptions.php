@@ -7,7 +7,22 @@ class LI_Exceptions extends CI_Exceptions {
 		parent::__construct();
 	}
 
-	function show_error($heading, $message, $template = 'error_general', $status_code = 500)
+	function show_404($page = '', $log_error = TRUE, $data = array())
+	{
+		$heading = "404 Page Not Found";
+		$message = "The page you requested was not found.";
+
+		// By default we log this, but allow a dev to skip it
+		if ($log_error)
+		{
+			log_message('error', '404 Page Not Found --> '.$page);
+		}
+
+		echo $this->show_error($heading, $message, 'error_404', 404, $data);
+		exit;
+	}
+
+	function show_error($heading, $message, $template = 'error_general', $status_code = 500, $data = array())
 	{
 		set_status_header($status_code);
 
@@ -18,12 +33,21 @@ class LI_Exceptions extends CI_Exceptions {
 
 		if($template == 'error_404')
 		{
+			if(!empty($data))
+			{
+				foreach($data as $k => $d)
+				{
+					$$k = $d;
+				}
+			}
+
 			$_ci =& load_class('Config', 'core');
 			$site_url = $_ci->site_url();
 			$login_url = $_ci->site_url('','login');
 			$tizi_url = $_ci->site_url('','tizi');
+			if(strpos($redirect,'http://') === false) $redirect='';
+			$redirect = $redirect?$redirect:$site_url;
 
-			$settimeout = false;
 			$static_version = '';
 			if(file_exists(APPPATH.'config'.DS.ENVIRONMENT.DS.'version.php'))
 			{
@@ -37,7 +61,14 @@ class LI_Exceptions extends CI_Exceptions {
 			if(isset($_COOKIE['TZU'])) $uname = true;
 			else $uname = false;
 
-			if (defined('ENVIRONMENT') && ENVIRONMENT == 'production') $settimeout = true;
+			if (defined('ENVIRONMENT') && ENVIRONMENT == 'production') 
+			{
+				if(!isset($settimeout)) $settimeout = true;
+			}
+			else
+			{
+				$settimeout = false;
+			}
 		}
 		
 		if (ob_get_level() > $this->ob_level + 1)

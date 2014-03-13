@@ -1,8 +1,10 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 if (!function_exists('tizi_404')) {
-    function tizi_404($redirect='') {
-        if($redirect) $redirect=urlencode(site_url($redirect));
+    function tizi_404($redirect='',$settimeout=true,$status_code='404') {
+        //show_404('',true,array('redirect'=>$redirect,'settimeout'=>$settimeout,'status_code'=>$status_code));
+        if($redirect) $redirect=urlencode($redirect);
+        else $redirect=site_url();
         redirect('404/'.$redirect);
     }   
 }

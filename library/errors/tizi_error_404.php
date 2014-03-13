@@ -134,6 +134,8 @@ input::-ms-clear{display:none;}
       <p>很抱歉，你访问的页面不存在，请检查您访问的网址是否正确。</p>
       <?php if($settimeout): ?>
       <p>系统将在 <span class="oTime" id="oTime">5</span> 秒后为您跳转到个人主页。</p>
+      <?php else: ?>
+      <p><a href="<?php echo $redirect; ?>">点此返回个人主页</a></p>
       <?php endif; ?>
   </div>
 </div>
@@ -163,7 +165,7 @@ function count(){
 	oTime.innerHTML = start;
 	start += step;
 	if(start <1 ){
-		window.location.href = '<?php echo $site_url; ?>';
+		window.location.href = '<?php echo $redirect; ?>';
 	}
 	setTimeout("count()",1000);
 }
