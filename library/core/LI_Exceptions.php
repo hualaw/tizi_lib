@@ -45,7 +45,14 @@ class LI_Exceptions extends CI_Exceptions {
 			ob_end_flush();
 		}
 		ob_start();
-		include(APPPATH.'errors/'.$template.'.php');
+		if(!file_exists($file_path = APPPATH.'errors/tizi_'.$template.'.php'))
+		{
+			if(!file_exists($file_path = LIBPATH.'errors/tizi_'.$template.'.php'))
+			{
+				$file_path = APPPATH.'errors/'.$template.'.php';
+			}
+		}
+		include($file_path);
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
