@@ -2,7 +2,8 @@
 
 if (!function_exists('tizi_404')) {
     function tizi_404($redirect = '', $settimeout = true, $status_code = 404) {
-        //show_404('',true,array('redirect'=>$redirect,'settimeout'=>$settimeout,'status_code'=>$status_code));
+        show_404('',true,array('redirect'=>$redirect,'settimeout'=>$settimeout,'status_code'=>$status_code));
+        /*
         if($redirect) $redirect = '/'.urlencode($redirect);
         else $redirect = '/0';
         if($settimeout) $settimeout = '';
@@ -10,6 +11,7 @@ if (!function_exists('tizi_404')) {
         if($status_code == 404) $status_code = '';
         else $status_code = '/'.$status_code;
         redirect('404'.$redirect.$settimeout.$status_code);
+        */
     }   
 }
 

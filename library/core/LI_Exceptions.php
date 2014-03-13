@@ -24,6 +24,14 @@ class LI_Exceptions extends CI_Exceptions {
 
 	function show_error($heading, $message, $template = 'error_general', $status_code = 500, $data = array())
 	{
+		if(!empty($data))
+		{
+			foreach($data as $k => $d)
+			{
+				$$k = $d;
+			}
+		}
+
 		set_status_header($status_code);
 
 		$message = '<p>'.implode('</p><p>', ( ! is_array($message)) ? array($message) : $message).'</p>';
@@ -33,25 +41,18 @@ class LI_Exceptions extends CI_Exceptions {
 
 		if($template == 'error_404')
 		{
-			if(!empty($data))
-			{
-				foreach($data as $k => $d)
-				{
-					$$k = $d;
-				}
-			}
-
 			$_ci =& load_class('Config', 'core');
 			$site_url = $_ci->site_url();
 			$login_url = $_ci->site_url('','login');
 			$tizi_url = $_ci->site_url('','tizi');
+			if(!isset($redirect)) $redirect = '';
 			if(strpos($redirect,'http://') === false) $redirect='';
 			$redirect = $redirect?$redirect:$site_url;
 
 			$static_version = '';
-			if(file_exists(APPPATH.'config'.DS.ENVIRONMENT.DS.'version.php'))
+			if(file_exists(APPPATH.'config/'.ENVIRONMENT.'/version.php'))
 			{
-				require_once(APPPATH.'config'.DS.ENVIRONMENT.DS.'version.php');
+				include(APPPATH.'config/'.ENVIRONMENT.'/version.php');
 				if (isset($config['static_version']))
 				{
 					$static_version = $config['static_version'].'/';
