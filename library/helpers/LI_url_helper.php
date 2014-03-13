@@ -41,6 +41,14 @@ if ( ! function_exists('jxt_url'))
 	}
 }
 
+if ( ! function_exists('zl_url'))
+{
+	function zl_url($uri = '')
+	{
+		return site_url($uri,'zl');
+	}
+}
+
 if ( ! function_exists('static_url'))
 {
 	function static_url($site = '')
