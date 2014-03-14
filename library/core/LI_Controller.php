@@ -101,6 +101,7 @@ class LI_Controller extends CI_Controller{
         $login_url=login_url();
         $edu_url=edu_url();
         $jxt_url=jxt_url();
+        $zl_url=zl_url();
         $static_url=static_url($this->site);
         $static_base_url=static_url('base');
 
@@ -114,7 +115,8 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('login_url', $login_url);
         $this->smarty->assign('edu_url', $edu_url);
         $this->smarty->assign('jxt_url', $jxt_url);
-        
+        $this->smarty->assign('zl_url', $zl_url);
+
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
         $this->smarty->assign('tzu', Constant::COOKIE_TZUSERNAME);
         
