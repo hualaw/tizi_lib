@@ -380,8 +380,9 @@ class Student_Homework_Model extends LI_Model{
 
 
     function get_homework_by_student_id_and_assignment_id($stu_id,$assignment_id){
-        $sql = "select s.*,u.name from student_homework s left join user u on u.id=s.student_id where s.student_id=$stu_id and s.assignment_id=$assignment_id";
-        return $this->db->query($sql)->result_array();
+        $sql = "select s.*,u.name from student_homework s left join user u on u.id=s.student_id where s.student_id=? and s.assignment_id=?";
+        $arr = array($stu_id,$assignment_id);
+        return $this->db->query($sql,$arr)->result_array();
     }
     
 
@@ -484,10 +485,11 @@ class Student_Homework_Model extends LI_Model{
 
     public function separateQuestion($content){
 
-        $body = $content['body'];
-        $title = '';
+        $title = $this->_remove_attr($content['body'],false);
         $option = array();
         $analysis = '';
+
+        /*
         if(preg_match_all("/.*(?=A[．|.])/s",$body,$matches)){
             if(!isset($matches[0][0])) goto tran;
             $title = $this->_remove_attr($matches[0][0]);
@@ -519,6 +521,8 @@ class Student_Homework_Model extends LI_Model{
                 $option = array();
             }
         }
+         */
+
         $analysis = $this->_remove_attr($content['analysis']);
         $answer = isset($content['answer'])?$this->_remove_attr($content['answer']):'';
         $content['title'] = $title;

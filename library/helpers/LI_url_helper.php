@@ -41,6 +41,14 @@ if ( ! function_exists('jxt_url'))
 	}
 }
 
+if ( ! function_exists('zl_url'))
+{
+	function zl_url($uri = '')
+	{
+		return site_url($uri,'zl');
+	}
+}
+
 if ( ! function_exists('static_url'))
 {
 	function static_url($site = '')
@@ -55,10 +63,16 @@ if ( ! function_exists('static_url'))
 
 if ( ! function_exists('redirect_url'))
 {
-	function redirect_url($user_type, $redirect_type = 'login')
+	function redirect_url($user_type, $redirect_type = 'login', $redirect_url = '')
 	{
-		//$CI =& get_instance();
-		return Constant::redirect_url($user_type, $redirect_type);
+		$CI =& get_instance();
+		if($CI->session->userdata("user_type") == Constant::USER_TYPE_RESEARCHER)
+		{
+			$CI->load->model("user_data/researcher_data_model");
+			$researcher_data = $CI->researcher_data_model->get_researcher_data($CI->session->userdata("user_id"));
+			$redirect_url = isset($researcher_data->domain_name)?$researcher_data->domain_name:'';
+		}
+		return Constant::redirect_url($user_type, $redirect_type, $redirect_url);
 	}
 }
 /* End of file LI_url_helper.php */
