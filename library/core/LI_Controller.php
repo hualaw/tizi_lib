@@ -12,6 +12,7 @@ class LI_Controller extends CI_Controller{
 
 	protected $tizi_ursubject=0;
 	protected $tizi_urgrade=0;
+	protected $tizi_urdomain='';
 	protected $tizi_avatar=0;
 	protected $tizi_invite='';
 	protected $tizi_redirect='';
@@ -62,6 +63,7 @@ class LI_Controller extends CI_Controller{
 		
         $this->tizi_ursubject=$this->session->userdata("register_subject");
         $this->tizi_urgrade=$this->session->userdata("register_grade");
+        $this->tizi_urdomain=$this->session->userdata("register_domain");
 		$this->tizi_avatar=$this->session->userdata("avatar");
 
 		$this->_segment['n']=$this->uri->uri_string();
@@ -131,6 +133,12 @@ class LI_Controller extends CI_Controller{
     	$this->smarty->assign('base_teacher', redirect_url(Constant::USER_TYPE_TEACHER,$this->site));
    		$this->smarty->assign('base_parent', redirect_url(Constant::USER_TYPE_PARENT,$this->site));
    		$this->smarty->assign('base_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,$this->site));
+
+   		$this->smarty->assign('home_student', redirect_url(Constant::USER_TYPE_STUDENT,'tizi'));
+    	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
+   		$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
+   		$this->smarty->assign('home_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,'tizi'));
+
    		$this->smarty->assign('base_avatar', $avatar_url);
    		$this->smarty->assign('constant', $this->user_constant);
    		$this->smarty->assign('environment', ENVIRONMENT);
