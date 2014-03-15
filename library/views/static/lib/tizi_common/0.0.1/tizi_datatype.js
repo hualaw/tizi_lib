@@ -94,6 +94,11 @@ define(function(require, exports) {
                 nullmsg:"请选择班级",
                 errormsg:"选择错误！"
             },
+            cloudShare:{
+                datatype:"*",
+                nullmsg:"请选择班级",
+                errormsg:"选择错误！"
+            },
             selCourse:{
                 datatype:"*",
                 nullmsg:"请选择授课科目",

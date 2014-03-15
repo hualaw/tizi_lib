@@ -31,7 +31,7 @@
 			return false;
 		}else{
 			if(data.token != '' && data.token != undefined) {
-				$('.token').attr('id',data.token);
+				basePageToken = data.token;
 			}
 
 			if(success == undefined) success = function(data){};
@@ -42,9 +42,9 @@
 		if(serialize === true){
 			var len = options_data.length
 			options_data[len] = {'name':'ver','value':(new Date).valueOf()};
-			if(type.toLocaleLowerCase() == 'post'){	
-				options_data[len+1] = {'name':'token','value':$('.token').attr('id')};
-				options_data[len+2] = {'name':'page_name','value':$('.pname').attr('id')};
+			if(type.toLocaleLowerCase() == 'post'){
+				options_data[len+1] = {'name':'token','value':basePageToken};
+				options_data[len+2] = {'name':'page_name','value':basePageName};
 			}
 			if(callback_name){
 				var len = options_data.length
@@ -53,8 +53,8 @@
 		}else{
 			options_data['ver']=(new Date).valueOf();
 			if(type.toLocaleLowerCase() == 'post'){
-				options_data['token']=$('.token').attr('id');
-				options_data['page_name']=$('.pname').attr('id');
+				options_data['token']=basePageToken;
+				options_data['page_name']=basePageName;
 			}
 			if(callback_name){
 				options_data['callback_name']=callback_name;
