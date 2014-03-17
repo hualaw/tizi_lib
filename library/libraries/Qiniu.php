@@ -142,7 +142,7 @@ class Qiniu {
     }
 
     //返回结果
-    private function qiniu_result($res,$ret=null){
+    protected function qiniu_result($res,$ret=null){
         if ($res !== null) {
             return array('errorcode'=>false,'msg'=>$res);
         } else {
