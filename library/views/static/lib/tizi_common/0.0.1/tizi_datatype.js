@@ -114,6 +114,16 @@ define(function(require, exports) {
                 nullmsg:"请输入文件名称",
                 errormsg:"长度1-50字符之间"
             },
+            studentNames:{
+                datatype:"*",
+                nullmsg:"请输入姓名",
+                errormsg:"至少需要输入一个姓名！"
+            },
+            stuAccName:{
+                datatype:"*",
+                nullmsg:"请输入账号",
+                errormsg:"请输入账号！"
+            },
             radioValid:{
                 datatype:"*"
             }
