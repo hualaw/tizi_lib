@@ -1,5 +1,7 @@
 {$page_name=page_uri()}
 {$page_token=generate_token($page_name)}
+<span class="token" id="{$page_token}"></span>
+<span class="pname" id="{$page_name}"></span>
 <script>
 	var baseUrlName = '{$site_url}',
 		loginUrlName = '{$login_url}',
