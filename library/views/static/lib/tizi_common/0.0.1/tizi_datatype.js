@@ -89,11 +89,6 @@ define(function(require, exports) {
                 nullmsg:"请输入班级编号",
                 errormsg:"长度6-8个字符"
             },
-            stuAccName:{
-                datatype:"*",
-                nullmsg:"请输入账号",
-                errormsg:"请输入账号！"
-            },
             radioValid:{
                 datatype:"*"
             }
