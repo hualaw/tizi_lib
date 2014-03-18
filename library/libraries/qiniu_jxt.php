@@ -105,11 +105,11 @@ class Qiniu_Jxt extends Qiniu {
         return json_decode($img_info, true);
     }
 
-    public function qiniu_img_thumbr($key, $width, $height, $crop_width, $crop_height){
+    public function qiniu_img_thumbr($key, $width, $height){
         $domain = $this->domain;
         $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
         
-        $img_url = $baseUrl . "?imageMogr2/thumbnail/!{$width}x{$height}r|imageMogr2/gravity/Center/crop/{$crop_width}x{$crop_height}";
+        $img_url = $baseUrl . "?imageMogr2/thumbnail/!{$width}x{$height}r";
         //对fopUrl 进行签名，生成privateUrl。 公有bucket 此步可以省去。
         $getPolicy = new Qiniu_RS_GetPolicy();
         $img_url = $getPolicy->MakeRequest($img_url, null);
