@@ -109,7 +109,7 @@ Class CI_Constant {
 	
 	}
 
-	public static function redirect_url($user_type, $redirect_type='login')
+	public static function redirect_url($user_type, $redirect_type='login', $redirect_url='')
 	{
 		if(!$redirect_type) $redirect_type='login';
 		$redirect_url = array(
@@ -129,13 +129,13 @@ Class CI_Constant {
 				self::USER_TYPE_STUDENT => tizi_url("student/homework/home"),
 			    self::USER_TYPE_TEACHER => tizi_url("teacher/paper/question"),
 			    self::USER_TYPE_PARENT => tizi_url("parent/article"),
-			    self::USER_TYPE_RESEARCHER => edu_url('')
+			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
 			'edu' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/homework/home"),
 			    self::USER_TYPE_TEACHER => tizi_url("teacher/paper/question"),
 			    self::USER_TYPE_PARENT => tizi_url("parent/article"),
-			    self::USER_TYPE_RESEARCHER => edu_url('')
+			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
 			'perfect' => array(
 				self::USER_TYPE_STUDENT => login_url("student/user/perfect"),

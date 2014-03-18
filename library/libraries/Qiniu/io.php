@@ -1,7 +1,7 @@
 <?php
 
-require_once("http.php");
-require_once("auth_digest.php");
+require_once(__DIR__ . "/http.php");
+require_once(__DIR__ . "/auth_digest.php");
 
 // ----------------------------------------------------------
 // class Qiniu_PutExtra

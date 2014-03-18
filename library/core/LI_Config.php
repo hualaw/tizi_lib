@@ -10,7 +10,7 @@ class LI_Config extends CI_Config {
 		parent::__construct();
 	}
 
-	function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
+	function load($file = '', $use_sections = TRUE, $fail_gracefully = TRUE)
 	{
 		$file = ($file == '') ? 'config' : str_replace('.php', '', $file);
 		$found = FALSE;
@@ -66,10 +66,7 @@ class LI_Config extends CI_Config {
 					$this->config[$file] = $config;
 				}
 			}
-			else
-			{
-				$this->config = array_merge($this->config, $config);
-			}
+			$this->config = array_merge($this->config, $config);
 
 			$this->is_loaded[] = $file;//$file_path
 			unset($config);
