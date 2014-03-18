@@ -15,6 +15,7 @@ class Session_Model extends LI_Model {
 
 		$this->load->model("question/question_subject_model");
 		$this->load->model("user_data/student_data_model");
+		$this->load->model("user_data/researcher_data_model");
 	}
 
 	/*desc:generate session after login*/
@@ -32,9 +33,11 @@ class Session_Model extends LI_Model {
 				'urname'=>$data['name'],
 				'user_type'=>$data['user_type'],
 				'uname'=>$data['uname'],
+				'student_id'=>$data['student_id'],
 				'avatar'=>$register_data->avatar?$register_data->avatar:0,
 				'register_subject'=>$this->question_subject_model->check_subject($register_data->register_subject,'binding')?$register_data->register_subject:0,
 				'register_grade'=>$this->student_data_model->check_grade($register_data->register_grade)?$register_data->register_grade:0,
+				'register_domain'=>$register_data->register_domain,
 				'login_time'=>time()
 			);
 			
@@ -49,7 +52,7 @@ class Session_Model extends LI_Model {
 		{
 			$errorcode=false;
 		}
-		return array('errorcode'=>$errorcode);
+		return array('errorcode'=>$errorcode,'user_data'=>$user_data);
 	}
 
 	function clear_session()
@@ -69,6 +72,13 @@ class Session_Model extends LI_Model {
 			if(!$name) $name=$user->phone_mask;
 			if(!$name) $name=$user->email;
 
+			$register_domain = '';
+			if($user->user_type == Constant::USER_TYPE_RESEARCHER)
+			{
+				$researcher_data = $this->researcher_data_model->get_researcher_data($user_id);
+				$register_domain = isset($researcher_data->domain_name)?$researcher_data->domain_name:'';
+			}
+
 			$data=array(	
 				'session_id'=>$session_id,
 				'user_id'=>$user_id,
@@ -86,6 +96,7 @@ class Session_Model extends LI_Model {
 					array(
 						'register_subject'=>$user->register_subject,
 						'register_grade'=>$user->register_grade,
+						'register_domain'=>$register_domain,
 						'avatar'=>$user->avatar
 					)
 				)

@@ -1,9 +1,17 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 if (!function_exists('tizi_404')) {
-    function tizi_404($redirect='') {
-        if($redirect) $redirect=urlencode(site_url($redirect));
-        redirect('404/'.$redirect);
+    function tizi_404($redirect = '', $settimeout = true, $status_code = 404) {
+        show_404('',true,array('redirect'=>$redirect,'settimeout'=>$settimeout,'status_code'=>$status_code));
+        /*
+        if($redirect) $redirect = '/'.urlencode($redirect);
+        else $redirect = '/0';
+        if($settimeout) $settimeout = '';
+        else $settimeout = '/0';
+        if($status_code == 404) $status_code = '';
+        else $status_code = '/'.$status_code;
+        redirect('404'.$redirect.$settimeout.$status_code);
+        */
     }   
 }
 
@@ -50,6 +58,15 @@ if (!function_exists('log_statistics')) {
         if($ci->curl->error_code) log_message('error_tizi','2100010:log statistics error: '.strval($ci->curl->error_code),array('data'=>$data));
         return;
     }
+}
+
+//过滤文件/文件夹中的特殊字符
+if(!function_exists('filter_file_name')){
+    function filter_file_name($name){
+        $find = array("\\", "\"","/",":","*","?","<",">","|");
+        $replace = "";
+        return str_replace($find, $replace, $name);
+    }   
 }
 
 if(!function_exists('trans_filesize')){

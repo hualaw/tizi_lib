@@ -7,8 +7,9 @@ class Homework_Assign_Model extends LI_Model{
 
     //判断作业是否属于某个老师, 【是才能 给评语】
     function is_hw_belong($teacher_id,$assignment_id){
-        $sql = "select count(1) as cc from $this->_table where user_id=$teacher_id and id=$assignment_id";
-        $cc = $this->db->query($sql)->row(0)->cc;
+        $sql = "select count(1) as cc from $this->_table where user_id=? and id=?";
+        $arr = array($teacher_id,$assignment_id);
+        $cc = $this->db->query($sql,$arr)->row(0)->cc;
         if($cc) return true;
         return false;
     }
