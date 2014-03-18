@@ -31,7 +31,7 @@ $config['edu_static_url'] = 'http://edu-static.tizi.com/';
 $config['jxt_url'] = 'http://jxt.tizi.com/';
 $config['jxt_static_url'] = 'http://jxt-static.tizi.com/';
 
-$config['zl_url'] = 'http://zl.tizi.com/';
+$config['zl_url'] = 'http://ziliao.tizi.com/';
 $config['zl_static_url'] = 'http://tizi-static.tizi.com/';
 /*
 |--------------------------------------------------------------------------
