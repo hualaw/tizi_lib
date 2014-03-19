@@ -26,7 +26,7 @@ class LI_Input extends CI_Input {
 		{
 			$get = $this->_fetch_from_array($_GET, $index, $xss_clean);
 			if($tags_clean) $get = htmlspecialchars(strip_tags($get));
-			if(!$get && $default) $get = $default;
+			if(!$get && $default !== false) $get = $default;
 			return $get;
 		}
 	}
@@ -64,7 +64,7 @@ class LI_Input extends CI_Input {
 			{
 				$post = trim($this->_fetch_from_array($_POST, $index, $xss_clean));
 				if($tags_clean) $post = htmlspecialchars(strip_tags($post));
-				if(!$post && $default) $post = $default;
+				if(!$post && $default !== false) $post = $default;
 			}
 			return $post;
 		}
