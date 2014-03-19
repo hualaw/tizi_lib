@@ -14,16 +14,16 @@
         <div class="secLogo fl">
            <h2 class="fl">
                <span class="channel">{$researcher['organization']}</span>
-               <span class="info">{$edu_url}{$researcher['domain_name']}</span>
+               <span class="info">
+                {$edu_url}{$researcher['domain_name']}
+                    {if $researcher['is_subscribed'] == 0}
+                    <a class="cBtnNormal subscribe_researcher" href="javascript:;" data="{$researcher['id']}">订阅</a>
+                    {elseif $researcher['is_subscribed'] == 1}
+                    <a class="cBtnSilver" href="javascript:;" data="{$researcher['id']}">已订阅</a>
+                    {else}
+                    {/if}
+                </span>
            </h2>
-            <p class="fl">
-                {if $researcher['is_subscribed'] == 0}
-                <a class="orderBtn subscribe_researcher" href="javascript:;" data="{$researcher['id']}">订阅</a>
-                {elseif $researcher['is_subscribed'] == 1}
-                <a class="orderBtn" href="javascript:;" data="{$researcher['id']}">已订阅</a>
-                {else}
-                {/if}
-            </p>
         </div>
         <!-- <div class="rightTips fr">
             <a href="#" target="_blank" class="stuChannel">学生频道</a>
