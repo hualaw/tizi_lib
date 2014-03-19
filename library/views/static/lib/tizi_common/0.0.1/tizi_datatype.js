@@ -75,9 +75,9 @@ define(function(require, exports) {
             },
             //单位名称
             Oname:{
-                datatype:"*2-20",
+                datatype:"*2-10",
                 nullmsg:"请输入单位名称",
-                errormsg:"长度2-20个字符"
+                errormsg:"长度2-10个字符"
             },
             Classname:{
                 datatype:"*1-12",
