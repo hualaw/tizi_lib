@@ -16,7 +16,7 @@ class LI_Pagination extends CI_Pagination {
 	var $next_link				= FALSE;
 	var $prev_link				= FALSE;
 	var $ajax_func              = 'ajax_page';
-	var $common_func			= 'Common.pagination(this);';
+	var $common_func			= 'if(typeof Common == "function"){Common.pagination(this);}';
 	
 	var $per_page				= Constant::DEFAULT_PER_PAGE;
 	var $page_limit				= Constant::DEFAULT_PAGE_LIMIT;
