@@ -115,6 +115,7 @@ class Qiniu_Jxt extends Qiniu {
         $img_url = $getPolicy->MakeRequest($img_url, null);
         return $img_url;
     }
+    
     public function show_file($key){
         $domain = $this->domain;
         $client = new Qiniu_MacHttpClient(null);
@@ -123,5 +124,4 @@ class Qiniu_Jxt extends Qiniu {
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
         return $privateUrl;
     }
-
 }
