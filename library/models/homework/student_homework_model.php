@@ -42,50 +42,6 @@ class Student_Homework_Model extends LI_Model{
         return false;        
     }
 
-    public function save_online_question($s_work_id, $question_id, $input, $answer){
-    
-        $question = $this->db
-            ->query("select * from `student_homework` where `id` = {$s_work_id}")
-            ->row_array();
-
-        $s_answer = array();
-
-        if(!empty($question['s_answer'])){
-            $s_answer = unserialize($question['s_answer']);
-            if(isset($s_answer['online'][$question_id]))return false;
-        }
-        $s_answer['online'][$question_id] = array(
-            'question_id'=>$question_id,
-            'answer'=>$answer,
-            'input'=>$input
-        );
-        $s_answer_str = serialize($s_answer);
-        if($this->db->query("update `student_homework` set `s_answer` = '{$s_answer}' where `id` = {$s_work_id}")){
-            return true;
-        }
-        return false;
-    }
-
-    public function save_offline_question($s_work_id, $question_id){
-
-        $question = $this->db
-            ->query("select * from `student_homework` where `id` = {$s_work_id}")
-            ->row_array();
-
-        $s_answer = array();
-
-        if(!empty($question['s_answer'])){
-            $s_answer = unserialize($question['s_answer']);
-            if(in_array($question_id, $s_answer['offline']))return false;
-        }
-        $s_answer['offline'][] = $question_id;
-        $s_answer_str = serialize($s_answer);
-        if($this->db->query("update `student_homework` set `s_answer` = '{$s_answer}' where `id` = {$s_work_id}")){
-            return true;
-        }
-        return false;
-    }
-
     //统计完成作业人数
     public function count_assign_complete($aid){
 
@@ -268,7 +224,7 @@ class Student_Homework_Model extends LI_Model{
         return false;
     }
     public function get_student_homework($uid,$aid){
-        return $this->db->query("select a.*,a.`id` as s_work_id,b.`name`,b.`paper_id`,b.`start_time` as begin_time,b.`deadline`,b.`get_answer_way`,b.`description` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` where a.`student_id` = $uid and a.`assignment_id`= $aid")->row();
+        return $this->db->query("select a.*,a.`id` as s_work_id,b.`name`,b.`paper_id`,b.`start_time` as begin_time,b.`deadline`,b.`get_answer_way`,b.`description`,b.`online` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` where a.`student_id` = $uid and a.`assignment_id`= $aid")->row();
     }
     /**
      * @info 统计未完成题的数量
