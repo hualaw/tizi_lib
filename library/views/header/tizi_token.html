@@ -1,7 +1,5 @@
 {$page_name=page_uri()}
 {$page_token=generate_token($page_name)}
-<span class="token" id="{$page_token}"></span>
-<span class="pname" id="{$page_name}"></span>
 <script>
 	var baseUrlName = '{$site_url}',
 		loginUrlName = '{$login_url}',
@@ -40,6 +38,7 @@
 	        "tizi_commonajax": libPath + "tizi_common/0.0.1/tizi_commonajax",
 	        "tizi_msg": libPath + "tizi_common/0.0.1/tizi_msg",
 	        "tizi_msgsend": libPath + "tizi_common/0.0.1/tizi_msgsend",
+	        "tizi_notice": libPath + "tizi_common/0.0.1/tizi_notice",
 	        "tizi_feedback": libPath + "tizi_common/0.0.1/tizi_feedback"
 	        //梯子公共方法结束
 		}
