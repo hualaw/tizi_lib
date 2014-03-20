@@ -13,9 +13,9 @@
         </h1>
         <div class="secLogo fl">
            <h2 class="fl">
-               <span class="channel">{$researcher['organization']}</span>
+               <span class="channel"><a href="{$edu_url}{$researcher['domain_name']}">{$researcher['organization']}</a></span>
                <span class="info">
-                {$edu_url}{$researcher['domain_name']}
+                <a href="{$edu_url}{$researcher['domain_name']}">{$edu_url}{$researcher['domain_name']}</a>
                     {if $researcher['is_subscribed'] == 0}
                     <a class="cBtnNormal subscribe_researcher" href="javascript:;" data="{$researcher['id']}">订阅</a>
                     {elseif $researcher['is_subscribed'] == 1}
