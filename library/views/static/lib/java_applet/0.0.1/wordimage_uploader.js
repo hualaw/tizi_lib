@@ -77,8 +77,8 @@ function WordImageUploader(s_url,appletUrl)
     }
 
     _this.uploadLocalFile = function(filename) {
-		var token=$('.token').attr('id');
-		var page_name=$('.pname').attr('id');
+		var token=basePageToken;
+		var page_name=basePageName;
         var appletObj = document.getElementById("wordImageApplet");
         var result = appletObj.upload(sUrl,filename,page_name,token,$.cookies.get(baseSessID));
         return result;

@@ -50,8 +50,8 @@ class LI_Router extends CI_Router {
 		// Set the default controller so we can display it in the event
 		// the URI doesn't correlated to a valid controller.
 		//$this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);
-
-		$x = explode('.', $_SERVER['HTTP_HOST']);
+                
+		$x = isset($_SERVER['HTTP_HOST']) ? explode('.', $_SERVER['HTTP_HOST']) : array();
 		$site = isset($x[count($x)-3])?strtolower(trim($x[count($x)-3])):'www';
 
 		$this->default_controller = ( ! isset($this->routes['default_controller']) OR $this->routes['default_controller'] == '') ? FALSE : strtolower($this->routes['default_controller']);
