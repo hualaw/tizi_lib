@@ -34,6 +34,20 @@ class LI_Router extends CI_Router {
 			}
 		}
 
+		$routes = array();
+		// Load the routes.php file.
+		if (defined('ENVIRONMENT') AND is_file(LIBPATH.'config/'.ENVIRONMENT.'/routes.php'))
+		{
+			include(LIBPATH.'config/'.ENVIRONMENT.'/routes.php');
+		}
+		elseif (is_file(LIBPATH.'config/routes.php'))
+		{
+			include(LIBPATH.'config/routes.php');
+		}
+
+		$lib_routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
+
+		$routes = array();
 		// Load the routes.php file.
 		if (defined('ENVIRONMENT') AND is_file(APPPATH.'config/'.ENVIRONMENT.'/routes.php'))
 		{
@@ -44,7 +58,9 @@ class LI_Router extends CI_Router {
 			include(APPPATH.'config/routes.php');
 		}
 
-		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
+		$app_routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
+
+		$this->routes = array_merge($app_routes, $lib_routes);
 		unset($route);
 
 		// Set the default controller so we can display it in the event
