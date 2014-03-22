@@ -32,7 +32,8 @@ class Ab_Jxt_Model extends JXT_Model {
         );
         
         isset($data['student_name']) && $data['student_name'] 
-                && $map['student_name'] = trim($data['student_name']) 
+                && $map['student_name'] = trim($data['student_name']);
+        isset($data['student_name']) && $data['student_name'] 
                 && $map['initial'] = get_initial(trim($data['student_name']));
         isset($data['parent_name']) && $data['parent_name'] && $map['parent_name'] = trim($data['parent_name']);
         
