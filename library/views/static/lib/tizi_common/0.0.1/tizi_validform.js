@@ -36,7 +36,7 @@ define(function(require, exports) {
         if(captcha_name == undefined) captcha_name = basePageName;
         var img = $('.'+captcha_name).siblings("img");
         var now = (new Date).valueOf();
-        var url =  loginUrlName + "captcha?captcha_name="+captcha_name+"&ver=" + now;
+        var url =  baseUrlName + "captcha?captcha_name="+captcha_name+"&ver=" + now;
         img.attr('src',url);
     };
     //更换验证码
@@ -57,9 +57,9 @@ define(function(require, exports) {
         if(checkcode == undefined) checkcode = $('.'+captcha_name+'Word').val();
         if(keep_code == undefined) keep_code = 1;
         $.tizi_ajax({
-            url: loginUrlName + "check_captcha",
+            url: baseUrlName + "check_captcha",
             type: 'get',
-            dataType: "jsonp",
+            dataType: "json",
             async:false,
             data:{'check_code':checkcode,'keep_code':keep_code,'captcha_name':captcha_name,ver:(new Date).valueOf()},
             success:function(data){
