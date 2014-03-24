@@ -60,7 +60,7 @@ class LI_Router extends CI_Router {
 
 		$app_routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;
 
-		$this->routes = array_merge($app_routes, $lib_routes);
+		$this->routes = array_merge($lib_routes, $app_routes);
 		unset($route);
 
 		// Set the default controller so we can display it in the event
