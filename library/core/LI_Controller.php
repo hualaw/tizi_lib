@@ -149,6 +149,7 @@ class LI_Controller extends CI_Controller{
         if($user_name=='') $user_name="您好!!!";
         $this->smarty->assign('user_name',$user_name);
         $this->smarty->assign('user_type',$this->tizi_utype);
+        $this->smarty->assign('user_stuid',$this->tizi_stuid);
 
 		//generate global errormsg
         if(!$this->_errormsg) $this->_errormsg="";
