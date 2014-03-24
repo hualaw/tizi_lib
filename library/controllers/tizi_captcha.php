@@ -1,7 +1,6 @@
-<?php
-if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Cap extends MY_Controller {
+class Tizi_Captcha extends MY_Controller {
 
     public function __construct()
     {
