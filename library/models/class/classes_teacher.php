@@ -5,6 +5,12 @@ class Classes_Teacher extends LI_Model{
     public function __construct(){
         parent::__construct();
     }
+    
+    public function update_class_subject($class_id, $teacher_id, $subject_id){
+		$this->db->query("update classes_teacher set subject_id=? where class_id=? and teacher_id=?", 
+			array($subject_id, $class_id, $teacher_id));
+		return $this->db->affected_rows();
+	}
 	
 	/**
 	 * 获取一个老师加入的班级
