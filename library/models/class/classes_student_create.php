@@ -135,4 +135,11 @@ class classes_student_create extends LI_Model{
 			class_id=?", array($class_id))->result_array();
 		return intval($res[0]["num"]);
 	}
+	
+	//所有未登陆的数量
+	public function ulog_total($class_id){
+		$res = $this->db->query("select count(*) as num from classes_student_create where 
+			class_id=? and user_id=0", array($class_id))->result_array();
+		return intval($res[0]["num"]);
+	}
 }
