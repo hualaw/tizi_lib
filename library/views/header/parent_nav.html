@@ -4,9 +4,11 @@
 			<li>
 				<a href="{$home_parent}" class="navHome">首页</a>
 			</li>
+			{if $user_type eq $constant.user_type_parent}
 			<li>
 				<a href="{$login_url}parent/user/center" class="navMemberCenter">个人中心</a>
 			</li>
+			{/if}
 			<li>
 				<a href="{$tizi_url}parent/p3/p3class" class="navParClass">家长课堂</a>
 			</li>
