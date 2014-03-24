@@ -1,7 +1,7 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Login extends MY_Controller {
+class Tizi_Login extends MY_Controller {
 	
 	private $_smarty_dir="login/";
 
