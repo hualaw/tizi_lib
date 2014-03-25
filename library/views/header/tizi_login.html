@@ -1,0 +1,32 @@
+<form action="{$login_url}login/submit" class="indexLoginForm" method="post" dataType="jsonp" onSubmit="return false;">
+    <ul>
+        <li class="posr">
+            <input type="text" name="username" tabindex="1" class="cInput yh username" placeholder='用户名/学号/手机号/邮箱' />
+            <div class="ValidformInfo">
+              <span class="Validform_checktip"></span>
+              <span class="dec">
+                <s class="dec1">&#9670;</s>
+                <s class="dec2">&#9670;</s>
+              </span>
+            </div>
+        </li>
+        <li class="cf posr">
+            <input type="password" name="password" tabindex="2" class="cInput yh password fl" placeholder='密码' />
+            <div class="ValidformInfo">
+              <span class="Validform_checktip"></span>
+              <span class="dec">
+                <s class="dec1">&#9670;</s>
+                <s class="dec2">&#9670;</s>
+              </span>
+            </div>
+        </li>
+    </ul>
+    <a href="{$login_url}forgot" class="fogetPw">忘记密码？</a>
+    <div class="cf bottomLogin">
+        <input type="hidden" name="redirect" value="{if isset($redirect)}{$redirect}{/if}" />
+        <input type="submit" class="cBtnNormal submitBtn fl yh" tabindex="3" value="登录" />
+        {if !isset($hide_register) or !$hide_register}
+        <a href="{$login_url}register{if isset($register_redirect)}/{urlencode($register_redirect)}{/if}" target="_blank" class="fr yh aReg cBtnSilver" >新用户注册</a>
+        {/if}
+    </div>
+</form>

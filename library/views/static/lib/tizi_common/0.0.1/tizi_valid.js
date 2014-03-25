@@ -34,8 +34,23 @@ define(function(require, exports) {
             ajaxPost: true,
             callback: function(data) {
                 require("tizi_validform").reset_md5('.indexLoginForm');
-                // 异步提交
-                callback_login(data);
+                if(callback_login == undefined){
+                    if(data.errorcode){
+                        if(data.redirect == 'reload'){
+                            window.location.reload();
+                        }else if(data.redirect){
+                            window.location.href=data.redirect;
+                        }
+                    }else{
+                        // 请求dialog插件
+                        require.async("tiziDialog",function(){
+                            $.tiziDialog({content:data.error});
+                        });
+                    }
+                }else{
+                    callback_login(data);
+                }
+
             }
         });
         _Form.addRule([{
