@@ -34,7 +34,6 @@ define(function(require, exports) {
             ajaxPost: true,
             callback: function(data) {
                 require("tizi_validform").reset_md5('.indexLoginForm');
-                // 异步提交
                 callback_login(data);
             }
         });

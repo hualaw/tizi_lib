@@ -17,14 +17,14 @@ class Tizi_Login extends MY_Controller {
 	{
 		$username=$this->input->post("username",true);
 		$password=$this->input->post("password",true);
-		$redirect_type=$this->input->post("redirect",true);
+		$redirect_type=$this->input->post("redirect",true,false,'login');
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
 
 		$user_id=$this->login_model->login($username,$password);
 		if($user_id['errorcode']==Constant::LOGIN_SUCCESS)
 		{
-			$remember=$this->input->post('remember');
+			$remember=$this->input->post('remember',true);
 			if($remember) $cookie_time=Constant::COOKIE_REMEMBER_EXPIRE_TIME;
 			else $cookie_time=Constant::COOKIE_EXPIRE_TIME;
 			$session=$this->session_model->generate_session($user_id['user_id']);
@@ -32,7 +32,7 @@ class Tizi_Login extends MY_Controller {
 			$this->session_model->clear_mscookie();
 			if($user_id['error']) $submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 			
-			$submit['redirect']=$this->get_redirect($user_id['user_type'],$session['user_data'],$redirect_type);
+			$submit['redirect']=$this->get_login_redirect($user_id['user_type'],$session['user_data'],$redirect_type);
 			$submit['errorcode']=true;
 		}
 		else if($user_id['errorcode'] != Constant::LOGIN_INVALID_TYPE)
@@ -163,8 +163,17 @@ class Tizi_Login extends MY_Controller {
 
 	public function check_login()
     {
+    	$redirect=$this->input->post('redirect',true);
+    	$html='';
         $errorcode=($this->tizi_uid>0);
-        echo json_token(array('errorcode'=>$errorcode));
+        if(!$errorcode)
+        {
+	        $this->smarty->assign('login_url',login_url());
+			$this->smarty->assign('redirect',$redirect);
+			$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
+			$redirect='';
+		}
+        echo json_token(array('errorcode'=>$errorcode,'html'=>$html,'redirect'=>$redirect));
         exit();
     }
 
@@ -202,6 +211,27 @@ class Tizi_Login extends MY_Controller {
             case Constant::USER_TYPE_RESEARCHER:
             default:							$redirect=redirect_url($user_type,$redirect_type);
             									break;
+		}
+		return $redirect;
+   	}
+
+   	private function get_login_redirect($user_type,$user_data,$redirect_type)
+   	{
+   		if(stripos($redirect_type,'http://')!==false)
+		{
+			$redirect=$redirect_type;
+		}
+		else if($redirect_type==='none')
+		{
+			$redirect='';
+		}
+		else if($redirect_type==='reload')
+		{
+			$redirect='reload';
+		}
+		else
+		{
+			$redirect=$this->get_redirect($user_type,$user_data,$redirect_type);
 		}
 		return $redirect;
    	}
