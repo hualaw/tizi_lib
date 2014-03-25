@@ -171,8 +171,9 @@ class Tizi_Login extends MY_Controller {
 	        $this->smarty->assign('login_url',login_url());
 			$this->smarty->assign('redirect',$redirect);
 			$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
+			$redirect='';
 		}
-        echo json_token(array('errorcode'=>$errorcode,'html'=>$html));
+        echo json_token(array('errorcode'=>$errorcode,'html'=>$html,'redirect'=>$redirect));
         exit();
     }
 
@@ -216,7 +217,7 @@ class Tizi_Login extends MY_Controller {
 
    	private function get_login_redirect($user_type,$user_data,$redirect_type)
    	{
-   		if(strpos('http://',$redirect_type)!==false)
+   		if(stripos($redirect_type,'http://')!==false)
 		{
 			$redirect=$redirect_type;
 		}
