@@ -24,7 +24,7 @@ class Tizi_Login extends MY_Controller {
 		$user_id=$this->login_model->login($username,$password);
 		if($user_id['errorcode']==Constant::LOGIN_SUCCESS)
 		{
-			$remember=$this->input->post('remember');
+			$remember=$this->input->post('remember',true);
 			if($remember) $cookie_time=Constant::COOKIE_REMEMBER_EXPIRE_TIME;
 			else $cookie_time=Constant::COOKIE_EXPIRE_TIME;
 			$session=$this->session_model->generate_session($user_id['user_id']);
@@ -32,7 +32,22 @@ class Tizi_Login extends MY_Controller {
 			$this->session_model->clear_mscookie();
 			if($user_id['error']) $submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 			
-			$submit['redirect']=$this->get_redirect($user_id['user_type'],$session['user_data'],$redirect_type);
+			if(strpos('http://',$redirect_type)!==false)
+			{
+				$submit['redirect']=$redirect_type;
+			}
+			else if($redirect_type==='none')
+			{
+				$submit['redirect']='';
+			}
+			else if($redirect_type==='reload')
+			{
+				$submit['redirect']='reload';
+			}
+			else
+			{
+				$submit['redirect']=$this->get_redirect($user_id['user_type'],$session['user_data'],$redirect_type);
+			}
 			$submit['errorcode']=true;
 		}
 		else if($user_id['errorcode'] != Constant::LOGIN_INVALID_TYPE)

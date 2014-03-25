@@ -295,7 +295,10 @@ class LI_Controller extends CI_Controller{
 			    {
 			    	if($this->tizi_ajax)
 					{
-				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'token'=>false,'code'=>1));
+						$this->smarty->assign('login_url',login_url());
+						$this->smarty->assign('redirect','reload');
+						$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
+				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'html'=>$html,'token'=>false,'code'=>1));
 					    exit();
 					}
 					else
