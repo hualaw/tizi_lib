@@ -1,6 +1,7 @@
 define(function(require, exports) {
     // 请求tizi_ajax
     require("tizi_ajax");
+    require('tiziDialog');
     // 请求验证库
     require("validForm");
     // 请求公共验证信息
@@ -40,6 +41,8 @@ define(function(require, exports) {
                             window.location.reload();
                         }else if(data.redirect){
                             window.location.href=data.redirect;
+                        }else{
+                            if($.tiziDialog.list['loginFormID']) $.tiziDialog.list['loginFormID'].close()
                         }
                     }else{
                         // 请求dialog插件
