@@ -17,7 +17,7 @@ class Tizi_Login extends MY_Controller {
 	{
 		$username=$this->input->post("username",true);
 		$password=$this->input->post("password",true);
-		$redirect_type=$this->input->post("redirect",true);
+		$redirect_type=$this->input->post("redirect",true,false,'login');
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
 
