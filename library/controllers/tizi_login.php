@@ -32,22 +32,7 @@ class Tizi_Login extends MY_Controller {
 			$this->session_model->clear_mscookie();
 			if($user_id['error']) $submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 			
-			if(strpos('http://',$redirect_type)!==false)
-			{
-				$submit['redirect']=$redirect_type;
-			}
-			else if($redirect_type==='none')
-			{
-				$submit['redirect']='';
-			}
-			else if($redirect_type==='reload')
-			{
-				$submit['redirect']='reload';
-			}
-			else
-			{
-				$submit['redirect']=$this->get_redirect($user_id['user_type'],$session['user_data'],$redirect_type);
-			}
+			$submit['redirect']=$this->get_login_redirect($user_id['user_type'],$session['user_data'],$redirect_type);
 			$submit['errorcode']=true;
 		}
 		else if($user_id['errorcode'] != Constant::LOGIN_INVALID_TYPE)
@@ -178,8 +163,16 @@ class Tizi_Login extends MY_Controller {
 
 	public function check_login()
     {
+    	$redirect=$this->input->post('redirect',true);
+    	$html='';
         $errorcode=($this->tizi_uid>0);
-        echo json_token(array('errorcode'=>$errorcode));
+        if(!$errorcode)
+        {
+	        $this->smarty->assign('login_url',login_url());
+			$this->smarty->assign('redirect',$redirect);
+			$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
+		}
+        echo json_token(array('errorcode'=>$errorcode,'html'=>$html));
         exit();
     }
 
@@ -217,6 +210,27 @@ class Tizi_Login extends MY_Controller {
             case Constant::USER_TYPE_RESEARCHER:
             default:							$redirect=redirect_url($user_type,$redirect_type);
             									break;
+		}
+		return $redirect;
+   	}
+
+   	private function get_login_redirect($user_type,$user_data,$redirect_type)
+   	{
+   		if(strpos('http://',$redirect_type)!==false)
+		{
+			$redirect=$redirect_type;
+		}
+		else if($redirect_type==='none')
+		{
+			$redirect='';
+		}
+		else if($redirect_type==='reload')
+		{
+			$redirect='reload';
+		}
+		else
+		{
+			$redirect=$this->get_redirect($user_type,$user_data,$redirect_type);
 		}
 		return $redirect;
    	}
