@@ -16,27 +16,32 @@ define(function(require, exports) {
         });
     }
 
-    exports.loginCheck = function()
+    exports.loginCheckClick = function()
     {
         $('.loginCheck').live('click',function(){
             var redirect = $(this).attr('dest');
-            $.tizi_ajax({
-                url: baseUrlName + 'login/check',
-                type: "POST",
-                dataType: "json",
-                data: {'redirect':redirect},
-                success: function(data) {
-                    if(data.errorcode){
-                        if(data.redirect == 'reload'){
-                            window.location.reload();
-                        }else if(data.redirect){
-                            window.location.href=data.redirect;
-                        }
-                    }else{
-                        exports.loginForm(data.html);
+            exports.loginCheck(redirect);
+        });
+    }
+
+    exports.loginCheck = function(redirect)
+    {
+        $.tizi_ajax({
+            url: baseUrlName + 'login/check',
+            type: "POST",
+            dataType: "json",
+            data: {'redirect':redirect},
+            success: function(data) {
+                if(data.errorcode){
+                    if(data.redirect == 'reload'){
+                        window.location.reload();
+                    }else if(data.redirect){
+                        window.location.href=data.redirect;
                     }
-                }  
-            });
+                }else{
+                    exports.loginForm(data.html);
+                }
+            }  
         });
     }
 });
