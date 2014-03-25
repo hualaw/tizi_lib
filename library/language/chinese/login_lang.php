@@ -1,5 +1,5 @@
 <?php
-$lang['default_error']="系统繁忙，请稍后再试";
+$lang['default_error']=$lang['error_default']="系统繁忙，请稍后再试";
 $lang['default_error_login']="页面已失效，请您首先登录";
 $lang['default_error_token']="页面已失效，请您刷新页面";//"对话框超时";
 
