@@ -22,7 +22,7 @@ define(function(require, exports) {
             var redirect = $(this).attr('dest');
             $.tizi_ajax({
                 url: baseUrlName + 'login/check',
-                type: "POST",  
+                type: "POST",
                 dataType: "json",
                 data: {'redirect':redirect},
                 success: function(data) {
