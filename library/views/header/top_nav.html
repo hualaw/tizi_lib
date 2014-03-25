@@ -14,10 +14,10 @@
 {if isset($navmode) && $navmode eq 'paper'}
     {if $namespace eq 'paper'}
     <span class="title">试卷选题</span>
-    <a href="{$site_url}teacher/paper/hall" class="">返回上一页</a>
+    <a href="{$site_url}teacher/paper/center" class="returnPrevA">返回上一页</a>
     {else if $namespace eq 'homework'}
     <span class="title">作业选题</span>
-    <a href="{$site_url}teacher/homework/center" class="">返回上一页</a>
+    <a href="{$site_url}teacher/homework/center" class="returnPrevA">返回上一页</a>
     {/if}
 {else}
     <a href="{$tizi_url}">梯子网首页</a>
