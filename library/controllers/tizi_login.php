@@ -229,6 +229,10 @@ class Tizi_Login extends MY_Controller {
 		{
 			$redirect=$redirect_type;
 		}
+		else if($redirect_type==='function')
+		{
+			$redirect='reload';
+		}
 		else
 		{
 			$redirect=$this->get_redirect($user_type,$user_data,$redirect_type);
