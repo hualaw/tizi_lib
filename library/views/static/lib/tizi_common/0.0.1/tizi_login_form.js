@@ -30,7 +30,7 @@ define(function(require, exports) {
             url: loginUrlName + 'login/check',
             type: "get",
             dataType: "jsonp",
-            data: {'redirect':redirect},
+            data: {'redirect':redirect,'href':window.location.href},
             success: function(data) {
                 if(data.errorcode){
                     if(data.redirect == 'reload'){
