@@ -163,7 +163,7 @@ class Tizi_Login extends MY_Controller {
 
 	public function check_login()
     {
-    	$redirect=$this->input->post('redirect',true);
+    	$redirect=$this->input->get('redirect',true);
     	$html='';
         $errorcode=($this->tizi_uid>0);
         if(!$errorcode)
