@@ -35,6 +35,7 @@ class Oss_Upload {
 		$this->_oss_domain		= isset($configs["oss_domain"]) ? 
 							$configs["oss_domain"] : $ci->config->item("oss_domain");
 		$this->_oss = new ALIOSS($this->_oss_access_id, $this->_oss_access_key, $this->_oss_domain);
+		$this->_oss->set_debug_mode(false); //turn off debug info output to stderr
 	}
 	
 	public function content_upload($content, $object){
