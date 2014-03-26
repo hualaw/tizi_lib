@@ -27,14 +27,17 @@ define(function(require, exports) {
     exports.loginCheck = function(redirect)
     {
         $.tizi_ajax({
-            url: baseUrlName + 'login/check',
-            type: "POST",
-            dataType: "json",
+            url: loginUrlName + 'login/check',
+            type: "get",
+            dataType: "jsonp",
             data: {'redirect':redirect},
             success: function(data) {
                 if(data.errorcode){
                     if(data.redirect == 'reload'){
                         window.location.reload();
+                    }else if(data.redirect.substr(0,9) == 'callback:'){
+                        var callback = data.redirect.substr(9);
+                        seajs.use('module/common/ajax/unlogin/' + callback);
                     }else if(data.redirect){
                         window.location.href=data.redirect;
                     }
