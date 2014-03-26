@@ -295,7 +295,7 @@ class LI_Controller extends CI_Controller{
 			    {
 			    	if($this->tizi_ajax)
 					{
-						$redirect=$this->input->post('redirect',true,false,'reload');
+						$redirect=$this->input->get_post('redirect',true,false,'reload');
 						$this->smarty->assign('login_url',login_url());
 						$this->smarty->assign('redirect',$redirect);
 						$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
