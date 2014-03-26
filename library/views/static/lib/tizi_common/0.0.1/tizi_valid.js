@@ -37,12 +37,15 @@ define(function(require, exports) {
                 require("tizi_validform").reset_md5('.indexLoginForm');
                 if(callback_login == undefined){
                     if(data.errorcode){
+                        if($.tiziDialog.list['loginFormID']) $.tiziDialog.list['loginFormID'].close();
                         if(data.redirect == 'reload'){
                             window.location.reload();
-                        }else if(data.redirect){
+                        }else if(data.redirect.substr(0,9) == 'callback:'){
+                            var callback = data.redirect.substr(9);
+                            seajs.use('module/common/ajax/unlogin/' + callback);
+                        }
+                        else if(data.redirect){
                             window.location.href=data.redirect;
-                        }else{
-                            if($.tiziDialog.list['loginFormID']) $.tiziDialog.list['loginFormID'].close()
                         }
                     }else{
                         // 请求dialog插件

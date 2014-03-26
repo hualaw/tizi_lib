@@ -35,6 +35,9 @@ define(function(require, exports) {
                 if(data.errorcode){
                     if(data.redirect == 'reload'){
                         window.location.reload();
+                    }else if(data.redirect.substr(0,9) == 'callback:'){
+                        var callback = data.redirect.substr(9);
+                        seajs.use('module/common/ajax/unlogin/' + callback);
                     }else if(data.redirect){
                         window.location.href=data.redirect;
                     }
