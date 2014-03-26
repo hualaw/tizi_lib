@@ -225,9 +225,9 @@ class Tizi_Login extends MY_Controller {
 		{
 			$redirect='';
 		}
-		else if($redirect_type==='reload')
+		else if(stripos($redirect_type,'http://')!==false || $redirect_type==='reload' || stripos($redirect_type,'function')!==false)
 		{
-			$redirect='reload';
+			$redirect=$redirect_type;
 		}
 		else
 		{
