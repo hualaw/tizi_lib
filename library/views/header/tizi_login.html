@@ -26,7 +26,7 @@
         <input type="hidden" name="redirect" value="{if isset($redirect)}{$redirect}{/if}" />
         <input type="submit" class="cBtnNormal submitBtn fl yh" tabindex="3" value="登录" />
         {if !isset($hide_register) or !$hide_register}
-        <a href="{$login_url}register{if isset($register_redirect)}/{urlencode($register_redirect)}{/if}" target="_blank" class="fr yh aReg cBtnSilver" >新用户注册</a>
+        <a href="{$login_url}register{if isset($reg_redirect) && $reg_redirect}/{urlencode($reg_redirect)}{else if isset($redirect) && $redirect}/{urlencode($redirect)}{/if}" target="_blank" class="fr yh aReg cBtnSilver" >新用户注册</a>
         {/if}
     </div>
 </form>
