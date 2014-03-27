@@ -324,7 +324,7 @@ class LI_Controller extends CI_Controller{
 			{
 				if(!empty($this->_segment['an']))
 				{
-	    			//$this->binding();
+	    			//$this->bind_check();
 	    		}
 	    	}
 	    }
