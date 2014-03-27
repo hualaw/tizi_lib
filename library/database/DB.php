@@ -124,7 +124,7 @@ function &DB($params = '', $active_record_override = NULL)
 		$active_record = $active_record_override;
 	}
 
-	require_once(BASEPATH.'database/DB_driver.php');
+	require_once(LIBPATH.'database/DB_driver.php');
 
 	if ( ! isset($active_record) OR $active_record == TRUE)
 	{
