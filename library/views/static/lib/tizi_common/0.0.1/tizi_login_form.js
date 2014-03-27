@@ -24,18 +24,20 @@ define(function(require, exports) {
         });
     }
 
-    exports.loginCheck = function(redirect)
+    exports.loginCheck = function(redirect,fn)
     {
         $.tizi_ajax({
             url: loginUrlName + 'login/check',
             type: "get",
             dataType: "jsonp",
-            data: {'redirect':redirect},
+            data: {'redirect':redirect,'href':window.location.href},
             success: function(data) {
                 if(data.errorcode){
                     if(data.redirect == 'reload'){
                         window.location.reload();
-                    }else if(data.redirect.substr(0,9) == 'callback:'){
+                    }else if(data.redirect == 'function'){
+						fn();
+					}else if(data.redirect.substr(0,9) == 'callback:'){
                         var callback = data.redirect.substr(9);
                         seajs.use('module/common/ajax/unlogin/' + callback);
                     }else if(data.redirect){
@@ -47,4 +49,5 @@ define(function(require, exports) {
             }  
         });
     }
+	
 });

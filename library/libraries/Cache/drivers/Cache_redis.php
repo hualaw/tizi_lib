@@ -253,7 +253,7 @@ class CI_Cache_redis extends CI_Driver
 		
 		try
 		{
-			$return = $redis->connect($config['host'], $config['port'], $config['timeout']);
+			$return = $redis->pconnect($config['host'], $config['port'], $config['timeout']);
 		}
 		catch (RedisException $e)
 		{
