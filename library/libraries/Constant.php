@@ -136,13 +136,13 @@ Class CI_Constant {
 			'tizi' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 			    self::USER_TYPE_TEACHER => tizi_url(),
-			    self::USER_TYPE_PARENT => tizi_url("parent/p3"),
+			    self::USER_TYPE_PARENT => tizi_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
 			'edu' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 			    self::USER_TYPE_TEACHER => tizi_url(),
-			    self::USER_TYPE_PARENT => tizi_url("parent/p3"),
+			    self::USER_TYPE_PARENT => tizi_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
 			'perfect' => array(
