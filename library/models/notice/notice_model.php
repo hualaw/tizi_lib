@@ -5,7 +5,7 @@
  *  @author  huangjun
  *	@version 1.0
  */
-class Notice_Model extends LI_Model {  
+class Notice_Model extends CI_Model {  
 	/**
 	 * 消息已读和未读记录的score分界值
 	 */
