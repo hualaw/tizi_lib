@@ -180,6 +180,21 @@ class Tizi_Login extends MY_Controller {
         exit();
     }
 
+    public function check_logout()
+    {
+    	$redirect=$this->input->get('redirect',true);
+        $errorcode=($this->tizi_uid>0);
+        if($errorcode)
+        {
+        	$this->session_model->clear_session();
+			$this->session_model->clear_cookie();
+			$this->session_model->clear_current_dir_cookie();
+        	if(strpos($redirect,'http://')!==false) $redirect='';
+		}
+        echo json_token(array('errorcode'=>$errorcode,'redirect'=>$redirect));
+        exit();
+    }
+
 	private function check_captcha()
     {
         $errorcode=false;
