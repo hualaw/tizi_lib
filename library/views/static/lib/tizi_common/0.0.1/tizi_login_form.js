@@ -50,7 +50,7 @@ define(function(require, exports) {
         });
     }
 	
-    exports.loginCheckClick = function()
+    exports.logoutCheckClick = function()
     {
         $('.logoutCheck').live('click',function(){
             var redirect = $(this).attr('dest');
