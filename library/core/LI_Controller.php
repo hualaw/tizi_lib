@@ -104,6 +104,8 @@ class LI_Controller extends CI_Controller{
         $edu_url=edu_url();
         $jxt_url=jxt_url();
         $zl_url=zl_url();
+        $jia_url=jia_url();
+        $xue_url=xue_url();
         $static_url=static_url($this->site);
         $static_base_url=static_url('base');
 
@@ -118,6 +120,8 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('edu_url', $edu_url);
         $this->smarty->assign('jxt_url', $jxt_url);
         $this->smarty->assign('zl_url', $zl_url);
+        $this->smarty->assign('jia_url', $jia_url);
+        $this->smarty->assign('xue_url', $xue_url);
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
@@ -139,6 +143,8 @@ class LI_Controller extends CI_Controller{
     	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
    		$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
    		$this->smarty->assign('home_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,'tizi'));
+
+   		$this->smarty->assign('home_zl', zl_url('zl/home'));
 
    		$this->smarty->assign('base_avatar', $avatar_url);
    		$this->smarty->assign('constant', $this->user_constant);
