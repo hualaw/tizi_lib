@@ -69,6 +69,7 @@ class CI_DB_driver {
 	var $stmt_id;
 	var $curs_id;
 	var $limit_used;
+	var $sql_log_file = "/tmp/sql.log";
 
 
 
@@ -455,7 +456,7 @@ class CI_DB_driver {
 		{
 			$debug_sql = preg_replace("/\s\s+/", "", $sql);
 			$debug_sql = str_replace("\n", " ", $debug_sql);
-			error_log($debug_sql."\n", 3, "/tmp/sql.log");
+			error_log($_SERVER['REQUEST_URI']."\t".$debug_sql."\n", 3, $this->sql_log_file);
 		}
 		
 		return $this->_execute($sql);
