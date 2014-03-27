@@ -456,7 +456,7 @@ class CI_DB_driver {
 		{
 			$debug_sql = preg_replace("/\s\s+/", "", $sql);
 			$debug_sql = str_replace("\n", " ", $debug_sql);
-			error_log($_SERVER['REQUEST_URI']."\t".$debug_sql."\n", 3, $this->sql_log_file);
+			error_log($_SERVER['REQUEST_URI']."\t|||\t".$debug_sql."\n", 3, $this->sql_log_file);
 		}
 		
 		return $this->_execute($sql);
