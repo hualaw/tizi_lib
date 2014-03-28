@@ -189,7 +189,7 @@ class Tizi_Login extends MY_Controller {
         	$this->session_model->clear_session();
 			$this->session_model->clear_cookie();
 			$this->session_model->clear_current_dir_cookie();
-        	if(strpos($redirect,'http://')===false) $redirect='';
+        	if($redirect != 'reload'&&strpos($redirect,'http://')===false) $redirect='';
 		}
         echo json_token(array('errorcode'=>$errorcode,'redirect'=>$redirect));
         exit();

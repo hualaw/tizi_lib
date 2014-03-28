@@ -21,21 +21,19 @@
                     {elseif $researcher['is_subscribed'] == 1}
                     <a class="cBtnSilver" href="javascript:;" data="{$researcher['id']}">已订阅</a>
                     {else}
+                    <a class="cBtnNormal subscribe_researcher" href="javascript:;" data="{$researcher['id']}">订阅</a>
                     {/if}
                 </span>
            </h2>
         </div>
-        <!-- <div class="rightTips fr">
-            <a href="#" target="_blank" class="stuChannel">学生频道</a>
-            <a href="#" target="_blank" class="parChannel">家长频道</a>
-        </div> -->
         <div class="eduAllNumber fr">
             目前共<em>{$researcher['teacher_subscribes_count']}</em>名教师，<em>{$researcher['student_subscribes_count']}</em>名学生订阅
         </div>
     </div>
     <div class="ft"></div>
 </div>
-<!-- 登录弹出框开始 -->
+
+<!-- 登录弹出框开始
 <div id="registerPop" class="pop_box">
     <form class="indexLoginForm_beta" action="{$login_url}login/submit" method="post" dataType="jsonp" onsubmit="return false;">
         <div class="pop_main cf">
@@ -65,7 +63,6 @@
                     <input type="hidden" name="redirect" value="edu">
                     <input class="greenBtn regBtn" type="submit" name="" value="登录">
                 </p>
-                <!--{$login_url}register-->
                 <p class="font12">还没有注册梯子账户？<a class="green" href="{$login_url}register/{urlencode($this_url)}" >立即注册</a></p>
             </div>
             <div class="regRight fl">
@@ -74,4 +71,4 @@
         </div>
     </form>
 </div>
-<!-- 登录弹出框结束 -->
+登录弹出框结束 -->

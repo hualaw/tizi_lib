@@ -11,9 +11,10 @@ define(function(require, exports) {
             width:400,
             ok:false
         });
-        seajs.use("module/common/basics/common/login",function(ex){
-        	ex.commonLogin();
-        });
+        require("tizi_valid").indexLogin();
+        //seajs.use("module/common/basics/common/login",function(ex){
+        	//ex.commonLogin();
+        //});
     }
 
     exports.loginCheckClick = function()
@@ -72,6 +73,8 @@ define(function(require, exports) {
                     }else if(data.redirect){
                         window.location.href=data.redirect;
                     }
+                }else{
+                    window.location.reload();
                 }
             }  
         });
