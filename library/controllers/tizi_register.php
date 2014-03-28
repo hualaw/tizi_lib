@@ -200,7 +200,7 @@ class Tizi_Register extends MY_Controller {
     	exit();
     }
 
-    private function register_by_email($email,$password,$rname,$user_type,$user_data=false,$auto_login=true)
+    protected function register_by_email($email,$password,$rname,$user_type,$user_data=false,$auto_login=true)
    	{
    		$register=array('errorcode'=>false,'error'=>'');
 		
@@ -239,7 +239,7 @@ class Tizi_Register extends MY_Controller {
 		return $register;
    	}
 
-   	private function register_by_uname($uname,$password,$rname,$user_type,$user_data=false,$auto_login=true)
+   	protected function register_by_uname($uname,$password,$rname,$user_type,$user_data=false,$auto_login=true)
    	{
    		$register=array('errorcode'=>false,'error'=>'');
 		
