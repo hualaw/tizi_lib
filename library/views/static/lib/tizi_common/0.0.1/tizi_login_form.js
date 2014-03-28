@@ -72,6 +72,8 @@ define(function(require, exports) {
                     }else if(data.redirect){
                         window.location.href=data.redirect;
                     }
+                }else{
+                    window.location.reload();
                 }
             }  
         });

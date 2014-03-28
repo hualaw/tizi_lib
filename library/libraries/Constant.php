@@ -98,6 +98,10 @@ Class CI_Constant {
 	const AUTHCODE_REDIS_EXPIRE_EMAIL = 86400;//邮件验证码有效时间，24小时
 	const AUTHCODE_REDIS_EXPIRE_PHONE = 1800;//短信验证码有效时间，30分钟
 
+    /*child binding*/
+    const ONE_PARENT_BIND_KID_MAX =3; // 一个家长最多绑定的孩子数量
+    const ONE_KID_IS_BINDED_MAX = 6; // 一个学生最多能被绑定的次数
+
 	const DEFAULT_PER_PAGE = 10;
 	const DEFAULT_PAGE_LIMIT = 100;
 
