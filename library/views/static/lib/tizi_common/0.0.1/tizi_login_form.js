@@ -50,4 +50,31 @@ define(function(require, exports) {
         });
     }
 	
+    exports.logoutCheckClick = function()
+    {
+        $('.logoutCheck').live('click',function(){
+            var redirect = $(this).attr('dest');
+            exports.logoutCheck(redirect);
+        });
+    }
+
+    exports.logoutCheck = function(redirect)
+    {
+        $.tizi_ajax({
+            url: loginUrlName + 'logout/check',
+            type: "get",
+            dataType: "jsonp",
+            data: {'redirect':redirect},
+            success: function(data) {
+                if(data.errorcode){
+                    if(data.redirect == 'reload'){
+                        window.location.reload();
+                    }else if(data.redirect){
+                        window.location.href=data.redirect;
+                    }
+                }
+            }  
+        });
+    }
+
 });

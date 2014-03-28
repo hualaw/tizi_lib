@@ -33,6 +33,12 @@ $config['jxt_static_url'] = 'http://jxt-static.tizi.com/';
 
 $config['zl_url'] = 'http://ziliao.tizi.com/';
 $config['zl_static_url'] = 'http://tizi-static.tizi.com/';
+
+$config['jia_url'] = 'http://jia.tizi.com/';
+$config['jia_static_url'] = 'http://tizi-static.tizi.com/';
+
+$config['xue_url'] = 'http://xue.tizi.com/';
+$config['xue_static_url'] = 'http://xue-static.tizi.com/';
 /*
 |--------------------------------------------------------------------------
 | Index File
