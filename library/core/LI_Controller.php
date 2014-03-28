@@ -104,6 +104,8 @@ class LI_Controller extends CI_Controller{
         $edu_url=edu_url();
         $jxt_url=jxt_url();
         $zl_url=zl_url();
+        $jia_url=jia_url();
+        $xue_url=xue_url();
         $static_url=static_url($this->site);
         $static_base_url=static_url('base');
 
@@ -118,6 +120,8 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('edu_url', $edu_url);
         $this->smarty->assign('jxt_url', $jxt_url);
         $this->smarty->assign('zl_url', $zl_url);
+        $this->smarty->assign('jia_url', $jia_url);
+        $this->smarty->assign('xue_url', $xue_url);
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
@@ -139,6 +143,8 @@ class LI_Controller extends CI_Controller{
     	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
    		$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
    		$this->smarty->assign('home_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,'tizi'));
+
+   		$this->smarty->assign('home_zl', zl_url('zl/home'));
 
    		$this->smarty->assign('base_avatar', $avatar_url);
    		$this->smarty->assign('constant', $this->user_constant);
@@ -318,36 +324,10 @@ class LI_Controller extends CI_Controller{
 			{
 				if(!empty($this->_segment['an']))
 				{
-	    			$this->binding();
+	    			//$this->bind_check();
 	    		}
 	    	}
 	    }
-	}
-
-	protected function binding()
-	{
-		return;
-		/*
-		//强制绑定，暂行
-		$r_urilist=array('/user_teacher/bind_mysubject','/user_student/bind_mygrade','/user_student/bind_myuname');
-		if($this->site=='login'&&!in_array($this->_segment['an'],$this->_unloginlist['an'])&&!in_array($this->_segment['r'],$r_urilist))
-		{
-			switch ($this->tizi_utype) 
-			{
-				case Constant::USER_TYPE_STUDENT: 	$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
-													if(!$this->tizi_uname) redirect($redirect['myuname']);
-													else if(!$this->tizi_urgrade) redirect($redirect['mygrade']);
-													else if($this->tizi_invite) redirect(tizi_url("invite/".$this->tizi_invite));
-													break;
-	            case Constant::USER_TYPE_TEACHER: 	if(!$this->tizi_ursubject) redirect(redirect_url(Constant::USER_TYPE_TEACHER,'perfect'));
-	            									else if($this->tizi_invite) redirect(tizi_url("invite/".$this->tizi_invite));
-	            									break;
-	            case Constant::USER_TYPE_PARENT:	break;
-	            case Constant::USER_TYPE_RESEARCHER:break;
-	            default:break;
-			}
-		}
-		*/
 	}
 
 	protected function token_list()

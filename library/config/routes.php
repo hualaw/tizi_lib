@@ -2,6 +2,8 @@
 /*zujuan login*/
 $route['logout']="login/login/logout";
 $route['logout/(:any)']="login/login/logout/$1";
+$route['logout/check']="login/login/check_logout";
+
 $route['login/submit']="login/login/submit";
 $route['login/check']="login/login/check_login";
 

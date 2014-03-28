@@ -6,9 +6,9 @@
     <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
     <span class="l">|</span>
     {$return = 'tizi'}
-    <a id="tiziLogout" href="{$login_url}logout{if isset($return)}/{$return}{/if}">退出</a>
+    <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($redirect) && $redirect}{$redirect}{else}reload{/if}">退出</a>
     {else}
-    <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="reload">登录</a>
+    <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($redirect) && $redirect}{$redirect}{else}reload{/if}">登录</a>
     <a href="{$login_url}register" target="_blank">免费注册</a>
     {/if}
 </p>

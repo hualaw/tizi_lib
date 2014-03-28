@@ -79,6 +79,7 @@ class Question_Subject_Model extends LI_Model {
 	{
         if($check_type=='homework') $this->db->where('id <=',9);
         if($check_type=='class') $this->db->where('id !=', 10);
+        if($check_type=='exam_paper') $this->db->where('id <=', 9);
 		$stype=$this->db->get('subject_type')->result();
         if($return_object) return $stype;
 		foreach($stype as $st)

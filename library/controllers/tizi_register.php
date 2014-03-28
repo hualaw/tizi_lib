@@ -13,29 +13,6 @@ class Tizi_Register extends MY_Controller {
 		$this->load->model("login/session_model");
 		$this->load->model("user_data/student_data_model");
 		$this->load->model('question/question_subject_model');
-		//登录跳转
-		if($this->tizi_uid) redirect($this->tizi_redirect);
-    }
-
-    public function index($redirect='')	 
-	{
-		//get subject name
-        $subjects=$this->question_subject_model->get_all_subject('binding');
-        
-        $data['subject']=array();
-        foreach($subjects as $s)
-        {
-            $data['subject'][$s->grade][$s->sid]=$s;
-        }
-
-        $data['grade']=Constant::grade();
-
-		if($redirect&&urldecode($redirect)) $redirect=urldecode($redirect);
-        if(strpos($redirect,'http://') === false) $redirect='';
-		$this->smarty->assign("redirect",$redirect);
-		
-		$this->smarty->assign("data",$data);
-    	$this->smarty->display('login/register.html');	 
     }
 
     public function teacher_submit()

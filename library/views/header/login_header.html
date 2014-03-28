@@ -14,17 +14,11 @@
         <div class="secLogo fl">
            <h2 class="fl">
                <span class="channel"><!--教师频道--></span>
-               <span class="info">中小学优质教育资源共享平台</span>
+               <span class="info">中小学优质教学资源服务平台</span>
            </h2>
         </div>
         <div class="rightTips fr">
-            <!--<a href="#" target="_blank" class="stuChannel">学生频道</a>-->
-            {if isset($show_chparent) and $show_chparent}
-            <a href="{$home_parent}" class="parChannel" title="梯子家长"></a>
-            {/if}
-            {if isset($show_chteacher) and $show_chteacher}
-            <a href="{$home_teacher}" class="teaChannel" title="梯子网">梯子网</a>
-            {/if}
+            <a href="{$home_parent}" target="_blank" class="parChannel" title="梯子家长"></a>
         </div>
     </div>
 </div>
