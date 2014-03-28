@@ -49,6 +49,22 @@ if ( ! function_exists('zl_url'))
 	}
 }
 
+if ( ! function_exists('jia_url'))
+{
+	function jia_url($uri = '')
+	{
+		return site_url($uri,'jia');
+	}
+}
+
+if ( ! function_exists('xue_url'))
+{
+	function xue_url($uri = '')
+	{
+		return site_url($uri,'xue');
+	}
+}
+
 if ( ! function_exists('static_url'))
 {
 	function static_url($site = '')
