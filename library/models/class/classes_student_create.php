@@ -8,11 +8,18 @@ class classes_student_create extends LI_Model{
 	 * 	返回学号ID的起始值
 	 */
 	public function get_stuid($num = 1){
-		$this->db->query("LOCK TABLES classes_stuid READ");
+		//$this->db->query("LOCK TABLES classes_stuid READ");
+		$this->db->trans_start();
 		$this->db->query("LOCK TABLES classes_stuid WRITE");
+		
 		$r = $this->db->query("select id from classes_stuid")->result_array();
 		$this->db->query("update classes_stuid set id=id+?", array($num));
+		
 		$this->db->query("UNLOCK TABLES");
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === false){
+			log_message("error_tizi", "get_stuid lock table failed.");
+		}
 		return intval($r[0]["id"] + 1);
 	}
 	
@@ -133,6 +140,13 @@ class classes_student_create extends LI_Model{
 	public function total($class_id){
 		$res = $this->db->query("select count(*) as num from classes_student_create where 
 			class_id=?", array($class_id))->result_array();
+		return intval($res[0]["num"]);
+	}
+	
+	//所有未登陆的数量
+	public function ulog_total($class_id){
+		$res = $this->db->query("select count(*) as num from classes_student_create where 
+			class_id=? and user_id=0", array($class_id))->result_array();
 		return intval($res[0]["num"]);
 	}
 }
