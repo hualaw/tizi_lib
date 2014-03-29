@@ -19,7 +19,7 @@ define(function(require, exports) {
     exports.loginCheckClick = function(){
         $('.loginCheck').live('click',function(){
             var redirect = $(this).attr('dest');
-            if(!redirect) redirect = $(this).attr('href');
+            if(redirect == undefined) redirect = $(this).attr('href');
             exports.loginCheck(redirect);
             return false;
         });
@@ -53,7 +53,7 @@ define(function(require, exports) {
     exports.logoutCheckClick = function(){
         $('.logoutCheck').live('click',function(){
             var redirect = $(this).attr('dest');
-            if(!redirect) redirect = $(this).attr('href');
+            if(redirect == undefined) redirect = $(this).attr('href');
             exports.logoutCheck(redirect);
             return false;
         });
