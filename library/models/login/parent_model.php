@@ -24,10 +24,8 @@ class Parent_Model extends LI_Model {
         }
         $sql = "select count(1) as count from $this->_parent_kid_table where kid_user_id=$kid_id and is_del=0";
         $count = $this->db->query($sql)->row(0)->count;
-        if($kid_id!=Constant::DEMO_KID_USER_ID){ //如果是演示的孩子帐号，就不限制绑定家长的数量
-            if($count>=Constant::ONE_KID_IS_BINDED_MAX){ // 一个孩子对多能被x个家长绑定
-            return array('status'=>false, 'msg'=>sprintf($this->lang->line('too_many_parent_bind_kid'),Constant::ONE_KID_IS_BINDED_MAX));
-            }
+        if($count>=Constant::ONE_KID_IS_BINDED_MAX){ // 一个孩子对多能被x个家长绑定
+        return array('status'=>false, 'msg'=>sprintf($this->lang->line('too_many_parent_bind_kid'),Constant::ONE_KID_IS_BINDED_MAX));
         }
         //replace into 
         $sql = "replace into $this->_parent_kid_table values(0,$user_id,$kid_id,'$relation_ship',0)  ";
