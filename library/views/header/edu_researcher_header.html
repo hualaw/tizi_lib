@@ -20,7 +20,7 @@
                     <a class="cBtnNormal subscribe_researcher" href="javascript:;" data="{$researcher['id']}">订阅</a>
                     {elseif $researcher['is_subscribed'] == 1}
                     <a class="cBtnSilver" href="javascript:;" data="{$researcher['id']}">已订阅</a>
-                    {else}
+                    {else if !$user_type}
                     <a class="cBtnNormal subscribe_researcher" href="javascript:;" data="{$researcher['id']}">订阅</a>
                     {/if}
                 </span>
