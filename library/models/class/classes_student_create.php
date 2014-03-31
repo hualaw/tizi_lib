@@ -8,11 +8,18 @@ class classes_student_create extends LI_Model{
 	 * 	返回学号ID的起始值
 	 */
 	public function get_stuid($num = 1){
-		$this->db->query("LOCK TABLES classes_stuid READ");
+		//$this->db->query("LOCK TABLES classes_stuid READ");
+		$this->db->trans_start();
 		$this->db->query("LOCK TABLES classes_stuid WRITE");
+		
 		$r = $this->db->query("select id from classes_stuid")->result_array();
 		$this->db->query("update classes_stuid set id=id+?", array($num));
+		
 		$this->db->query("UNLOCK TABLES");
+		$this->db->trans_complete();
+		if ($this->db->trans_status() === false){
+			log_message("error_tizi", "get_stuid lock table failed.");
+		}
 		return intval($r[0]["id"] + 1);
 	}
 	
