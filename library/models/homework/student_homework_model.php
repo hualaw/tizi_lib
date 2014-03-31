@@ -485,10 +485,11 @@ class Student_Homework_Model extends LI_Model{
 
     public function separateQuestion($content){
 
+        $r_content = $this->_replace_img_url(array($content));
+        $content = $r_content[0];
         $title = $this->_remove_attr($content['body'],false);
         $option = array();
         $analysis = '';
-
         /*
         if(preg_match_all("/.*(?=A[．|.])/s",$body,$matches)){
             if(!isset($matches[0][0])) goto tran;
