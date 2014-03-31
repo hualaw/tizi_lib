@@ -156,7 +156,8 @@ class Parent_Model extends LI_Model {
     }
 
     function get_user_id_by_student_id($student_id){
-        $sql = "select user_id from user where student_id = $student_id limit 1";
+        $student_id = intval($student_id);
+        $sql = "select id from user where student_id = $student_id limit 1";
         return $this->db->query($sql)->result_array();
     }
 
