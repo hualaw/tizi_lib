@@ -7,9 +7,9 @@ class Student_Task_Model extends LI_Model{
 
     public $uid;
     public $task_type;//任务类型
+    public $task_type_except;
 
     private $per_page_num ;//每页数量
-
     private $homework_data = array();
 
 
@@ -23,6 +23,9 @@ class Student_Task_Model extends LI_Model{
         $fetch_ext = '';
         if($this->task_type){
             $fetch_ext = ' and `task_type` = '.$this->task_type;   
+        }
+        if($this->task_type_except){
+            $fetch_ext = ' and `task_type` != '.$this->task_type_except; 
         }
         $data = $this->db->query("select count(*) as num from `student_task` where `uid` = {$this->uid} {$fetch_ext}")->row_array();
         return $data['num'];
