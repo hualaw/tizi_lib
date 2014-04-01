@@ -1,6 +1,6 @@
 <!--全站反馈内容开始-->
 <div class="includeFeedback undis">
-	<form action="{$site_url}send_feedback" method="post" class="cFeedbackQQ feedbackForm1 cf">
+	<form action="{$tizi_url}send_feedback" method="post" dataType="jsonp" class="cFeedbackQQ feedbackForm1 cf">
 		<div class="info">
 			使用以下表格将您的意见或使用中遇到的问题提交给我们，我们将会仔细阅读您的反馈。
 		</div>
@@ -30,12 +30,12 @@
 				        <label class="label">验证码</label>
 					</li>
 					<li class="cf">
-						<input type="text" name="captcha_word" class="fl textCaptcha" />
-						<span id="captcha" class="fl">
-							<img class="imgCaptcha fl changeCaptchaFBimgCaptcha" />
-							<a href="javascript:void(0);" class="changeCaptcha changeCaptchaFB">换一张</a>
-						</span>
-						<span class="captchaChecks"></span>
+						<div class="commonCaptcha cf">
+							<input type="hidden" name="captcha_name" class="feedbackBox" value="feedbackBox" />
+		                	<input type="text" name="captcha_word" class="feedbackBoxWord textCaptcha fl" />
+		                	<img class="fl imgCaptcha changeCaptcha" />
+							<p class="changeCaptcha">换一张</p>
+						</div>
 					</li>
 				</ul>
 			</div>	
@@ -47,7 +47,6 @@
                 <span id="qq_span" class="qq_span">QQ客服在线时间<br />周一至周六 9:00-18:00</span>
            </div>
 		</div>
-		<input type="hidden" name="captcha_name" value="feedbackBox" />
 		<input type="submit" class="undis" value="" />
 	</form>
 </div>

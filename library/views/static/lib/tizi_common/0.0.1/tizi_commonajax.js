@@ -3,7 +3,6 @@ define(function(require,exports){
 	exports.feedbacksubmit = function(data){
 		if(data.errorcode){
 			$.tiziDialog.list['feedbackFormID'].close();
-			// art.dialog.list['feedbackFormID'].close();
 			$.tiziDialog({
 				content:data.error,
 				time:3,
