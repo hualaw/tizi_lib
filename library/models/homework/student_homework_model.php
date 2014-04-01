@@ -224,7 +224,7 @@ class Student_Homework_Model extends LI_Model{
         return false;
     }
     public function get_student_homework($uid,$aid){
-        return $this->db->query("select a.*,a.`id` as s_work_id,b.`name`,b.`paper_id`,b.`start_time` as begin_time,b.`deadline`,b.`get_answer_way`,b.`description`,b.`online`,b.`correct_rate`,b.`student_num` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` where a.`student_id` = $uid and a.`assignment_id`= $aid")->row();
+        return $this->db->query("select a.*,a.`id` as s_work_id,b.`name`,b.`paper_id`,b.`start_time` as begin_time,b.`deadline`,b.`get_answer_way`,b.`description`,b.`online`,b.`correct_rate`,b.`student_num`,b.`online_count`,b.`offline_count` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` where a.`student_id` = $uid and a.`assignment_id`= $aid")->row();
     }
     /**
      * @info 统计未完成题的数量
