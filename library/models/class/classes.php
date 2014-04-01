@@ -175,4 +175,18 @@ class Classes extends LI_Model{
 			creator_id=? and class_status=0", $user_id)->result_array();
 		return $data;
 	}
+	
+	//获取一个老师的static数据
+	public function class_static($user_id){
+		$res = $this->db->query("select a.class_id,b.stu_count from classes_teacher as a left join 
+			classes as b on a.class_id=b.id where a.teacher_id=?", $user_id)->result_array();
+		$this->load->model("class/classes_student_create");
+		$data["class_total"] = count($res);
+		$data["student_total"] = 0;
+		foreach ($res as $value){
+			$data["student_total"] += $value["stu_count"];
+			$data["student_total"] += $this->classes_student_create->total($value["class_id"]);
+		}
+		return $data;
+	}
 }

@@ -146,6 +146,9 @@ class LI_Controller extends CI_Controller{
 
    		$this->smarty->assign('home_zl', zl_url('zl/home'));
 
+		//是否有答疑权限，有的话就显示答疑tab
+		$this->smarty->assign('aq_show',$this->session->userdata('aq_show'));
+
    		$this->smarty->assign('base_avatar', $avatar_url);
    		$this->smarty->assign('constant', $this->user_constant);
    		$this->smarty->assign('environment', ENVIRONMENT);
