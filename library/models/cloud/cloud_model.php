@@ -287,8 +287,8 @@ class cloud_model extends MY_Model{
         return $html ;
     }
 
-    //获取文件的信息
-    function file_info($file_id,$field='*',$class_id=0){
+    //获取文件的信息    当only_file_info为true，只获取file表中的内容
+    function file_info($file_id,$field='*',$class_id=0,$only_file_info=false){
         $file_id = intval($file_id);
         if(!$file_id){
             return null;
@@ -298,6 +298,9 @@ class cloud_model extends MY_Model{
             $class_sql = " and s.class_id=$class_id";
         }
         $sql = "select f.$field , s.*,s.id as share_id from $this->_file_table f left join $this->_share_table s on s.file_id=f.id where f.id=$file_id and f.is_del=0 $class_sql limit 1";
+        if($only_file_info){
+            $sql = "select * from $this->_file_table where id=$file_id and is_del=0 limit 1";
+        }
         $res = $this->db->query($sql)->result_array();
         if(isset($res[0])){
             return $res[0];
