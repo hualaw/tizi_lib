@@ -57,21 +57,9 @@ define(function(require){
     qq_tip_about.length>-1?qq_tip_about.hide():"";
 
     // 页面打开加载验证码
-    require.async('tizi_validform', function(ex2) {
-        // 加载验证码
-        ex2.changeCaptcha();
-        // 点击验证码更换验证码
-        ex2.bindChangeVerify();
-    });
-    $('.changeCaptcha').live('click',function(event){
-        event.preventDefault();
-        require.async('tizi_validform', function(ex2) {
-            // 加载验证码
-            ex2.changeCaptcha();
-            // 点击验证码更换验证码
-            ex2.bindChangeVerify();
-        });
-    });
+    require('tizi_validform').changeCaptcha('feedbackBox');
+    require('tizi_validform').bindChangeVerify('feedbackBox');
+
     //调用检测用户反馈输入
     require('tizi_valid').FeedbackCheck();
 });

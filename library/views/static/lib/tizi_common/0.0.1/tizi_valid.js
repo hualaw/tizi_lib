@@ -81,9 +81,7 @@ define(function(require, exports) {
             ajaxPost:true,
             beforeSubmit:function(){            
                 /*调用验证码验证服务端信息*/
-                var checkcode = $('.imgCaptcha').val();
-                return require('tizi_validform').changeCaptcha(checkcode);
-                // return Common.comValidform.checkCaptcha(checkcode);
+                return require('tizi_validform').checkCaptcha('feedbackBox',1);
             },
             callback:function(data) {
                 // 异步提交
