@@ -62,6 +62,7 @@ define(function(require, exports) {
                 datatype:"*6-16",
                 nullmsg:"请输入密码",
                 errormsg:"长度6-16个字符之间",
+                old_nullmsg:"请输入旧密码",
                 re_nullmsg:"请再次输入密码",
                 re_errormsg:"两次密码不一致！",
                 new_nullmsg:"请输入新密码",
