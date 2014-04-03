@@ -1,6 +1,7 @@
 define(function(require, exports) {
     // 请求tizi_ajax
     require("tizi_ajax");
+    require('tiziDialog');
     // 请求验证库
     require("validForm");
     // 请求公共验证信息
@@ -34,8 +35,28 @@ define(function(require, exports) {
             ajaxPost: true,
             callback: function(data) {
                 require("tizi_validform").reset_md5('.indexLoginForm');
-                // 异步提交
-                callback_login(data);
+                if(callback_login == undefined){
+                    if(data.errorcode){
+                        if($.tiziDialog.list['loginFormID']) $.tiziDialog.list['loginFormID'].close();
+                        if(data.redirect == 'reload'){
+                            window.location.reload();
+                        }else if(data.redirect.substr(0,9) == 'callback:'){
+                            var callback = data.redirect.substr(9);
+                            seajs.use('module/common/ajax/unlogin/' + callback);
+                        }
+                        else if(data.redirect){
+                            window.location.href=data.redirect;
+                        }
+                    }else{
+                        // 请求dialog插件
+                        require.async("tiziDialog",function(){
+                            $.tiziDialog({content:data.error});
+                        });
+                    }
+                }else{
+                    callback_login(data);
+                }
+
             }
         });
         _Form.addRule([{
@@ -60,9 +81,7 @@ define(function(require, exports) {
             ajaxPost:true,
             beforeSubmit:function(){            
                 /*调用验证码验证服务端信息*/
-                var checkcode = $('.imgCaptcha').val();
-                return require('tizi_validform').changeCaptcha(checkcode);
-                // return Common.comValidform.checkCaptcha(checkcode);
+                return require('tizi_validform').checkCaptcha('feedbackBox',1);
             },
             callback:function(data) {
                 // 异步提交

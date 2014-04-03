@@ -263,7 +263,15 @@ class CI_Cache_redis extends CI_Driver
 
 		if ($return && isset($config['password']))
 		{
-			$redis->auth($config['password']);
+			try
+			{
+				$redis->auth($config['password']);
+			}
+			catch (RedisException $e)
+			{
+				log_message('error_tizi', '10072:Redis '.$redis_type.' auth refused. '.$e->getMessage());
+				$return = false;
+			}
 		}
 		
 		if(!$return)

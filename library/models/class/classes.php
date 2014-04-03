@@ -67,10 +67,16 @@ class Classes extends LI_Model{
 	/**
 	 * 迭代版2.0创建班级
 	 */ 
-	public function create($classname, $creator_id, $create_date, $subject_id){
+	public function create($classname, $creator_id, $create_date, $subject_id, $extension = array()){
 		$this->db->trans_start();
-		$this->db->query("insert into classes(classname,creator_id,tch_count,create_date) 
-			values(?,?,?,?)", array($classname, $creator_id, 1, $create_date));
+		$classes = array(
+			"classname"		=> $classname,
+			"creator_id"	=> $creator_id,
+			"tch_count"		=> 1,
+			"create_date"	=> $create_date
+		);
+		$classes = array_merge($classes, $extension);
+		$this->db->insert("classes", $classes);
 		if ($this->db->affected_rows() > 0){
 			$class_id = $this->db->insert_id();
 			$this->db->query("insert into classes_teacher(class_id,teacher_id,subject_id,join_date) 
@@ -167,6 +173,20 @@ class Classes extends LI_Model{
 	public function creator_get($user_id, $fields = "*"){
 		$data = $this->db->query("select {$fields} from classes where 
 			creator_id=? and class_status=0", $user_id)->result_array();
+		return $data;
+	}
+	
+	//获取一个老师的static数据
+	public function class_static($user_id){
+		$res = $this->db->query("select a.class_id,b.stu_count from classes_teacher as a left join 
+			classes as b on a.class_id=b.id where a.teacher_id=?", $user_id)->result_array();
+		$this->load->model("class/classes_student_create");
+		$data["class_total"] = count($res);
+		$data["student_total"] = 0;
+		foreach ($res as $value){
+			$data["student_total"] += $value["stu_count"];
+			$data["student_total"] += $this->classes_student_create->total($value["class_id"]);
+		}
 		return $data;
 	}
 }

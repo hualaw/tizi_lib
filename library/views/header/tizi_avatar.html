@@ -1,0 +1,31 @@
+<div class="memberInfo">
+    <p>
+        <a href="{$login_url}{$constant.user_type[$user_type]}/user/avatar">
+            <img {if $base_avatar}src="{$base_avatar}{$version}"{else}src="{$static_url}{$static_version}image/common/default_avatar.gif"{/if} />
+        </a>
+    </p>
+    <h2>
+        <em class="MyURName">{sub_str($user_name)}</em>
+        <!--<i class="v">V</i>-->
+    </h2>
+    <!--
+    <h3>
+        初级会员
+    </h3>
+    -->
+    {if $user_stuid}
+    <span class="number">
+        学号:{$user_stuid}
+    </span>
+    {/if}
+    <div class="integral">
+        <!--
+        <div class="hd">
+            <div class="progress" style="width:40%"></div>
+        </div>
+        <div class="bd">
+            累计积分:<em>3417</em>/5000
+        </div>
+        -->
+    </div>
+</div>

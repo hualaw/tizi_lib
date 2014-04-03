@@ -2,7 +2,7 @@
 	<div class="layout">
 		<ul>
 			<li>
-				<a href="{$base_teacher}" class="navhome">首页</a>
+				<a href="{$home_teacher}" class="navHome">首页</a>
 			</li>
 			<li>
 				<a href="{$login_url}teacher/user/center" class="navMemberCenter">个人中心</a>
@@ -11,10 +11,13 @@
 				<a href="{$tizi_url}teacher/class/my" class="navClass">班级空间</a>
 			</li>
 			<li>
-				<a href="{$tizi_url}teacher/paper/hall" class="navPaper">出卷子</a>
+				<a href="{$tizi_url}teacher/paper/center" class="navPaper">出卷子</a>
 			</li>
 			<li>
 				<a href="{$tizi_url}teacher/homework/center" class="navHomework">留作业</a>
+			</li>
+			<li>
+				<a href="{$tizi_url}teacher/user/myquestion/" class="navTestLibrary">我的题库</a>
 			</li>
 			<li>
 				<a href="{$tizi_url}teacher/cloud" class="navMyCloud">网盘</a>
@@ -23,8 +26,13 @@
 				<a href="{$tizi_url}teacher/lesson/prepare" class="navLesson">备课</a>
 			</li>
 			<li>
-				<a href="#" class="navMySubscribe">我的订阅</a>
+				<a href="{$edu_url}teacher/subscription" class="navMySubscribe">我的订阅</a>
 			</li>
+			{if $aq_show}
+			<li>
+				<a href="{$tizi_url}teacher/aq/new" target="_blank" class="navMyAQ">答疑</a>
+			</li>
+			{/if}
 		</ul>
 	</div>
 </div>

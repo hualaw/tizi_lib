@@ -13,7 +13,6 @@ define(function(require, exports) {
 						$('#notification').attr('class','normalMassage').html('我的消息');
 					}
 				};
-				/*liuhua commented this code in order to decrease request times on promotion. 2014-03-26*/
 				/*
 				setTimeout(function(){
 					seajs.use('tizi_notice', function(ex){
