@@ -1,13 +1,10 @@
-﻿/*
- Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
- For licensing, see LICENSE.md or http://ckeditor.com/license
-*/
-(function() {
+﻿!
+function() {
 	var r = function(c, j) {
 		function r() {
 			var a = arguments,
 			b = this.getContentElement("advanced", "txtdlgGenStyle");
-			b && b.commit.apply(b, a);
+			b && b.commit.apply(b, a),
 			this.foreach(function(b) {
 				b.commit && "txtdlgGenStyle" != b.id && b.commit.apply(b, a)
 			})
@@ -19,12 +16,12 @@
 				d = b.imageElement;
 				if (d) {
 					this.commit(f, d);
-					for (var a = [].concat(a), e = a.length, c, g = 0; g < e; g++)(c = b.getContentElement.apply(b, a[g].split(":"))) && c.setup(f, d)
+					for (var c, a = [].concat(a), e = a.length, g = 0; e > g; g++)(c = b.getContentElement.apply(b, a[g].split(":"))) && c.setup(f, d)
 				}
 				s = 0
 			}
 		}
-		var f = 1,
+		var s, t, f = 1,
 		k = /^\s*(\d+)((px)|\%)?\s*$/i,
 		v = /(^\s*(\d+)((px)|\%)?\s*$)|^$/i,
 		o = /^\d+px$/,
@@ -32,16 +29,13 @@
 			var a = this.getValue(),
 			b = this.getDialog(),
 			d = a.match(k);
-			d && ("%" == d[2] && l(b, !1), a = d[1]);
-			b.lockRatio && (d = b.originalElement, "true" == d.getCustomData("isReady") && ("txtHeight" == this.id ? (a && "0" != a && (a = Math.round(d.$.width * (a / d.$.height))), isNaN(a) || b.setValueOf("info", "txtWidth", a)) : (a && "0" != a && (a = Math.round(d.$.height * (a / d.$.width))), isNaN(a) || b.setValueOf("info", "txtHeight", a))));
+			d && ("%" == d[2] && l(b, !1), a = d[1]),
+			b.lockRatio && (d = b.originalElement, "true" == d.getCustomData("isReady") && ("txtHeight" == this.id ? (a && "0" != a && (a = Math.round(d.$.width * (a / d.$.height))), isNaN(a) || b.setValueOf("info", "txtWidth", a)) : (a && "0" != a && (a = Math.round(d.$.height * (a / d.$.width))), isNaN(a) || b.setValueOf("info", "txtHeight", a)))),
 			g(b)
 		},
 		g = function(a) {
-			if (!a.originalElement || !a.preview) return 1;
-			a.commitContent(4, a.preview);
-			return 0
+			return a.originalElement && a.preview ? (a.commitContent(4, a.preview), 0) : 1
 		},
-		s,
 		l = function(a, b) {
 			if (!a.getContentElement("info", "ratioLock")) return null;
 			var d = a.originalElement;
@@ -50,23 +44,24 @@
 				if (!a.userlockRatio && "true" == d.getCustomData("isReady")) {
 					var e = a.getValueOf("info", "txtWidth"),
 					c = a.getValueOf("info", "txtHeight"),
-					d = 1E3 * d.$.width / d.$.height,
-					f = 1E3 * e / c;
-					a.lockRatio = !1; ! e && !c ? a.lockRatio = !0 : !isNaN(d) && !isNaN(f) && Math.round(d) == Math.round(f) && (a.lockRatio = !0)
+					d = 1e3 * d.$.width / d.$.height,
+					f = 1e3 * e / c;
+					a.lockRatio = !1,
+					e || c ? !isNaN(d) && !isNaN(f) && Math.round(d) == Math.round(f) && (a.lockRatio = !0) : a.lockRatio = !0
 				}
 			} else void 0 != b ? a.lockRatio = b: (a.userlockRatio = 1, a.lockRatio = !a.lockRatio);
-			e = CKEDITOR.document.getById(p);
-			a.lockRatio ? e.removeClass("cke_btn_unlocked") : e.addClass("cke_btn_unlocked");
-			e.setAttribute("aria-checked", a.lockRatio);
-			CKEDITOR.env.hc && e.getChild(0).setHtml(a.lockRatio ? CKEDITOR.env.ie ? "■": "▣": CKEDITOR.env.ie ? "□": "▢");
-			return a.lockRatio
+			return e = CKEDITOR.document.getById(p),
+			a.lockRatio ? e.removeClass("cke_btn_unlocked") : e.addClass("cke_btn_unlocked"),
+			e.setAttribute("aria-checked", a.lockRatio),
+			CKEDITOR.env.hc && e.getChild(0).setHtml(a.lockRatio ? CKEDITOR.env.ie ? "■": "▣": CKEDITOR.env.ie ? "□": "▢"),
+			a.lockRatio
 		},
 		x = function(a) {
 			var b = a.originalElement;
 			if ("true" == b.getCustomData("isReady")) {
 				var d = a.getContentElement("info", "txtWidth"),
 				e = a.getContentElement("info", "txtHeight");
-				d && d.setValue(b.$.width);
+				d && d.setValue(b.$.width),
 				e && e.setValue(b.$.height)
 			}
 			g(a)
@@ -81,34 +76,33 @@
 				c = "",
 				g = "txtWidth" == this.id ? "width": "height",
 				h = b.getAttribute(g);
-				h && (c = d(h, c));
-				c = d(b.getStyle(g), c);
+				h && (c = d(h, c)),
+				c = d(b.getStyle(g), c),
 				this.setValue(c)
 			}
 		},
-		t,
 		q = function() {
 			var a = this.originalElement;
-			a.setCustomData("isReady", "true");
-			a.removeListener("load", q);
-			a.removeListener("error", h);
-			a.removeListener("abort", h);
-			CKEDITOR.document.getById(m).setStyle("display", "none");
-			this.dontResetSize || x(this);
+			a.setCustomData("isReady", "true"),
+			a.removeListener("load", q),
+			a.removeListener("error", h),
+			a.removeListener("abort", h),
+			CKEDITOR.document.getById(m).setStyle("display", "none"),
+			this.dontResetSize || x(this),
 			this.firstLoad && CKEDITOR.tools.setTimeout(function() {
 				l(this, "check")
 			},
-			0, this);
+			0, this),
 			this.dontResetSize = this.firstLoad = !1
 		},
 		h = function() {
 			var a = this.originalElement;
-			a.removeListener("load", q);
-			a.removeListener("error", h);
-			a.removeListener("abort", h);
-			a = CKEDITOR.getUrl(CKEDITOR.plugins.get("image").path + "images/noimage.png");
-			this.preview && this.preview.setAttribute("src", a);
-			CKEDITOR.document.getById(m).setStyle("display", "none");
+			a.removeListener("load", q),
+			a.removeListener("error", h),
+			a.removeListener("abort", h),
+			a = CKEDITOR.getUrl(CKEDITOR.plugins.get("image").path + "images/noimage.png"),
+			this.preview && this.preview.setAttribute("src", a),
+			CKEDITOR.document.getById(m).setStyle("display", "none"),
 			l(this, !1)
 		},
 		n = function(a) {
@@ -124,39 +118,27 @@
 			minWidth: 420,
 			minHeight: 360,
 			onShow: function() {
-				this.linkEditMode = this.imageEditMode = this.linkElement = this.imageElement = !1;
-				this.lockRatio = !0;
-				this.userlockRatio = 0;
-				this.dontResetSize = !1;
-				this.firstLoad = !0;
+				this.linkEditMode = this.imageEditMode = this.linkElement = this.imageElement = !1,
+				this.lockRatio = !0,
+				this.userlockRatio = 0,
+				this.dontResetSize = !1,
+				this.firstLoad = !0,
 				this.addLink = !1;
 				var a = this.getParentEditor(),
 				b = a.getSelection(),
 				d = (b = b && b.getSelectedElement()) && a.elementPath(b).contains("a", 1);
-				CKEDITOR.document.getById(m).setStyle("display", "none");
-				t = new CKEDITOR.dom.element("img", a.document);
-				this.preview = CKEDITOR.document.getById(z);
-				this.originalElement = a.document.createElement("img");
-				this.originalElement.setAttribute("alt", "");
-				this.originalElement.setCustomData("isReady", "false");
-				if (d) {
-					this.linkElement = d;
+				if (CKEDITOR.document.getById(m).setStyle("display", "none"), t = new CKEDITOR.dom.element("img", a.document), this.preview = CKEDITOR.document.getById(z), this.originalElement = a.document.createElement("img"), this.originalElement.setAttribute("alt", ""), this.originalElement.setCustomData("isReady", "false"), d) {
+					this.linkElement = d,
 					this.linkEditMode = !0;
 					var c = d.getChildren();
 					if (1 == c.count()) {
-						var g = c.getItem(0).getName();
-						if ("img" == g || "input" == g) this.imageElement = c.getItem(0),
-						"img" == this.imageElement.getName() ? this.imageEditMode = "img": "input" == this.imageElement.getName() && (this.imageEditMode = "input")
+						var g = c.getItem(0).getName(); ("img" == g || "input" == g) && (this.imageElement = c.getItem(0), "img" == this.imageElement.getName() ? this.imageEditMode = "img": "input" == this.imageElement.getName() && (this.imageEditMode = "input"))
 					}
 					"image" == j && this.setupContent(2, d)
 				}
-				if (this.customImageElement) this.imageEditMode = "img",
-				this.imageElement = this.customImageElement,
-				delete this.customImageElement;
-				else if (b && "img" == b.getName() && !b.data("cke-realelement") || b && "input" == b.getName() && "image" == b.getAttribute("type")) this.imageEditMode = b.getName(),
-				this.imageElement = b;
-				this.imageEditMode ? (this.cleanImageElement = this.imageElement, this.imageElement = this.cleanImageElement.clone(!0, !0), this.setupContent(f, this.imageElement)) : this.imageElement = a.document.createElement("img");
-				l(this, !0);
+				this.customImageElement ? (this.imageEditMode = "img", this.imageElement = this.customImageElement, delete this.customImageElement) : (b && "img" == b.getName() && !b.data("cke-realelement") || b && "input" == b.getName() && "image" == b.getAttribute("type")) && (this.imageEditMode = b.getName(), this.imageElement = b),
+				this.imageEditMode ? (this.cleanImageElement = this.imageElement, this.imageElement = this.cleanImageElement.clone(!0, !0), this.setupContent(f, this.imageElement)) : this.imageElement = a.document.createElement("img"),
+				l(this, !0),
 				CKEDITOR.tools.trim(this.getValueOf("info", "txtUrl")) || (this.preview.removeAttribute("src"), this.preview.setStyle("display", "none"))
 			},
 			onOk: function() {
@@ -168,21 +150,21 @@
 					}), c.insertElement(this.imageElement)) : (this.imageElement = this.cleanImageElement, delete this.cleanImageElement)
 				} else "image" == j ? this.imageElement = c.document.createElement("img") : (this.imageElement = c.document.createElement("input"), this.imageElement.setAttribute("type", "image")),
 				this.imageElement.setAttribute("alt", "");
-				this.linkEditMode || (this.linkElement = c.document.createElement("a"));
-				this.commitContent(f, this.imageElement);
-				this.commitContent(2, this.linkElement);
-				this.imageElement.getAttribute("style") || this.imageElement.removeAttribute("style");
+				this.linkEditMode || (this.linkElement = c.document.createElement("a")),
+				this.commitContent(f, this.imageElement),
+				this.commitContent(2, this.linkElement),
+				this.imageElement.getAttribute("style") || this.imageElement.removeAttribute("style"),
 				this.imageEditMode ? !this.linkEditMode && this.addLink ? (c.insertElement(this.linkElement), this.imageElement.appendTo(this.linkElement)) : this.linkEditMode && !this.addLink && (c.getSelection().selectElement(this.linkElement), c.insertElement(this.imageElement)) : this.addLink ? this.linkEditMode ? c.insertElement(this.imageElement) : (c.insertElement(this.linkElement), this.linkElement.append(this.imageElement, !1)) : c.insertElement(this.imageElement)
 			},
 			onLoad: function() {
 				"image" != j && this.hidePage("Link");
 				var a = this._.element.getDocument();
-				this.getContentElement("info", "ratioLock") && (this.addFocusable(a.getById(u), 5), this.addFocusable(a.getById(p), 5));
+				this.getContentElement("info", "ratioLock") && (this.addFocusable(a.getById(u), 5), this.addFocusable(a.getById(p), 5)),
 				this.commitContent = r
 			},
 			onHide: function() {
-				this.preview && this.commitContent(8, this.preview);
-				this.originalElement && (this.originalElement.removeListener("load", q), this.originalElement.removeListener("error", h), this.originalElement.removeListener("abort", h), this.originalElement.remove(), this.originalElement = !1);
+				this.preview && this.commitContent(8, this.preview),
+				this.originalElement && (this.originalElement.removeListener("load", q), this.originalElement.removeListener("error", h), this.originalElement.removeListener("abort", h), this.originalElement.remove(), this.originalElement = !1),
 				delete this.imageElement
 			},
 			contents: [{
@@ -204,31 +186,39 @@
 							onChange: function() {
 								var a = this.getDialog(),
 								b = this.getValue();
+								var jxt_key = a.imageElement.getAttribute("data-jxt_key");
 								if (0 < b.length) {
 									var a = this.getDialog(),
 									d = a.originalElement;
-									a.preview.removeStyle("display");
+									a.preview.removeStyle("display"),
 									d.setCustomData("isReady", "false");
 									var c = CKEDITOR.document.getById(m);
-									c && c.setStyle("display", "");
-									d.on("load", q, a);
-									d.on("error", h, a);
-									d.on("abort", h, a);
-									d.setAttribute("src", b);
-									t.setAttribute("src", b);
+									c && c.setStyle("display", ""),
+									d.on("load", q, a),
+									d.on("error", h, a),
+									d.on("abort", h, a),
+									d.setAttribute("src", b),
+									t.setAttribute("src", b),
 									a.preview.setAttribute("src", t.$.src);
+									if (jxt_key) {
+										a.preview.setAttribute("data-jxt_key", jxt_key)
+									}
 									g(a)
 								} else a.preview && (a.preview.removeAttribute("src"), a.preview.setStyle("display", "none"))
 							},
 							setup: function(a, b) {
 								if (a == f) {
 									var d = b.data("cke-saved-src") || b.getAttribute("src");
-									this.getDialog().dontResetSize = !0;
-									this.setValue(d);
+									this.getDialog().dontResetSize = !0,
+									this.setValue(d),
 									this.setInitValue()
 								}
 							},
 							commit: function(a, b) {
+								var url = this.getValue();
+								if (url.indexOf("qiniudn.com") > -1) {
+									b.data("jxt_key", CKEDITOR.config.ImageKey)
+								}
 								a == f && (this.getValue() || this.isChanged()) ? (b.data("cke-saved-src", this.getValue()), b.setAttribute("src", this.getValue())) : 8 == a && (b.setAttribute("src", ""), b.removeAttribute("src"))
 							},
 							validate: CKEDITOR.dialog.validate.notEmpty(c.lang.image.urlMissing)
@@ -282,8 +272,9 @@
 										i.call(this, "advanced:txtdlgGenStyle")
 									},
 									validate: function() {
-										var a = this.getValue().match(v); (a = !!(a && 0 !== parseInt(a[1], 10))) || alert(c.lang.common.invalidWidth);
-										return a
+										var a = this.getValue().match(v);
+										return (a = !(!a || 0 === parseInt(a[1], 10))) || alert(c.lang.common.invalidWidth),
+										a
 									},
 									setup: y,
 									commit: function(a, b, d) {
@@ -301,8 +292,9 @@
 										i.call(this, "advanced:txtdlgGenStyle")
 									},
 									validate: function() {
-										var a = this.getValue().match(v); (a = !!(a && 0 !== parseInt(a[1], 10))) || alert(c.lang.common.invalidHeight);
-										return a
+										var a = this.getValue().match(v);
+										return (a = !(!a || 0 === parseInt(a[1], 10))) || alert(c.lang.common.invalidHeight),
+										a
 									},
 									setup: y,
 									commit: function(a, b, d) {
@@ -320,7 +312,7 @@
 									b = CKEDITOR.document.getById(p);
 									a && (a.on("click",
 									function(a) {
-										x(this);
+										x(this),
 										a.data && a.data.preventDefault()
 									},
 									this.getDialog()), a.on("mouseover",
@@ -331,19 +323,13 @@
 									function() {
 										this.removeClass("cke_btn_over")
 									},
-									a));
+									a)),
 									b && (b.on("click",
 									function(a) {
 										l(this);
 										var b = this.originalElement,
 										c = this.getValueOf("info", "txtWidth");
-										if (b.getCustomData("isReady") == "true" && c) {
-											b = b.$.height / b.$.width * c;
-											if (!isNaN(b)) {
-												this.setValueOf("info", "txtHeight", Math.round(b));
-												g(this)
-											}
-										}
+										"true" == b.getCustomData("isReady") && c && (b = b.$.height / b.$.width * c, isNaN(b) || (this.setValueOf("info", "txtHeight", Math.round(b)), g(this))),
 										a.data && a.data.preventDefault()
 									},
 									this.getDialog()), b.on("mouseover",
@@ -379,8 +365,8 @@
 								setup: function(a, b) {
 									if (a == f) {
 										var d;
-										d = (d = (d = b.getStyle("border-width")) && d.match(/^(\d+px)(?: \1 \1 \1)?$/)) && parseInt(d[1], 10);
-										isNaN(parseInt(d, 10)) && (d = b.getAttribute("border"));
+										d = (d = (d = b.getStyle("border-width")) && d.match(/^(\d+px)(?: \1 \1 \1)?$/)) && parseInt(d[1], 10),
+										isNaN(parseInt(d, 10)) && (d = b.getAttribute("border")),
 										this.setValue(d)
 									}
 								},
@@ -406,14 +392,14 @@
 								setup: function(a, b) {
 									if (a == f) {
 										var d, c;
-										d = b.getStyle("margin-left");
-										c = b.getStyle("margin-right");
-										d = d && d.match(o);
-										c = c && c.match(o);
-										d = parseInt(d, 10);
-										c = parseInt(c, 10);
-										d = d == c && d;
-										isNaN(parseInt(d, 10)) && (d = b.getAttribute("hspace"));
+										d = b.getStyle("margin-left"),
+										c = b.getStyle("margin-right"),
+										d = d && d.match(o),
+										c = c && c.match(o),
+										d = parseInt(d, 10),
+										c = parseInt(c, 10),
+										d = d == c && d,
+										isNaN(parseInt(d, 10)) && (d = b.getAttribute("hspace")),
 										this.setValue(d)
 									}
 								},
@@ -439,14 +425,14 @@
 								setup: function(a, b) {
 									if (a == f) {
 										var c, e;
-										c = b.getStyle("margin-top");
-										e = b.getStyle("margin-bottom");
-										c = c && c.match(o);
-										e = e && e.match(o);
-										c = parseInt(c, 10);
-										e = parseInt(e, 10);
-										c = c == e && c;
-										isNaN(parseInt(c, 10)) && (c = b.getAttribute("vspace"));
+										c = b.getStyle("margin-top"),
+										e = b.getStyle("margin-bottom"),
+										c = c && c.match(o),
+										e = e && e.match(o),
+										c = parseInt(c, 10),
+										e = parseInt(e, 10),
+										c = c == e && c,
+										isNaN(parseInt(c, 10)) && (c = b.getAttribute("vspace")),
 										this.setValue(c)
 									}
 								},
@@ -465,7 +451,7 @@
 								"default": "",
 								items: [[c.lang.common.notSet, ""], [c.lang.common.alignLeft, "left"], [c.lang.common.alignRight, "right"]],
 								onChange: function() {
-									g(this.getDialog());
+									g(this.getDialog()),
 									i.call(this, "advanced:txtdlgGenStyle")
 								},
 								setup: function(a, b) {
@@ -475,14 +461,14 @@
 										case "inherit":
 										case "none":
 											c = ""
-										} ! c && (c = (b.getAttribute("align") || "").toLowerCase());
+										} ! c && (c = (b.getAttribute("align") || "").toLowerCase()),
 										this.setValue(c)
 									}
 								},
 								commit: function(a, b, c) {
 									var e = this.getValue();
 									if (a == f || 4 == a) {
-										if (e ? b.setStyle("float", e) : b.removeStyle("float"), !c && a == f) switch (e = (b.getAttribute("align") || "").toLowerCase(), e) {
+										if (e ? b.setStyle("float", e) : b.removeStyle("float"), !c && a == f) switch (e = (b.getAttribute("align") || "").toLowerCase()) {
 										case "left":
 										case "right":
 											b.removeAttribute("align")
@@ -509,7 +495,7 @@
 				requiredContent: "a[href]",
 				label: c.lang.image.linkTab,
 				padding: 0,
-				hidden:true,
+				hidden: !0,
 				elements: [{
 					id: "txtUrl",
 					type: "text",
@@ -519,16 +505,16 @@
 					setup: function(a, b) {
 						if (2 == a) {
 							var c = b.data("cke-saved-href");
-							c || (c = b.getAttribute("href"));
+							c || (c = b.getAttribute("href")),
 							this.setValue(c)
 						}
 					},
 					commit: function(a, b) {
 						if (2 == a && (this.getValue() || this.isChanged())) {
 							var d = decodeURI(this.getValue());
-							b.data("cke-saved-href", d);
-							b.setAttribute("href", d);
-							if (this.getValue() || !c.config.image_removeLinkByEmptyURL) this.getDialog().addLink = !0
+							b.data("cke-saved-href", d),
+							b.setAttribute("href", d),
+							(this.getValue() || !c.config.image_removeLinkByEmptyURL) && (this.getDialog().addLink = !0)
 						}
 					}
 				},
@@ -561,7 +547,7 @@
 			},
 			{
 				id: "Upload",
-				hidden: false,
+				hidden: !1,
 				filebrowser: "uploadButton",
 				label: c.lang.image.upload,
 				elements: [{
@@ -581,7 +567,7 @@
 			},
 			{
 				id: "advanced",
-				hidden:true,
+				hidden: !0,
 				label: c.lang.common.advancedTab,
 				elements: [{
 					type: "hbox",
@@ -681,7 +667,7 @@
 					"default": "",
 					setup: function(a, b) {
 						if (a == f) {
-							var c = b.getAttribute("style"); ! c && b.$.style.cssText && (c = b.$.style.cssText);
+							var c = b.getAttribute("style"); ! c && b.$.style.cssText && (c = b.$.style.cssText),
 							this.setValue(c);
 							var e = b.$.style.height,
 							c = b.$.style.width,
@@ -694,7 +680,7 @@
 						}
 					},
 					onChange: function() {
-						i.call(this, "info:cmbFloat info:cmbAlign info:txtVSpace info:txtHSpace info:txtBorder info:txtWidth info:txtHeight".split(" "));
+						i.call(this, "info:cmbFloat info:cmbAlign info:txtVSpace info:txtHSpace info:txtBorder info:txtWidth info:txtHeight".split(" ")),
 						g(this)
 					},
 					commit: function(a, b) {
@@ -707,9 +693,9 @@
 	CKEDITOR.dialog.add("image",
 	function(c) {
 		return r(c, "image")
-	});
+	}),
 	CKEDITOR.dialog.add("imagebutton",
 	function(c) {
 		return r(c, "imagebutton")
 	})
-})();
+} ();
