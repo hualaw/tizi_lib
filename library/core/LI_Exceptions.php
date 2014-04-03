@@ -45,6 +45,7 @@ class LI_Exceptions extends CI_Exceptions {
 			$site_url = $_ci->site_url();
 			$login_url = $_ci->site_url('','login');
 			$tizi_url = $_ci->site_url('','tizi');
+			$zl_url = $_ci->site_url('','zl');
 			if(!isset($redirect)) $redirect = '';
 			if(strpos($redirect,'http://') === false) $redirect='';
 			$redirect = $redirect?$redirect:$site_url;

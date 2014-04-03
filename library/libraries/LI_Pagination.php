@@ -27,6 +27,7 @@ class LI_Pagination extends CI_Pagination {
 	var $full_tag_close			= '</div>';	
 	var $first_link				= '首页';
 	var $last_link				= FALSE;
+	var $first_url				= '1';
 	var $use_page_numbers		= TRUE;
 	var $page_query_string		= TRUE;
 	var $query_string_segment	= 'page';
@@ -342,7 +343,7 @@ class LI_Pagination extends CI_Pagination {
 	
 
 
-	function make_page_links()
+	function create_links()
 	{
 		// If our item count or per-page total is zero there is no need to continue.
 		if ($this->total_rows == 0 OR $this->per_page == 0)
@@ -462,7 +463,7 @@ class LI_Pagination extends CI_Pagination {
 		// string. If post, add a trailing slash to the base URL if needed
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			$this->base_url = rtrim($this->base_url).'&amp;'.$this->query_string_segment.'=';
+			$this->base_url = rtrim($this->base_url).($this->uri_segment?'?':'&amp;').$this->query_string_segment.'=';
 		}
 		else
 		{

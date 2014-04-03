@@ -690,7 +690,7 @@ class Student_Homework_Model extends LI_Model{
         return $result;
     }
     
-    private function _replace_img_url($content){
+    function _replace_img_url($content){
         foreach($content as $key=>$val){
             foreach($this->_img_url as $img_k => $img_v){
                 if(isset($val['body'])){
@@ -698,6 +698,9 @@ class Student_Homework_Model extends LI_Model{
                 }
                 if(isset($val['analysis'])){
                     $val['analysis'] = str_replace($img_k,$img_v,$val['analysis']);
+                }
+                if(isset($val['answer_text'])){
+                    $val['answer_text'] = str_replace($img_k,$img_v,$val['answer_text']);
                 }
             }
             $content[$key] = $val;
