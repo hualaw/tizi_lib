@@ -339,6 +339,8 @@ class LI_Pagination extends CI_Pagination {
   
         return $output;  
     }  
+	
+
 
 	function create_links()
 	{
@@ -347,10 +349,24 @@ class LI_Pagination extends CI_Pagination {
 		{
 			return '';
 		}
-
+		
+		
 		// Calculate the total number of pages
 		$num_pages = ceil($this->total_rows / $this->per_page);
-
+		
+		/************Extend code Begin**********************/
+		$is_show_next_num_link = $is_show_prev_num_link = FALSE;
+		$go_next_num = $num_pages - ((int) $this->cur_page + $this->next_pape_num);
+		$go_prev_num = (int) $this->cur_page - $this->next_pape_num;
+		if($go_next_num >= 0)
+		{
+			$is_show_next_num_link = TRUE;
+		}
+		if($go_prev_num > 0 )
+		{
+			$is_show_prev_num_link = TRUE;
+		}
+		/************Extend code END**********************/
 		// Is there only one page? Hm... nothing more to do here then.
 		if ($num_pages == 1)
 		{
@@ -384,10 +400,14 @@ class LI_Pagination extends CI_Pagination {
 		{
 			if ($CI->uri->segment($this->uri_segment) != $base_page)
 			{
+				if(is_null($CI->uri->segment($this->uri_segment)))
+				{$this->cur_page =1;}
+				else{
 				$this->cur_page = $CI->uri->segment($this->uri_segment);
-
+				}
 				// Prep the current page - no funny business!
 				$this->cur_page = (int) $this->cur_page;
+				
 			}
 		}
 		
@@ -442,7 +462,7 @@ class LI_Pagination extends CI_Pagination {
 		// string. If post, add a trailing slash to the base URL if needed
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
-			$this->base_url = rtrim($this->base_url).($this->uri_segment==1?'?':'&amp;').$this->query_string_segment.'=';
+			$this->base_url = rtrim($this->base_url).($this->uri_segment?'?':'&amp;').$this->query_string_segment.'=';
 		}
 		else
 		{
@@ -458,7 +478,29 @@ class LI_Pagination extends CI_Pagination {
 			$first_url = ($this->first_url == '') ? $this->base_url : $this->first_url;
 			$output .= $this->first_tag_open.'<a '.$this->anchor_class.'href="'.$first_url.'">'.$this->first_link.'</a>'.$this->first_tag_close;
 		}
+		/************Extend code Begin**********************/
+		if	( $this->prev_num_link == TRUE AND $is_show_prev_num_link == TRUE AND $this->cur_page != 1)
+		{
+			if ($this->use_page_numbers)
+			{
+				$i = $uri_page_number - $this->next_pape_num;
+			}
+			else
+			{
+				$i = $uri_page_number - $this->per_page * $this->next_pape_num;
+			}
 
+			if ($i == 0 && $this->first_url != '')
+			{
+				$output .= $this->prev_num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->prev_num_link.'</a>'.$this->prev_num_tag_close;
+			}
+			else
+			{
+				$i = ($i == 0) ? $this->default_page : $this->prefix.$i.$this->suffix;
+				$output .= $this->prev_num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$this->prev_num_link.'</a>'.$this->prev_num_tag_close;
+			}
+		}
+		/************Extend code end**********************/
 		// Render the "previous" link
 		if  ($this->prev_link !== FALSE AND $this->cur_page != 1)
 		{
@@ -477,7 +519,7 @@ class LI_Pagination extends CI_Pagination {
 			}
 			else
 			{
-				$i = ($i == 0) ? '' : $this->prefix.$i.$this->suffix;
+				$i = ($i == 0) ? $this->default_page : $this->prefix.$i.$this->suffix;
 				$output .= $this->prev_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$this->prev_link.'</a>'.$this->prev_tag_close;
 			}
 
@@ -506,7 +548,7 @@ class LI_Pagination extends CI_Pagination {
 					}
 					else
 					{
-						$n = ($i == $base_page) ? '' : $i;
+						$n = ($i == $base_page) ? $this->default_page : $i;
 
 						if ($n == '' && $this->first_url != '')
 						{
@@ -514,7 +556,7 @@ class LI_Pagination extends CI_Pagination {
 						}
 						else
 						{
-							$n = ($n == '') ? '' : $this->prefix.$n.$this->suffix;
+							$n = ($n == '') ? $this->default_page : $this->prefix.$n.$this->suffix;
 
 							$output .= $this->num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$n.'">'.$loop.'</a>'.$this->num_tag_close;
 						}
@@ -537,7 +579,31 @@ class LI_Pagination extends CI_Pagination {
 
 			$output .= $this->next_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$this->prefix.$i.$this->suffix.'">'.$this->next_link.'</a>'.$this->next_tag_close;
 		}
+		
+		/************Extend code Begin**********************/
+		if	( $this->next_num_link == TRUE AND $is_show_next_num_link == TRUE AND $this->cur_page != 1)
+		{
+			if ($this->use_page_numbers)
+			{
+				$i = $uri_page_number + $this->next_pape_num;
+				
+			}
+			else
+			{
+				$i = $uri_page_number + $this->per_page * $this->next_pape_num;
+			}
 
+			if ($i == 0 && $this->first_url != '')
+			{
+				$output .= $this->next_num_tag_open.'<a '.$this->anchor_class.'href="'.$this->first_url.'">'.$this->next_num_link.'</a>'.$this->next_num_tag_close;
+			}
+			else
+			{
+				$i = ($i == 0) ? $this->default_page : $this->prefix.$i.$this->suffix;
+				$output .= $this->next_num_tag_open.'<a '.$this->anchor_class.'href="'.$this->base_url.$i.'">'.$this->next_num_link.'</a>'.$this->next_num_tag_close;
+			}
+		}
+	/************Extend code end**********************/
 		// Render the "Last" link
 		if ($this->last_link !== FALSE AND ($this->cur_page + $this->num_links) < $num_pages)
 		{
@@ -560,7 +626,6 @@ class LI_Pagination extends CI_Pagination {
 		$output = $this->full_tag_open.$output.$this->full_tag_close;
 
 		return $output;
-	}	
-
+	}
 }
 
