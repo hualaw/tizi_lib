@@ -27,6 +27,7 @@ class LI_Pagination extends CI_Pagination {
 	var $full_tag_close			= '</div>';	
 	var $first_link				= '首页';
 	var $last_link				= FALSE;
+	var $first_url				= '1';
 	var $use_page_numbers		= TRUE;
 	var $page_query_string		= TRUE;
 	var $query_string_segment	= 'page';
