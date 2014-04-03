@@ -719,6 +719,13 @@ class Student_Homework_Model extends LI_Model{
         return trim($text);
     }
 
+    //学生下载作业，置位is_download
+    function set_is_download($assid,$user_id){
+        $sql= "update student_homework set is_download=1 where assignment_id=? and student_id=? ";
+        $arr = array($assid,$user_id);
+        return $this->db->query($sql,$arr);
+    }
+
 
 
 }
