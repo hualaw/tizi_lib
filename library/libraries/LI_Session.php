@@ -188,8 +188,11 @@ class LI_Session extends CI_Session {
 			if($this->_redis)
 			{
 				$userdata = $this->_redis_get($session_id);
-				if(empty($userdata)) $userdata = json_decode($userdata,true);
-				$session = $userdata;
+				if(!empty($userdata)) 
+				{
+					$userdata = json_decode($userdata,true);
+					$session = $userdata;
+				}
 			}
 			
 			if(empty($session))
