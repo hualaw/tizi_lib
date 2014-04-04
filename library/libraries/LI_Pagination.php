@@ -582,7 +582,7 @@ class LI_Pagination extends CI_Pagination {
 		}
 		
 		/************Extend code Begin**********************/
-		if	( $this->next_num_link == TRUE AND $is_show_next_num_link == TRUE AND $this->cur_page != 1)
+		if	( $this->next_num_link == TRUE AND $is_show_next_num_link == TRUE /*AND $this->cur_page != 1*/)
 		{
 			if ($this->use_page_numbers)
 			{
