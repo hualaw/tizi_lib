@@ -10,9 +10,6 @@ define(function(require, exports) {
             width:400,
             ok:false
         });
-        seajs.use('module/common/basics/common/JPlaceHolder',function(ex){
-            ex.JPlaceHolder.init();
-        });
         require("tizi_valid").indexLogin();
     }
 
