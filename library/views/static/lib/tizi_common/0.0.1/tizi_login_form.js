@@ -10,7 +10,6 @@ define(function(require, exports) {
             width:400,
             ok:false
         });
-        seajs.use('placeHolder');
         require("tizi_valid").indexLogin();
     }
 
