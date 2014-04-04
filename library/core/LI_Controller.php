@@ -305,7 +305,7 @@ class LI_Controller extends CI_Controller{
 			    	if($this->tizi_ajax)
 					{
 						$redirect=$this->input->get_post('redirect',true,false,'reload');
-						$reg_redirect=$this->input->get_post('reg_redirect',true);
+						$reg_redirect=$this->input->get_post('reg_redirect',true,true,'none');
 						$this->smarty->assign('login_url',login_url());
 						$this->smarty->assign('redirect',$redirect);
 						$this->smarty->assign('reg_redirect',$reg_redirect);
