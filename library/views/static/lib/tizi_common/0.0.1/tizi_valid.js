@@ -9,9 +9,7 @@ define(function(require, exports) {
 
     exports.indexLogin = function(callback_login){
          // 加载placeHolder插件
-        seajs.use('placeHolder',function(ex){
-            ex.JPlaceHolder.init();
-        });
+        require('placeHolder').JPlaceHolder.init();
         var _Form = $(".indexLoginForm").Validform({
             // 自定义tips在输入框上面显示
             tiptype: function(msg, o, cssctl) {
