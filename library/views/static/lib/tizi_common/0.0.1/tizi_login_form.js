@@ -10,6 +10,10 @@ define(function(require, exports) {
             width:400,
             ok:false
         });
+        // 加载placeHolder插件
+        seajs.use('placeHolder',function(ex){
+            ex.JPlaceHolder.init();
+        });
         require("tizi_valid").indexLogin();
     }
 
