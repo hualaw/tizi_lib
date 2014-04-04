@@ -26,7 +26,7 @@ function WordImageUploader(s_url,appletUrl)
         var xx = '<div id=\"word_image_container_temp\" style=\"display:none;\"></div>';
         //var yy1 = '<div id=\"wordImageAppletWrapper\" style=\"height: 22px;background-color: #f2f1f1;border-top: 1px solid gray;position:fixed; bottom:0;left:0; width:100%; overflow: hidden;z-index:1000;\" > ';
         var yy2 = '<applet style=\"visible:hidden;\" id=\"wordImageApplet\" name=\"wordImageApplet\" code=\"com.tizi.applet.imageuploader.UploaderApplet\" archive=\"'
-		+ appletUrl +'js/tools/java_applet/uploader.jar\" width=\"0\" height=\"0\"></applet>';
+		+ appletUrl +'lib/java_applet/0.0.1/uploader.jar\" width=\"0\" height=\"0\"></applet>';
         var yy3 = '</div>';
 		
         document.write(xx);
