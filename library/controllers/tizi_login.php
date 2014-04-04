@@ -207,28 +207,31 @@ class Tizi_Login extends MY_Controller {
    		$redirect=redirect_url($user_type,$redirect_type);
    		switch ($user_type) 
 		{
-			case Constant::USER_TYPE_STUDENT: 	if(!!$user_data['uname'] || !$user_data['register_grade'])
-												{
-													$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
-												}
-												else if($this->tizi_invite) 
-												{
-													$redirect=tizi_url("invite/".$this->tizi_invite);
-												}
-												break;
-            case Constant::USER_TYPE_TEACHER: 	if(!$user_data['register_subject']) 
-            									{
-            										$redirect=redirect_url(Constant::USER_TYPE_TEACHER,'perfect');
-            									}
-            									else if($this->tizi_invite) 
-            									{
-            										$redirect=tizi_url("invite/".$this->tizi_invite);
-            									}
-            									break;
+			case Constant::USER_TYPE_STUDENT:
+				if(!!$user_data['uname'] || !$user_data['register_grade'])
+				{
+					$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
+				}
+				//else if($this->tizi_invite) 
+				//{
+				//	$redirect=tizi_url("invite/".$this->tizi_invite);
+				//}
+				break;
+            case Constant::USER_TYPE_TEACHER:
+            	if(!$user_data['register_subject']) 
+				{
+					$redirect=redirect_url(Constant::USER_TYPE_TEACHER,'perfect');
+				}
+				//else if($this->tizi_invite) 
+				//{
+				//	$redirect=tizi_url("invite/".$this->tizi_invite);
+				//}
+				break;
             case Constant::USER_TYPE_PARENT:	
             case Constant::USER_TYPE_RESEARCHER:
-            default:							$redirect=redirect_url($user_type,$redirect_type);
-            									break;
+            default:
+            	$redirect=redirect_url($user_type,$redirect_type);
+            	break;
 		}
 		return $redirect;
    	}

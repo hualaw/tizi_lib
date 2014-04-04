@@ -14,7 +14,7 @@ class LI_Controller extends CI_Controller{
 	protected $tizi_urgrade=0;
 	protected $tizi_urdomain='';
 	protected $tizi_avatar=0;
-	protected $tizi_invite='';
+	//protected $tizi_invite='';
 	protected $tizi_redirect='';
 
 	protected $tizi_ajax=false;
