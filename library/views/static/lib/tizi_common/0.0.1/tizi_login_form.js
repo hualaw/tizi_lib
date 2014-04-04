@@ -10,10 +10,8 @@ define(function(require, exports) {
             width:400,
             ok:false
         });
+        seajs.use('placeHolder');
         require("tizi_valid").indexLogin();
-        //seajs.use("module/common/basics/common/login",function(ex){
-        	//ex.commonLogin();
-        //});
     }
 
     exports.loginCheckClick = function(){
@@ -45,6 +43,7 @@ define(function(require, exports) {
                     }
                 }else{
                     exports.loginForm(data.html);
+                    seajs.use('placeHolder');
                 }
             }  
         });
