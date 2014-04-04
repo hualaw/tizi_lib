@@ -27,7 +27,7 @@ class Student_Task_Model extends LI_Model{
         if($this->task_type_except){
             $fetch_ext = ' and `task_type` != '.$this->task_type_except; 
         }
-        $data = $this->db->query("select count(*) as num from `student_task` where `uid` = {$this->uid} {$fetch_ext}")->row_array();
+        $data = $this->db->query("select count(*) as num from `student_task` where `uid` = {$this->uid} {$fetch_ext} and `is_delete` = 0 ")->row_array();
         return $data['num'];
     }
 
