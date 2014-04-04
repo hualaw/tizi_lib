@@ -7,7 +7,7 @@ define(function(require, exports) {
 		if(!noxunlei){
 			url = url + '&session_id=' + $.cookies.get(baseSessID);
 		}
-		var ie_ver = this.ie_version();
+		var ie_ver = exports.ie_version();
 		if(openbox == true || ie_ver==6.0 ||ie_ver==7.0 || ie_ver==8.0){
 			if(fname == '' || fname == undefined) fname = "是否下载？";
 			else fname = "是否下载《" + fname + "》？";

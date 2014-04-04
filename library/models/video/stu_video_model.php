@@ -1,6 +1,6 @@
 <?php
 
-class Stu_Video_Model extends MY_Model {
+class Stu_Video_Model extends LI_Model {
 
 	private $_table='student_video';
 

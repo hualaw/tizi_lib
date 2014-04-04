@@ -98,11 +98,23 @@ Class CI_Constant {
 	const AUTHCODE_REDIS_EXPIRE_EMAIL = 86400;//邮件验证码有效时间，24小时
 	const AUTHCODE_REDIS_EXPIRE_PHONE = 1800;//短信验证码有效时间，30分钟
 
+    /*child binding*/
+    const ONE_PARENT_BIND_KID_MAX =3; // 一个家长最多绑定的孩子数量
+    const ONE_KID_IS_BINDED_MAX = 6; // 一个学生最多能被绑定的次数
+
 	const DEFAULT_PER_PAGE = 10;
 	const DEFAULT_PAGE_LIMIT = 100;
 
 	/*zujuan qcount timeout*/
     const REDIS_AUTHLOGIN_TIMEOUT = 14400;//默认auto login用户名的缓存时间
+
+	//medal types
+	const TEACHER_AUTHENTICATION_MEDAL = 1;	//教师认证
+	const USER_LOGIN_MEDAL = 2;				//登录达人
+	const USER_REGISTER_MEDAL = 3;			//资深达人
+	const USER_ACTIVITY_MEDAL = 4;			//活动认证
+
+	const USER_MEDAL_TIMEOUT = 3600;		//勋章过期时间
 
     function __construct()
 	{
@@ -114,27 +126,29 @@ Class CI_Constant {
 		if(!$redirect_type) $redirect_type='login';
 		$redirect_url = array(
 			'login' => array(
-				self::USER_TYPE_STUDENT => login_url("student/user/center"),
+				//self::USER_TYPE_STUDENT => login_url("student/user/center"),
+				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 				self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
 				self::USER_TYPE_PARENT => login_url("parent/user/center"),
 				self::USER_TYPE_RESEARCHER => login_url("researcher/user/center")
 			),
 			'register' => array(
-				self::USER_TYPE_STUDENT => login_url("student/user/center"),
+				//self::USER_TYPE_STUDENT => login_url("student/user/center"),
+				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 				self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
 				self::USER_TYPE_PARENT => login_url("parent/user/center"),
 				self::USER_TYPE_RESEARCHER => login_url("researcher/user/center")
 			),
 			'tizi' => array(
-				self::USER_TYPE_STUDENT => tizi_url("student/homework/home"),
-			    self::USER_TYPE_TEACHER => tizi_url("teacher/paper/question"),
-			    self::USER_TYPE_PARENT => tizi_url("parent/article"),
+				self::USER_TYPE_STUDENT => tizi_url("student/home"),
+			    self::USER_TYPE_TEACHER => tizi_url(),
+			    self::USER_TYPE_PARENT => jia_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
 			'edu' => array(
-				self::USER_TYPE_STUDENT => tizi_url("student/homework/home"),
-			    self::USER_TYPE_TEACHER => tizi_url("teacher/paper/question"),
-			    self::USER_TYPE_PARENT => tizi_url("parent/article"),
+				self::USER_TYPE_STUDENT => tizi_url("student/home"),
+			    self::USER_TYPE_TEACHER => tizi_url(),
+			    self::USER_TYPE_PARENT => jia_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
 			'perfect' => array(

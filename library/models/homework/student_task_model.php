@@ -6,10 +6,12 @@
 class Student_Task_Model extends LI_Model{
 
     public $uid;
+    public $task_type;//任务类型
+    public $task_type_except;
 
     private $per_page_num ;//每页数量
-
     private $homework_data = array();
+
 
     function __construct(){
         parent::__construct();
@@ -17,7 +19,15 @@ class Student_Task_Model extends LI_Model{
 
 
     public function getTaskNums(){
-        $data = $this->db->query("select count(*) as num from `student_task` where `uid` = {$this->uid}")->row_array();
+
+        $fetch_ext = '';
+        if($this->task_type){
+            $fetch_ext = ' and `task_type` = '.$this->task_type;   
+        }
+        if($this->task_type_except){
+            $fetch_ext = ' and `task_type` != '.$this->task_type_except; 
+        }
+        $data = $this->db->query("select count(*) as num from `student_task` where `uid` = {$this->uid} {$fetch_ext}")->row_array();
         return $data['num'];
     }
 
@@ -99,8 +109,14 @@ class Student_Task_Model extends LI_Model{
         $tasks = array();   
         $this->per_page_num = Constant::STU_HOMEWORK_PER_PAGE;
         $offset = $this->per_page_num * ($page_num-1);
+
+        $fetch_ext = '';
+
+        if($this->task_type){
+            $fetch_ext = ' and `task_type` = '.$this->task_type;
+        }
         $data = $this->db
-            ->query("select * from `student_task` where `uid` = {$this->uid} and `is_delete` = 0 order by `date` desc limit {$offset},{$this->per_page_num}")
+            ->query("select * from `student_task` where `uid` = {$this->uid} and `is_delete` = 0 {$fetch_ext} order by `date` desc limit {$offset},{$this->per_page_num}")
             ->result_array();
 
         foreach($data  as $val){

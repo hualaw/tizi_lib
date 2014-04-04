@@ -70,6 +70,23 @@ class LI_Input extends CI_Input {
 		}
 	}
 
+	function get_post($index = '', $xss_clean = FALSE, $tags_clean = FALSE, $default = FALSE)
+	{
+		if ( ! isset($_POST[$index]) )
+		{
+			return $this->get($index, $xss_clean, $tags_clean, $default);
+		}
+		else
+		{
+			return $this->post($index, $xss_clean, $tags_clean, $default);
+		}
+	}
+
+	function post_get($index = '', $xss_clean = FALSE, $tags_clean = FALSE, $default = FALSE)
+	{
+		return $this->get_post($index, $xss_clean, $tags_clean, $default);
+	}
+
 	//修复jsonp不能调用的字符串验证问题
 	function _clean_input_keys($str)
 	{

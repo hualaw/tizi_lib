@@ -124,7 +124,7 @@ class Student_Homework_Model extends LI_Model{
      * @deadline  int 截止时间
      *
      */
-    public function save_work_advance($data){
+    public function save_homework_info($data){
         if(!$this->_redis){
             log_message('error_tizi',"redis connect faild.module:student_homework_model[save_work_advance]",
                 array('data'=>$data));
@@ -141,11 +141,11 @@ class Student_Homework_Model extends LI_Model{
     public function get_homework_by_id($hid){
         $this->db->select('*');
         $this->db->from('student_homework');
-        $this->db->join('student_homework_comment','student_homework_comment.student_homework_id=student_homework.id','left');
         $this->db->where('student_homework.id',$hid);
         $query = $this->db->get();
         $result =  $query->result();
-        return $result[0];
+        return isset($result[0])?$result[0]:array();
+
     }
     /**
      * @info 截止前未提交作业
@@ -166,7 +166,7 @@ class Student_Homework_Model extends LI_Model{
      */
     public function get_homework($uid, $s_h_id){
             $result = $this->db
-                ->query("select d.`content` as comment_content,a.`start_time`,a.`end_time`,a.`assignment_id`,a.`student_id`,a.`correct_num`,b.`online_count`,b.`count`,a.`id`,b.`paper_id`,b.`online`,b.`start_time` as w_start_time,b.`deadline` as w_end_time,c.`subject_id`,b.`name` as title,b.`description` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` left join `homework_paper` as c on b.`paper_id` = c.`id` left join `student_exercise_plan_comment` as d on a.`assignment_id` = d.`assignment_id` and d.`student_id` = {$uid} and d.`is_del` = 0 where a.`student_id` = {$uid}  and a.`id` = ({$s_h_id}) order by b.`assign_time` desc,b.`paper_id` desc, b.`online` desc ")
+                ->query("select d.`content` as comment_content,a.`start_time`,a.`end_time`,a.`assignment_id`,a.`student_id`,a.`correct_num`,a.`is_download`,b.`online_count`,b.`count`,b.`student_num`,a.`id`,b.`paper_id`,b.`online`,b.`start_time` as w_start_time,b.`deadline` as w_end_time,c.`subject_id`,c.`user_id` as teacher_id,b.`name` as title,b.`description` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` left join `homework_paper` as c on b.`paper_id` = c.`id` left join `student_exercise_plan_comment` as d on a.`assignment_id` = d.`assignment_id` and d.`student_id` = {$uid} and d.`is_del` = 0 where a.`student_id` = {$uid}  and a.`id` = ({$s_h_id}) order by b.`assign_time` desc,b.`paper_id` desc, b.`online` desc ")
                 ->row_array();    
             return $result;
     }
@@ -224,7 +224,7 @@ class Student_Homework_Model extends LI_Model{
         return false;
     }
     public function get_student_homework($uid,$aid){
-        return $this->db->query("select a.*,a.`id` as s_work_id,b.`name`,b.`paper_id`,b.`start_time` as begin_time,b.`deadline`,b.`get_answer_way`,b.`description` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` where a.`student_id` = $uid and a.`assignment_id`= $aid")->row();
+        return $this->db->query("select a.*,a.`id` as s_work_id,b.`name`,b.`paper_id`,b.`start_time` as begin_time,b.`deadline`,b.`get_answer_way`,b.`description`,b.`online`,b.`correct_rate`,b.`student_num`,b.`online_count`,b.`offline_count` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` where a.`student_id` = $uid and a.`assignment_id`= $aid")->row();
     }
     /**
      * @info 统计未完成题的数量
@@ -485,10 +485,11 @@ class Student_Homework_Model extends LI_Model{
 
     public function separateQuestion($content){
 
+        $r_content = $this->_replace_img_url(array($content));
+        $content = $r_content[0];
         $title = $this->_remove_attr($content['body'],false);
         $option = array();
         $analysis = '';
-
         /*
         if(preg_match_all("/.*(?=A[．|.])/s",$body,$matches)){
             if(!isset($matches[0][0])) goto tran;
@@ -622,7 +623,7 @@ class Student_Homework_Model extends LI_Model{
      * @param int $assignment_id
      */
     function get_all_stu_homework($assignment_id , $time=false){
-        $sql = "select u.name , u.student_id as student_in_class_id ,st.sex, s.* from student_homework s left join user u on u.id=s.student_id left join student_data st on st.uid = u.id where assignment_id=$assignment_id ";
+        $sql = "select u.name , u.student_id as student_in_class_id , s.*,ha.online from student_homework s left join user u on u.id=s.student_id left join homework_assign ha on ha.id = s.assignment_id where assignment_id=$assignment_id ";
         if($time && $time<5){
             $time2 = $time*900 ; // to seconds
             $time1 = $time2 - 900 ;
@@ -631,7 +632,6 @@ class Student_Homework_Model extends LI_Model{
             $time1 = 3600;
             $sql .= " and expend_time > $time1 ";
         }
-        // echo $sql;
         return  $this->db->query($sql)->result_array();
     }
 

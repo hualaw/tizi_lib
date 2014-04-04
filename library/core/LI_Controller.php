@@ -104,6 +104,8 @@ class LI_Controller extends CI_Controller{
         $edu_url=edu_url();
         $jxt_url=jxt_url();
         $zl_url=zl_url();
+        $jia_url=jia_url();
+        $xue_url=xue_url();
         $static_url=static_url($this->site);
         $static_base_url=static_url('base');
 
@@ -118,6 +120,8 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('edu_url', $edu_url);
         $this->smarty->assign('jxt_url', $jxt_url);
         $this->smarty->assign('zl_url', $zl_url);
+        $this->smarty->assign('jia_url', $jia_url);
+        $this->smarty->assign('xue_url', $xue_url);
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
@@ -140,6 +144,11 @@ class LI_Controller extends CI_Controller{
    		$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
    		$this->smarty->assign('home_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,'tizi'));
 
+   		$this->smarty->assign('home_zl', zl_url('zl/home'));
+
+		//是否有答疑权限，有的话就显示答疑tab
+		$this->smarty->assign('aq_show',$this->session->userdata('aq_show'));
+
    		$this->smarty->assign('base_avatar', $avatar_url);
    		$this->smarty->assign('constant', $this->user_constant);
    		$this->smarty->assign('environment', ENVIRONMENT);
@@ -149,6 +158,7 @@ class LI_Controller extends CI_Controller{
         if($user_name=='') $user_name="您好!!!";
         $this->smarty->assign('user_name',$user_name);
         $this->smarty->assign('user_type',$this->tizi_utype);
+        $this->smarty->assign('user_stuid',$this->tizi_stuid);
 
 		//generate global errormsg
         if(!$this->_errormsg) $this->_errormsg="";
@@ -294,7 +304,13 @@ class LI_Controller extends CI_Controller{
 			    {
 			    	if($this->tizi_ajax)
 					{
-				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'token'=>false,'code'=>1));
+						$redirect=$this->input->get_post('redirect',true,false,'reload');
+						$reg_redirect=$this->input->get_post('reg_redirect',true);
+						$this->smarty->assign('login_url',login_url());
+						$this->smarty->assign('redirect',$redirect);
+						$this->smarty->assign('reg_redirect',$reg_redirect);
+						$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
+				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'html'=>$html,'token'=>false,'code'=>1));
 					    exit();
 					}
 					else
@@ -311,36 +327,10 @@ class LI_Controller extends CI_Controller{
 			{
 				if(!empty($this->_segment['an']))
 				{
-	    			$this->binding();
+	    			//$this->bind_check();
 	    		}
 	    	}
 	    }
-	}
-
-	protected function binding()
-	{
-		return;
-		/*
-		//强制绑定，暂行
-		$r_urilist=array('/user_teacher/bind_mysubject','/user_student/bind_mygrade','/user_student/bind_myuname');
-		if($this->site=='login'&&!in_array($this->_segment['an'],$this->_unloginlist['an'])&&!in_array($this->_segment['r'],$r_urilist))
-		{
-			switch ($this->tizi_utype) 
-			{
-				case Constant::USER_TYPE_STUDENT: 	$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
-													if(!$this->tizi_uname) redirect($redirect['myuname']);
-													else if(!$this->tizi_urgrade) redirect($redirect['mygrade']);
-													else if($this->tizi_invite) redirect(tizi_url("invite/".$this->tizi_invite));
-													break;
-	            case Constant::USER_TYPE_TEACHER: 	if(!$this->tizi_ursubject) redirect(redirect_url(Constant::USER_TYPE_TEACHER,'perfect'));
-	            									else if($this->tizi_invite) redirect(tizi_url("invite/".$this->tizi_invite));
-	            									break;
-	            case Constant::USER_TYPE_PARENT:	break;
-	            case Constant::USER_TYPE_RESEARCHER:break;
-	            default:break;
-			}
-		}
-		*/
 	}
 
 	protected function token_list()

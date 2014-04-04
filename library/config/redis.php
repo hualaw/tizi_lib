@@ -18,6 +18,7 @@ $config['redis_db']['tips'] 		= 14;//页面提示
 $config['redis_db']['pq_count'] 	= 15;//所有题目组卷次数
 $config['redis_db']['statistics'] 	= 16;//小型数据统计，hash结构，首页用户统计
 $config['redis_db']['seo'] 			= 17;//SEO
+$config['redis_db']['medal'] 		= 18;//勋章medal
 
 // Default connection group
 $config['redis_default']['host'] = '10.160.50.112';     // IP address or host

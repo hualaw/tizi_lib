@@ -2,6 +2,10 @@
 	$.tizi_callback = function(data,success){
 		if(data == undefined) return;
 		if(data.login === false){
+			// 加载公共登陆框
+			seajs.use('tizi_login_form',function(ex){
+				ex.loginForm(data.html);
+			});
 			/*
 			$.tiziDialog({
 				content:data.error,
@@ -13,7 +17,7 @@
 				}
 			});
 			*/
-			window.location.href = baseUrlName;
+			// window.location.href = baseUrlName;
 			return false;
 		}else if(data.token === false){
 			/*

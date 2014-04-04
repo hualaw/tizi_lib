@@ -5,6 +5,12 @@ class Classes_Teacher extends LI_Model{
     public function __construct(){
         parent::__construct();
     }
+    
+    public function update_class_subject($class_id, $teacher_id, $subject_id){
+		$this->db->query("update classes_teacher set subject_id=? where class_id=? and teacher_id=?", 
+			array($subject_id, $class_id, $teacher_id));
+		return $this->db->affected_rows();
+	}
 	
 	/**
 	 * 获取一个老师加入的班级
@@ -44,8 +50,8 @@ class Classes_Teacher extends LI_Model{
 	 * 获取一个班级的所有老师
 	 */
 	public function get_ct($class_id){
-		$result = $this->db->query("select a.id as ctid,a.teacher_id,a.subject_id,a.join_date,b.name from 
-			classes_teacher as a left join user as b on a.teacher_id=b.id where 
+		$result = $this->db->query("select a.id as ctid,a.teacher_id,a.subject_id,a.join_date,b.name,
+			b.avatar from classes_teacher as a left join user as b on a.teacher_id=b.id where 
 			a.class_id=? order by a.id asc", array($class_id))->result_array();
 		$this->load->model("question/question_subject_model");
 		$subjects = $this->question_subject_model->get_subject_type();
