@@ -61,6 +61,7 @@ swfobject.addDomLoadEvent(function () {
                     //$('.button_cancel').click();
                     $('.memberInfo').find('img').removeAttr('src');
                     $('.memberInfo').find('img').attr('src',json.content.avatarUrls[0]+'?v='+(new Date).valueOf());
+                    cancelClick();
                 }else if (json.type == 1) {
                     //$.tiziDialog({content:json.content.msg});
                 }else {
@@ -113,6 +114,9 @@ swfobject.addDomLoadEvent(function () {
     });
     //点击取消按钮的事件
     $('.button_cancel').click(function () {
+        cancelClick();
+    });
+    function cancelClick(){
         var activedTab = $('dt.current')[0].id;
         if (activedTab === 'albums') {
             hideSWF();
@@ -132,7 +136,7 @@ swfobject.addDomLoadEvent(function () {
                 $('#editorPanelButtons,#webcamPanelButton').hide();
             }
         }
-    });
+    }
     //点击拍照按钮的事件
     $('.button_shutter').click(function () {
         if (!$(this).hasClass('Disabled')) {
