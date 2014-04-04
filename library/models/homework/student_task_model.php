@@ -115,6 +115,9 @@ class Student_Task_Model extends LI_Model{
         if($this->task_type){
             $fetch_ext = ' and `task_type` = '.$this->task_type;
         }
+        if($this->task_type_except){
+            $fetch_ext = ' and `task_type` != '.$this->task_type_except; 
+        }
         $data = $this->db
             ->query("select * from `student_task` where `uid` = {$this->uid} and `is_delete` = 0 {$fetch_ext} order by `date` desc limit {$offset},{$this->per_page_num}")
             ->result_array();
