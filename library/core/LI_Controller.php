@@ -238,7 +238,7 @@ class LI_Controller extends CI_Controller{
 	{
 		$this->_page_name=$this->input->post('page_name',true);
 		$this->_captcha_name=$this->input->post('captcha_name',true,true,$this->_page_name);
-		$this->_callback_name=$ci->input->get_post('callback_name',true);
+		$this->_callback_name=$this->input->get_post('callback_name',true);
 
 		$token=$this->input->post('token');
 		$captcha=$this->input->post('captcha_word');
