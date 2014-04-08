@@ -142,15 +142,18 @@ class LI_Controller extends CI_Controller{
 
    		$this->smarty->assign('home_student', redirect_url(Constant::USER_TYPE_STUDENT,'tizi'));
     	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
-   		$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
+   		//$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
    		$this->smarty->assign('home_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,'tizi'));
-
-   		$this->smarty->assign('home_zl', zl_url());
 
    		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')
    		{
    			$this->smarty->assign('home_zl', zl_url('zl/home'));
-   			$this->smarty->assign('home_parent', jia_url('parent/home'));
+   			$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
+   		}
+   		else
+   		{
+   			$this->smarty->assign('home_zl', zl_url());
+   			$this->smarty->assign('home_parent', jia_url());
    		}
 
 		//是否有答疑权限，有的话就显示答疑tab
