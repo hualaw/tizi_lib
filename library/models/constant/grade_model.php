@@ -13,7 +13,7 @@ class Grade_model extends LI_Model{
     {
     	if($grade_type) $this->db->where('grade_type',$grade_type);
         $this->db->where('online',1);
-        $this->db->order_by('order,id','asc');
+        $this->db->order_by('listorder,id','asc');
     	$query = $this->db->get($this->_table);
     	$result = $query->result();
 
