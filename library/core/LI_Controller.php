@@ -34,6 +34,7 @@ class LI_Controller extends CI_Controller{
 	protected $_username='';
 	protected $_page_name='';
 	protected $_captcha_name='';
+	protected $_callback_name='';
 
 	protected $_check_login=true;
 	protected $_check_token=true;
@@ -235,9 +236,9 @@ class LI_Controller extends CI_Controller{
 
 	protected function token()
 	{
-		$this->_page_name=$this->input->post('page_name');
-		$this->_captcha_name=$this->input->post('captcha_name');
-		if(!$this->_captcha_name) $this->_captcha_name=$this->_page_name;
+		$this->_page_name=$this->input->post('page_name',true);
+		$this->_captcha_name=$this->input->post('captcha_name',true,true,$this->_page_name);
+		$this->_callback_name=$this->input->get_post('callback_name',true);
 
 		$token=$this->input->post('token');
 		$captcha=$this->input->post('captcha_word');
@@ -259,6 +260,7 @@ class LI_Controller extends CI_Controller{
 				if(!$check_captcha)
 				{
 					$_POST=array();
+					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
 				}
 			}
 		}
@@ -278,12 +280,14 @@ class LI_Controller extends CI_Controller{
 				else
 				{
 					$_POST=array();
+					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
 				}
 			}
 		}
 		else
 		{
 			$_POST=array();
+			if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
 		}
 
 		//检测未登录
