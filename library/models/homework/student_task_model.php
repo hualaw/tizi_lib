@@ -69,6 +69,37 @@ class Student_Task_Model extends LI_Model{
         }
     }
 
+    /**
+     * @info 订阅
+     * @task_type : 4 
+     */
+    public function  pushTaskOnSubscription($uids, $news_ids){
+
+        $date = time();
+        if(!is_array($uids)) $uids = array($uids);
+        if(!is_array($news_ids)) $news_ids = array($news_ids);
+        
+        $this->db->trans_start();
+        foreach($uids as $uid){
+            foreach($news_ids as $news_id){
+                $sql_ext = " where `uid` = {$uid} and `index_value` = {$news_id}";
+                $result = $this->db->query("select `is_delete` from `student_task`{$sql_ext}")
+                    ->row_array();
+                if(isset($result['is_delete'])){
+                    if($result['is_delete']){
+                        $this->db
+                            ->query("update `student_task` set `is_delete` = 0{$sql_ext}");
+                    }
+                }else{
+                    $this->db
+                        ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$news_id},4,{$uid},{$date})");                
+                }
+            }
+        }
+        $this->db->trans_complete();
+        return $this->db->trans_status();
+    }
+
     //学生刚加入班级的时候，获取班级以前的分享
     public function pushShareFirstAboard($uid,$class_id){
         $this->load->model('cloud/cloud_model');
