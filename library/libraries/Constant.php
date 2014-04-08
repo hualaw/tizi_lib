@@ -126,14 +126,16 @@ Class CI_Constant {
 		if(!$redirect_type) $redirect_type='login';
 		$redirect_url = array(
 			'login' => array(
-				//self::USER_TYPE_STUDENT => login_url("student/user/center"),
+				//self::USER_TYPE_STUDENT => tizi_url("student/home"),
+				//self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
+				//self::USER_TYPE_PARENT => login_url("parent/user/center"),
+				//self::USER_TYPE_RESEARCHER => login_url("researcher/user/center")
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
-				self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
-				self::USER_TYPE_PARENT => login_url("parent/user/center"),
-				self::USER_TYPE_RESEARCHER => login_url("researcher/user/center")
+			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
+			    self::USER_TYPE_PARENT => jia_url("parent/home"),
+			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
 			'register' => array(
-				//self::USER_TYPE_STUDENT => login_url("student/user/center"),
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 				self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
 				self::USER_TYPE_PARENT => login_url("parent/user/center"),
@@ -142,13 +144,13 @@ Class CI_Constant {
 			'tizi' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 			    self::USER_TYPE_TEACHER => tizi_url(),
-			    self::USER_TYPE_PARENT => jia_url(),
+			    self::USER_TYPE_PARENT => jia_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
 			'edu' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 			    self::USER_TYPE_TEACHER => tizi_url(),
-			    self::USER_TYPE_PARENT => jia_url(),
+			    self::USER_TYPE_PARENT => jia_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
 			'perfect' => array(
