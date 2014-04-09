@@ -14,7 +14,7 @@ class LI_Controller extends CI_Controller{
 	protected $tizi_urgrade=0;
 	protected $tizi_urdomain='';
 	protected $tizi_avatar=0;
-	protected $tizi_invite='';
+	//protected $tizi_invite='';
 	protected $tizi_redirect='';
 
 	protected $tizi_ajax=false;
@@ -34,6 +34,7 @@ class LI_Controller extends CI_Controller{
 	protected $_username='';
 	protected $_page_name='';
 	protected $_captcha_name='';
+	protected $_callback_name='';
 
 	protected $_check_login=true;
 	protected $_check_token=true;
@@ -141,10 +142,19 @@ class LI_Controller extends CI_Controller{
 
    		$this->smarty->assign('home_student', redirect_url(Constant::USER_TYPE_STUDENT,'tizi'));
     	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
-   		$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
+   		//$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
    		$this->smarty->assign('home_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,'tizi'));
 
-   		$this->smarty->assign('home_zl', zl_url('zl/home'));
+   		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')
+   		{
+   			$this->smarty->assign('home_zl', zl_url('zl/home'));
+   			$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
+   		}
+   		else
+   		{
+   			$this->smarty->assign('home_zl', zl_url());
+   			$this->smarty->assign('home_parent', jia_url());
+   		}
 
 		//是否有答疑权限，有的话就显示答疑tab
 		$this->smarty->assign('aq_show',$this->session->userdata('aq_show'));
@@ -229,9 +239,9 @@ class LI_Controller extends CI_Controller{
 
 	protected function token()
 	{
-		$this->_page_name=$this->input->post('page_name');
-		$this->_captcha_name=$this->input->post('captcha_name');
-		if(!$this->_captcha_name) $this->_captcha_name=$this->_page_name;
+		$this->_page_name=$this->input->post('page_name',true);
+		$this->_captcha_name=$this->input->post('captcha_name',true,true,$this->_page_name);
+		$this->_callback_name=$this->input->get_post('callback_name',true);
 
 		$token=$this->input->post('token');
 		$captcha=$this->input->post('captcha_word');
@@ -253,6 +263,7 @@ class LI_Controller extends CI_Controller{
 				if(!$check_captcha)
 				{
 					$_POST=array();
+					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
 				}
 			}
 		}
@@ -272,12 +283,14 @@ class LI_Controller extends CI_Controller{
 				else
 				{
 					$_POST=array();
+					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
 				}
 			}
 		}
 		else
 		{
 			$_POST=array();
+			if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
 		}
 
 		//检测未登录
@@ -305,7 +318,7 @@ class LI_Controller extends CI_Controller{
 			    	if($this->tizi_ajax)
 					{
 						$redirect=$this->input->get_post('redirect',true,false,'reload');
-						$reg_redirect=$this->input->get_post('reg_redirect',true);
+						$reg_redirect=$this->input->get_post('reg_redirect',true,true,'none');
 						$this->smarty->assign('login_url',login_url());
 						$this->smarty->assign('redirect',$redirect);
 						$this->smarty->assign('reg_redirect',$reg_redirect);

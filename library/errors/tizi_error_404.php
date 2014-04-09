@@ -44,7 +44,7 @@ input::-ms-clear{display:none;}
 .csInput{border:1px solid #999;height:26px;line-height: 26px;padding:0 6px;font-size:14px;color: #666;}
 /*head**/
 /*非三端头部开始*/
-.topNav{background:#f6f6f6;height:41px;border-bottom:1px solid #ececec;line-height: 41px;font-size:14px;}
+.topNav{background:#f6f6f6;height:28px;border-bottom:1px solid #ececec;line-height: 28px;}
 .topNav p.fl a{margin-right:10px;}
 .topNav .info a{margin-left:10px;}
 .topNav .info span.l{margin-left:10px;}
@@ -53,9 +53,9 @@ input::-ms-clear{display:none;}
 .topNav .miniBox{margin:0px 10px;}
 .header .bd{padding:13px 0px;}
 .header .bd h1 a{background:url(<?php echo $site_url; ?>application/views/static/<?php echo $static_version; ?>image/common/w_logo.gif) no-repeat;width:162px;height:67px;display:block; text-indent: -999em; overflow: hidden;}
-.header .bd h2{border-left:1px solid #ccc;padding-left:20px;margin-left:20px;font-size:24px;color:#ff9600; font-weight: normal;}
+.header .bd h2{padding-left:20px;font-size:24px;color:#ff9600; font-weight: normal;}
 .header .bd h2 span.channel{height:25px;}
-.header .bd h2 span{display: block;font-size: 16px;color:#009b7d;margin-top:8px;}
+.header .bd h2 span{display: block;font-size: 16px;color:#333;margin-top:8px;}
 .header .bd p{margin-top:38px;margin-left:20px;}
 .header .bd p a{background: #09aa83;padding:3px 10px;color:#fff;border:1px solid #00836f;}
 .header .bd .secLogo{margin-top:3px;}
@@ -145,7 +145,15 @@ input::-ms-clear{display:none;}
 <!--尾部start-->
 <div class="footer layout">
   <div class="hd">
-    <a target="_blank" href="<?php echo $tizi_url; ?>about/us">关于我们</a> | <a target="_blank" href="<?php echo $tizi_url; ?>about/school">团体帐户申请</a> | <a target="_blank" href="<?php echo $tizi_url; ?>about/contact">合作</a> | <a target="_blank" href="<?php echo $tizi_url; ?>about/join">加入我们</a>
+    <a href="<?php echo $tizi_url; ?>about/us" target="_blank">关于我们</a> | 
+    <a href="<?php echo $tizi_url; ?>about/advisor" target="_blank">名师顾问</a> | 
+    <!-- <a href="<?php echo $tizi_url; ?>about/partner" target="_blank">合作伙伴</a> |  -->
+    <a href="<?php echo $tizi_url; ?>about/school" target="_blank">团体申请</a> | 
+    <a href="<?php echo $tizi_url; ?>about/contact" target="_blank">联系我们</a> | 
+    <a href="<?php echo $tizi_url; ?>about/feedback" target="_blank">反馈建议</a> | 
+    <a href="<?php echo $tizi_url; ?>about/join" target="_blank">职位招聘</a> | 
+    <a href="<?php echo $tizi_url; ?>about/agreements" target="_blank">服务协议</a> | 
+    <a href="<?php echo $zl_url; ?>" target="_blank">资料库</a>
   </div>
   <div class="bd">
   <span>&copy;2014 tizi</span>
