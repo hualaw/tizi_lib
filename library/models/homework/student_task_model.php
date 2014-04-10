@@ -194,11 +194,6 @@ class Student_Task_Model extends LI_Model{
         return $tasks;
     }
     
-    private function _getArticle(){
-        
-    }
-
-
     private function _getHistoryVideoByGrade($grade){
     
         $data = $this->db
