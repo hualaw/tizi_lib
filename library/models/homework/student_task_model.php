@@ -186,7 +186,7 @@ class Student_Task_Model extends LI_Model{
                 $article = $this->db->query($sql)
                     ->row_array();
                 $article['attached_file'] = json_decode($article['attached_file'],true);
-                $article['content'] = sub_str(filter_var($article['content'], FILTER_SANITIZE_STRING), 0, 220).'...'; 
+                $article['content'] = sub_str(filter_var($article['content'], FILTER_SANITIZE_STRING), 0, 220); 
                 $article['task_type'] = 4;
                 $tasks[] = $article;
             }
