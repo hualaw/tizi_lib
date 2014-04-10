@@ -46,6 +46,15 @@ class Stu_Video_Model extends LI_Model {
 		return $query->result();
 	}
 
+	public function get_video($grade=0,$from=false,$to=false)
+	{
+		if($grade) $this->db->where('grade_id',$grade);
+		$this->db->where('online',1);
+		$this->db->order_by('date,id','desc');
+		$query=$this->db->get($this->_table);
+		return $query->result();
+	}
+
 	/** 更新每日口语信息
 	 * @param $vid
 	 * @param $data
