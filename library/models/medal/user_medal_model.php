@@ -68,8 +68,12 @@ class user_medal_model extends MY_Model {
 
 			$r_key = $user_id;
 
-			if ($login_statistics = $this->cache->redis->hgetall($r_key)) {
-				return unserialize($login_statistics);
+			if ($tmp = $this->cache->redis->hgetall($r_key)) {
+				$login_statistics = array();
+				foreach ($tmp as $kl => $vl) {
+					$login_statistics[$kl] = unserialize($vl);
+				}
+				return $login_statistics;
 			}
 		}
 
