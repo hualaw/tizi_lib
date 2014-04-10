@@ -9,6 +9,7 @@ class Stu_Video_Model extends LI_Model {
 
 	}
 
+	//每日口语app端
 	public function get_stu_video($grade=1,$page_num=1,$total=false)
 	{
 		if($grade) $this->db->where('grade_id',$grade);
@@ -27,6 +28,7 @@ class Stu_Video_Model extends LI_Model {
 		return $query->result();
 	}
 
+	//每日口语web端
 	public function get_stu_video_by_id($vid)
 	{
 		$this->db->where('id',$vid);
