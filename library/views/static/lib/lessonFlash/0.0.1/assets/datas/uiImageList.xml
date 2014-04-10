@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:f2657196341e8395e4848ba37ea6fbb0:941adddafa16e95e1fb9c4d22110510a:19b58638b0410d34d230f49451d18c38$ -->
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:e2b6bf2820fe46538ab311c7275e9f88$ -->
 <TextureAtlas imagePath="uiImageList.png">
-    <SubTexture name="backPaperButton_1" x="2" y="99" width="21" height="18"/>
-    <SubTexture name="backPaperButton_2" x="2" y="79" width="21" height="18"/>
-    <SubTexture name="downLoadButton" x="2" y="2" width="107" height="35"/>
-    <SubTexture name="fullScreenButtonRightUp_1" x="25" y="93" width="16" height="16"/>
-    <SubTexture name="fullScreenButtonRightUp_2" x="111" y="18" width="14" height="14" frameX="-1" frameY="-1" frameWidth="16" frameHeight="16"/>
-    <SubTexture name="fullScreenButton_1" x="25" y="75" width="16" height="16"/>
-    <SubTexture name="fullScreenButton_2" x="111" y="2" width="14" height="14" frameX="-1" frameY="-1" frameWidth="16" frameHeight="16"/>
-    <SubTexture name="nextPaperButton_1" x="2" y="59" width="21" height="18"/>
-    <SubTexture name="nextPaperButton_2" x="2" y="39" width="21" height="18"/>
-    <SubTexture name="zoomButtonDown_1" x="20" y="119" width="16" height="4" frameX="0" frameY="-6" frameWidth="16" frameHeight="16"/>
-    <SubTexture name="zoomButtonDown_2" x="2" y="119" width="16" height="4" frameX="0" frameY="-6" frameWidth="16" frameHeight="16"/>
-    <SubTexture name="zoomButtonUp_1" x="25" y="57" width="16" height="16"/>
-    <SubTexture name="zoomButtonUp_2" x="25" y="39" width="16" height="16"/>
+    <SubTexture name="backPaperButton_1" x="2" y="39" width="45" height="12" frameX="-3" frameY="-3" frameWidth="51" frameHeight="18"/>
+    <SubTexture name="backPaperButton_2" x="77" y="30" width="45" height="12" frameX="-3" frameY="-3" frameWidth="51" frameHeight="18"/>
+    <SubTexture name="downLoadButton" x="2" y="2" width="73" height="35"/>
+    <SubTexture name="fullScreenButtonRightUp_1" x="49" y="39" width="16" height="16"/>
+    <SubTexture name="fullScreenButtonRightUp_2" x="19" y="71" width="14" height="14" frameX="-1" frameY="-1" frameWidth="16" frameHeight="16"/>
+    <SubTexture name="fullScreenButton_1" x="2" y="53" width="16" height="16"/>
+    <SubTexture name="fullScreenButton_2" x="19" y="87" width="14" height="14" frameX="-1" frameY="-1" frameWidth="16" frameHeight="16"/>
+    <SubTexture name="nextPaperButton_1" x="77" y="16" width="45" height="12" frameX="-3" frameY="-3" frameWidth="51" frameHeight="18"/>
+    <SubTexture name="nextPaperButton_2" x="77" y="2" width="45" height="12" frameX="-3" frameY="-3" frameWidth="51" frameHeight="18"/>
+    <SubTexture name="zoomButtonDown_1" x="2" y="105" width="15" height="15"/>
+    <SubTexture name="zoomButtonDown_2" x="2" y="88" width="15" height="15"/>
+    <SubTexture name="zoomButtonUp_1" x="2" y="71" width="15" height="15"/>
+    <SubTexture name="zoomButtonUp_2" x="20" y="53" width="15" height="15"/>
 </TextureAtlas>

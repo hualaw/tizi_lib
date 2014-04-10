@@ -690,7 +690,7 @@ class Student_Homework_Model extends LI_Model{
         return $result;
     }
     
-    private function _replace_img_url($content){
+    function _replace_img_url($content){
         foreach($content as $key=>$val){
             foreach($this->_img_url as $img_k => $img_v){
                 if(isset($val['body'])){
@@ -698,6 +698,9 @@ class Student_Homework_Model extends LI_Model{
                 }
                 if(isset($val['analysis'])){
                     $val['analysis'] = str_replace($img_k,$img_v,$val['analysis']);
+                }
+                if(isset($val['answer_text'])){
+                    $val['answer_text'] = str_replace($img_k,$img_v,$val['answer_text']);
                 }
             }
             $content[$key] = $val;
@@ -717,6 +720,13 @@ class Student_Homework_Model extends LI_Model{
             }
         }
         return trim($text);
+    }
+
+    //学生下载作业，置位is_download
+    function set_is_download($assid,$user_id){
+        $sql= "update student_homework set is_download=1 where assignment_id=? and student_id=? ";
+        $arr = array($assid,$user_id);
+        return $this->db->query($sql,$arr);
     }
 
 
