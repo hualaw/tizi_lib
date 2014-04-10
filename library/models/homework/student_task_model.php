@@ -178,10 +178,26 @@ class Student_Task_Model extends LI_Model{
                 $share=$this->db->query("select f.*,s.*,f.is_del as file_is_del,s.is_del as share_is_del from cloud_share s left join cloud_user_file f on f.id=s.file_id where s.id={$val['index_value']}")->row_array();
                 $share['task_type'] = 3;
                 $tasks[] = $share;
+            }elseif($val['task_type'] == 4){
+                $sql = "select ra.id,ra.title,ra.content as content ,ra.attached_file,ra.last_modified_time,ur.organization,ur.domain_name
+                    from researcher_article  ra
+                    left JOIN user_researcher_data ur on ur.id=ra.researcher_id
+                    where ra.id = {$val['index_value']} and  ra.`status` = 1  ORDER BY ra.last_modified_time desc ";
+                $article = $this->db->query($sql)
+                    ->row_array();
+                $article['attached_file'] = json_decode($article['attached_file'],true);
+                $article['content'] = sub_str(filter_var($article['content'], FILTER_SANITIZE_STRING), 0, 220).'...'; 
+                $article['task_type'] = 4;
+                $tasks[] = $article;
             }
         }
         return $tasks;
     }
+    
+    private function _getArticle(){
+        
+    }
+
 
     private function _getHistoryVideoByGrade($grade){
     
