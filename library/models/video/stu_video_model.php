@@ -46,4 +46,19 @@ class Stu_Video_Model extends LI_Model {
 		return $query->result();
 	}
 
+	/** 更新每日口语信息
+	 * @param $vid
+	 * @param $data
+	 * @return bool
+	 */
+	public function update_video($vid, $data){
+		$this->db->trans_start();
+		$this->db->update($this->_table, $data, 'id = ' . $vid);
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() === false) {
+			return false;
+		}
+		return true;
+	}
 }
