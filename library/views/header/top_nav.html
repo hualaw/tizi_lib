@@ -11,7 +11,7 @@
     {$reg_url=$login_url|cat:"register"}
     {if isset($reg_redirect) && $reg_redirect}
         {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($reg_redirect)}
-    {else if isset($this_url) && $this_url}
+    {else if isset($this_url) && $this_url && $this_url neq $tizi_url}
         {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($this_url)}
     {/if}
     {if isset($reg_default) && $reg_default}
