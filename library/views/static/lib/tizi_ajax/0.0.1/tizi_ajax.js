@@ -11,16 +11,24 @@
 			window.location.reload();
 			return false;
 		}else if(data.rdr === true){
-			$.tiziDialog({
-				content:data.error,
-				close:function(){
-					if(data.redirect){
-						window.location.href=data.redirect;
-					}else{
-						window.location.reload();
+			if(data.error){
+				$.tiziDialog({
+					content:data.error,
+					close:function(){
+						if(data.redirect){
+							window.location.href=data.redirect;
+						}else{
+							window.location.reload();
+						}
 					}
+				});
+			}else{
+				if(data.redirect){
+					window.location.href=data.redirect;
+				}else{
+					window.location.reload();
 				}
-			});
+			}
 			return false;
 		}else{
 			if(data.token != '' && data.token != undefined) {
