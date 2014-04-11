@@ -16,9 +16,9 @@
     {/if}
     {if isset($reg_default) && $reg_default}
         {if isset($reg_redirect) && $reg_redirect}
-            {$reg_url=$reg_url|cat:"&def="|cat:$reg_default}
+            {$reg_url=$reg_url|cat:"&role="|cat:$reg_default}
         {else}
-            {$reg_url=$reg_url|cat:"?def="|cat:$reg_default}
+            {$reg_url=$reg_url|cat:"?role="|cat:$reg_default}
         {/if}
     {/if}
     <a href="{$reg_url}" target="_blank">免费注册</a>
