@@ -37,9 +37,9 @@ class Stu_Video_Model extends LI_Model {
 		return $query->row();
 	}
 
-	public function get_video_by_grade($grade)
+	public function get_video_by_grade($grade=0)
 	{
-		$this->db->where('grade_id',$grade);
+		if($grade) $this->db->where('grade_id',$grade);
 		$this->db->where('online',1);
 		$this->db->order_by('date','desc');
 		$query=$this->db->get($this->_table);
