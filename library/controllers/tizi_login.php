@@ -165,7 +165,7 @@ class Tizi_Login extends MY_Controller {
     {
     	$login_redirect=$this->input->get('redirect',true);
     	$reg_redirect=$this->input->get('href',true);
-    	$reg_default=$this->input->get('rdef',true);
+    	$reg_role=$this->input->get('rdef',true);
     	$html='';
         $errorcode=($this->tizi_uid>0);
         if(!$errorcode)
@@ -174,11 +174,11 @@ class Tizi_Login extends MY_Controller {
 	        $this->smarty->assign('login_url',login_url());
 			$this->smarty->assign('login_redirect',$login_redirect);
 			$this->smarty->assign('reg_redirect',$reg_redirect);
-			$this->smarty->assign('reg_default',$reg_default);
+			$this->smarty->assign('reg_role',$reg_role);
 			$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
 			$redirect='';
 		}
-        echo json_token(array('errorcode'=>$errorcode,'html'=>$html,'login_redirect'=>$login_redirect,'reg_redirect'=>$reg_redirect,'reg_default'=>$reg_default));
+        echo json_token(array('errorcode'=>$errorcode,'html'=>$html,'login_redirect'=>$login_redirect,'reg_redirect'=>$reg_redirect,'reg_role'=>$reg_role));
         exit();
     }
 

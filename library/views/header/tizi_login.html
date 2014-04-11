@@ -30,11 +30,11 @@
             {if isset($reg_redirect) && $reg_redirect}
                 {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($reg_redirect)}
             {/if}
-            {if isset($reg_default) && $reg_default}
+            {if isset($reg_role) && $reg_role}
                 {if isset($reg_redirect) && $reg_redirect}
-                    {$reg_url=$reg_url|cat:"&def="|cat:$reg_default}
+                    {$reg_url=$reg_url|cat:"&role="|cat:$reg_role}
                 {else}
-                    {$reg_url=$reg_url|cat:"?def="|cat:$reg_default}
+                    {$reg_url=$reg_url|cat:"?role="|cat:$reg_role}
                 {/if}
             {/if}
             <a href="{$reg_url}" target="_blank" class="fr yh aReg cBtnSilver" >免费注册</a>
