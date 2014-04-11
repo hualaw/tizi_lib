@@ -2,7 +2,7 @@
 $lang['default_error']=$lang['error_default']="系统繁忙，请稍后再试";
 $lang['default_error_login']="页面已失效，请您首先登录";
 $lang['default_error_token']="页面已失效，请您刷新页面";//"对话框超时";
-$lang['error_default_re_login']="您已登录，请您刷新页面";
+$lang['default_error_re_login']="您已登录，请您刷新页面";
 
 //user type
 $lang['error_user_type_teacher']="您的身份不是老师";
@@ -25,7 +25,6 @@ $lang['error_reg_user_type']="未知的用户类型";
 $lang['error_reg_exist_email']="邮箱已存在，无法注册";
 $lang['error_reg_exist_phone']="手机已存在，无法注册";
 $lang['error_reg_exist_uname']="用户名已存在，无法注册";
-$lang['error_reg_re_login']="您已登录，无法注册";
 
 /*zujuan sms errormsg*/
 $lang['error_sms_invalid_phone']="无效的手机号码";

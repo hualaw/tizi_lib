@@ -10,7 +10,7 @@
 		}else if(data.token === false){
 			window.location.reload();
 			return false;
-		}else if(data.rdr === true){
+		}else if(data.reload === true){
 			if(data.error){
 				$.tiziDialog({
 					content:data.error,
