@@ -27,6 +27,7 @@ class LI_Controller extends CI_Controller{
 
 	protected $_loginlist=array();
 	protected $_unloginlist=array();
+	protected $_dnloginlist=array();
 	protected $_captchalist=array();
 	protected $_postlist=array();
 
@@ -245,7 +246,7 @@ class LI_Controller extends CI_Controller{
 
 		$token=$this->input->post('token');
 		$captcha=$this->input->post('captcha_word');
-		
+
 		//post 检测captcha
 		if($this->_check_captcha)
 		{
@@ -267,7 +268,7 @@ class LI_Controller extends CI_Controller{
 				}
 			}
 		}
-		    
+		
 		//post 检测token
 		if($this->_page_name&&$this->_check_token)
 	    {
@@ -334,15 +335,28 @@ class LI_Controller extends CI_Controller{
 			    }
 			}
 	    }
-	    else
+	    else if($this->tizi_uid)
 	    {
-	    	if(!$this->tizi_ajax)
+	    	$check_dnlogin=0;
+			foreach($this->_segmenttype as $st)
 			{
-				if(!empty($this->_segment['an']))
-				{
-	    			//$this->bind_check();
-	    		}
-	    	}
+				if(!empty($this->_segment[$st])&&isset($this->_dnloginlist[$st])&&!empty($this->_dnloginlist[$st])&&in_array($this->_segment[$st],$this->_dnloginlist[$st]))
+		        {
+            		$check_dnlogin++;
+		        }
+		    }
+			if($check_dnlogin)
+	        {
+	            if($this->tizi_ajax) 
+	            {
+	                echo json_ntoken(array('errorcode'=>false,'error'=>'','redirect'=>$this->tizi_redirect,'rdr'=>true));
+	                exit();
+	            }
+	            else
+	            {
+	                redirect($this->tizi_redirect);
+	            }
+	        }
 	    }
 	}
 
@@ -352,6 +366,8 @@ class LI_Controller extends CI_Controller{
 		$this->_loginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//不登陆情况下可以访问的页面
 		$this->_unloginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
+		//登陆情况下不可以访问的页面
+		$this->_dnloginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//必须经过验证码验证的请求
 		$this->_captchalist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//强制post的请求
