@@ -6,32 +6,21 @@
 			seajs.use('tizi_login_form',function(ex){
 				ex.loginForm(data.html);
 			});
-			/*
-			$.tiziDialog({
-				content:data.error,
-				ok:function(){
-					window.location.href = baseUrlName;
-				},
-				close:function(){
-					window.location.href = baseUrlName;
-				}
-			});
-			*/
-			// window.location.href = baseUrlName;
 			return false;
 		}else if(data.token === false){
-			/*
+			window.location.reload();
+			return false;
+		}else if(data.rdr === true){
 			$.tiziDialog({
 				content:data.error,
-				ok:function(){
-					window.location.reload();
-				},
 				close:function(){
-					window.location.reload();
+					if(data.redirect){
+						window.location.href=data.redirect;
+					}else{
+						window.location.reload();
+					}
 				}
 			});
-			*/
-			window.location.reload();
 			return false;
 		}else{
 			if(data.token != '' && data.token != undefined) {
