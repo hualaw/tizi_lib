@@ -5,7 +5,6 @@
     </span>
     <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
     <span class="l">|</span>
-    {$return = 'tizi'}
     <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($redirect) && $redirect}{$redirect}{else}reload{/if}">退出</a>
     {else}
     <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($redirect) && $redirect}{$redirect}{else}reload{/if}">登录</a>

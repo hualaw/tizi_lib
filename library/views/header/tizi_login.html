@@ -23,13 +23,31 @@
     </ul>
     <a href="{$login_url}forgot" class="fogetPw">忘记密码？</a>
     <div class="cf bottomLogin">
-        <input type="hidden" name="redirect" value="{if isset($login_redirect) and $login_redirect}{$login_redirect}{else if isset($redirect) and $redirect}{$redirect}{/if}" />
+        {if !isset($login_redirect) and isset($redirect) and $redirect}
+            {$login_redirect=$redirect}
+        {/if}
+        <input type="hidden" name="redirect" value="{$login_redirect}" />
         <input type="submit" class="cBtnNormal submitBtn yh fl" tabindex="3" value="登录" />
         {if !isset($hide_register) or !$hide_register}
-        {if isset($reg_redirect) and $reg_redirect}{$param['redirect']=urlencode($reg_redirect)}{else if isset($redirect) and $redirect}{$param['redirect']=urlencode($redirect)}{/if}
-        {if isset($reg_default)}{$param['default']=$reg_default}{/if}
-        {if isset($reg_redirect) and $reg_redirect eq 'none'}{$param['redirect']=null}{/if}
-        <a href="{$login_url}register{if isset($param['redirect'])}?redirect={$param['redirect']}{/if}{if isset($param['default'])}{if isset($param['redirect'])}&{else}?{/if}def={$param['default']}{/if}" target="_blank" class="fr yh aReg cBtnSilver" >免费注册</a>
+            {$reg_url=$login_url|cat:"register"}
+            {if !isset($reg_redirect)}
+                {if isset($redirect) and $redirect}
+                    {$reg_redirect=$redirect}
+                {else}
+                    {$reg_redirect=''}
+                {/if}
+            {/if}
+            {if $reg_redirect}
+                {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($reg_redirect)}
+            {/if}
+            {if isset($reg_default)}
+                {if $reg_redirect}
+                    {$reg_url=$reg_url|cat:"&def="|cat:$reg_default}
+                {else}
+                    {$reg_url=$reg_url|cat:"?def="|cat:$reg_default}
+                {/if}
+            {/if}
+            <a href="{$reg_url}" target="_blank" class="fr yh aReg cBtnSilver" >免费注册</a>
         {/if}
     </div>
 </form>
