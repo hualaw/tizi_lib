@@ -17,17 +17,23 @@ define(function(require, exports) {
         $('.loginCheck').live('click',function(){
             var redirect = $(this).attr('dest');
             if(redirect == undefined) redirect = $(this).attr('href');
-            exports.loginCheck(redirect);
+            var rdef = $(this).attr('rdef');
+            var param = {'redirect':redirect,'rdef':rdef};
+            exports.loginCheck(param);
             return false;
         });
     }
 
-    exports.loginCheck = function(redirect,fn){
+    exports.loginCheck = function(param,fn){
+        if(typeof param == 'string') {
+            param = {'redirect':param}
+        }
+        param['href'] = window.location.href;
         $.tizi_ajax({
             url: loginUrlName + 'login/check',
             type: "get",
             dataType: "jsonp",
-            data: {'redirect':redirect,'href':window.location.href},
+            data: param,
             success: function(data) {
                 if(data.errorcode){
                     if(data.redirect == 'reload'){

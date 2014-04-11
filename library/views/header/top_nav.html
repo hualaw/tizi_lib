@@ -5,10 +5,10 @@
     </span>
     <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
     <span class="l">|</span>
-    <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($redirect) && $redirect}{$redirect}{else}reload{/if}">退出</a>
+    <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($logout_redirect) && $logout_redirect}{$logout_redirect}{else}reload{/if}">退出</a>
     {else}
-    <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($redirect) && $redirect}{$redirect}{else}reload{/if}">登录</a>
-    <a href="{$login_url}register" target="_blank">免费注册</a>
+    <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($login_redirect) && $login_redirect}{$login_redirect}{else}reload{/if}" rdef="{if isset($reg_default)}{$reg_default}{/if}">登录</a>
+    <a href="{$login_url}register{if isset($reg_default)}?def={$reg_default}{/if}" target="_blank">免费注册</a>
     {/if}
 </p>
 <p class="fl">
