@@ -295,47 +295,44 @@ class LI_Controller extends CI_Controller{
 		}
 
 		//检测未登录
-		if($this->_check_login)
+		if($this->_check_login&&!empty($this->_segment['an']))
 		{
 			if(!$this->tizi_uid)
 			{
-				if(!empty($this->_segment['an']))
+				//上传，必须登录
+				if($this->_segment['an'] == 'upload')
 				{
-					//上传，必须登录
-					if($this->_segment['an'] == 'upload')
-					{
-						echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'msg'=>$this->lang->line('default_error_login'),'success'=>false,'login'=>false,'token'=>false,'code'=>1));
-			            exit();
-					}
-
-					$check_login=0;
-					foreach($this->_segmenttype as $st)
-					{
-						if(!empty($this->_segment[$st])&&isset($this->_unloginlist[$st])&&!empty($this->_unloginlist[$st])&&in_array($this->_segment[$st],$this->_unloginlist[$st]))
-				        {
-		            		$check_login++;
-				        }
-				    }
-				    if(!$check_login)
-				    {
-				    	if($this->tizi_ajax)
-						{
-							$redirect=$this->input->get_post('redirect',true,false,'reload');
-							$reg_redirect=$this->input->get_post('reg_redirect',true,true,'none');
-							$this->smarty->assign('login_url',login_url());
-							$this->smarty->assign('redirect',$redirect);
-							$this->smarty->assign('reg_redirect',$reg_redirect);
-							$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
-					    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'html'=>$html,'token'=>false,'code'=>1));
-						    exit();
-						}
-						else
-						{
-							//$this->session->set_flashdata('errormsg',$this->lang->line('default_error_login'));
-				    		redirect(site_url('',$this->site));
-				    	}
-				    }
+					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'msg'=>$this->lang->line('default_error_login'),'success'=>false,'login'=>false,'token'=>false,'code'=>1));
+		            exit();
 				}
+
+				$check_login=0;
+				foreach($this->_segmenttype as $st)
+				{
+					if(!empty($this->_segment[$st])&&isset($this->_unloginlist[$st])&&!empty($this->_unloginlist[$st])&&in_array($this->_segment[$st],$this->_unloginlist[$st]))
+			        {
+	            		$check_login++;
+			        }
+			    }
+			    if(!$check_login)
+			    {
+			    	if($this->tizi_ajax)
+					{
+						$redirect=$this->input->get_post('redirect',true,false,'reload');
+						$reg_redirect=$this->input->get_post('reg_redirect',true,true,'none');
+						$this->smarty->assign('login_url',login_url());
+						$this->smarty->assign('redirect',$redirect);
+						$this->smarty->assign('reg_redirect',$reg_redirect);
+						$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
+				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'html'=>$html,'token'=>false,'code'=>1));
+					    exit();
+					}
+					else
+					{
+						//$this->session->set_flashdata('errormsg',$this->lang->line('default_error_login'));
+			    		redirect(site_url('',$this->site));
+			    	}
+			    }
 		    }
 		    else
 		    {
