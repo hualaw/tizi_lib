@@ -46,8 +46,8 @@ class LI_Controller extends CI_Controller{
 		parent::__construct();
 
 		$this->site=$site;
-		$this->init();
 		$this->auto_login();
+		$this->init();
 		$this->token_list();
 		$this->request_check();
 		$this->token();
@@ -178,8 +178,9 @@ class LI_Controller extends CI_Controller{
 	protected function auto_login()
 	{
         $this->_username=$this->input->cookie(Constant::COOKIE_TZUSERNAME);
+        $this->tizi_uid=$this->session->userdata("user_id");
 
-		if(!$this->tizi_uid&&$this->_username)	
+		if(!$this->tizi_uid&&$this->_username)
 		{
 			$this->load->model("login/session_model");
 
