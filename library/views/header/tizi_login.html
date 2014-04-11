@@ -23,29 +23,15 @@
     </ul>
     <a href="{$login_url}forgot" class="fogetPw">忘记密码？</a>
     <div class="cf bottomLogin">
-        {if !isset($login_redirect)}
-            {if isset($redirect) and $redirect}
-                {$login_redirect=$redirect}
-            {else}
-                {$login_redirect=''}
-            {/if}
-        {/if}
-        <input type="hidden" name="redirect" value="{$login_redirect}" />
+        <input type="hidden" name="redirect" value="{if isset($login_redirect)}{$login_redirect}{/if}" />
         <input type="submit" class="cBtnNormal submitBtn yh fl" tabindex="3" value="登录" />
         {if !isset($hide_register) or !$hide_register}
             {$reg_url=$login_url|cat:"register"}
-            {if !isset($reg_redirect)}
-                {if isset($redirect) and $redirect}
-                    {$reg_redirect=$redirect}
-                {else}
-                    {$reg_redirect=''}
-                {/if}
-            {/if}
-            {if $reg_redirect}
+            {if isset($reg_redirect) && $reg_redirect}
                 {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($reg_redirect)}
             {/if}
-            {if isset($reg_default)}
-                {if $reg_redirect}
+            {if isset($reg_default) && $reg_default}
+                {if isset($reg_redirect) && $reg_redirect}
                     {$reg_url=$reg_url|cat:"&def="|cat:$reg_default}
                 {else}
                     {$reg_url=$reg_url|cat:"?def="|cat:$reg_default}
