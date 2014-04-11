@@ -2,6 +2,7 @@
 $lang['default_error']=$lang['error_default']="系统繁忙，请稍后再试";
 $lang['default_error_login']="页面已失效，请您首先登录";
 $lang['default_error_token']="页面已失效，请您刷新页面";//"对话框超时";
+$lang['default_error_re_login']="您已登录，请您刷新页面";
 
 //user type
 $lang['error_user_type_teacher']="您的身份不是老师";
