@@ -17,8 +17,8 @@ define(function(require, exports) {
         $('.loginCheck').live('click',function(){
             var redirect = $(this).attr('dest');
             if(redirect == undefined) redirect = $(this).attr('href');
-            var rdef = $(this).attr('rdef');
-            var param = {'redirect':redirect,'rdef':rdef};
+            var role = $(this).attr('role');
+            var param = {'redirect':redirect,'role':role};
             exports.loginCheck(param);
             return false;
         });

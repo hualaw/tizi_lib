@@ -7,18 +7,18 @@
     <span class="l">|</span>
     <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($logout_redirect) && $logout_redirect}{$logout_redirect}{else}reload{/if}">退出</a>
     {else}
-    <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($login_redirect) && $login_redirect}{$login_redirect}{else}reload{/if}" rdef="{if isset($reg_default)}{$reg_default}{/if}">登录</a>
+    <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($login_redirect) && $login_redirect}{$login_redirect}{else}reload{/if}" role="{if isset($reg_role)}{$reg_role}{/if}">登录</a>
     {$reg_url=$login_url|cat:"register"}
     {if isset($reg_redirect) && $reg_redirect}
         {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($reg_redirect)}
     {else if isset($this_url) && $this_url && $this_url neq $tizi_url}
         {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($this_url)}
     {/if}
-    {if isset($reg_default) && $reg_default}
+    {if isset($reg_role) && $reg_role}
         {if isset($reg_redirect) && $reg_redirect}
-            {$reg_url=$reg_url|cat:"&role="|cat:$reg_default}
+            {$reg_url=$reg_url|cat:"&role="|cat:$reg_role}
         {else}
-            {$reg_url=$reg_url|cat:"?role="|cat:$reg_default}
+            {$reg_url=$reg_url|cat:"?role="|cat:$reg_role}
         {/if}
     {/if}
     <a href="{$reg_url}" target="_blank">免费注册</a>
