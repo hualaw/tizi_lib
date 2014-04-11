@@ -24,6 +24,7 @@ $lang['error_reg_user_type']="未知的用户类型";
 $lang['error_reg_exist_email']="邮箱已存在，无法注册";
 $lang['error_reg_exist_phone']="手机已存在，无法注册";
 $lang['error_reg_exist_uname']="用户名已存在，无法注册";
+$lang['error_reg_re_login']="您已登录，无法注册";
 
 /*zujuan sms errormsg*/
 $lang['error_sms_invalid_phone']="无效的手机号码";
