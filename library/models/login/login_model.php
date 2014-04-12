@@ -46,7 +46,7 @@ class Login_Model extends LI_Model {
 		else
 		{
 			return array('user_id'=>null,'errorcode'=>Constant::LOGIN_INVALID_TYPE,'error'=>'LOGIN_INVALID_TYPE');
-		}		
+		}
 		$this->db->select("id,verified,email,email_verified,phone,phone_verified,name,student_id,user_type,password,is_lock");
 		$this->db->from($this->_table);
 		$query=$this->db->get();	
