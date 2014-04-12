@@ -106,16 +106,18 @@ class Student_Data_Model extends LI_Model {
         {
             case 1:
             case 2:
-            case 3: $grade_video=3;break;
+            case 3: $grade_video=3;break;//初中
             case 4:
             case 5:
-            case 6: $grade_video=4;break;
+            case 6:
+            case 13: 
+            case 14:$grade_video=4;break;//高中
             case 7:
             case 8:
-            case 9: $grade_video=1;break;
+            case 9: $grade_video=1;break;//小学1-3
             case 10:
             case 11:
-            case 12:$grade_video=2;break;
+            case 12:$grade_video=2;break;//小学4-6
             default:$grade_video=1;break;
         }
         return $grade_video;

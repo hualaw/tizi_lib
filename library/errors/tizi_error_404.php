@@ -94,6 +94,7 @@ input::-ms-clear{display:none;}
             <a href="<?php echo $login_url; ?>logout">退出</a>
         <?php else: ?>
             <a href="<?php echo $login_url; ?>">登录</a>
+            <a href="<?php echo $login_url; ?>register">免费注册</a>
         <?php endif; ?>
         </p>
         <p class="fl">
