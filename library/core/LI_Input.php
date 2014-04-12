@@ -105,6 +105,24 @@ class LI_Input extends CI_Input {
 		return $str;
 	}
 
+	public function is_ajax_request()
+	{
+		$is_ajax_request = false;
+
+		if($this->server('HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest')
+		{
+			$is_ajax_request = true;
+		}
+		//jsonp
+		else
+		{
+			$callback = $this->get_post('callback',true);
+			if(stripos($callback,'jquery')!==false) $is_ajax_request = true;
+		}
+
+		return $is_ajax_request;
+	}
+
 }
 
 /* End of file MY_Input.php */

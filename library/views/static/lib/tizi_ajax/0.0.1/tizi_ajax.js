@@ -7,28 +7,16 @@
 				ex.loginForm(data.html);
 			});
 			return false;
+		}else if(data.dnlogin === true){
+			$.tiziDialog({
+				content:data.error,
+				close:function(){
+					window.location.href=data.redirect;
+				}
+			});
+			return false;
 		}else if(data.token === false){
 			window.location.reload();
-			return false;
-		}else if(data.reload === true){
-			if(data.error){
-				$.tiziDialog({
-					content:data.error,
-					close:function(){
-						if(data.redirect){
-							window.location.href=data.redirect;
-						}else{
-							window.location.reload();
-						}
-					}
-				});
-			}else{
-				if(data.redirect){
-					window.location.href=data.redirect;
-				}else{
-					window.location.reload();
-				}
-			}
 			return false;
 		}else{
 			if(data.token != '' && data.token != undefined) {
