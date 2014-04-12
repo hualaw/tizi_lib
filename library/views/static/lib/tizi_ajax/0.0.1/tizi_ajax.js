@@ -7,9 +7,6 @@
 				ex.loginForm(data.html);
 			});
 			return false;
-		}else if(data.token === false){
-			window.location.reload();
-			return false;
 		}else if(data.dnlogin === true){
 			$.tiziDialog({
 				content:data.error,
@@ -17,6 +14,9 @@
 					window.location.href=data.redirect;
 				}
 			});
+			return false;
+		}else if(data.token === false){
+			window.location.reload();
 			return false;
 		}else{
 			if(data.token != '' && data.token != undefined) {
