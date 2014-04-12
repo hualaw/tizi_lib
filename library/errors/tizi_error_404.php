@@ -98,9 +98,7 @@ input::-ms-clear{display:none;}
         </p>
         <p class="fl">
             <a href="<?php echo $tizi_url; ?>">梯子网首页</a>
-            <!--
-            <a class="cBtnFeedback" href="javascript:void(0);">用户反馈</a>
-            -->
+            <a href="<?php echo $tizi_url; ?>about/feedback" target="_blank">反馈建议</a>
         </p>
     </div>
 </div>
