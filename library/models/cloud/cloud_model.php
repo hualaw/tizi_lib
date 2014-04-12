@@ -29,7 +29,7 @@ class cloud_model extends MY_Model{
                 $stu_ids = $this->classes_student->get_user_ids($val['class_id'],'user_id');
                 if($stu_ids){
                     foreach($stu_ids as $stus=>$s){
-                        $this->student_task_model->pushTaskOnShare($s['user_id'],$insert_id); 
+                        $this->student_task_model->pushTaskOnShare($s['user_id'],$insert_id,time()); 
                     }
                 }
             }
