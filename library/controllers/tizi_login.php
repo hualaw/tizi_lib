@@ -173,6 +173,7 @@ class Tizi_Login extends MY_Controller {
     	$redirect=$this->input->get('redirect',true);
     	$reg_redirect=$this->input->get('href',true);
     	$reg_role=$this->input->get('role',true);
+    	
     	$html='';
         $errorcode=($this->tizi_uid>0);
         if(!$errorcode)
