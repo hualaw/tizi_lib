@@ -90,6 +90,12 @@ class LI_Controller extends CI_Controller{
 				Constant::USER_TYPE_TEACHER=>'teacher',
 				Constant::USER_TYPE_PARENT=>'parent',
 				Constant::USER_TYPE_RESEARCHER=>'researcher'
+			),
+			'role_name'=>array(
+				Constant::USER_TYPE_STUDENT=>'学生',
+				Constant::USER_TYPE_TEACHER=>'老师',
+				Constant::USER_TYPE_PARENT=>'家长',
+				Constant::USER_TYPE_RESEARCHER=>'教研员'
 			)
    		);
    		$this->tizi_role=isset($this->user_constant['user_type'][$this->tizi_utype])?
@@ -351,7 +357,8 @@ class LI_Controller extends CI_Controller{
 		        {
 		            if($this->tizi_ajax) 
 		            {
-		                echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_re_login'),'redirect'=>$this->tizi_redirect,'reload'=>true,'code'=>1));
+		            	$error=sprintf($this->lang->line('default_error_re_login'),$this->user_constant['role_name'][$this->tizi_utype]);
+		                echo json_ntoken(array('errorcode'=>false,'error'=>$error,'redirect'=>$this->tizi_redirect,'dnlogin'=>true,'code'=>1));
 		                exit();
 		            }
 		            else
