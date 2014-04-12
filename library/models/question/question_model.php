@@ -55,6 +55,8 @@ class Question_Model extends MY_Model {
 		}
         if ($qtype) $this->db->where($this->table.'.qtype_id',$qtype);
         if ($qlevel) $this->db->where($this->table.'.level_id',$qlevel);
+        //if($qtype==3) $this->db->where($this->table.'.asw <>','');
+        //if(!$qtype) $this->db->where("(".$this->table.".asw <> '' and ".$this->table.".qtype_id = 3) or (".$this->table.".qtype_id <> 3)");
         $this->db->where($this->table.'.online',1);
         //$this->db->group_by($this->table.'.id');
         $this->db->group_by($this->category_table.'.question_id');
