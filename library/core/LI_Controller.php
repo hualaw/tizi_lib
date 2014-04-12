@@ -348,7 +348,7 @@ class LI_Controller extends CI_Controller{
 		        {
 		            if($this->tizi_ajax) 
 		            {
-		                echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_re_login'),'redirect'=>$this->tizi_redirect,'reload'=>true,'code'=>1));
+		                echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_re_login'),'redirect'=>$this->tizi_redirect,'dnlogin'=>true,'code'=>1));
 		                exit();
 		            }
 		            else
