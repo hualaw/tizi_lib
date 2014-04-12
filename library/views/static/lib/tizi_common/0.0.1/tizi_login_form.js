@@ -18,7 +18,8 @@ define(function(require, exports) {
             var redirect = $(this).attr('dest');
             if(redirect == undefined) redirect = $(this).attr('href');
             var role = $(this).attr('role');
-            var param = {'redirect':redirect,'role':role};
+            var target = $(this).attr('target');
+            var param = {'redirect':redirect,'role':role,'target':target};
             exports.loginCheck(param);
             return false;
         });
