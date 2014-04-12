@@ -124,4 +124,24 @@ class Qiniu_Jxt extends Qiniu {
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
         return $privateUrl;
     }
+    
+    /**
+     * 图片定宽等比缩放
+     * 
+     * @param type $key
+     * @param type $width
+     * @return type
+     * 
+     * @author caohaihong <caohaihong@91waijiao.com>
+     */
+    public function qiniu_img_thumbw($key, $width = 640){
+        $domain = $this->domain;
+        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+        
+        $img_url = $baseUrl . "?imageMogr2/thumbnail/{$width}x";
+        //对fopUrl 进行签名，生成privateUrl。 公有bucket 此步可以省去。
+        $getPolicy = new Qiniu_RS_GetPolicy();
+        $img_url = $getPolicy->MakeRequest($img_url, null);
+        return $img_url;
+    }
 }

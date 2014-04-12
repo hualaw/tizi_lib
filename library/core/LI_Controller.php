@@ -27,6 +27,7 @@ class LI_Controller extends CI_Controller{
 
 	protected $_loginlist=array();
 	protected $_unloginlist=array();
+	protected $_dnloginlist=array();
 	protected $_captchalist=array();
 	protected $_postlist=array();
 
@@ -34,6 +35,7 @@ class LI_Controller extends CI_Controller{
 	protected $_username='';
 	protected $_page_name='';
 	protected $_captcha_name='';
+	protected $_callback_name='';
 
 	protected $_check_login=true;
 	protected $_check_token=true;
@@ -88,6 +90,12 @@ class LI_Controller extends CI_Controller{
 				Constant::USER_TYPE_TEACHER=>'teacher',
 				Constant::USER_TYPE_PARENT=>'parent',
 				Constant::USER_TYPE_RESEARCHER=>'researcher'
+			),
+			'role_name'=>array(
+				Constant::USER_TYPE_STUDENT=>'学生',
+				Constant::USER_TYPE_TEACHER=>'老师',
+				Constant::USER_TYPE_PARENT=>'家长',
+				Constant::USER_TYPE_RESEARCHER=>'教研员'
 			)
    		);
    		$this->tizi_role=isset($this->user_constant['user_type'][$this->tizi_utype])?
@@ -141,10 +149,19 @@ class LI_Controller extends CI_Controller{
 
    		$this->smarty->assign('home_student', redirect_url(Constant::USER_TYPE_STUDENT,'tizi'));
     	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
-   		$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
+   		//$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
    		$this->smarty->assign('home_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,'tizi'));
 
-   		$this->smarty->assign('home_zl', zl_url('zl/home'));
+   		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')
+   		{
+   			$this->smarty->assign('home_zl', zl_url('zl/home'));
+   			$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
+   		}
+   		else
+   		{
+   			$this->smarty->assign('home_zl', zl_url());
+   			$this->smarty->assign('home_parent', jia_url());
+   		}
 
 		//是否有答疑权限，有的话就显示答疑tab
 		$this->smarty->assign('aq_show',$this->session->userdata('aq_show'));
@@ -229,13 +246,13 @@ class LI_Controller extends CI_Controller{
 
 	protected function token()
 	{
-		$this->_page_name=$this->input->post('page_name');
-		$this->_captcha_name=$this->input->post('captcha_name');
-		if(!$this->_captcha_name) $this->_captcha_name=$this->_page_name;
+		$this->_page_name=$this->input->post('page_name',true);
+		$this->_captcha_name=$this->input->post('captcha_name',true,true,$this->_page_name);
+		$this->_callback_name=$this->input->get_post('callback_name',true);
 
 		$token=$this->input->post('token');
 		$captcha=$this->input->post('captcha_word');
-		
+
 		//post 检测captcha
 		if($this->_check_captcha)
 		{
@@ -253,10 +270,11 @@ class LI_Controller extends CI_Controller{
 				if(!$check_captcha)
 				{
 					$_POST=array();
+					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
 				}
 			}
 		}
-		    
+		
 		//post 检测token
 		if($this->_page_name&&$this->_check_token)
 	    {
@@ -272,18 +290,20 @@ class LI_Controller extends CI_Controller{
 				else
 				{
 					$_POST=array();
+					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
 				}
 			}
 		}
 		else
 		{
 			$_POST=array();
+			if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
 		}
 
 		//检测未登录
-		if(!$this->tizi_uid&&$this->_check_login)
+		if($this->_check_login&&!empty($this->_segment['an']))
 		{
-			if(!empty($this->_segment['an']))
+			if(!$this->tizi_uid)
 			{
 				//上传，必须登录
 				if($this->_segment['an'] == 'upload')
@@ -305,7 +325,7 @@ class LI_Controller extends CI_Controller{
 			    	if($this->tizi_ajax)
 					{
 						$redirect=$this->input->get_post('redirect',true,false,'reload');
-						$reg_redirect=$this->input->get_post('reg_redirect',true);
+						$reg_redirect=$this->input->get_post('reg_redirect',true,true,'none');
 						$this->smarty->assign('login_url',login_url());
 						$this->smarty->assign('redirect',$redirect);
 						$this->smarty->assign('reg_redirect',$reg_redirect);
@@ -319,18 +339,32 @@ class LI_Controller extends CI_Controller{
 			    		redirect(site_url('',$this->site));
 			    	}
 			    }
-			}
-	    }
-	    else
-	    {
-	    	if(!$this->tizi_ajax)
-			{
-				if(!empty($this->_segment['an']))
+		    }
+		    else
+		    {
+		    	$check_dnlogin=0;
+				foreach($this->_segmenttype as $st)
 				{
-	    			//$this->bind_check();
-	    		}
-	    	}
-	    }
+					if(!empty($this->_segment[$st])&&isset($this->_dnloginlist[$st])&&!empty($this->_dnloginlist[$st])&&in_array($this->_segment[$st],$this->_dnloginlist[$st]))
+			        {
+	            		$check_dnlogin++;
+			        }
+			    }
+				if($check_dnlogin)
+		        {
+		            if($this->tizi_ajax) 
+		            {
+		            	$error=sprintf($this->lang->line('default_error_re_login'),$this->user_constant['role_name'][$this->tizi_utype]);
+		                echo json_ntoken(array('errorcode'=>false,'error'=>$error,'redirect'=>$this->tizi_redirect,'dnlogin'=>true,'code'=>1));
+		                exit();
+		            }
+		            else
+		            {
+		                redirect($this->tizi_redirect);
+		            }
+		        }
+		    }
+		}
 	}
 
 	protected function token_list()
@@ -339,6 +373,8 @@ class LI_Controller extends CI_Controller{
 		$this->_loginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//不登陆情况下可以访问的页面
 		$this->_unloginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
+		//登陆情况下不可以访问的页面
+		$this->_dnloginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//必须经过验证码验证的请求
 		$this->_captchalist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//强制post的请求

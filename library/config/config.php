@@ -28,7 +28,7 @@ $config['login_static_url'] = 'http://user-static.tizi.com/';//'application/view
 $config['edu_url'] = 'http://edu.tizi.com/';
 $config['edu_static_url'] = 'http://edu-static.tizi.com/';//'application/views/static/';
 
-$config['jxt_url'] = 'http://jxt.tizi.com/';
+$config['jxt_url'] = 'http://jiaxiao.tizi.com/';
 $config['jxt_static_url'] = 'http://jxt-static.tizi.com/';
 
 $config['zl_url'] = 'http://ziliao.tizi.com/';

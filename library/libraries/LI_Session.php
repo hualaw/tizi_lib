@@ -100,8 +100,16 @@ class LI_Session extends CI_Session {
 			}
 			if($return)
 			{
-				$redis->auth($config['password']);
-				$redis->select($redis_config['redis_db']['session']);
+				try
+				{
+					$redis->auth($config['password']);
+					$redis->select($redis_config['redis_db']['session']);
+				}
+				catch (RedisException $e)
+				{
+					log_message('error_tizi', '10070:Redis session auth and select refused. '.$e->getMessage());
+					$return = false;
+				}
 			}
 			else
 			{
@@ -109,6 +117,10 @@ class LI_Session extends CI_Session {
 				$redis = false;
 			}
 			$this->_redis = $redis;
+		}
+		else
+		{
+			$this->CI->input->set_cookie('_nrd','1',0);
 		}
 	}
 

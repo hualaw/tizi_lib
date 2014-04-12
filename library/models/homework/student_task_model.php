@@ -27,7 +27,7 @@ class Student_Task_Model extends LI_Model{
         if($this->task_type_except){
             $fetch_ext = ' and `task_type` != '.$this->task_type_except; 
         }
-        $data = $this->db->query("select count(*) as num from `student_task` where `uid` = {$this->uid} {$fetch_ext}")->row_array();
+        $data = $this->db->query("select count(*) as num from `student_task` where `uid` = {$this->uid} {$fetch_ext} and `is_delete` = 0 ")->row_array();
         return $data['num'];
     }
 
@@ -67,6 +67,47 @@ class Student_Task_Model extends LI_Model{
             return $this->db
                 ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$file_id},3,{$uids},{$date})");
         }
+    }
+
+    /**
+     * @info 订阅
+     * @task_type : 4 
+     */
+    public function  pushTaskOnSubscription($uids, $ids,$type){
+    	if($type==2){
+    		//发布新文章
+    		$articles=array(array(
+    			'id' => $ids,
+    			'last_modified_time' => date('Y-m-d H:i:s'),
+    			) );
+    	}else{
+    		//如果是订阅则推送该教研员的十五篇文章
+    		$sql = "select id,last_modified_time from researcher_article 
+    		  	    where researcher_id = $ids order by last_modified_time desc limit 15";
+    		$articles = $this->db->query($sql)->result_array();
+    		if(empty($articles))return -1;
+    	}
+        if(!is_array($uids)) $uids = array($uids);
+        $this->db->trans_start();
+        foreach($uids as $uid){
+            foreach($articles as $news_id){
+                $sql_ext = " where `uid` = {$uid} and `index_value` = {$news_id['id']}";
+                $result = $this->db->query("select `is_delete` from `student_task`{$sql_ext}")
+                    ->row_array();
+                if(isset($result['is_delete'])){
+                    if($result['is_delete']){
+                        $this->db
+                            ->query("update `student_task` set `is_delete` = 0{$sql_ext}");
+                    }
+                }else{
+                	$date = strtotime($news_id['last_modified_time']);
+                    $this->db
+                        ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$news_id['id']},4,{$uid},{$date})");                
+                }
+            }
+        }
+        $this->db->trans_complete();
+        return $this->db->trans_status();
     }
 
     //学生刚加入班级的时候，获取班级以前的分享
@@ -137,11 +178,22 @@ class Student_Task_Model extends LI_Model{
                 $share=$this->db->query("select f.*,s.*,f.is_del as file_is_del,s.is_del as share_is_del from cloud_share s left join cloud_user_file f on f.id=s.file_id where s.id={$val['index_value']}")->row_array();
                 $share['task_type'] = 3;
                 $tasks[] = $share;
+            }elseif($val['task_type'] == 4){
+                $sql = "select ra.id,ra.title,ra.content as content ,ra.attached_file,ra.last_modified_time,ur.organization,ur.domain_name
+                    from researcher_article  ra
+                    left JOIN user_researcher_data ur on ur.id=ra.researcher_id
+                    where ra.id = {$val['index_value']} and  ra.`status` = 1  ORDER BY ra.last_modified_time desc ";
+                $article = $this->db->query($sql)
+                    ->row_array();
+                $article['attached_file'] = json_decode($article['attached_file'],true);
+                $article['content'] = sub_str(filter_var($article['content'], FILTER_SANITIZE_STRING), 0, 220); 
+                $article['task_type'] = 4;
+                $tasks[] = $article;
             }
         }
         return $tasks;
     }
-
+    
     private function _getHistoryVideoByGrade($grade){
     
         $data = $this->db

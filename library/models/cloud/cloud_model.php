@@ -69,7 +69,7 @@ class cloud_model extends MY_Model{
 
         $this->db->insert($this->_file_table,$param);
 
-        if($this->redis_model->connect('statistics'))   
+        if($this->redis_model->connect('cloud_statistics'))   
         {
             $this->_redis=true;
         }
@@ -83,7 +83,7 @@ class cloud_model extends MY_Model{
 
     //redis 操作用户当前网盘存储量
     function get_user_cloud_storage($user_id,$is_percentage = false){
-        if($this->redis_model->connect('statistics'))   
+        if($this->redis_model->connect('cloud_statistics'))   
         {
             $this->_redis=true;
         }
@@ -420,7 +420,7 @@ class cloud_model extends MY_Model{
         }
         $re_value =  $this->db->update($table, $data); 
         if($re_value){
-            if($this->redis_model->connect('statistics'))   
+            if($this->redis_model->connect('cloud_statistics'))   
             {
                 $this->_redis=true;
             }
@@ -500,7 +500,7 @@ class cloud_model extends MY_Model{
 
     //tizi 3.0 老师的 布置作业 的 所有总数
     function teacher_file_total($user_id){
-        if($this->redis_model->connect('statistics')){
+        if($this->redis_model->connect('cloud_statistics')){
             $this->_redis=true;
         }
         if($this->_redis){
