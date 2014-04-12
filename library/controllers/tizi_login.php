@@ -55,13 +55,13 @@ class Tizi_Login extends MY_Controller {
 					}
 					else 
 					{
-						log_message('trace_tizi','23800011:login failed - '.$username,$user_id);
+						log_message('trace_tizi','23800011:login failed:'.$username.':'.$password,$user_id);
 						$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 					}
 				}
 				else
 				{
-					log_message('trace_tizi','23800012:login failed - '.$username,$user_id);
+					log_message('trace_tizi','23800012:login failed:'.$username.':'.$password,$user_id);
 					$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 				}
 			}
@@ -85,7 +85,7 @@ class Tizi_Login extends MY_Controller {
 						$submit["redirect"] = login_url("register/perfect_student");
 						$submit["errorcode"] = true;
 					} else {
-						log_message('trace_tizi','23800013:login failed - '.$username,$user_id);
+						log_message('trace_tizi','23800013:login failed:'.$username.':'.$password,$user_id);
 						$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 					}
 				}
@@ -110,25 +110,25 @@ class Tizi_Login extends MY_Controller {
 					}
 					else 
 					{
-						log_message('trace_tizi','23800014:login failed - '.$username,$user_id);
+						log_message('trace_tizi','23800014:login failed:'.$username.':'.$password,$user_id);
 						$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 					}
 				}
 				else
 				{
-					log_message('trace_tizi','23800015:login failed - '.$username,$user_id);
+					log_message('trace_tizi','23800015:login failed:'.$username.':'.$password,$user_id);
 					$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 				}
 			}
 			else
 			{
-				log_message('trace_tizi','23800016:login failed - '.$username,$user_id);
+				log_message('trace_tizi','23800016:login failed:'.$username.':'.$password,$user_id);
 				$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 			}
 		}
 		else
 		{
-			log_message('trace_tizi','23800017:login failed - '.$username,$user_id);
+			log_message('trace_tizi','23800017:login failed:'.$username.':'.$password,$user_id);
 			$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 		}
 		echo json_token($submit);
