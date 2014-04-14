@@ -14,7 +14,7 @@ class LI_Controller extends CI_Controller{
 	protected $tizi_urgrade=0;
 	protected $tizi_urdomain='';
 	protected $tizi_avatar=0;
-	//protected $tizi_invite='';
+	protected $tizi_cert=0;
 	protected $tizi_redirect='';
 
 	protected $tizi_ajax=false;
@@ -67,7 +67,8 @@ class LI_Controller extends CI_Controller{
         $this->tizi_urgrade=$this->session->userdata("register_grade");
         $this->tizi_urdomain=$this->session->userdata("register_domain");
 		$this->tizi_avatar=$this->session->userdata("avatar");
-
+		$this->tizi_cert=$this->session->userdata("certification");
+		
 		$this->_segment['n']=$this->uri->uri_string();
 		$segment=$this->uri->segment_array();
         $this->_segment['an']=isset($segment[1])?$segment[1]:'';
@@ -176,6 +177,7 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('user_name',$user_name);
         $this->smarty->assign('user_type',$this->tizi_utype);
         $this->smarty->assign('user_stuid',$this->tizi_stuid);
+        $this->smarty->assign('user_cert',$this->tizi_cert);
 
 		//generate global errormsg
         if(!$this->_errormsg) $this->_errormsg="";
