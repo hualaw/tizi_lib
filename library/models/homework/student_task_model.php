@@ -53,8 +53,8 @@ class Student_Task_Model extends LI_Model{
     }
 
     //分享 文件
-    public function pushTaskOnShare($uids,$file_id){
-        $date = time();
+    public function pushTaskOnShare($uids,$file_id,$time=false){
+        $date = $time?$time:time();
         if(is_array($uids)){
             $this->db->trans_start();
             foreach($uids as $uid){
@@ -116,7 +116,7 @@ class Student_Task_Model extends LI_Model{
         $share = $this->cloud_model->get_share_files_by_class(0,$class_id,1,999);
         if($share){
             foreach($share as $key=>$val){
-                $this->pushTaskOnShare($uid,$val['share_id']);
+                $this->pushTaskOnShare($uid,$val['share_id'],$val['create_time']);
             }
         }
     }
