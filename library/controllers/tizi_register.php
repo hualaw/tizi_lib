@@ -19,9 +19,9 @@ class Tizi_Register extends MY_Controller {
     {
     	$email=$this->input->post("t_email",true,true);
 		$password=$this->input->post("t_password",true);
-		$password1=$this->input->post("t_repassword",true);
+		$password1=$this->input->post("t_repassword",true,false,$password);
 		$rname=$this->input->post("t_name",true,true);
-		$mysubject=$this->input->post("t_mysubject",true);
+		$mysubject=$this->input->post("t_mysubject",true,false,Constant::DEFAULT_SUBJECT_ID);
 		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
 
@@ -85,9 +85,9 @@ class Tizi_Register extends MY_Controller {
     {
     	$uname=$this->input->post("s_uname",true,true);
 		$password=$this->input->post("s_password",true);
-		$password1=$this->input->post("s_repassword",true);
+		$password1=$this->input->post("s_repassword",true,false,$password);
 		$rname=$this->input->post("s_name",true,true);
-		$mygrade=$this->input->post("s_mygrade",true);
+		$mygrade=$this->input->post("s_mygrade",true,false,Constant::DEFAULT_GRADE_ID);
 		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
 
@@ -151,7 +151,7 @@ class Tizi_Register extends MY_Controller {
     {
     	$email=$this->input->post("p_email",true,true);
 		$password=$this->input->post("p_password",true);
-		$password1=$this->input->post("p_repassword",true);
+		$password1=$this->input->post("p_repassword",true,false,$password);
 		$rname=$this->input->post("p_name",true,true);
 		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
