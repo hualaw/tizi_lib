@@ -108,6 +108,9 @@ Class CI_Constant {
 	/*zujuan qcount timeout*/
     const REDIS_AUTHLOGIN_TIMEOUT = 14400;//默认auto login用户名的缓存时间
 
+    const DEFAULT_SUBJECT_ID = 2;//默认科目，初中数学
+    const DEFAULT_GRADE_ID = 1;//默认年级，初中
+
 	//medal types
 	const TEACHER_AUTHENTICATION_MEDAL = 1;	//教师认证
 	const USER_LOGIN_MEDAL = 2;				//登录达人

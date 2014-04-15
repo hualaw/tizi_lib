@@ -1,0 +1,6 @@
+/*底部样式开始*/
+.footer{border-top:1px solid #d7d7d7;margin-top:20px;padding-top:20px;line-height:28px; text-align: center;color:#898989;background:blue;}
+.footer .hd{font-size:14px;}
+.footer a{color:#898989;}
+.footer a:hover{color:#f90;}
+/*底部样式结束*/
