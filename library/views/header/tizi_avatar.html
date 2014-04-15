@@ -6,26 +6,24 @@
     </p>
     <h2>
         <em class="MyURName">{sub_str($user_name)}</em>
-        <!--<i class="v">V</i>-->
+        {if $user_cert}<i class="v">V</i>{/if}
     </h2>
-    <!--
+    {if $user_type eq $constant.user_type_teacher}
     <h3>
         初级会员
     </h3>
-    -->
-    {if $user_stuid}
-    <span class="number">
-        学号:{$user_stuid}
-    </span>
-    {/if}
     <div class="integral">
-        <!--
         <div class="hd">
             <div class="progress" style="width:40%"></div>
         </div>
         <div class="bd">
             累计积分:<em>3417</em>/5000
         </div>
-        -->
     </div>
+    {/if}
+    {if $user_stuid}
+    <span class="number">
+        学号:{$user_stuid}
+    </span>
+    {/if}
 </div>
