@@ -3,11 +3,11 @@
 .topNav p.fl a{margin-right:10px;}
 .topNav .info a{margin-left:10px;}
 .topNav .info span.l{margin-left:10px;}
-.topNav .info .newMassage{background:url(../../images/common/ico_newMassage.gif) no-repeat left;padding-left:20px;color:#fe9d25;}
-.topNav .info .normalMassage{background:url(../../images/common/ico_newMassage_grey.gif) no-repeat left;padding-left:20px;}
+.topNav .info .newMassage{background:url(../../image/common/ico_newMassage.gif) no-repeat left;padding-left:20px;color:#fe9d25;}
+.topNav .info .normalMassage{background:url(../../image/common/ico_newMassage_grey.gif) no-repeat left;padding-left:20px;}
 .topNav .miniBox{margin:0px 10px;}
 .header .bd{padding:13px 0px;}
-.header .bd h1 a{background:url(../../images/common/w_logo.gif) no-repeat;width:162px;height:67px;display:block; text-indent: -999em; overflow: hidden;}
+.header .bd h1 a{background:url(../../image/common/w_logo.gif) no-repeat;width:162px;height:67px;display:block; text-indent: -999em; overflow: hidden;}
 .header .bd h2{padding-left:20px;font-size:24px;color:#ff9600; font-weight: normal;}
 .header .bd h2 span.channel{height:25px;}
 .header .bd h2 span{display: block;font-size: 16px;color:#333;margin-top:8px;}
@@ -17,7 +17,7 @@
 .header .bd .allNumber{margin-top:45px; font-size: 14px;}
 .header .bd .allNumber em{color:#ff9600;}
 .header .bd .rightTips{margin-top:30px;}
-.header .bd .rightTips a{background:url(../../images/common/header_parent_logo.gif) no-repeat;display: block;float: left;margin-left:10px;text-indent: -999em;overflow:hidden;width:110px;height:40px;}
+.header .bd .rightTips a{background:url(../../image/common/header_parent_logo.gif) no-repeat;display: block;float: left;margin-left:10px;text-indent: -999em;overflow:hidden;width:110px;height:40px;}
 .header .bd .rightTips a.parChannel{background-position:0px 0;}
 .headerLineGreen{height:5px;overflow: hidden;background:#0f9271;}
 .headerLineJia{height:5px;overflow: hidden;background:#238f83;}
