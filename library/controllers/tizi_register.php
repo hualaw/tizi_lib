@@ -66,7 +66,7 @@ class Tizi_Register extends MY_Controller {
 		}
 		else
 		{
-			$register=$this->register_by_email($email,$password,$rname,$user_type,array('register_subject'=>$mysubject));
+			$register=$this->register_by_email($email,$password,$rname,$user_type,array('register_subject'=>$mysubject,'register_invite'=>$invite_code));
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
@@ -158,7 +158,7 @@ class Tizi_Register extends MY_Controller {
 		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
 		$invite_code=$this->input->post("invite",true);
-		
+
 		$user_type=Constant::USER_TYPE_PARENT;
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
