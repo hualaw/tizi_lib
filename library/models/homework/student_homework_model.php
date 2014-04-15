@@ -184,11 +184,18 @@ class Student_Homework_Model extends LI_Model{
     
     }
 
-    public function get_today_video(){
+    public function get_today_video($grade_id = NULL){
+
         $date = date("Y-m-d");
-        $result = $this->db
-            ->query("select * from `student_video` where `date` like '{$date}%' order by rand() limit 0,1")
-            ->row_array();
+        if($grade_id){
+            $result = $this->db
+                ->query("select * from `student_video` where `date` like '{$date}%' and `grade_id` = {$grade_id} limit 0,1")
+                ->row_array();
+        }else{
+            $result = $this->db
+                ->query("select * from `student_video` where `date` like '{$date}%' order by rand() limit 0,1")
+                ->row_array();
+        }
         if($result){
             $result['task_type'] = 2;
         }

@@ -55,11 +55,13 @@ class Tizi_Login extends MY_Controller {
 					}
 					else 
 					{
+						log_message('trace_tizi','23800011:login failed:'.$username.':'.$password,$user_id);
 						$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 					}
 				}
 				else
 				{
+					log_message('trace_tizi','23800012:login failed:'.$username.':'.$password,$user_id);
 					$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 				}
 			}
@@ -83,6 +85,7 @@ class Tizi_Login extends MY_Controller {
 						$submit["redirect"] = login_url("register/perfect_student");
 						$submit["errorcode"] = true;
 					} else {
+						log_message('trace_tizi','23800013:login failed:'.$username.':'.$password,$user_id);
 						$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 					}
 				}
@@ -107,21 +110,25 @@ class Tizi_Login extends MY_Controller {
 					}
 					else 
 					{
+						log_message('trace_tizi','23800014:login failed:'.$username.':'.$password,$user_id);
 						$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 					}
 				}
 				else
 				{
+					log_message('trace_tizi','23800015:login failed:'.$username.':'.$password,$user_id);
 					$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 				}
 			}
 			else
 			{
+				log_message('trace_tizi','23800016:login failed:'.$username.':'.$password,$user_id);
 				$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 			}
 		}
 		else
 		{
+			log_message('trace_tizi','23800017:login failed:'.$username.':'.$password,$user_id);
 			$submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 		}
 		echo json_token($submit);
@@ -165,18 +172,21 @@ class Tizi_Login extends MY_Controller {
     {
     	$redirect=$this->input->get('redirect',true);
     	$reg_redirect=$this->input->get('href',true);
+    	$reg_role=$this->input->get('role',true);
+
     	$html='';
         $errorcode=($this->tizi_uid>0);
         if(!$errorcode)
         {
         	if(strpos($redirect,'http://')!==false) $reg_redirect=$redirect;
 	        $this->smarty->assign('login_url',login_url());
-			$this->smarty->assign('redirect',$redirect);
+			$this->smarty->assign('login_redirect',$redirect);
 			$this->smarty->assign('reg_redirect',$reg_redirect);
+			$this->smarty->assign('reg_role',$reg_role);
 			$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
 			$redirect='';
 		}
-        echo json_token(array('errorcode'=>$errorcode,'html'=>$html,'redirect'=>$redirect,'reg_redirect'=>$reg_redirect));
+        echo json_token(array('errorcode'=>$errorcode,'html'=>$html,'redirect'=>$redirect,'reg_redirect'=>$reg_redirect,'reg_role'=>$reg_role));
         exit();
     }
 

@@ -11,7 +11,12 @@ class CI_Notification {
     $this->_CI = & get_instance();
     $this->_uid = $this->_CI->session->userdata('user_id');
     $this->_urname = $this->_CI->session->userdata('urname');
-  }   
+  }
+
+  public function add_notice($notice_type, $notice_data)
+  {
+    return $this->{$$notice_type}($notice_data);
+  }
 
   public function getNewNotifyCount()
   {

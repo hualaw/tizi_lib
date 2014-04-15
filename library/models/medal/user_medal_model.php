@@ -12,13 +12,22 @@ class user_medal_model extends MY_Model {
 	 * @param $param
 	 * @return bool
 	 */
-	public function insert_user_medal($param) {
+	public function insert_user_medal($param, $is_redis = true) {
 		$this->db->trans_begin();
 		$this->db->insert($this->_table, $param);
 
 		$this->db->trans_complete();
 		if ($this->db->trans_status() === false) {
 			return false;
+		}
+
+		if ($is_redis) {
+			$this->load->model("redis/redis_model");
+			$this->redis_model->connect('medal');
+
+			$r_key = $param['user_id'];
+
+			$this->cache->redis->hset($r_key, $param['medal_type'], serialize((object)$param));
 		}
 		return true;
 	}
@@ -28,13 +37,23 @@ class user_medal_model extends MY_Model {
 	 * @param $param
 	 * @return bool
 	 */
-	public function update_user_medal($user_id, $medal_type, $param) {
+	public function update_user_medal($user_id, $medal_type, $param, $is_redis = true) {
 		$this->db->trans_begin();
-		$this->db->update($this->_table, $param, "user_id = {$user_id} AND medal_type = {$medal_type}");
+		$this->db->where("user_id = {$user_id} AND medal_type = {$medal_type}");
+		$this->db->update($this->_table, $param);
 		$this->db->trans_complete();
 		if ($this->db->trans_status() === false) {
 			return false;
 		}
+		//更新完数据库，有redis的话更新redis
+		if ($is_redis) {
+			$this->load->model("redis/redis_model");
+			$this->redis_model->connect('medal');
+
+			$r_key = $user_id;
+			$this->cache->redis->hset($r_key, $medal_type, serialize((object)$param));
+		}
+
 		return true;
 	}
 
@@ -42,23 +61,36 @@ class user_medal_model extends MY_Model {
 	 * @param $user_id
 	 * @return mixed
 	 */
-	public function get_user_medal_info($user_id,$medal_type) {
-		$this->load->model("redis/redis_model");
-		$this->redis_model->connect('medal');
-//		var_dump($this->redis_model->connect('medal'));exit;
+	public function get_user_medal_info($user_id, $is_redis = true) {
+		if ($is_redis) {
+			$this->load->model("redis/redis_model");
+			$this->redis_model->connect('medal');
 
-		$r_key = 'user_medal_level_' . $medal_type . '_' . $user_id;
+			$r_key = $user_id;
 
-		if ($login_statistics = $this->cache->redis->hgetall($r_key)) {
-			return unserialize($login_statistics);
+			if ($tmp = $this->cache->redis->hgetall($r_key)) {
+				$login_statistics = array();
+				foreach ($tmp as $kl => $vl) {
+					$login_statistics[$kl] = unserialize($vl);
+				}
+				return $login_statistics;
+			}
 		}
-		$this->db->where('user_id', $user_id);
-		$this->db->where('medal_type', $medal_type);
-		$this->db->limit(1);
-		$query = $this->db->get($this->_table);
-		$login_statistics = $query->row();
 
-		$this->cache->redis->hset($r_key, serialize($login_statistics), Constant::USER_MEDAL_TIMEOUT);
+		$this->db->where('user_id', $user_id);
+
+		$query = $this->db->get($this->_table);
+		$login_statistics = array();
+
+		foreach($query->result() as $kr => $vr) {
+			$login_statistics[$vr->medal_type] = $vr;
+
+			if ($is_redis) {
+				$this->cache->redis->hset($r_key, $vr->medal_type, serialize($vr));
+				$this->cache->redis->expire($r_key, 3600 * 6);
+			}
+		}
+
 		return $login_statistics;
 	}
 
