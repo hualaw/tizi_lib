@@ -87,10 +87,9 @@ class user_medal_model extends MY_Model {
 
 			if ($is_redis) {
 				$this->cache->redis->hset($r_key, $vr->medal_type, serialize($vr));
-				$this->cache->redis->expire($r_key, 3600 * 6);
 			}
 		}
-
+		$this->cache->redis->expire($r_key, Constant::USER_MEDAL_TIMEOUT);
 		return $login_statistics;
 	}
 
