@@ -34,6 +34,7 @@ class LI_Pagination extends CI_Pagination {
 	var $num_links				= 5;	
 	var $params 				= array();//额外参数：e.g. $config['params'] = array('"123"','1');
 	var $default_page			= 1;
+	var $uri_seperator			= '/';
 
 	function __construct()
 	{
@@ -399,16 +400,33 @@ class LI_Pagination extends CI_Pagination {
 		}
 		else
 		{
-			if ($CI->uri->segment($this->uri_segment) != $base_page)
+			//tizi segment
+			$segment = $CI->uri->segment_array();
+
+			if($this->uri_seperator != '/')
 			{
-				if(is_null($CI->uri->segment($this->uri_segment)))
-				{$this->cur_page =1;}
-				else{
-				$this->cur_page = $CI->uri->segment($this->uri_segment);
+				$segment = $this->uri_seperator.ltrim(rtrim($CI->uri->uri_string(),'/'),'/');
+				$segment = explode($this->uri_seperator, $segment);
+			}
+			
+			$segment_page = isset($segment[$this->uri_segment])?$segment[$this->uri_segment]:'';
+
+			if (empty($segment_page))
+			{
+				$this->cur_page =1;
+			}
+			else if ($segment_page != $base_page)
+			{
+				if(is_null($segment_page))
+				{
+					$this->cur_page =1;
+				}
+				else
+				{
+					$this->cur_page = $segment_page;
 				}
 				// Prep the current page - no funny business!
 				$this->cur_page = (int) $this->cur_page;
-				
 			}
 		}
 		
@@ -467,7 +485,8 @@ class LI_Pagination extends CI_Pagination {
 		}
 		else
 		{
-			$this->base_url = rtrim($this->base_url, '/') .'/';
+			//$this->base_url = rtrim($this->base_url, '/') .'/';
+			$this->base_url = rtrim($this->base_url, '/') . $this->uri_seperator;
 		}
 
 		// And here we go...

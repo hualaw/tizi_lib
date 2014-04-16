@@ -14,6 +14,12 @@ switch($config['smsversion']){
         $config['sn'] = 'SDK-BBX-010-18603';
         $config['secret'] = "MD45&(17";
         break;
+    case 3://大汉三通
+        $config['api_uri'] = 'http://3tong.net/http/sms/Submit';
+        $config['server_ip'] = '';
+        $config['sn'] = 'dh20994';  //sms_account
+        $config['secret'] = 'tizi2014'; //sms_pwd
+        break;
 }
 	// $config['api_uri'] = 'http://192.168.11.12:8080/sms/SendSms';
 	// $config['server_ip'] = '192.168.11.113';
