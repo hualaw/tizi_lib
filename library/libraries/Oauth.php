@@ -29,12 +29,12 @@ class Oauth{
 
             }else{
 
-                throw new ConnectException('Param Error:1');       
+                throw new OauthException('Param Error:1');       
 
             }
 
         }else{
-            throw new ConnectException('Param Error:2');       
+            throw new OauthException('Param Error:2');       
         }
 
     }

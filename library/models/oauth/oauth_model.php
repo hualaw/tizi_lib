@@ -38,9 +38,11 @@ class Oauth_Model extends MY_Model{
      * @param user_id int
      * @param access_token char
      */
-    public function save($data){
+    public function save($open_id, $platform, $data){
         
-        return $this->db->replace($this->_table, $data);
+        $this->db->where('open_id', $open_id);
+        $this->db->where('platform', $platform);
+        return $this->db->update($this->_table, $data);
 
     }
 
