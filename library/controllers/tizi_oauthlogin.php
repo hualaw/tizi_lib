@@ -42,33 +42,19 @@ class Tizi_Oauthlogin extends MY_Controller{
             }elseif($platform == 'weibo'){
                 $platform = 2;
             }
+            $db_data=array(
+                'open_id'=>$data['open_id'],
+                'platform'=>$platform,
+                'access_token'=>$data['access_token'],
+            );
+            //$user_auth_data = array('oauth_id'=>'','user_id'=>'');
+            $user_auth_data = $this->oauth_model->save($db_data);
+            $this->oauth_model->save($open_id, $platform, $db_data);
 
-            $result=$this->oauth_model->getData($data['open_id'], $platform);
-            if(empty($result)){
-                //首次登录
-                /*
-                $db_data=array(
-                    'open_id'=>$data['open_id'],
-                    'platform'=>$platform,
-                    'access_token'=>$data['access_token'],
-                );
-                $this->oauth_model->save($db_data);
-                 */
-
-            }elseif(empty($data['user_id'])){
-                //未绑定用户
-                /*
-                $db_data = array(
-                    'user_id'=> $uid,
-                    'access_token'=>$data['access_token'],
-                );
-                $this->oauth_model->save($open_id, $platform, $db_data);
-                 */
-            }else{
-                /*
-                $db_data['access_token'] => $data['access_token'],
-                $this->oauth_model->save($open_id, $platform, $db_data);
-                 */
+            if(empty($user_auth_data['user_id'])){//未绑定用户
+                
+            }else{//绑定用户
+            
             }
 
         }catch(OauthException $e){
