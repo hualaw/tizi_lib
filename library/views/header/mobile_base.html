@@ -4,12 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 {include file='file:[lib]header/tizi_meta.html'}
 <title>{block name=title}{/block}-梯子网</title>
-<link rel="stylesheet" type="text/css" href="{$static_url}{$static_version}css/mobile/mobileLogin/style.css" />
+<link rel="stylesheet" type="text/css" href="{$static_url}{$static_version}css/mobile/{$csspath}/style.css" />
 {block name=stylesheet}{/block}
 </head>
 
 <body class="navHome">
-<div class="wrap layout mobileLoginPage" id="tiziModule" module="mobileLoginPage">
+<div class="wrap layout {$csspath}Page" id="tiziModule" module="{$csspath}Page">
 	{include file='file:[lib]header/mobile_login_header.html'}
 	{block name=container}{/block}
 </div>
