@@ -22,10 +22,16 @@
         </li>
     </ul>
     {if isset($show_remember) and $show_remember}
-    <input type="checkbox" value="1" name="remember" id="remember" class="fl" checked>
-    <span>记住登录状态</span>
-    {/if}
+    <div class="remerberPass cf">
+        <div class="fl">    
+            <input type="checkbox" value="1" name="remember" id="remember" class="fl" checked />
+            <span>记住登录状态</span>
+        </div>
+        <a href="{$login_url}forgot" class="fogetPw fr">忘记密码？</a>
+    </div>
+    {else}
     <a href="{$login_url}forgot" class="fogetPw">忘记密码？</a>
+    {/if}
     <div class="cf bottomLogin">
         <input type="hidden" name="redirect" value="{if isset($redirect)}{$redirect}{/if}" />
         <input type="submit" class="cBtnNormal submitBtn yh fl" tabindex="3" value="登录" />
