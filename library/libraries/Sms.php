@@ -17,6 +17,8 @@ class Sms {
     private $signature;  // 请求接口签名
     private $api_uri;    // 短信服务API地址
     private $server_ip;  // 调用服务器IP
+    private $account; //账号
+    private $pwd; //密码
 
     private $version ; // 短信程序的版本
 
@@ -27,9 +29,9 @@ class Sms {
        $this->_ci->load->config('sms');
        $this->api_uri = $this->_ci->config->item('api_uri');
        $this->server_ip =  $this->_ci->config->item('server_ip');
-       //$phone_nums = $this->filterPhoneNums($phone_nums);
-       //$this->phone_nums = $phone_nums;
-       //$this->_content = $content;
+       $this->account = $this->_ci->config->item('sn');
+       $this->pwd = $this->_ci->config->item('secret');
+
        $this->signature = $this->buildSignature();
 
        $this->version = $this->_ci->config->item('smsversion'); // 获取配置文件中的版本号
@@ -42,8 +44,28 @@ class Sms {
                   $ret=$this->send_1();break;
             case 2:
                   $ret=$this->send_2();break;   
+            case 3:
+                  $ret=$this->send_3();break;   
         }
 		return $ret;
+    }
+
+    public function send_3(){
+        $send_time = '';
+        $str_phone = "<phones>{$this->phone_nums}</phones>";
+        $content = '<content>' . urlencode($this->_content) . '</content>';
+        $send_message = '<?xml%20version="1.0"%20encoding="UTF-8"?><message>';
+        $send_message .= '<account>' . $this->account . '</account>'; //账号
+        $send_message .= '<password>' . md5($this->pwd) . '</password>'; //密码
+        $send_message .= '<msgid></msgid>'; //编号
+        $send_message .= $str_phone; //电话号码
+        $send_message .= $content; //短信内容
+        $send_message .= '<sign></sign>'; //签名【' . SMS_SIGN . '】【' . SMS_SIGN . '】
+        $send_message .= '<subcode></subcode>'; //扩展号码
+        $send_message .= "<sendtime>{$send_time}</sendtime>"; //发送时间
+        $send_message .= '</message>';
+        return $this->curl_link($send_message);
+
     }
 
     //新的发送短信程序
@@ -136,8 +158,23 @@ class Sms {
        //$this->_ci->curl->debug_request();
     }
 
+    //send_3 调用
+    private function curl_link($send_message){
+        $url = mb_convert_encoding($this->api_uri . '?message=' . $send_message, 'GB2312', 'UTF-8');
+        // $url = ($this->api_uri . '?message=' . $send_message);
+        // $url = iconv( "UTF-8", "GB2312//IGNORE" ,$url); // 要先转换成gb
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $this->get_send3_error_code($output);
+    }
+
     private function filterPhoneNums($phone_nums=''){
         $phone_list = explode(',', $phone_nums);
+        $phone_list = array_unique($phone_list); //去重
+        $phone_list = array_filter($phone_list); // 去空
         if(!empty($phone_list)) {
             foreach($phone_list as $k => $v){
                 $phone_list[$k] = trim($v);
@@ -147,11 +184,13 @@ class Sms {
         return $phone_nums;
     }
 
+    /*设置 接收短信的号码*/
     public function setPhoneNums($phone_nums=''){
         $phone_nums = $this->filterPhoneNums($phone_nums);
         $this->phone_nums = $phone_nums;
     }
 
+    /*设置 短信内容*/
     public function setContent($content=''){
         //Ask substring 100 char ?
         $this->_content = $content;
@@ -161,6 +200,34 @@ class Sms {
         $server_ip = $this->_ci->config->item('server_ip');
         $secret = $this->_ci->config->item('secret');
         return md5($server_ip.$secret);
+    }
+
+    //大汉三通的返回码
+    private function get_send3_error_code($code){
+      switch($code){
+        case 0: $desc = "提交成功";break;
+        case 1: $desc = "账号无效";break;
+        case 2: $desc = "密码错误";break;
+        case 3: $desc = "msgid不唯一";break;
+        case 4: $desc = "存在无效手机号码";break;
+        case 5: $desc = "手机号码个数超过最大限制";break;
+        case 6: $desc = "短信内容超过最大限制";break;
+        case 7: $desc = "扩展子号码无效";break;
+        case 8: $desc = "发送时间格式无效";break;
+        case 9: $desc = "请求来源地址无效";break;
+        case 10:$desc = "内容包含敏感词";break;
+        case 11:$desc = "余额不足";break;
+        case 12:$desc = "订购关系无效";break;
+        case 13:$desc = "短信签名无效";break;
+        case 14:$desc = "无效的手机子码";break;
+        case 15:$desc = "产品不存在";break;
+        case 16:$desc = "号码个数小于最小限制";break;
+        case 97:$desc = "接入方式错误";break;
+        case 98:$desc = "系统繁忙";break;
+        case 99:$desc = "消息格式错误";break;
+        default: $desc = 'unkown error';break;
+      }
+      return $desc;
     }
 
     // send_2( ) 对应的返回状态码，对应不同的出错情况
