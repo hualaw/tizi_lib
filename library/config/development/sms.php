@@ -18,7 +18,6 @@ switch($config['smsversion']){
         $config['server_ip'] = '';
         $config['sn'] = 'dh20994';  //sms_account
         $config['secret'] = 'tizi2014'; //sms_pwd
-        // $config['sms_url'] = 'http://3tong.net/http/sms/Submit';
         break;
 }
 	// $config['api_uri'] = 'http://192.168.11.12:8080/sms/SendSms';

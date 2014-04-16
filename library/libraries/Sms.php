@@ -160,7 +160,8 @@ class Sms {
 
     //send_3 调用
     private function curl_link($send_message){
-        $url = mb_convert_encoding($this->api_uri . '?message=' . $send_message, 'GB2312', 'UTF-8');
+        $url = $this->api_uri . '?message=' . $send_message;
+        // $url = mb_convert_encoding($this->api_uri . '?message=' . $send_message, 'GB2312', 'UTF-8');
         // $url = ($this->api_uri . '?message=' . $send_message);
         // $url = iconv( "UTF-8", "GB2312//IGNORE" ,$url); // 要先转换成gb
         $ch = curl_init();
@@ -168,7 +169,28 @@ class Sms {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         curl_close($ch);
-        return $this->get_send3_error_code($output);
+        $output = $this->filter_output($output);
+        if($output['code']!=0){
+          log_message('error_tizi', 'send_3 ERROR: code:'.$output['code'].' desc:'.$this->get_send3_error_code($output['code']).' phone:'.$this->phone_nums.' content:'.$this->_content);
+        }
+        return $this->get_send3_error_code($output['code']);
+    }
+
+    //大汉三通的结果处理
+    private function filter_output($output){
+      $_pat = "/(?<=\\<result>)\d*(?=<\/result>)/";
+      preg_match($_pat, $output, $matches);
+      $return['code'] = isset($matches[0])?$matches[0]:-1;
+
+      // $_pat = "/(?<=\\<msgid>)\\w+(?=</msgid>)/";
+      // preg_match($_pat, $output, $matches);
+      // $return['msgid'] = $matches[0][0]?$matches[0][0]:-1;
+
+      // $_pat = "/(?<=\\<desc>)[\\w:()]+(?=</desc>)/";
+      // preg_match($_pat, $output, $matches);
+      // $return['desc'] = $matches[0][0]?$matches[0][0]:-1;
+
+      return $return;
     }
 
     private function filterPhoneNums($phone_nums=''){
@@ -193,6 +215,7 @@ class Sms {
     /*设置 短信内容*/
     public function setContent($content=''){
         //Ask substring 100 char ?
+        $content = mb_convert_encoding( $content, 'GB2312', 'UTF-8');
         $this->_content = $content;
     }
 
@@ -205,26 +228,26 @@ class Sms {
     //大汉三通的返回码
     private function get_send3_error_code($code){
       switch($code){
-        case 0: $desc = "提交成功";break;
-        case 1: $desc = "账号无效";break;
-        case 2: $desc = "密码错误";break;
-        case 3: $desc = "msgid不唯一";break;
-        case 4: $desc = "存在无效手机号码";break;
-        case 5: $desc = "手机号码个数超过最大限制";break;
-        case 6: $desc = "短信内容超过最大限制";break;
-        case 7: $desc = "扩展子号码无效";break;
-        case 8: $desc = "发送时间格式无效";break;
-        case 9: $desc = "请求来源地址无效";break;
-        case 10:$desc = "内容包含敏感词";break;
-        case 11:$desc = "余额不足";break;
+        case 0: $desc = "succ";break;
+        case 1: $desc = "invalid account";break;
+        case 2: $desc = "wrong pwd";break;
+        case 3: $desc = "msgid is duplicated";break;
+        case 4: $desc = "with invalid phone number in it";break;
+        case 5: $desc = "over maximun count(phone)";break;
+        case 6: $desc = "over maximun content";break;
+        case 7: $desc = "invalid extended sub number";break;
+        case 8: $desc = "time format is invalid";break;
+        case 9: $desc = "api address error";break;
+        case 10:$desc = "with illegal content against local law";break;
+        case 11:$desc = "not enough money in your account";break;
         case 12:$desc = "订购关系无效";break;
-        case 13:$desc = "短信签名无效";break;
+        case 13:$desc = "invalid signature";break;
         case 14:$desc = "无效的手机子码";break;
-        case 15:$desc = "产品不存在";break;
-        case 16:$desc = "号码个数小于最小限制";break;
+        case 15:$desc = "product not exist";break;
+        case 16:$desc = "please input at lease one phone num";break;
         case 97:$desc = "接入方式错误";break;
-        case 98:$desc = "系统繁忙";break;
-        case 99:$desc = "消息格式错误";break;
+        case 98:$desc = "sys busy";break;
+        case 99:$desc = "message content format error";break;
         default: $desc = 'unkown error';break;
       }
       return $desc;
