@@ -23,7 +23,7 @@ class Student_Data_Model extends LI_Model {
 	 * @return mixed
 	 */
 	public function get_student_pet_data($uid){
-		return $this->db->query("SELECT sd.*,sp.pet_name,sp.pet_exp_bonus,pet.description,sp.level_need FROM `student_data` sd LEFT JOIN `study_pets` sp ON sd.pet_id = sp.id WHERE `uid` = {$uid}")->row();
+		return $this->db->query("SELECT sd.*,sp.pet_name,sp.pet_exp_bonus,sp.pet_description,sp.level_need FROM `student_data` sd LEFT JOIN `study_pets` sp ON sd.pet_id = sp.id WHERE `uid` = {$uid}")->row();
 	}
 
 	/** 初始化学生信息表
@@ -35,8 +35,17 @@ class Student_Data_Model extends LI_Model {
 			'uid' => $uid,			//用户id
 			'pet_id' => 1,			//选中的宠物
 			'exp' => 0,				//用户经验
+			'aq_account_balance' => 0	//学生余额
 		);
-		return $this->save_student_data($uid, $param);
+
+		if (!$this->get_student_data($uid)) {
+			$this->db->trans_start();
+			$this->db->insert('student_data', $param);
+			if ($this->db->trans_complete() === false) {
+				return false;
+			}
+			return true;
+		}
 	}
     // 保存学生信息
     public function save_student_data($uid,$data){
@@ -47,7 +56,7 @@ class Student_Data_Model extends LI_Model {
         if(empty($result)){
             $data['uid'] = $uid;
             return $this->db->insert('student_data',$data);
-        }else{
+        }else{echo 'update';exit;
             $this->db->where("uid",$uid);
             return $this->db->update('student_data',$data);
         }
@@ -209,5 +218,17 @@ class Student_Data_Model extends LI_Model {
 		return ($level - 1) * ($level - 1) + 4 * ($level - 1);
 	}
 
+	/** 根据用户当前的经验等级 算出前台等级进度条的width
+	 * @param $level
+	 * @param $exp
+	 * @param $width
+	 * @return int
+	 */
+	public function user_level_progress($level, $exp, $width){
+		$level_exp_low = ($level == 1) ? 0 : ($this->level_to_exp($level));
+		$level_exp_up = $this->level_to_exp($level + 1);
+
+		return intval((($exp - $level_exp_low) / ($level_exp_up - $level_exp_low)) * $width) ;
+	}
 
 }
