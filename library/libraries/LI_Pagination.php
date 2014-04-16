@@ -34,6 +34,7 @@ class LI_Pagination extends CI_Pagination {
 	var $num_links				= 5;	
 	var $params 				= array();//额外参数：e.g. $config['params'] = array('"123"','1');
 	var $default_page			= 1;
+	var $uri_seperator			= '/';
 
 	function __construct()
 	{
@@ -467,7 +468,8 @@ class LI_Pagination extends CI_Pagination {
 		}
 		else
 		{
-			$this->base_url = rtrim($this->base_url, '/') .'/';
+			//$this->base_url = rtrim($this->base_url, '/') .'/';
+			$this->base_url = rtrim($this->base_url, '/') . $this->uri_seperator;
 		}
 
 		// And here we go...
