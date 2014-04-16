@@ -34,6 +34,11 @@ class cloud_model extends MY_Model{
                 }
             }
         }
+        
+        $this->load->library("credit");
+        if (isset($param[0]["user_id"])){
+			$this->credit->exec($param[0]["user_id"], "cloud_share");
+		}
         return $insert_id;
     }
 
@@ -87,7 +92,12 @@ class cloud_model extends MY_Model{
                 $this->cache->save($key, $value+1, 0);
             }
         }
-        return $this->db->insert_id();
+        $id = $this->db->insert_id();
+        if ($id > 0 && isset($param["user_id"])){
+			$this->load->library("credit");
+			$this->credit->exec($param["user_id"], "cloud_first_uploaded");
+		}
+        return $id;
     }
 
     //redis 操作用户当前网盘存储量
@@ -575,16 +585,17 @@ class cloud_model extends MY_Model{
 
     //学生下载后，记录加一
     function add_download_share($share_id,$uid){
-        $this->db->trans_start();
         //先往cloud_download_log插入一条记录，再往cloud_share中download_count记录+1
         if($this->db->insert($this->_down_table,array('share_id'=>$share_id,'user_id'=>$uid,'op_time'=>time(),'is_del'=>0))){
             $sql = "update $this->_share_table set download_count=download_count+1 where id=$share_id ";
             $this->db->query($sql);
         }
-        $this->db->trans_complete();
-        if($this->db->trans_status() === FALSE){
-            return false;
-        }
+        $share = $this->get_file_by_share_id($share_id);
+        if (isset($share[0]["user_id"])){
+			$this->load->library("credit");
+			$data = array($uid);
+			$this->credit->exec($share[0]["user_id"], "cloud_share_download", false, "", $data);
+		}
         return true;
     }
 

@@ -46,6 +46,10 @@ class Cert_Model extends MY_Model {
         if($_data['apply_status'] == Constant::APPLY_STATUS_SUCC and $res){
             $sql = "update user set certification = 1 where id = ?";
             $this->db->query($sql,array($_data['user_id']));
+            if ($this->db->affected_rows() === 1){
+				$this->load->library("credit");
+				$this->credit->exec($_data['user_id'], "certificate_teacher");
+			}
         }
         $this->db->trans_complete();
         if($this->db->trans_status() === false){
