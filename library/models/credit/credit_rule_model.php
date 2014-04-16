@@ -23,6 +23,11 @@ class credit_rule_model extends LI_Model {
 		return $this->db->affected_rows();
 	}
 	
+	public function rulelogs($user_id, $fields = "*"){
+		$res = $this->db->query("select {$fields} from credit_rule_logs where user_id=?", 
+			array($user_id))->result_array();
+		return $res;
+	}
 }
 
 /* end of credit_rule_model.php */

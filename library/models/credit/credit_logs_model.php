@@ -28,6 +28,17 @@ class credit_logs_model extends LI_Model {
 		$res = $this->db->query("select count(1) as num from credit_logs where user_id=? and credit_change<0");
 		return $res["num"];
 	}
+	
+	public function today_credit($user_id){
+		$date = date("Y-m-d");
+		$res = $this->db->query("select id,credit_change from credit_logs where user_id=? and 
+			`date`>? and credit_change>0", array($user_id, $date))->result_array();
+		$today_credit = 0;
+		foreach ($res as $value){
+			$today_credit += $value["credit_change"];
+		}
+		return $today_credit;
+	}
 }
 
 /* end of credit_logs_model.php */

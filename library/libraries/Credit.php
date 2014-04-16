@@ -9,11 +9,15 @@ class CI_Credit {
 		$this->_CI = & get_instance();
 	}
 	
-	public function exec($user_id, $action, $certificate, $msg = "", $data = array()){
+	public function exec($user_id, $action, $certificate = false, $msg = "", $data = array()){
 		$this->_CI->load->model("credit/credit_rule_model");
 		$rule = $this->_CI->credit_rule_model->action_get($action);
 		$rule_log = $this->_CI->credit_rule_model->get_log($user_id, $rule["id"]);
 		$date = date("Y-m-d H:i:s");
+		
+		if (false === $certificate){
+			$certificate = $this->_CI->session->userdata("certification");
+		}
 		
 		if ($rule["cycletype"] == 0 && !empty($rule_log)){	//每个只奖励一次
 			return -2;
@@ -124,6 +128,10 @@ class CI_Credit {
 			);
 		} else {
 			$rule_log["data"] = implode(",", $rule_log["data"]);
+		}
+		
+		if ($msg === ""){
+			$msg = $rule["statement"];
 		}
 		$flag = $this->_CI->credit_model->change_add($user_id, $rule["id"], $credit_change, $msg, $rule_log);
 		return $flag;
