@@ -120,8 +120,13 @@ class Register_Model extends LI_Model {
     {
 		$this->db->where('id',$user_id);
         $this->db->update($this->_table,array('email_verified'=>1,'verified'=>1));
-        if($this->db->affected_rows()==1) $errorcode=true;
-		else $errorcode=false;
+        if($this->db->affected_rows()==1){
+			$errorcode=true;
+			$this->load->library("credit");
+			$this->credit->exec($user_id, "certificate_email");
+		} else {
+			$errorcode=false;
+		}
 		return array('errorcode'=>$errorcode);
     }
 
@@ -132,8 +137,13 @@ class Register_Model extends LI_Model {
     {
         $this->db->where('id',$user_id);
         $this->db->update($this->_table,array('phone_verified'=>1));
-        if($this->db->affected_rows()==1) $errorcode=true;
-        else $errorcode=false;
+        if($this->db->affected_rows()==1){
+			$errorcode=true;
+			$this->load->library("credit");
+			$this->credit->exec($user_id, "certificate_phone");
+		} else {
+			$errorcode=false;
+		}
         return array('errorcode'=>$errorcode);
     }
 
@@ -301,8 +311,15 @@ class Register_Model extends LI_Model {
 		{
 			$this->db->where("id",$user_id);
 			$this->db->update($this->_table,array("email"=>$email,"email_verified"=>$verified));
-			if($this->db->affected_rows()==1) $errorcode=true;
-			else $errorcode=false;
+			if($this->db->affected_rows()==1){
+				$errorcode=true;
+				if ($verified == 1){
+					$this->load->library("credit");
+					$this->credit->exec($user_id, "certificate_email");
+				}
+			} else {
+				$errorcode=false;
+			}
 			if(!$errorcode) log_message('error_tizi','17012:Email update failed',array('uid'=>$user_id,'email'=>$email));
 		}
 		return array('errorcode'=>$errorcode);
@@ -320,6 +337,12 @@ class Register_Model extends LI_Model {
 			$this->db->where("id",$user_id);
 	    	$this->db->update($this->_table,array("email_verified"=>$verified));
 	    	$update=$this->db->affected_rows();
+	    	if($update==1 && $verified == 1){
+				$this->load->library("credit");
+				$this->credit->exec($user_id, "certificate_email");
+			} else {
+				$errorcode=false;
+			}
 	    }
 	    return $update;
 	}
@@ -352,7 +375,15 @@ class Register_Model extends LI_Model {
 			$phone_mask=mask_phone($phone);
 			$this->db->where("id",$user_id);
 	        $this->db->update($this->_table,array("phone_verified"=>$verified,"phone_mask"=>$phone_mask));
-	        $errorcode=true;
+	        if($this->db->affected_rows()==1){
+				$errorcode=true;
+				if ($verified == 1){
+					$this->load->library("credit");
+					$this->credit->exec($user_id, "certificate_phone");
+				}
+			} else {
+				$errorcode=false;
+			}
 		} 
 		else 
 		{
@@ -374,6 +405,12 @@ class Register_Model extends LI_Model {
 			$this->db->where("id",$user_id);
 	    	$this->db->update($this->_table,array("phone_verified"=>$verified));
 	    	$update=$this->db->affected_rows();
+	    	if($update==1 && $verified == 1){
+				$this->load->library("credit");
+				$this->credit->exec($user_id, "certificate_phone");
+			} else {
+				$errorcode=false;
+			}
 	    }
 	    return $update;
 	}

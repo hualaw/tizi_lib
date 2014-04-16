@@ -18,6 +18,26 @@ class Student_Data_Model extends LI_Model {
         return $this->db->query("select * from `student_data` where `uid` = $uid")->row();
     }
 
+	/** 获得学生和宠物的信息
+	 * @param $uid
+	 * @return mixed
+	 */
+	public function get_student_pet_data($uid){
+		return $this->db->query("SELECT sd.*,sp.pet_name,sp.pet_exp_bonus,pet.description,sp.level_need FROM `student_data` sd LEFT JOIN `study_pets` sp ON sd.pet_id = sp.id WHERE `uid` = {$uid}")->row();
+	}
+
+	/** 初始化学生信息表
+	 * @param $uid
+	 * @return mixed
+	 */
+	public function init_student_data($uid){
+		$param = array(
+			'uid' => $uid,			//用户id
+			'pet_id' => 1,			//选中的宠物
+			'exp' => 0,				//用户经验
+		);
+		return $this->save_student_data($uid, $param);
+	}
     // 保存学生信息
     public function save_student_data($uid,$data){
 
@@ -42,6 +62,20 @@ class Student_Data_Model extends LI_Model {
         return $result;
     }
 
+	/** 更新学生信息
+	 * @param $uid
+	 * @param $param
+	 * @return bool
+	 */
+	public function update_student_data($uid, $param) {
+		$this->db->trans_start();
+		$this->db->where('uid', $uid);
+		$this->db->update('student_data', $param);
+		if ($this->db->trans_complete() === false) {
+			return false;
+		}
+		return true;
+	}
     /**
      * @info 更新用户性别
      */
@@ -133,7 +167,47 @@ class Student_Data_Model extends LI_Model {
         return false;
     }
 
+	/** 用户经验得到相应的等级
+	 * @param $exp
+	 * @return int
+	 */
+	public function exp_to_level($exp) {
+		$arr = array(
+			4 => 1,
+			11 => 2,
+			20 => 3,
+			31 => 4,
+			44 => 5,
+			60 => 6,
+			77=> 7,
+			95 => 8,
+			116 => 9,
+			139 => 10,
+			164 => 11,
+			191 => 12,
+			220 => 13,
+			252 => 14,
+			285 => 15,
+			319 => 16,
+			356 => 17,
+			395 => 18
+		);
 
+		foreach ($arr as $ka => $va) {
+			if ($exp <= $ka) {
+				return $va;
+			}
+		}
+		return 18;
+	}
+
+	/** 用户由等级获得相应等级需要的经验
+	 * @param $level
+	 * @return mixed
+	 */
+	public function level_to_exp($level) {
+		return ($level - 1) * ($level - 1) + 4 * ($level - 1);
+	}
 
 
 }

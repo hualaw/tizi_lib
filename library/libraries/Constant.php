@@ -24,7 +24,7 @@ Class CI_Constant {
 	const SESSION_EXPIRE_TIME = "2 hour";
 	const COOKIE_EXPIRE_TIME = 0;//14400-4hour,0-with session expire
 	const COOKIE_INVITE_EXPIRE_TIME = 86400;//邀请码过期时间24小时
-	const COOKIE_REMEMBER_EXPIRE_TIME = 604800;//七天免登陆
+	const COOKIE_REMEMBER_EXPIRE_TIME = 2592000;//30天免登录;//604800;//七天免登陆
 	const COOKIE_MYSUBJECT_EXPIRE_TIME = 0;//Favorate随浏览器
 	const COOKIE_TIPS_EXPIRE_TIME = 604800;//tips保存七天
 	const PAGE_TOKEN_LIFE_CIRCLE = 604800;/*Page Token 过期时间 单位(秒)*/
@@ -108,13 +108,16 @@ Class CI_Constant {
 	/*zujuan qcount timeout*/
     const REDIS_AUTHLOGIN_TIMEOUT = 14400;//默认auto login用户名的缓存时间
 
+    const DEFAULT_SUBJECT_ID = 2;//默认科目，初中数学
+    const DEFAULT_GRADE_ID = 1;//默认年级，初中
+
 	//medal types
 	const TEACHER_AUTHENTICATION_MEDAL = 1;	//教师认证
 	const USER_LOGIN_MEDAL = 2;				//登录达人
 	const USER_REGISTER_MEDAL = 3;			//资深达人
 	const USER_ACTIVITY_MEDAL = 4;			//活动认证
 
-	const USER_MEDAL_TIMEOUT = 3600;		//勋章过期时间
+	const USER_MEDAL_TIMEOUT = 21600;		//勋章过期时间 6h
 
     function __construct()
 	{
