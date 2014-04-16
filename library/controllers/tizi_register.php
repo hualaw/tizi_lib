@@ -24,6 +24,7 @@ class Tizi_Register extends MY_Controller {
 		$mysubject=$this->input->post("t_mysubject",true,false,Constant::DEFAULT_SUBJECT_ID);
 		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
+		$invite_code=$this->input->post("invite",true);
 
 		$user_type=Constant::USER_TYPE_TEACHER;
 
@@ -65,7 +66,7 @@ class Tizi_Register extends MY_Controller {
 		}
 		else
 		{
-			$register=$this->register_by_email($email,$password,$rname,$user_type,array('register_subject'=>$mysubject));
+			$register=$this->register_by_email($email,$password,$rname,$user_type,array('register_subject'=>$mysubject,'register_invite'=>$invite_code));
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
@@ -90,6 +91,7 @@ class Tizi_Register extends MY_Controller {
 		$mygrade=$this->input->post("s_mygrade",true,false,Constant::DEFAULT_GRADE_ID);
 		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
+		$invite_code=$this->input->post("invite",true);
 
 		$user_type=Constant::USER_TYPE_STUDENT;
 
@@ -155,6 +157,7 @@ class Tizi_Register extends MY_Controller {
 		$rname=$this->input->post("p_name",true,true);
 		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
+		$invite_code=$this->input->post("invite",true);
 
 		$user_type=Constant::USER_TYPE_PARENT;
 
