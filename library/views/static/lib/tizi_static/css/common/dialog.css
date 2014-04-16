@@ -81,7 +81,7 @@ table.aui_border, table.aui_dialog { border:0; margin:0; border-collapse:collaps
 
 .aui_dialog { background:#FFF;}
 .aui_outer { border:1px solid #999;}
-.aui_state_lock .aui_outer { box-shadow:0 0px 10px rgba(0, 0, 0, .3); }
+/*.aui_state_lock .aui_outer { box-shadow:0 0px 10px rgba(0, 0, 0, .3); }*/
 .aui_nw, .aui_ne { width:0px; height:28px; }
 .aui_sw, .aui_se { width:0px; height:0px; }
 /*.aui_nw, .aui_n, .aui_ne, .aui_w, .aui_e, .aui_sw, .aui_s, .aui_se { background:rgba(223, 223, 223, 1); background:#dfdfdf\9!important; filter:alpha(opacity=100);}*/

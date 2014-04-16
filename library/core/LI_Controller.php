@@ -148,6 +148,11 @@ class LI_Controller extends CI_Controller{
    		$this->smarty->assign('base_parent', redirect_url(Constant::USER_TYPE_PARENT,$this->site));
    		$this->smarty->assign('base_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,$this->site));
 
+   		//$this->smarty->assign('login_student', redirect_url(Constant::USER_TYPE_STUDENT,'login'));
+    	$this->smarty->assign('login_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'login'));
+   		//$this->smarty->assign('login_parent', redirect_url(Constant::USER_TYPE_PARENT,'login'));
+   		//$this->smarty->assign('login_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,'login'));
+
    		$this->smarty->assign('home_student', redirect_url(Constant::USER_TYPE_STUDENT,'tizi'));
     	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
    		//$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
