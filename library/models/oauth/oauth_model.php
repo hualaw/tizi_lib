@@ -38,11 +38,30 @@ class Oauth_Model extends MY_Model{
      * @param user_id int
      * @param access_token char
      */
-    public function save($open_id, $platform, $data){
-        
-        $this->db->where('open_id', $open_id);
-        $this->db->where('platform', $platform);
-        return $this->db->update($this->_table, $data);
+    public function save($data, $oauth_id=''){
+
+        if(empty($oauth_id)){
+            $open_id = $data['open_id'];
+            $platform = $data['platform'];
+            $result = $this->getData($open_id, $platform,$data);
+            if(empty($result)){
+                $oauth_id = $this->db->insert($this->_table, $data);
+                $user_id = '';
+            }else{
+                $this->db->where('open_id', $open_id);
+                $this->db->where('platform', $platform);
+                $this->db->update($this->_table, $data);
+                $user_id = $result['user_id'];
+            }
+        }else{
+            if(!isset($data['user_id']) || !$data['user_id']){
+                return false;
+            }
+            $this->db->where('id', $oauth_id);
+            $this->db->update($this->_table, $data);
+            $user_id = $data['user_id'];
+        }
+        return array('oauth_id'=>$oauth_id, 'user_id'=>$user_id);
 
     }
 
