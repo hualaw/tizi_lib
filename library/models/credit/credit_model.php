@@ -2,7 +2,7 @@
 
 class credit_model extends LI_Model {
 	
-	public function change_add($user_id, $foreign_id, $credit_change, $msg = ""){
+	public function change_add($user_id, $foreign_id, $credit_change, $msg = "", $rule_log = array()){
 		if ($credit_change <= 0){
 			return -1;			
 		}
@@ -20,8 +20,25 @@ class credit_model extends LI_Model {
 			$this->db->query($sql_str["update_credit"], array($balance, $total, $user_id));
 		}
 		if ($this->db->affected_rows() === 1){
-			$sql_str["create_credit_log"] = "INSERT INTO credit_logs(user_id,foreign_id,credit_change,msg) VALUES(?,?,?,?)";
-			$this->db->query($sql_str["create_credit_log"], array($user_id, $foreign_id, $credit_change, $msg));
+			if (!isset($total) or !$total){
+				$total = $credit_change;
+			}
+			$this->db->query("INSERT INTO credit_logs(user_id,foreign_id,credit_change,total,msg) 
+				VALUES(?,?,?,?,?)", array($user_id, $foreign_id, $credit_change, $total, $msg));
+			if ($this->db->affected_rows() === 1){
+				if (isset($rule_log["id"])){
+					$this->db->where("id", $rule_log["id"]);
+					unset($rule_log["id"]);
+					$this->db->update("credit_rule_logs", $rule_log); 
+				} else {
+					$this->db->insert("credit_rule_logs", $rule_log);
+				}
+				if ($this->db->affected_rows() !== 1){
+					$this->db->trans_rollback();
+				}
+			} else {
+				$this->db->trans_rollback();
+			}
 		} else {
 			$this->db->trans_rollback();
 		}
@@ -43,6 +60,7 @@ class credit_model extends LI_Model {
 		}
 		return $res;
 	}
+	
 }
 
 /* end of credit_model.php */
