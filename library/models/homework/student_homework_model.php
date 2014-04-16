@@ -34,9 +34,18 @@ class Student_Homework_Model extends LI_Model{
      * @param answer 正确答案
      * @param input 学生输入 
      */
-    public function save_homework($s_work_id,$homeworkinfo){
+    public function save_homework($s_work_id,$homeworkinfo,$aid=false,$user_id=false){
         $this->db->where('id',$s_work_id);
         if($this->db->update('student_homework',$homeworkinfo)){
+			if (false !== $aid && false !== $user_id){
+				$this->load->model("homework/homework_assign_model");
+				$assign = $this->homework_assign_model->get_assigned_homework_info_by_id($aid);
+				if (isset($assign["user_id"])){
+					$this->load->library("credit");
+					$data = array($user_id);
+					$this->credit->exec($assign["user_id"], "homework_get_answer", false, "", $data);
+				}
+			}
             return true;
         }
         return false;        
@@ -733,6 +742,13 @@ class Student_Homework_Model extends LI_Model{
     function set_is_download($assid,$user_id){
         $sql= "update student_homework set is_download=1 where assignment_id=? and student_id=? ";
         $arr = array($assid,$user_id);
+        $this->load->model("homework/homework_assign_model");
+        $assign = $this->homework_assign_model->get_assigned_homework_info_by_id($assid);
+        if (isset($assign["user_id"])){
+			$this->load->library("credit");
+			$data = array($user_id);
+			$this->credit->exec($assign["user_id"], "student_homework_download", false, "", $data);
+		}
         return $this->db->query($sql,$arr);
     }
 
