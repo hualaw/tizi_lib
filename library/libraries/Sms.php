@@ -76,7 +76,7 @@ class Sms {
         $pwd = $this->_ci->config->item('secret');
         $mobiles = $this->phone_nums;
         $conts = $this->_content;
-        $conts = iconv( "UTF-8", "gb2312//IGNORE" ,$conts); // 要先转换成gb
+        // $conts = iconv( "UTF-8", "gb2312//IGNORE" ,$conts); // 要先转换成gb
         //要post的数据 
         $argv = array( 
               'sn'=>$sn,
