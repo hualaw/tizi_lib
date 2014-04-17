@@ -3,9 +3,11 @@
     <span>
         您好，<em class="MyURName">{sub_str($user_name)}</em>！
     </span>
+    {if !isset($navmode) || $navmode neq 'paper'}
     <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
     <span class="l">|</span>
     <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($logout_redirect) && $logout_redirect}{$logout_redirect}{else}reload{/if}">退出</a>
+    {/if}
     {else}
     <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($login_redirect) && $login_redirect}{$login_redirect}{else}reload{/if}" role="{if isset($reg_role)}{$reg_role}{/if}">登录</a>
     {$reg_url=$login_url|cat:"register"}
