@@ -129,6 +129,13 @@ class Question_Subject_Model extends LI_Model {
         if($query->num_rows()==1) return $query->row();
         else return false;
     }
+    /*根据学科获取学科年级下的所有学科*/
+    function get_subjects_by_sid($subject_id)
+    {
+        $query = $this->db->query("SELECT * FROM subject WHERE grade=(SELECT grade FROM subject WHERE id=?) AND online=?",array($subject_id,1));
+        return $query->result();
+    }
+
 }
 
 /* end of subject.php */
