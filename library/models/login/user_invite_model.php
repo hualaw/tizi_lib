@@ -19,7 +19,11 @@ class User_Invite_Model extends LI_Model {
 		}
 		$invite = $res[0];
 		if (md5("ti".$invite["password"]."zi") == $password){
-			return true === $returnobject ? $invite : $invite["id"];
+			if(!$invite["user_id"]){
+				return true === $returnobject ? $invite : $invite["id"];
+			} else {
+				return -1;
+			}
 		} else {
 			return -1;
 		}
