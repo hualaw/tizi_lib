@@ -59,16 +59,13 @@ class cloud_model extends MY_Model{
 
     //上传文件后写相关数据
     function insert_upload_file($param){
-
         $user_cloud_storage = $this->get_user_cloud_storage($param['user_id']);
         //echo $user_cloud_storage;
         $user_cloud_storage += $param['file_size']; 
         if($user_cloud_storage > Constant::CLOUD_DISK_SIZE){
             return -1;
         }
-
         $this->db->insert($this->_file_table,$param);
-
         if($this->redis_model->connect('cloud_statistics'))   
         {
             $this->_redis=true;
@@ -76,7 +73,19 @@ class cloud_model extends MY_Model{
         if($this->_redis){
             $key = 'user_cloud_storage_'.$param['user_id'];
             $expire=0;
-            $this->cache->save($key, $user_cloud_storage, $expire);
+            $this->cache->save($key, $user_cloud_storage, $expire);//所用空间统计
+
+            $key = 'user_cloud_file_total_'.$param['user_id'];  // 上传文件的总数
+            $value = $this->cache->get($key);
+            if($value === false){
+                //redis中没有相应数据就执行sql
+                $sql = "select count(*) as num from $this->_file_table where user_id = ? and is_del = 0";
+                $arr = array($param['user_id']);
+                $value = $this->db->query($sql,$arr)->row(0)->num;
+                $this->cache->save($key, $value, 0);
+            }else{
+                $this->cache->save($key, $value+1, 0);
+            }
         }
         return $this->db->insert_id();
     }
@@ -427,6 +436,9 @@ class cloud_model extends MY_Model{
             if($this->_redis){
                 $key = 'user_cloud_storage_'.$uid;
                 $this->cache->delete($key);
+
+                $key = 'user_cloud_file_total_'.$uid;  // 上传文件的总数
+                $this->cache->delete($key); 
             }
         }
         return $re_value;
@@ -498,7 +510,7 @@ class cloud_model extends MY_Model{
         return $this->db->query($sql)->row(0)->num;
     }
 
-    //tizi 3.0 老师的 布置作业 的 所有总数
+    //tizi 3.0 老师的 上传文件 的 所有总数
     function teacher_file_total($user_id){
         if($this->redis_model->connect('cloud_statistics')){
             $this->_redis=true;

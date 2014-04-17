@@ -35,6 +35,7 @@ class Session_Model extends LI_Model {
 				'uname'=>$data['uname'],
 				'student_id'=>$data['student_id'],
 				'avatar'=>$register_data->avatar?$register_data->avatar:0,
+				'certification'=>$register_data->certification?$register_data->certification:0,
 				'register_subject'=>$this->question_subject_model->check_subject($register_data->register_subject,'binding')?$register_data->register_subject:0,
 				'register_grade'=>$this->student_data_model->check_grade($register_data->register_grade)?$register_data->register_grade:0,
 				'register_domain'=>$register_data->register_domain,
@@ -107,7 +108,8 @@ class Session_Model extends LI_Model {
 						'register_subject'=>$user->register_subject,
 						'register_grade'=>$user->register_grade,
 						'register_domain'=>$register_domain,
-						'avatar'=>$user->avatar
+						'avatar'=>$user->avatar,
+						'certification'=>$user->certification
 					)
 				)
 			);

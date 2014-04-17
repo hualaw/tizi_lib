@@ -9,6 +9,7 @@ class Stu_Video_Model extends LI_Model {
 
 	}
 
+	//每日口语app端
 	public function get_stu_video($grade=1,$page_num=1,$total=false)
 	{
 		if($grade) $this->db->where('grade_id',$grade);
@@ -22,11 +23,12 @@ class Stu_Video_Model extends LI_Model {
 		if($page_num<=0) $page_num=1;
         $offset=($page_num-1)*$limit;
         $this->db->limit($limit,$offset);
-        $this->db->order_by('date,id','desc');
+        $this->db->order_by('date','desc');
 		$query=$this->db->get($this->_table);
 		return $query->result();
 	}
 
+	//每日口语web端
 	public function get_stu_video_by_id($vid)
 	{
 		$this->db->where('id',$vid);
@@ -35,13 +37,42 @@ class Stu_Video_Model extends LI_Model {
 		return $query->row();
 	}
 
-	public function get_video_by_grade($grade)
+	public function get_video_by_grade($grade=0)
 	{
-		$this->db->where('grade_id',$grade);
+		if($grade) $this->db->where('grade_id',$grade);
 		$this->db->where('online',1);
-		$this->db->order_by('date,id','desc');
+		$this->db->order_by('date','desc');
 		$query=$this->db->get($this->_table);
 		return $query->result();
 	}
 
+	public function get_video_by_date($grade=0,$from=false,$to=false)
+	{
+		if($grade) $this->db->where('grade_id',$grade);
+		if($from && $to)
+		{
+			$this->db->where('date <=',$to);
+			$this->db->where('date >=',$from);
+		}
+		$this->db->where('online',1);
+		$this->db->order_by('date','desc');
+		$query=$this->db->get($this->_table);
+		return $query->result();
+	}
+
+	/** 更新每日口语信息
+	 * @param $vid
+	 * @param $data
+	 * @return bool
+	 */
+	public function update_video($vid, $data){
+		$this->db->trans_start();
+		$this->db->update($this->_table, $data, 'id = ' . $vid);
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() === false) {
+			return false;
+		}
+		return true;
+	}
 }

@@ -14,7 +14,7 @@ class LI_Controller extends CI_Controller{
 	protected $tizi_urgrade=0;
 	protected $tizi_urdomain='';
 	protected $tizi_avatar=0;
-	//protected $tizi_invite='';
+	protected $tizi_cert=0;
 	protected $tizi_redirect='';
 
 	protected $tizi_ajax=false;
@@ -47,8 +47,8 @@ class LI_Controller extends CI_Controller{
 		parent::__construct();
 
 		$this->site=$site;
-		$this->init();
 		$this->auto_login();
+		$this->init();
 		$this->token_list();
 		$this->request_check();
 		$this->token();
@@ -67,7 +67,8 @@ class LI_Controller extends CI_Controller{
         $this->tizi_urgrade=$this->session->userdata("register_grade");
         $this->tizi_urdomain=$this->session->userdata("register_domain");
 		$this->tizi_avatar=$this->session->userdata("avatar");
-
+		$this->tizi_cert=$this->session->userdata("certification");
+		
 		$this->_segment['n']=$this->uri->uri_string();
 		$segment=$this->uri->segment_array();
         $this->_segment['an']=isset($segment[1])?$segment[1]:'';
@@ -181,6 +182,7 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('user_name',$user_name);
         $this->smarty->assign('user_type',$this->tizi_utype);
         $this->smarty->assign('user_stuid',$this->tizi_stuid);
+        $this->smarty->assign('user_cert',$this->tizi_cert);
 
 		//generate global errormsg
         if(!$this->_errormsg) $this->_errormsg="";
@@ -190,8 +192,9 @@ class LI_Controller extends CI_Controller{
 	protected function auto_login()
 	{
         $this->_username=$this->input->cookie(Constant::COOKIE_TZUSERNAME);
+        $this->tizi_uid=$this->session->userdata("user_id");
 
-		if(!$this->tizi_uid&&$this->_username)	
+		if(!$this->tizi_uid&&$this->_username)
 		{
 			$this->load->model("login/session_model");
 
@@ -329,11 +332,13 @@ class LI_Controller extends CI_Controller{
 			    {
 			    	if($this->tizi_ajax)
 					{
-						$redirect=$this->input->get_post('redirect',true,false,'reload');
-						$reg_redirect=$this->input->get_post('reg_redirect',true,true,'none');
+						$login_redirect=$this->input->get_post('redirect',true,false,'reload');
+						$reg_redirect=$this->input->get_post('reg_redirect',true);
+						$reg_role=$this->input->get_post('reg_role',true);
 						$this->smarty->assign('login_url',login_url());
-						$this->smarty->assign('redirect',$redirect);
+						$this->smarty->assign('login_redirect',$login_redirect);
 						$this->smarty->assign('reg_redirect',$reg_redirect);
+						$this->smarty->assign('reg_role',$reg_role);
 						$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
 				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'html'=>$html,'token'=>false,'code'=>1));
 					    exit();
