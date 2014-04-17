@@ -19,12 +19,15 @@ define(function(require, exports) {
             if(redirect == undefined) redirect = $(this).attr('href');
             var role = $(this).attr('role');
             var param = {'redirect':redirect,'role':role};
-            exports.loginCheck(param);
+            if(typeof callbackfn != 'function'){
+                callbackfn = function(){}
+            }
+            exports.loginCheck(param,callbackfn);
             return false;
         });
     }
 
-    exports.loginCheck = function(param,fn){
+    exports.loginCheck = function(param,callbackfn){
         if(typeof param == 'string') {
             param = {'redirect':param}
         }
@@ -39,7 +42,11 @@ define(function(require, exports) {
                     if(data.redirect == 'reload'){
                         window.location.reload();
                     }else if(data.redirect == 'function'){
-						fn();
+                        if(typeof callbackfn == 'function'){
+                            callbackfn();
+                        }else{
+                            window.location.reload();
+                        }
 					}else if(data.redirect.substr(0,9) == 'callback:'){
                         var callback = data.redirect.substr(9);
                         seajs.use('module/common/ajax/unlogin/' + callback);
