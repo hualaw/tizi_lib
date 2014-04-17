@@ -45,7 +45,7 @@ define(function(require, exports) {
                         if(data.redirect == 'reload'){
                             window.location.reload();
                         }else if(data.redirect == 'function'){
-                            if(typeof callbackfn != 'function'){
+                            if(typeof callbackfn == 'function'){
                                 callbackfn();
                             }else{
                                 window.location.reload();
