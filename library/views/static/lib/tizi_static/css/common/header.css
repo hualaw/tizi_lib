@@ -7,13 +7,12 @@
 .topNav .info .normalMassage{background:url(../../image/common/ico_newMassage_grey.gif) no-repeat left;padding-left:20px;}
 .topNav .miniBox{margin:0px 10px;}
 .header .bd{padding:13px 0px;}
-.header .bd h1 a{background:url(../../image/common/w_logo.gif) no-repeat;width:162px;height:67px;display:block; text-indent: -999em; overflow: hidden;}
-.header .bd h2{padding-left:20px;font-size:24px;color:#ff9600; font-weight: normal;}
-.header .bd h2 span.channel{height:25px;}
-.header .bd h2 span{display: block;font-size: 16px;color:#333;margin-top:8px;}
-.header .bd p{margin-top:38px;margin-left:20px;}
-.header .bd p a{background: #09aa83;padding:3px 10px;color:#fff;border:1px solid #00836f;}
+.header .bd .logo a{background:url(../../image/common/w_logo.gif) no-repeat;width:162px;height:67px;display:block; text-indent: -999em; overflow: hidden;}
 .header .bd .secLogo{margin-top:3px;}
+.header .bd .secLogo .infos{padding-left:20px;font-size:24px; font-weight: normal;}
+.header .bd .secLogo .infos span{display: block;margin-top:8px;}
+.header .bd .secLogo .infos span.channel{height:25px;color:#ff9600;font-size: 24px;}
+.header .bd .secLogo .infos span.info{font-size:16px;margin-top:12px;}
 .header .bd .allNumber{margin-top:45px; font-size: 14px;}
 .header .bd .allNumber em{color:#ff9600;}
 .header .bd .rightTips{margin-top:30px;}

@@ -197,35 +197,44 @@ Class Tiku_model extends LI_Model
             return $this->db->query($sql);
         }
         
-    /**
-     * 更新用户的经验值
-     * @param array $userData  用户要更新的数据
-     * @reutnr int|bool  成功后返回用户当前经验值,失败返回false
-     */
-    public function updateUserExp($userData)
-    {
-        $sql = "SELECT exp FROM student_data WHERE uid={$userData['userId']}";
-        $userInfo = $this->db->query($sql)->row_array($sql);
-        $currentExp = $userData['exp'] + $userInfo['exp'];
-        $sql = "UPDATE student_data SET exp={$currentExp} WHERE uid={$userData['userId']}";
-        $res = $this->db->query($sql);
-        if($res) {
-            return $currentExp;
-        } else {
-            return false;
+        /**
+         * 更新用户的经验值
+         * @param array $userData  用户要更新的数据
+         * @reutnr int|bool  成功后返回用户当前经验值,失败返回false
+         */
+        public function updateUserExp($userData)
+        {
+            $sql = "SELECT exp FROM student_data WHERE uid={$userData['userId']}";
+            $userInfo = $this->db->query($sql)->row_array($sql);
+            $currentExp = $userData['exp'] + $userInfo['exp'];
+            $sql = "UPDATE student_data SET exp={$currentExp} WHERE uid={$userData['userId']}";
+            $res = $this->db->query($sql);
+            if($res) {
+                return $currentExp;
+            } else {
+                return false;
+            }
         }
-    }
-    
-    /**
-     * 获取用户学科类型
-     * @param int userId 用户id
-     * @reutrn int $subjectType  学科类型,1理科,2文科 
-     */
-    public function getUserSubjectType($userId)
-    {
-        $sql = "SELECT subject_type FROM student_data WHERE userId={$userId}";
-        $userInfo = $this->db->query($sql)->row_array();
-        
-        return $userInfo['subject_type'];
-    }
+
+        /**
+         * 获取用户学科类型
+         * @param int userId 用户id
+         * @reutrn int $subjectType  学科类型,1理科,2文科 
+         */
+        public function getUserSubjectType($userId)
+        {
+            $sql = "SELECT subject_type FROM student_data WHERE userId={$userId}";
+            $userInfo = $this->db->query($sql)->row_array();
+
+            return $userInfo['subject_type'];
+        }
+
+        /*
+         * 根据uid判断该用户是否存在
+         */
+        function checkUserExists($user_id)
+        {
+                $num = $this->db->query("select id from user where id = ".$user_id)->num_rows();
+                return $num > 0 ? true : false;
+        }
 }

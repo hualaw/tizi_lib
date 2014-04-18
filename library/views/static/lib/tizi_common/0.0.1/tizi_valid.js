@@ -44,6 +44,12 @@ define(function(require, exports) {
                         if($.tiziDialog.list['loginFormID']) $.tiziDialog.list['loginFormID'].close();
                         if(data.redirect == 'reload'){
                             window.location.reload();
+                        }else if(data.redirect == 'function'){
+                            if(typeof callbackfn == 'function'){
+                                callbackfn();
+                            }else{
+                                window.location.reload();
+                            }
                         }else if(data.redirect.substr(0,9) == 'callback:'){
                             var callback = data.redirect.substr(9);
                             seajs.use('module/common/ajax/unlogin/' + callback);
