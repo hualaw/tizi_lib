@@ -3,7 +3,6 @@
 class User_Address_Model extends LI_Model {
 
     private $_table='user_address';
-    private $_address_limit=3;
 
     function __construct()
     {
@@ -15,7 +14,6 @@ class User_Address_Model extends LI_Model {
         $this->db->where('user_id',$user_id);
         $this->db->where('is_delete',0);
         $this->db->order_by('id','asc');
-        $this->db->limit($this->_address_limit);
         $query=$this->db->get($this->_table);
         return $query->result();
     }
