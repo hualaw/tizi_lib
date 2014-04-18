@@ -207,7 +207,7 @@ Class Tiku_model extends LI_Model
         $sql = "SELECT exp FROM student_data WHERE uid={$userData['userId']}";
         $userInfo = $this->db->query($sql)->row_array($sql);
         $currentExp = $userData['exp'] + $userInfo['exp'];
-        $sql = "UPDATE user_info SET exp={$currentExp} WHERE userId={$userData['userId']}";
+        $sql = "UPDATE student_data SET exp={$currentExp} WHERE uid={$userData['userId']}";
         $res = $this->db->query($sql);
         if($res) {
             return $currentExp;
