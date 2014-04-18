@@ -165,4 +165,67 @@ Class Tiku_model extends LI_Model
 		$friends = $this->db->query("select friendId from study_user_relation where userId = ".$user_id)->result_array();
 		return $friends;
 	}
+        
+        /**
+         * 获取用户的地域Id,经验值,所选学科类型这些基本数据
+         */
+        public function getUserBaseInfo($userId)
+        {
+            if(!$userId) {
+                return false;
+            }
+
+            $sql = "SELECT exp AS experience, pet_id AS petId, location_id AS locationId, subject_type AS subjectType
+                    FROM student_data WHERE uid={$userId}";
+            $userInfo = $this->db->query($sql)->row_array();
+
+            return $userInfo;
+        }
+        
+        /**
+         * 设置用户的地区和学科分类信息
+         * @param int $userId 用户Id
+         * @param int $locationId 地区Id
+         * @param int $subjectType 学科分类
+         * @return bool TRUE|FALSE
+         */
+        public function setUserRegionCatalog($userId, $locationId, $subjectType)
+        {
+            $sql = "UPDATE student_data SET location_id={$locationId}, subject_type={$subjectType}
+                    WHERE uid={$userId}";
+
+            return $this->db->query($sql);
+        }
+        
+    /**
+     * 更新用户的经验值
+     * @param array $userData  用户要更新的数据
+     * @reutnr int|bool  成功后返回用户当前经验值,失败返回false
+     */
+    public function updateUserExp($userData)
+    {
+        $sql = "SELECT exp FROM student_data WHERE uid={$userData['userId']}";
+        $userInfo = $this->db->query($sql)->row_array($sql);
+        $currentExp = $userData['exp'] + $userInfo['exp'];
+        $sql = "UPDATE user_info SET exp={$currentExp} WHERE userId={$userData['userId']}";
+        $res = $this->db->query($sql);
+        if($res) {
+            return $currentExp;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * 获取用户学科类型
+     * @param int userId 用户id
+     * @reutrn int $subjectType  学科类型,1理科,2文科 
+     */
+    public function getUserSubjectType($userId)
+    {
+        $sql = "SELECT subject_type FROM student_data WHERE userId={$userId}";
+        $userInfo = $this->db->query($sql)->row_array();
+        
+        return $userInfo['subject_type'];
+    }
 }
