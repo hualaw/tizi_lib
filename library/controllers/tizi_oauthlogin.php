@@ -28,7 +28,7 @@ class Tizi_Oauthlogin extends MY_Controller{
 
     }
 
-    public function callback($platform)
+    public function callback($platform = 1)
     {
 
         $this->load->library('Oauth');
