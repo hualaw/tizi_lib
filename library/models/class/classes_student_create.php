@@ -97,9 +97,13 @@ class classes_student_create extends LI_Model{
 	 * 	-1:验证失败，无该学生的登陆信息
 	 */
 	public function login($student_id, $password){
-		$rs = $this->db->select("id,password")->from("classes_student_create")->where("student_id",$student_id)->get()->row();
+		$rs = $this->db->select("id,password,user_id")->from("classes_student_create")->where("student_id",$student_id)->get()->row();
 		if(isset($rs->password) && md5("ti".$rs->password."zi") == $password){
-			return $rs->id;
+			if(!$rs->user_id){
+				return $rs->id;
+			} else {
+				return -1;
+			}
 		} else {
 			return -1;
 		}
