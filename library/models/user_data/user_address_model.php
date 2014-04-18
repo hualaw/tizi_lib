@@ -31,7 +31,18 @@ class User_Address_Model extends LI_Model {
     {
         if(empty($data)||empty($address_id)) return false;
         $this->db->where('id', $address_id);
+        $this->db->where('user_id', $data['user_id']);
         $query=$this->db->update($this->_table,$data);
+        return $this->db->affected_rows();
+    }
+
+    public function delete_address($address_id,$user_id)
+    {
+        if(empty($address_id)) return false;
+        $this->db->where('id', $address_id);
+        $this->db->where('user_id', $user_id);
+        $this->db->set('is_delete',1);
+        $query=$this->db->update($this->_table);
         return $this->db->affected_rows();
     }
 
