@@ -13,6 +13,7 @@ class User_Address_Model extends LI_Model {
     public function get_address($user_id)
     {
         $this->db->where('user_id',$user_id);
+        $this->db->where('is_delete',0);
         $this->db->order_by('id','asc');
         $this->db->limit($this->_address_limit);
         $query=$this->db->get($this->_table);
