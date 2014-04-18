@@ -2,6 +2,10 @@
 
 class Question_Subject_Model extends LI_Model {
     
+    private $_table = 'subject';
+    private $_type_table = 'subject_type';
+    private $_grade_table = 'grade';
+
     function __construct()
     {
         parent::__construct();
@@ -19,6 +23,24 @@ class Question_Subject_Model extends LI_Model {
 
     public function get_subjects(){
         return $this->db->query("select a.`id`,b.`id` as type,b.`name` from `subject` as a left join `subject_type` as b on a.`type`=b.`id` where a.`online`=1")->result();
+    }
+
+
+    function get_subject_by_type($subject_type,$grade_id=0,$grade_type=0)
+    {
+        $this->db->select($this->_table.'.*');
+        if($grade_id)
+        {
+            $this->db->join($this->_grade_table,$this->_grade_table.'.grade_type='.$this->_table.'.grade','left');
+            $this->db->where($this->_grade_table.'.id',$grade_id);
+        }
+        else if($grade_type)
+        {
+            $this->db->where($this->_table.'.grade',$grade_type);
+        }
+        if($subject_type) $this->db->where($this->_table.'.type',$subject_type);
+        $query=$this->db->get($this->_table);
+        return $query->result();
     }
 
     function get_all_subject($check_type='all')
@@ -129,6 +151,13 @@ class Question_Subject_Model extends LI_Model {
         if($query->num_rows()==1) return $query->row();
         else return false;
     }
+    /*根据学科获取学科年级下的所有学科*/
+    function get_subjects_by_sid($subject_id)
+    {
+        $query = $this->db->query("SELECT * FROM subject WHERE grade=(SELECT grade FROM subject WHERE id=?) AND online=?",array($subject_id,1));
+        return $query->result();
+    }
+
 }
 
 /* end of subject.php */
