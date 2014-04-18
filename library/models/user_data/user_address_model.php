@@ -18,6 +18,16 @@ class User_Address_Model extends LI_Model {
         return $query->result();
     }
 
+    public function get_address_by_id($address_id,$user_id)
+    {
+        $this->db->where('id',$address_id);
+        $this->db->where('user_id',$user_id);
+        $this->db->where('is_delete',0);
+        $this->db->order_by('id','asc');
+        $query=$this->db->get($this->_table);
+        return $query->row();
+    }
+
     public function add_address($data)
     {
         if(empty($data)) return false;
