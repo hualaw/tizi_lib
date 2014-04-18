@@ -165,4 +165,13 @@ Class Tiku_model extends LI_Model
 		$friends = $this->db->query("select friendId from study_user_relation where userId = ".$user_id)->result_array();
 		return $friends;
 	}
+	
+	/*
+	 * 根据uid判断该用户是否存在
+	 */
+	function checkUserExists($user_id)
+	{
+		$num = $this->db->query("select id from user where id = ".$user_id)->num_rows();
+		return $num > 0 ? true : false;
+	}
 }
