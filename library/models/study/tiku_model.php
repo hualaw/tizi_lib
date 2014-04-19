@@ -72,7 +72,14 @@ Class Tiku_model extends LI_Model
 				}
 				
 			}
-		} 
+		}
+		foreach ($return as $key=>$val)
+		{
+			if (empty($return[$key])){
+				unset($return[$key]);
+			}
+		}
+		
 		return $return;
 	}
 	
