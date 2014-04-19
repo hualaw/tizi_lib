@@ -223,7 +223,7 @@ Class Tiku_model extends LI_Model
          */
         public function getUserSubjectType($userId)
         {
-            $sql = "SELECT subject_type FROM student_data WHERE userId={$userId}";
+            $sql = "SELECT subject_type FROM student_data WHERE uid={$userId}";
             $userInfo = $this->db->query($sql)->row_array();
 
             return $userInfo['subject_type'];
