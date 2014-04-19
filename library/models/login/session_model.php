@@ -49,8 +49,11 @@ class Session_Model extends LI_Model {
 
 			if($switch_id) $data['switch_id']=$switch_id;
 			if($dbsave) $this->db->insert($this->_table,$data);
-			$this->load->library("credit");
-			$this->credit->exec($user_id, "everyday_firstlogin", $user_data["certification"]);
+			
+			if ($data["user_type"] == Constant::USER_TYPE_TEACHER){
+				$this->load->library("credit");
+				$this->credit->exec($user_id, "everyday_firstlogin", $user_data["certification"]);
+			}
 			//if($this->db->affected_rows()==1) 
 			$errorcode=true;
 		}

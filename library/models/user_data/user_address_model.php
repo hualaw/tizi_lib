@@ -3,7 +3,6 @@
 class User_Address_Model extends LI_Model {
 
     private $_table='user_address';
-    private $_address_limit=3;
 
     function __construct()
     {
@@ -13,10 +12,20 @@ class User_Address_Model extends LI_Model {
     public function get_address($user_id)
     {
         $this->db->where('user_id',$user_id);
+        $this->db->where('is_delete',0);
         $this->db->order_by('id','asc');
-        $this->db->limit($this->_address_limit);
         $query=$this->db->get($this->_table);
         return $query->result();
+    }
+
+    public function get_address_by_id($address_id,$user_id)
+    {
+        $this->db->where('id',$address_id);
+        $this->db->where('user_id',$user_id);
+        $this->db->where('is_delete',0);
+        $this->db->order_by('id','asc');
+        $query=$this->db->get($this->_table);
+        return $query->row();
     }
 
     public function add_address($data)
@@ -30,7 +39,18 @@ class User_Address_Model extends LI_Model {
     {
         if(empty($data)||empty($address_id)) return false;
         $this->db->where('id', $address_id);
+        $this->db->where('user_id', $data['user_id']);
         $query=$this->db->update($this->_table,$data);
+        return $this->db->affected_rows();
+    }
+
+    public function delete_address($address_id,$user_id)
+    {
+        if(empty($address_id)) return false;
+        $this->db->where('id', $address_id);
+        $this->db->where('user_id', $user_id);
+        $this->db->set('is_delete',1);
+        $query=$this->db->update($this->_table);
         return $this->db->affected_rows();
     }
 

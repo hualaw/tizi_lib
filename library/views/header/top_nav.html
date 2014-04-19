@@ -3,7 +3,7 @@
     <span>
         您好，<em class="MyURName">{sub_str($user_name)}</em>！
     </span>
-    {if !isset($navmode) || $navmode neq 'paper'}
+    {if !isset($hide_logout) || !$hide_logout}
     <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
     <span class="l">|</span>
     <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($logout_redirect) && $logout_redirect}{$logout_redirect}{else}reload{/if}">退出</a>
@@ -23,7 +23,7 @@
             {$reg_url=$reg_url|cat:"?role="|cat:$reg_role}
         {/if}
     {/if}
-    <a href="{$reg_url}" target="_blank">免费注册</a>
+    <a id="tiziRegister" href="{$reg_url}" target="_blank">免费注册</a>
     {/if}
 </p>
 <p class="fl">
