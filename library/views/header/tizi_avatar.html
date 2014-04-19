@@ -10,14 +10,14 @@
     </h2>
     {if $user_type eq $constant.user_type_teacher}
     <h3>
-        初级会员
+        {$userlevel.name}
     </h3>
     <div class="integral">
         <div class="hd">
-            <div class="progress" style="width:40%"></div>
+            <div class="progress" style="width:{$userlevel.percent}%"></div>
         </div>
         <div class="bd">
-            累计积分:<em>3417</em>/5000
+            累计积分:<em>{$userlevel.total}</em>/{$userlevel.max_credit}
         </div>
     </div>
     {/if}
