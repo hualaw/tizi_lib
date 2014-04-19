@@ -38,6 +38,12 @@ class User_Address_Model extends LI_Model {
     public function update_address($address_id,$data)
     {
         if(empty($data)||empty($address_id)) return false;
+
+        $this->db->where('id', $address_id);
+        $this->db->where($data);
+        $query=$this->db->get($this->_table);
+        if($query->num_rows() == 1) return true;
+
         $this->db->where('id', $address_id);
         $this->db->where('user_id', $data['user_id']);
         $query=$this->db->update($this->_table,$data);

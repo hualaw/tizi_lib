@@ -1,0 +1,20 @@
+/*全站弹出登陆框样式开始*/
+#comLogin{padding:0 60px;}
+#comLogin .tizi_LoginStyle li{margin-bottom:18px;position: relative;*zoom:1;*margin-bottom:15px;}
+#comLogin .tizi_LoginStyle li input{border-radius: 5px;font-size:14px;line-height: 38px;width:226px;border:1px solid #c4c5c4;box-shadow:1px 1px 1px #dadddc inset;}
+#comLogin .tizi_LoginStyle .bottomLogin{padding:15px 0px 0;}
+#comLogin .tizi_LoginStyle .submitBtn{cursor: pointer;width:115px;height:37px;line-height:35px;font-size:18px;}
+#comLogin .tizi_LoginStyle .aReg{width:95px;text-align: center;height: 35px;line-height:35px;font-size:18px;}
+#comLogin .tizi_LoginStyle .aReg:hover{color: #333;}
+#comLogin .tizi_LoginStyle .fogetPw{color:#09aa83;}
+#comLogin .tizi_LoginStyle .fogetPw:hover{color: #f90}
+#comLogin .tizi_LoginStyle .ft{padding-top:5px;}
+#comLogin .tizi_LoginStyle .ft h3{font-size:14px;padding-bottom:10px;}
+#comLogin .tizi_LoginStyle .ft p span{margin-right:3px;*margin-right:0px;}
+#comLogin .tizi_LoginStyle .ft p span.last{margin-right:0px;}
+#comLogin .tizi_LoginStyle .ft p em{color:#f90;}
+#comLogin .outLogin{border-top:1px solid #b9d9d6;margin-top:15px;padding-top: 15px;}
+#comLogin .outLogin a{text-indent: -999em;overflow:hidden;background:url(../../image/common/ico_out_login.gif) no-repeat;display: block;height:20px;margin-left:10px;}
+#comLogin .outLogin a.qq{width:18px;}
+#comLogin .outLogin a.weibo{width:25px;background-position: -31px 0;}
+/*全站弹出登陆框样式结束*/

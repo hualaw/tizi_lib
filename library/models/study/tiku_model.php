@@ -11,17 +11,6 @@ Class Tiku_model extends LI_Model
     }
 	
 	/*
-	 * 更换宠物
-	 */
-	public function changePet($userInfo,$pet_id)
-	{
-		$this->db->where('uid', $userInfo['user_id']);
-		$this->db->update('student_data', array('pet_id' => $pet_id));
-		$result = $this->db->affected_rows();
-		return $result > 0 ? true : false;
-	}
-	
-	/*
 	 * 添加战友
 	 */
 	public function addComrade($userInfo,$comrade_userId)
@@ -234,7 +223,8 @@ Class Tiku_model extends LI_Model
          */
         function checkUserExists($user_id)
         {
-                $num = $this->db->query("select id from user where id = ".$user_id)->num_rows();
-                return $num > 0 ? true : false;
+            $num = $this->db->query("select id from user where id = ".$user_id)->num_rows();
+            $row = $this->db->query("select id from student_data where uid = ".$user_id)->num_rows();
+            return ($num > 0 && $row > 0) ? true : false;
         }
 }
