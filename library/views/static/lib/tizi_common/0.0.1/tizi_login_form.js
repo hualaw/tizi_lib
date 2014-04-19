@@ -77,4 +77,20 @@ define(function(require, exports) {
         });
     }
 
+    exports.checkLogin = function(loginfn,unloginfn){
+        $.tizi_ajax({
+            url: loginUrlName + 'login/check',
+            type: "get",
+            dataType: "jsonp",
+            data: {'nohtml':1},
+            success: function(data) {
+                if(data.errorcode){
+                    loginfn();
+                }else{
+                    unloginfn();
+                }
+            }  
+        });
+    }
+
 });
