@@ -18,6 +18,8 @@ class credit_userlevel_model extends LI_Model {
 		$this->load->model("credit/credit_model");
 		$credit = $this->credit_model->get($user_id);
 		$user_level = $this->credit_userlevel_model->user_level($credit["total"]);
+		$user_level["balance"] = $credit["balance"];
+		$user_level["total"] = $credit["total"];
 		return $user_level;
 	}
 }
