@@ -44,8 +44,9 @@ class Student_Data_Model extends LI_Model {
 			if ($this->db->trans_complete() === false) {
 				return false;
 			}
-			return true;
+//			return true;
 		}
+		return $this->get_student_pet_data($uid);
 	}
     // 保存学生信息
     public function save_student_data($uid,$data){
