@@ -8,7 +8,7 @@
         <em class="MyURName">{sub_str($user_name)}</em>
         {if $user_cert}<i class="v">V</i>{/if}
     </h2>
-    {if $user_type eq $constant.user_type_teacher}
+    {if $user_type eq $constant.user_type_teacher and isset($userlevel)}
     <h3>
         {$userlevel.name}
     </h3>
