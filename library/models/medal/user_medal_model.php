@@ -62,11 +62,11 @@ class user_medal_model extends MY_Model {
 	 * @return mixed
 	 */
 	public function get_user_medal_info($user_id, $is_redis = true) {
+		$r_key = $user_id;
+
 		if ($is_redis) {
 			$this->load->model("redis/redis_model");
 			$this->redis_model->connect('medal');
-
-			$r_key = $user_id;
 
 			if ($tmp = $this->cache->redis->hgetall($r_key)) {
 				$login_statistics = array();
@@ -229,13 +229,13 @@ class user_medal_model extends MY_Model {
 			$this->load->model('user_data/cert_model');
 			$teacher_certification = $this->cert_model->get_apply_status($uid);
 
-			if ($teacher_certification && $teacher_certification[0]['apply_status'] == Constant::APPLY_STATUS_SUCC) {
+			if ((!empty($teacher_certification) && $teacher_certification[0]['apply_status'] == Constant::APPLY_STATUS_SUCC) || ($this->session->userdata['certification'] == 1)) {
 				$param['user_id'] = $uid;
 				$param['medal_type'] = Constant::TEACHER_AUTHENTICATION_MEDAL;
 				$param['upgrade_msg'] = '';
 				$param['get_date'] = $teacher_certification[0]['verify_time'];
 				$param['level'] = 1;
-				$this->notice_model->addNotify($uid, '恭喜您，获得教师认证勋章！' . $param['level'], time());
+				$this->notice_model->addNotify($uid, '恭喜您成功获得教师认证勋章！' . $param['level'], time());
 				$this->insert_user_medal($param);
 			}
 		}
