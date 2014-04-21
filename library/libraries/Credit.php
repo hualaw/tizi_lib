@@ -18,6 +18,8 @@ class CI_Credit {
 		if (false === $certificate){
 			$certificate = $this->_CI->session->userdata("certification");
 		}
+		$rewardnum = $certificate == 1 ? $rule["certificate_rewardnum"] : $rule["general_rewardnum"];
+		
 		
 		if ($rule["cycletype"] == 0 && !empty($rule_log)){	//每个只奖励一次
 			return -2;
@@ -26,7 +28,7 @@ class CI_Credit {
 			$today = date("Y-m-d");
 			if ($start_day === $today){
 				$rule_log["data"] = explode(",", $rule_log["data"]);
-				if ($rule["rewardnum"] != 0 && $rule_log["cyclenum"] >= $rule["rewardnum"]){
+				if ($rewardnum != 0 && $rule_log["cyclenum"] >= $rewardnum){
 					return -2;
 				} else {
 					if (!empty($data) && in_array($data[0], $rule_log["data"])){
@@ -49,7 +51,7 @@ class CI_Credit {
 			$current_hour = date("Y-m-d H");
 			if ($start_hour === $current_hour){
 				$rule_log["data"] = explode(",", $rule_log["data"]);
-				if ($rule["rewardnum"] != 0 && $rule_log["cyclenum"] >= $rule["rewardnum"]){
+				if ($rewardnum != 0 && $rule_log["cyclenum"] >= $rewardnum){
 					return -2;
 				} else {
 					if (!empty($data) && in_array($data[0], $rule_log["data"])){
@@ -74,7 +76,7 @@ class CI_Credit {
 
 			if ($part_min < $rule["cycletime"]){
 				$rule_log["data"] = explode(",", $rule_log["data"]);
-				if ($rule["rewardnum"] != 0 && $rule_log["cyclenum"] >= $rule["rewardnum"]){
+				if ($rewardnum != 0 && $rule_log["cyclenum"] >= $rewardnum){
 					return -2;
 				} else {
 					if (!empty($data) && in_array($data[0], $rule_log["data"])){
@@ -94,7 +96,7 @@ class CI_Credit {
 			}
 		} else if ($rule["cycletype"] == 4 && !empty($rule_log)){	//不限奖励次数
 			$rule_log["data"] = explode(",", $rule_log["data"]);
-			if ($rule["rewardnum"] != 0 && $rule_log["cyclenum"] >= $rule["rewardnum"]){
+			if ($rewardnum != 0 && $rule_log["cyclenum"] >= $rewardnum){
 				return -2;
 			} else {
 				if (!empty($data) && in_array($data[0], $rule_log["data"])){
