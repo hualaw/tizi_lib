@@ -36,18 +36,20 @@ class Question_Exam_Model extends MY_Model {
         return $area;
     }
 
-    public function get_exam_type($return_array=false)
+    public function get_exam_type($return_array=false,$return_all=false)
     {
+        $examtype=array();
         $query=$this->db->get($this->_type_table);
-        $exam_type=$query->result();
+        $exam_type=$examtype[0]=$query->result();
         if($return_array)
         {
             $etype_array=array();
             foreach ($exam_type as $k=>$etype) {
                 $etype_array[$etype->id]=$etype->name;
             }
-            $exam_type=$etype_array;
+            $exam_type=$examtype[1]=$etype_array;
         }
+        if($return_all) $exam_type=$examtype;
         return $exam_type;
     }
 

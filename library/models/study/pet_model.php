@@ -14,6 +14,14 @@ class Pet_Model extends LI_Model{
 		return $this->db->query("SELECT * FROM study_pets")->result();
 	}
 
+	/** 获取一个宠物的信息
+	 * @param $pet_id
+	 * @return mixed
+	 */
+	public function get_pet_by_id($pet_id){
+		return $this->db->query("SELECT * FROM study_pets WHERE id = {$pet_id}")->row();
+	}
+
 	/** 宠物id得到相应的图片地址
 	 * @param $pet_id
 	 * @return mixed
