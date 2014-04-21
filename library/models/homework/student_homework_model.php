@@ -771,7 +771,7 @@ class Student_Homework_Model extends LI_Model{
         if (isset($assign["user_id"])){
 			$this->load->library("credit");
 			$data = array($user_id);
-			$this->credit->exec($assign["user_id"], "student_homework_download", false, "", $data);
+			$this->credit->exec($assign["user_id"], "homework_get_answer", false, "", $data);
 		}
         return $this->db->query($sql,$arr);
     }
