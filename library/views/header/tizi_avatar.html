@@ -8,16 +8,16 @@
         <em class="MyURName">{sub_str($user_name)}</em>
         {if $user_cert}<i class="v">V</i>{/if}
     </h2>
-    {if $user_type eq $constant.user_type_teacher}
+    {if $user_type eq $constant.user_type_teacher and isset($userlevel)}
     <h3>
-        初级会员
+        {$userlevel.name}
     </h3>
     <div class="integral">
         <div class="hd">
-            <div class="progress" style="width:40%"></div>
+            <div class="progress" style="width:{$userlevel.percent}%"></div>
         </div>
         <div class="bd">
-            累计积分:<em>3417</em>/5000
+            累计积分:<em>{$userlevel.total}</em>{if $userlevel.max_credit}/{$userlevel.max_credit}{/if}
         </div>
     </div>
     {/if}
