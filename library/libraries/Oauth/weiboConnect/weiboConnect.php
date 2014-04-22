@@ -6,31 +6,31 @@ include_once( dirname(__DIR__).DIRECTORY_SEPARATOR.'Connect.php' );
 class weiboConnect extends Connect{
 
     private $config;
+    private $connect;
 
     public function __construct(){
 
         self::$module = 'weibo';
         $this->config = $this->get_config();
+        $this->connect = new SaeTOAuthV2( $this->config['appid'] , $this->config['appkey'] );
 
     }
 
     public function login(){
 
-        $connect = new SaeTOAuthV2( $this->config['appid'] , $this->config['appkey'] );
-        $code_url = $connect->getAuthorizeURL( $this->config['callback'] );
+        $code_url = $this->connect->getAuthorizeURL( $this->config['callback'] );
         header("Location:$code_url");
 
     }
 
     public function callback(){
 
-        $connect = new SaeTOAuthV2( $this->config['appid'] , $this->config['appkey'] );
         if (isset($_REQUEST['code'])) {
             $keys = array();
             $keys['code'] = $_REQUEST['code'];
             $keys['redirect_uri'] = $this->config['callback'];
             try {
-                $token_data = $connect->getAccessToken( 'code', $keys ) ;
+                $token_data = $this->connect->getAccessToken( 'code', $keys ) ;
                 $token_val = $token_data['access_token'];
                 $client_connect = new SaeTClientV2( $this->config['appid'] ,  $this->config['appkey'] , $token_val );
             } catch (OAuthException $e) {
