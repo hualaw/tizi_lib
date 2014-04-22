@@ -22,16 +22,4 @@ class Pet_Model extends LI_Model{
 		return $this->db->query("SELECT * FROM study_pets WHERE id = {$pet_id}")->row();
 	}
 
-	/** 宠物id得到相应的图片地址
-	 * @param $pet_id
-	 * @return mixed
-	 */
-	public function pet_id_to_path($pet_id){
-		$arr = array(
-			1 => 'myPet/cat',
-			2 => 'myPet/cat'
-		);
-		return isset($arr[$pet_id]) ? $arr[$pet_id] : $arr[1];
-	}
-
 }
