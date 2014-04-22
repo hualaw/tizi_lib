@@ -117,7 +117,7 @@ Class CI_Constant {
 	const USER_REGISTER_MEDAL = 3;			//资深达人
 	const USER_ACTIVITY_MEDAL = 4;			//活动认证
 
-	const USER_MEDAL_TIMEOUT = 21600;		//勋章过期时间 6h
+	const USER_MEDAL_TIMEOUT = 86400;		//勋章过期时间 24h
 
     function __construct()
 	{
