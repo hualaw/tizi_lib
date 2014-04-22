@@ -185,7 +185,7 @@ class Classes extends LI_Model{
 		$data["student_total"] = 0;
 		foreach ($res as $value){
 			$data["student_total"] += $value["stu_count"];
-			$data["student_total"] += $this->classes_student_create->total($value["class_id"]);
+			$data["student_total"] += $this->classes_student_create->ulog_total($value["class_id"]);
 		}
 		return $data;
 	}

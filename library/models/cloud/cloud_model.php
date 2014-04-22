@@ -120,20 +120,24 @@ class cloud_model extends MY_Model{
         }
 
         if($is_percentage){
+            $this->load->library('credit');
+            $privilege = $this->credit->userlevel_privilege($user_id);
+            $my_cloud_size = $privilege['privilege']['cloud_sizem']['value']; //单位是M
+            $my_cloud_size *= 1024*1024; //单位是byte
+            // $my_cloud_size = Constant::CLOUD_DISK_SIZE;//get from previliege
             $value = empty($value)?0:$value;
             $this->load->helper('number');
             if($value > 0){
-                $percentage = $value/Constant::CLOUD_DISK_SIZE * 100;
+                $percentage = $value/$my_cloud_size * 100;
                 $percentage = round($percentage,1)<=2.0 ? 2 :round($percentage,1);
                 $percentage_arr['percentage'] = $percentage > 100 ?'100%':round($percentage,1).'%';
                 $percentage_arr['use_storage'] = byte_format($value,0);
-                $percentage_arr['total_storage'] = byte_format(Constant::CLOUD_DISK_SIZE,0);
+                $percentage_arr['total_storage'] = byte_format($my_cloud_size,0);
             }else{
                 $percentage_arr['percentage'] = '0%';
                 $percentage_arr['use_storage'] = byte_format(0,0);
-                $percentage_arr['total_storage'] = byte_format(Constant::CLOUD_DISK_SIZE,0);
+                $percentage_arr['total_storage'] = byte_format($my_cloud_size,0);
             }
-            
             return $percentage_arr;
         }else{
             return $value;

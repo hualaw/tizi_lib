@@ -32,7 +32,7 @@ class qqConnect extends Connect{
 
         return array(
             'access_token'=>$access_token,
-            'openid' => $openid
+            'open_id' => $openid
         );
 
     }

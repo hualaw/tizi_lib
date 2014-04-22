@@ -53,7 +53,8 @@ class Register_Model extends LI_Model {
 		$this->load->helper('string');
         $password_salt=random_string('alnum','6');
         $this->load->helper('encrypt_helper');
-        $password=encrypt_password($password,$password_salt);
+        if($password) $password=encrypt_password($password,$password_salt);
+        else $password=NULL;
 		
 		$email=$phone=$uname=$student_id=$phone_mask=$qq=null;
 		$email_verified=$phone_verified=0;
@@ -270,14 +271,14 @@ class Register_Model extends LI_Model {
 	{
 		$password_salt=$this->get_password_salt($user_id);
 		$this->load->helper('encrypt_helper');
-		$password=encrypt_password($password,$password_salt);	
+		$password=encrypt_password($password,$password_salt);
 
 		$this->db->where('id',$user_id);
         $query=$this->db->get($this->_table);
 		if($query->num_rows()==1)
 		{	
 			$password1=$query->row()->password;
-			if($password==$password1) $errorcode=true;
+			if($password===$password1) $errorcode=true;
 			else $errorcode=false;
 		}
         else
@@ -416,7 +417,7 @@ class Register_Model extends LI_Model {
 	}
 
 	/*desc:encrypt password*/
-	function encrypt_password($password,$salt=null)
+	function encrypt_password($password,$salt=false)
 	{
 		if(!$salt)
 		{

@@ -256,7 +256,7 @@ class Tizi_Login extends MY_Controller {
 		{
 			$redirect='function';
 		}
-		else
+		else//base
 		{
 			$redirect=$this->get_redirect($user_type,$user_data,$redirect_type);
 		}

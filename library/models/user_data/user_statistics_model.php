@@ -34,10 +34,9 @@ class User_Statistics_Model extends MY_Model {
         $this->load->model('cloud/cloud_model');
         $statistics['share_total'] = $this->cloud_model->share_file_total( 0, $user_id);
         //debug
-        $statistics['cloud_storage']['use_storage']=$statistics['hw_total']=0;
-        //$statistics['cloud_storage'] = $this->cloud_model->get_user_cloud_storage($user_id,true);
-        //$this->load->model('exercise_plan/teacher_exercise_plan_model');
-        //$statistics['hw_total'] = $this->teacher_exercise_plan_model->teacher_ex_total( $user_id );
+        $statistics['cloud_storage'] = $this->cloud_model->get_user_cloud_storage($user_id,true);
+        $this->load->model('homework/exercise_plan_model');
+        $statistics['hw_total'] = $this->exercise_plan_model->teacher_ex_total( $user_id );
         $statistics['file_total']=$this->cloud_model->teacher_file_total( $user_id );
         $statistics = array_merge($statistics, $class_static);
 

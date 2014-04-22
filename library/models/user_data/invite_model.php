@@ -1,6 +1,5 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require(dirname(__FILE__)."/../../libraries/".'Mail.php');//如何正确的引用Mail.php？
 /*有奖邀请*/
 class Invite_Model extends LI_Model {
     protected $_log_table="user_invite_log"; //每次发送邀请的记录
@@ -20,10 +19,19 @@ class Invite_Model extends LI_Model {
         $data['reg_invite'] = 邀请人uid
         $data['user_id'] = 新用户的uid
         $data['name']  
-        $data['invite_way']   1.text 2.email  3.qq
+        $data['invite_way']   11.text   12.email  13.qq
         $data['reg_time'] = 注册时间戳;
     */
     function insert_succ_reg($data){
+        if($data['invite_way']==11){
+            $data['invite_way'] = Constant::INVITE_PHONE;
+        }elseif($data['invite_way']==12){
+            $data['invite_way'] = Constant::INVITE_EMAIL;
+        }elseif($data['invite_way']==13){
+            $data['invite_way'] = Constant::INVITE_QQ;
+        }else{
+            return false;
+        }
         return $this->db->insert($this->_succ_reg_table,$data);   
     }
 
@@ -53,19 +61,30 @@ class Invite_Model extends LI_Model {
 
     /*发送邀请邮件*/
     function send_invite_email($email,$my_name,$to_name,$user_id){
+        $this->load->library("mail");
         $subject = "{$my_name}邀请您注册梯子网－中小学优质教学资源服务平台";
-        $url  = site_url()."register/teacher/invite/".alpha_id($user_id);
+        $url  = site_url()."register/teacher/invite/".alpha_id('12'.$user_id);
         $msg = "尊敬的{$to_name}老师您好：<br />我是{$my_name}，我向您推荐梯子网，这里有很多免费的备课和试题资源可以下载，请点击以下链接进行注册并完成教师认证：<a href='{$url}'>{$url}</a>";
         $ret = Mail::send($email, $subject, $msg);
         if($ret['ret']==1){
             $errorcode=true;
-            log_message('info_tizi','170101:Email send success',$ret);  
+            log_message('info_tizi','170101:Email send success',$ret['ret']);  
         }
         else{
             $errorcode=false;
-            log_message('error_tizi','17010:Email send failed',$ret);
+            log_message('error_tizi','17010:Email send failed:'.$ret['http_errno'].' '.$ret['http_error']." ".$ret['http_code'],$ret['ret']);
         }
-        return $ret['ret'];
+        return $errorcode;
+    }
+
+    /*发送邀请text*/
+    function send_invite_text($phone,$my_name,$to_name,$user_id){
+        $this->load->library('sms');
+        $this->sms->setPhoneNums($phone);
+        $msg = "{$to_name}老师您好，我是{$my_name}，我向您推荐梯子网，有很多免费的备课和试题资源，点击此链接进行注册并完成教师认证：".site_url()."register/teacher/invite/".alpha_id('11'.$user_id);
+        $this->sms->setContent($msg);
+        $send=$this->sms->send();  
+        return $send;
     }
 
  

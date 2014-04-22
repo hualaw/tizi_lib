@@ -5,7 +5,7 @@
         </a>
     </p>
     <h2>
-        <em class="MyURName">{sub_str($user_name)}</em>
+        <em class="MyURName">{sub_str($user_name,0,12)}</em>
         {if $user_cert}<i class="v">V</i>{/if}
     </h2>
     {if $user_type eq $constant.user_type_teacher and isset($userlevel)}

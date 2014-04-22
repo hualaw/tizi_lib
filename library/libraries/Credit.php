@@ -136,7 +136,7 @@ class CI_Credit {
 			$msg = $rule["statement"];
 		}
 		$flag = $this->_CI->credit_model->change_add($user_id, $rule["id"], $credit_change, $msg, $rule_log);
-		return $flag;
+		return $credit_change;
 	}
 	
 	//获取一个用户的等级
