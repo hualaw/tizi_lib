@@ -78,6 +78,8 @@ Class CI_Constant {
 	const CODE_TYPE_CHANGE_PHONE = 4;
 	const CODE_TYPE_REGISTER_VERIFY_EMAIL = 5;
 	const CODE_TYPE_LOGIN_VERIFY_EMAIL = 6;
+	const CODE_TYPE_INVITE_EMAIL = 7; /*老师邀请注册发送邮件*/
+	const CODE_TYPE_INVITE_PHONE = 8; /*老师邀请注册发送短信*/
 
 	/*zujuan insert register type*/
 	const INSERT_REGISTER_EMAIL = 1;
