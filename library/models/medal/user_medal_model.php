@@ -160,7 +160,6 @@ class user_medal_model extends MY_Model {
 
 
 	public function init_user_medal ($uid) {
-		$this->load->model('notice/notice_model');
 		$this->load->model('login/register_model');
 //		$this->load->model('medal/user_medal_model');
 
@@ -190,7 +189,8 @@ class user_medal_model extends MY_Model {
 
 			//插入数据库，插入notice
 			$this->insert_user_medal($param);
-			$this->notice_model->addNotify($param['user_id'], '恭喜您成功获得资深达人勋章', time());
+//			$this->notice_model->addNotify($param['user_id'], '恭喜您成功获得资深达人勋章', time());
+			$this->send_notice($param['user_id'], '恭喜您成功获得资深达人勋章', time());
 		} else {
 			//不为空的时候判断等级是否 改变
 			if ($senior_master_level == $senior_info->level) {
@@ -217,8 +217,9 @@ class user_medal_model extends MY_Model {
 				$param['get_date'] = $senior_master_get_day;
 				$param['level'] = $senior_master_level;
 				//更新notice
-				$this->notice_model->addNotify($uid, '您的资深达人勋章等级上升为V' . $param['level'], time());
 				$this->update_user_medal($uid, $senior_medal_type, $param);
+				//$this->notice_model->addNotify($uid, '您的资深达人勋章等级上升为V' . $param['level'], time());
+				$this->send_notice($uid, '您的资深达人勋章等级上升为V' . $param['level'], time());
 			}
 		}
 		//资深达人-------------------end
@@ -243,5 +244,14 @@ class user_medal_model extends MY_Model {
 		return $this->get_user_medal_info($uid);
 	}
 
+	public function send_notice($uid, $msg, $now){
+		$this->load->model("redis/redis_model");
+		$this->redis_model->connect('notice');
+
+		$this->load->model('notice/notice_model');
+
+		$this->notice_model->addNotify($uid, $msg, $now);
+
+	}
 
 }
