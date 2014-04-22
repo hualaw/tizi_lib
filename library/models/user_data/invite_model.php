@@ -1,6 +1,5 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-// require(dirname(__FILE__)."/../../libraries/".'Mail.php');//如何正确的引用Mail.php？
 /*有奖邀请*/
 class Invite_Model extends LI_Model {
     protected $_log_table="user_invite_log"; //每次发送邀请的记录
@@ -25,7 +24,7 @@ class Invite_Model extends LI_Model {
     */
     function insert_succ_reg($data){
         if($data['invite_way']==11){
-            $data['invite_way'] = Constant::INVITE_TEXT;
+            $data['invite_way'] = Constant::INVITE_PHONE;
         }elseif($data['invite_way']==12){
             $data['invite_way'] = Constant::INVITE_EMAIL;
         }elseif($data['invite_way']==13){
