@@ -54,6 +54,7 @@ class Register_Model extends LI_Model {
         $password_salt=random_string('alnum','6');
         $this->load->helper('encrypt_helper');
         if($password) $password=encrypt_password($password,$password_salt);
+        else $password=NULL;
 		
 		$email=$phone=$uname=$student_id=$phone_mask=$qq=null;
 		$email_verified=$phone_verified=0;
