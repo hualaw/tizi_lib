@@ -89,7 +89,7 @@ class user_medal_model extends MY_Model {
 				$this->cache->redis->hset($r_key, $vr->medal_type, serialize($vr));
 			}
 		}
-//		$this->cache->redis->expire($r_key, Constant::USER_MEDAL_TIMEOUT);
+		$this->cache->redis->expire($r_key, Constant::USER_MEDAL_TIMEOUT);
 		return $login_statistics;
 	}
 
