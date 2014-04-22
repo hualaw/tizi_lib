@@ -6,7 +6,7 @@ if (!function_exists('path2img')) {
 		$src = "http://tizi-zujuan-thumb.oss.aliyuncs.com/";
 		if($tag && $path) 
 		{
-			$path = '<img class="pre_img" src="'.$src.$path.'"/>';
+			$path = '<img class="pre_img" src="'.$src.ltrim($path,'/').'"/>';
 		}	
 		return $path;
     }  
@@ -17,7 +17,7 @@ if (!function_exists('path2video')) {
     	$src="http://tizi-kouyu-video.oss.aliyuncs.com/";
 		if($tag && $path) 
 		{
-			$path = $src.$path;
+			$path = $src.ltrim($path,'/');
 		}	
 		return $path;
     }
