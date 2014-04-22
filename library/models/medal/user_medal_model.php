@@ -63,15 +63,10 @@ class user_medal_model extends MY_Model {
 	 */
 	public function get_user_medal_info($user_id, $is_redis = true) {
 		$r_key = $user_id . '_' . date('m_d', time());
-		$pre_day_r_key = $user_id . '_' . date('m_d', time() - 86400);
 
 		if ($is_redis) {
 			$this->load->model("redis/redis_model");
 			$this->redis_model->connect('medal');
-
-			if ($this->cache->redis->exists($pre_day_r_key)) {
-				$this->cache->redis->delete($pre_day_r_key);
-			}
 
 			if ($tmp = $this->cache->redis->hgetall($r_key)) {
 				$login_statistics = array();
@@ -94,7 +89,7 @@ class user_medal_model extends MY_Model {
 				$this->cache->redis->hset($r_key, $vr->medal_type, serialize($vr));
 			}
 		}
-//		$this->cache->redis->expire($r_key, Constant::USER_MEDAL_TIMEOUT);
+		$this->cache->redis->expire($r_key, Constant::USER_MEDAL_TIMEOUT);
 		return $login_statistics;
 	}
 
@@ -195,7 +190,7 @@ class user_medal_model extends MY_Model {
 
 			//插入数据库，插入notice
 			$this->insert_user_medal($param);
-			$this->notice_model->addNotify($param['user_id'], '恭喜您，资深达人等级升级为V' . $param['level'], time());
+			$this->notice_model->addNotify($param['user_id'], '恭喜您成功获得资深达人勋章', time());
 		} else {
 			//不为空的时候判断等级是否 改变
 			if ($senior_master_level == $senior_info->level) {
@@ -222,7 +217,7 @@ class user_medal_model extends MY_Model {
 				$param['get_date'] = $senior_master_get_day;
 				$param['level'] = $senior_master_level;
 				//更新notice
-				$this->notice_model->addNotify($uid, '恭喜您，资深达人等级升级为V' . $param['level'], time());
+				$this->notice_model->addNotify($uid, '您的资深达人勋章等级上升为V' . $param['level'], time());
 				$this->update_user_medal($uid, $senior_medal_type, $param);
 			}
 		}

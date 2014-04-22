@@ -3,7 +3,7 @@ if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 if (!function_exists('encrypt_password')) {
     function encrypt_password($password,$salt) {
-		$encrypt_password='';
+		$encrypt_password=false;
     	if($salt) $encrypt_password=$salt.'$'.sha1($salt.$password);		
 		//else $encrypt_password=$password;
 		return $encrypt_password;
@@ -12,7 +12,7 @@ if (!function_exists('encrypt_password')) {
 
 if (!function_exists('encrypt_password_salt')) {
     function encrypt_password_salt($password,$salt_len=6) {
-		$salt="";
+		$salt=false;
 		if($password&&strpos($password,'$'))
         {
             $password_tmp=explode('$',$password);

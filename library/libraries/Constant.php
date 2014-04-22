@@ -119,7 +119,7 @@ Class CI_Constant {
 	const USER_REGISTER_MEDAL = 3;			//资深达人
 	const USER_ACTIVITY_MEDAL = 4;			//活动认证
 
-	const USER_MEDAL_TIMEOUT = 21600;		//勋章过期时间 6h
+	const USER_MEDAL_TIMEOUT = 86400;		//勋章过期时间 24h
 
     function __construct()
 	{
@@ -161,6 +161,46 @@ Class CI_Constant {
 		if(!isset($redirect_url[$redirect_type])) $redirect_url[$redirect_type] = $redirect_url['login'];
 
 		return isset($redirect_url[$redirect_type][$user_type])?$redirect_url[$redirect_type][$user_type]:site_url();
+	}
+
+	/** 宠物id得到相应目录
+	 * @static
+	 * @param $pet_id
+	 * @return mixed
+	 */
+	public static function pet_path($pet_id) {
+		$arr = array(
+			1 => 'myPet/cat',
+			2 => 'myPet/cat'
+		);
+		return isset($arr[$pet_id]) ? $arr[$pet_id] : $arr[1];
+	}
+
+	/** 宠物状态
+	 * @static
+	 * @param $status_id
+	 * @return mixed
+	 */
+	public static function pet_status($status_id) {
+		$arr = array(
+			1 => 'happy',
+			2 => 'hungry',
+			3 => 'cold'
+		);
+		return isset($arr[$status_id]) ? $arr[$status_id] : $arr[1];
+	}
+
+	/** 宠物闯关成功失败状态
+	 * @static
+	 * @param $status_id
+	 * @return mixed
+	 */
+	public static function pet_through_status($status_id){
+		$arr = array(
+			1 =>'success',
+			2 => 'fail'
+		);
+		return isset($arr[$status_id]) ? $arr[$status_id] : $arr[1];
 	}
 }
 /* End of file Constant.php */
