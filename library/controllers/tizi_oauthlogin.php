@@ -15,7 +15,7 @@ class Tizi_Oauthlogin extends MY_Controller{
     {
         /*platform*/
         $platform = 'qq';
-        isset($_GET['platform']) && $platform = $_GET['platform'];
+        isset($_GET['type']) && $platform = $_GET['type'];
 
         $this->load->library('Oauth');
         try{

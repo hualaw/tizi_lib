@@ -58,5 +58,5 @@
         {$oauth_url="&redirect="|cat:urlencode($reg_redirect)}
     {/if}
     <a href="{$login_url}oauth/login?type=qq{$oauth_url}" target="_blank" class="qq fl">QQ账号</a>
-    <a href="{$login_url}oauth/login?type=qq{$oauth_url}" target="_blank" class="weibo fl">新浪微博账号</a>
+    <a href="{$login_url}oauth/login?type=weibo{$oauth_url}" target="_blank" class="weibo fl">新浪微博账号</a>
 </div>
