@@ -15,7 +15,7 @@ class Tizi_Oauthlogin extends MY_Controller{
     {
         /*platform*/
         $platform = 'qq';
-        isset($_GET['platform']) && $platform = $_GET['platform'];
+        isset($_GET['type']) && $platform = $_GET['type'];
 
         $this->load->library('Oauth');
         try{
@@ -43,7 +43,7 @@ class Tizi_Oauthlogin extends MY_Controller{
                 $platform = 2;
             }
             $db_data=array(
-                'open_id'=>$data['openid'],
+                'open_id'=>$data['open_id'],
                 'platform'=>$platform,
                 'access_token'=>$data['access_token'],
             );
