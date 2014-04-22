@@ -24,7 +24,7 @@ class Invite_Model extends LI_Model {
         $data['reg_time'] = 注册时间戳;
     */
     function insert_succ_reg($data){
-        $if($data['invite_way']==11){
+        if($data['invite_way']==11){
             $data['invite_way'] = Constant::INVITE_TEXT;
         }elseif($data['invite_way']==12){
             $data['invite_way'] = Constant::INVITE_EMAIL;
