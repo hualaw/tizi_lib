@@ -10,6 +10,7 @@ class weiboConnect extends Connect{
 
     public function __construct(){
 
+        parent::__construct();
         self::$module = 'weibo';
         $this->config = $this->get_config();
         $this->connect = new SaeTOAuthV2( $this->config['appid'] , $this->config['appkey'] );
