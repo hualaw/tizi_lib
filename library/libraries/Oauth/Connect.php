@@ -4,8 +4,10 @@ class Connect{
 
     protected static $module;
     
+    protected $_CI;
+    
     public function __construct(){
-
+		$this->_CI = & get_instance();
     }
 
     protected function get_config(){
@@ -13,9 +15,11 @@ class Connect{
         if(!empty(self::$config)){
             return self::$config;
         }else{
-            $conf_path = APPPATH .'config/'. ENVIRONMENT . '/oauth.php'; 
-            require($conf_path);       
-            return $config[self::$module];
+			
+            $this->_CI->load->config("oauth");
+            $config = $this->_CI->config->item(self::$module);
+            
+            return $config;
         }
     }
 
