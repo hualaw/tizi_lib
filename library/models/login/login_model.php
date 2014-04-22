@@ -73,7 +73,7 @@ class Login_Model extends LI_Model {
 	            		$this->load->helper('encrypt_helper');
 						$password_salt=encrypt_password_salt($password1);
 	            		$password=encrypt_password($password,$password_salt);
-						if($password==$password1)
+						if($password===$password1)
 						{
 							$user_id=$query->row()->id;
 							$user_type=$query->row()->user_type;
