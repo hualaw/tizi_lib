@@ -25,7 +25,6 @@ class weiboConnect extends Connect{
     public function callback(){
 
         $connect = new SaeTOAuthV2( $this->config['appid'] , $this->config['appkey'] );
-        $code_url = $connect->getAuthorizeURL( $this->config['callback'] );
         if (isset($_REQUEST['code'])) {
             $keys = array();
             $keys['code'] = $_REQUEST['code'];
