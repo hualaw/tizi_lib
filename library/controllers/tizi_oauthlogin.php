@@ -43,7 +43,7 @@ class Tizi_Oauthlogin extends MY_Controller{
                 $platform = 2;
             }
             $db_data=array(
-                'open_id'=>$data['open_id'],
+                'open_id'=>$data['openid'],
                 'platform'=>$platform,
                 'access_token'=>$data['access_token'],
             );
