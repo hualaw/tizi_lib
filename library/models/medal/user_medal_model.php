@@ -63,10 +63,15 @@ class user_medal_model extends MY_Model {
 	 */
 	public function get_user_medal_info($user_id, $is_redis = true) {
 		$r_key = $user_id . '_' . date('m_d', time());
+		$pre_day_r_key = $user_id . '_' . date('m_d', time() - 86400);
 
 		if ($is_redis) {
 			$this->load->model("redis/redis_model");
 			$this->redis_model->connect('medal');
+
+			if ($this->cache->redis->exists($pre_day_r_key)) {
+				$this->cache->redis->delete($pre_day_r_key);
+			}
 
 			if ($tmp = $this->cache->redis->hgetall($r_key)) {
 				$login_statistics = array();
