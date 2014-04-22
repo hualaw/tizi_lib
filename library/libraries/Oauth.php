@@ -54,8 +54,4 @@ class Oauth{
 
 class OauthException extends Exception{
 
-    public function __construct(){
-    
-        parent::__construct();
-    }
 }
