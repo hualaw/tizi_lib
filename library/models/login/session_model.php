@@ -166,10 +166,10 @@ class Session_Model extends LI_Model {
 	}
 
 	public function get_lastgen($user_id){
-		$result = $this->db->query("select generate_time from `session` where user_id=? order by 
-			id desc limit 0,1", array($user_id))->result_array();
-		if (isset($result[0]["generate_time"])){
-			return $result[0]["generate_time"];
+		$result = $this->db->query("select last_login from `user` where id=? order by 
+			id desc limit 0,1", array($user_id))->row_array();
+		if (isset($result["last_login"])){
+			return $result["last_login"];
 		}
 		return null;
 	}
