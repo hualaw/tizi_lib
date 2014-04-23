@@ -1,5 +1,5 @@
 <?php
-if(!defined('BASEPATH'))exit('Nodirectscriptaccessallowed');
+if(!defined('BASEPATH'))exit('No direct script access allowed');
 
 class Tizi_Oauthlogin extends MY_Controller{
 
@@ -15,7 +15,7 @@ class Tizi_Oauthlogin extends MY_Controller{
     {
         /*platform*/
         $platform = 'qq';
-        isset($_GET['platform']) && $platform = $_GET['platform'];
+        isset($_GET['type']) && $platform = $_GET['type'];
 
         $this->load->library('Oauth');
         try{
@@ -23,7 +23,8 @@ class Tizi_Oauthlogin extends MY_Controller{
             $this->oauth->login();
 
         }catch(OauthException$e){
-            exit($e->getMessage());
+            //exit($e->getMessage());
+            show_error($e->getMessage());
         }
 
     }
@@ -52,13 +53,18 @@ class Tizi_Oauthlogin extends MY_Controller{
             $this->oauth_model->save($open_id, $platform, $db_data);
 
             if(empty($user_auth_data['user_id'])){//未绑定用户
-                
+                $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
+				redirect(login_url("login/perfect/role"));
             }else{//绑定用户
-            
+				$this->load->model("login/session_model");
+				$this->session_model->generate_session($user_auth_data["user_id"]);
+				$this->session_model->clear_mscookie();
+				redirect();
             }
 
         }catch(OauthException $e){
-            exit($e->getMessage());
+            //exit($e->getMessage());
+            show_error($e->getMessage());
         }
 
     }

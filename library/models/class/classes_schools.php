@@ -39,6 +39,12 @@ class Classes_Schools extends LI_Model{
 		return $r;
 	}
 	
+	public function get_unuserdefine($county_id, $sctype, $fields = "*"){
+		$res = $this->db->query("select {$fields} from classes_schools where 
+				county_id=? and sctype=? and user_define=0", array($county_id, $sctype))->result_array();
+		return $res;
+	}
+	
 	public function create($schoolname, $county_id, $sctype, $py, $first_py){
 		$city_id = $this->parentid($county_id);
 		$province_id = $this->parentid($city_id);
@@ -46,6 +52,14 @@ class Classes_Schools extends LI_Model{
 			province_id,status,py,first_py,sctype) values(?,?,?,?,?,?,?,?)", array($county_id,
 			$schoolname, $city_id, $province_id, 1, $py, $first_py, $sctype));
 		return $this->db->affected_rows();
+	}
+	
+	//自定义的学校
+	public function define_create($schoolname, $province_id, $city_id, $county_id, $sctype, $school_type){
+		$this->db->query("insert into classes_schools(county_id,schoolname,city_id,
+			province_id,status,sctype,user_define,school_type) values(?,?,?,?,?,?,?,?)", array($county_id,
+			$schoolname, $city_id, $province_id, 1, $sctype, 1, $school_type));
+		return $this->db->insert_id();
 	}
 	
 	public function update($id, $schoolname, $county_id, $sctype, $py, $first_py){
@@ -144,7 +158,7 @@ class Classes_Schools extends LI_Model{
 		return $this->db->affected_rows();
 	}
 	
-	private function parentid($childid){
+	public function parentid($childid){
 		$id_replace = array(52, 321, 343, 394, 395);
 		$rel = array(
 			52 => 2,

@@ -21,10 +21,16 @@ class Qiniu {
         $this->domain = $this->_CI->config->item('domain');
     }
 
-    protected function set_bucket($bucket){
-        $this->bucket = $bucket;
-        $this->domain = $this->bucket."qiniudn.com";
-    } 
+    function change_bucket($bucket_prefix='certification_'){
+        $this->_CI->load->config('qiniu',false,true);
+        $this->bucket = $this->_CI->config->item($bucket_prefix.'bucket');
+        $this->domain = $this->_CI->config->item($bucket_prefix.'domain');        
+    }
+
+    // protected function set_bucket($bucket){
+    //     $this->bucket = $bucket;
+    //     $this->domain = $this->bucket."qiniudn.com";
+    // } 
 
     /*生成token*/
     function make_token($expires=3600)

@@ -1,4 +1,6 @@
 <?php
+//$lang['sms_sign']="【梯子网】";
+$lang['sms_sign']="";
 
 $lang['mail_subject_verify']="梯子网注册验证邮件";
 $lang['mail_body_verify']="尊敬的用户：<br/>
@@ -39,10 +41,10 @@ $lang['mail_disclaimer'] = "<br/>欢迎您使用梯子网（www.tizi.com）！<b
 感谢您对梯子网的支持！";
 
 $lang['phone_body_verify']="尊敬的用户，您好！欢迎您注册梯子网，您的验证码为：";
-$lang['phone_end_verify']="，本验证码30分钟内有效，请尽快填入以完成注册。【梯子网】";
+$lang['phone_end_verify']="，本验证码30分钟内有效，请尽快填入以完成注册。".$lang['sms_sign'];
 
 $lang['phone_body_reset']="尊敬的用户，您正在申请梯子网的账号密码重置服务，您的验证码为：";
-$lang['phone_end_reset']="，本验证码30分钟内有效，如果非本人操作，请注意保护您的个人信息！【梯子网】";
+$lang['phone_end_reset']="，本验证码30分钟内有效，如果非本人操作，请注意保护您的个人信息！".$lang['sms_sign'];
 
 $lang['phone_body_update_phone']="尊敬的用户，您已申请尾号为{phone}的手机与梯子网绑定，绑定验证码为：";
-$lang['phone_end_update_phone']="，本验证码30分钟内有效，如果非本人操作，请注意保护您的个人信息！【梯子网】";
+$lang['phone_end_update_phone']="，本验证码30分钟内有效，如果非本人操作，请注意保护您的个人信息！".$lang['sms_sign'];

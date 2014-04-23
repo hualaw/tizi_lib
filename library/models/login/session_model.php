@@ -4,6 +4,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Session_Model extends LI_Model {
 	
 	private $_table="session";
+	private $_user_table="user";
 	private $_api_table="session_api";
 
 	function __construct()
@@ -46,6 +47,10 @@ class Session_Model extends LI_Model {
 			if($data['user_type'] == Constant::USER_TYPE_TEACHER) $user_data['aq_show']=$this->auth_aq($user_id);
 
 			$this->session->set_userdata($user_data);
+
+			$this->db->where('id',$user_id);
+			$this->db->set('last_login',date('Y-m-d H:i:s'));
+			$this->db->update($this->_user_table);
 
 			if($switch_id) $data['switch_id']=$switch_id;
 			if($dbsave) $this->db->insert($this->_table,$data);
@@ -166,10 +171,10 @@ class Session_Model extends LI_Model {
 	}
 
 	public function get_lastgen($user_id){
-		$result = $this->db->query("select generate_time from `session` where user_id=? order by 
-			id desc limit 0,1", array($user_id))->result_array();
-		if (isset($result[0]["generate_time"])){
-			return $result[0]["generate_time"];
+		$result = $this->db->query("select last_login from `user` where id=? order by 
+			id desc limit 0,1", array($user_id))->row_array();
+		if (isset($result["last_login"])){
+			return $result["last_login"];
 		}
 		return null;
 	}

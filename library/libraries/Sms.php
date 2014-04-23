@@ -126,13 +126,11 @@ class Sms {
             $result=explode("-",$line);
             if(count($result)>1){
                 $msg = 'Send text error code:'.$line.'. ('.$this->get_error_code($line).')';
-                $res= array('error'=>$msg,'status'=>'');
-                // 发送失败，写日志
-                log_message('error_tizi', $msg, array('phone'=>$mobiles));
+                // $res= array('error'=>$msg,'status'=>'');
+                $res = $this->result($msg);
+                log_message('error_tizi', $msg, array('phone'=>$mobiles));// 发送失败，写日志
             }else{
-                $res= array('error'=>'Ok','status'=>'');    
-                // 测试成功时写日志
-                // log_message('info_tizi', $msg, $env_variable);
+                $res= $this->result();   
             }
             return $res;
     }
@@ -171,9 +169,17 @@ class Sms {
         curl_close($ch);
         $output = $this->filter_output($output);
         if($output['code']!=0){
-          log_message('error_tizi', 'send_3 ERROR: code:'.$output['code'].' desc:'.$this->get_send3_error_code($output['code']).' phone:'.$this->phone_nums.' content:'.$this->_content);
+          $msg = 'send_3 ERROR: code:'.$output['code'].' desc:'.$this->get_send3_error_code($output['code']).' phone:'.$this->phone_nums.' content:'.$this->_content;
+          log_message('error_tizi', $msg);
+          return $this->result($msg);
         }
-        return $this->get_send3_error_code($output['code']);
+        return $this->result();
+    }
+
+    //send2 && send3 返回结果
+    private function result($error="Ok"){
+      $res= array('error'=>$error,'status'=>'');
+      return $res;
     }
 
     //大汉三通的结果处理

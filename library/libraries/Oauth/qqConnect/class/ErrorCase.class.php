@@ -28,10 +28,12 @@ class ErrorCase{
      * @param string $description 描述信息（可选）
      */
     public function showError($code, $description = '$'){
+        /*
         $recorder = new Recorder();
         if(! $recorder->readInc("errorReport")){
             die();//die quietly
         }
+         */
 
 
         echo "<meta charset=\"UTF-8\">";

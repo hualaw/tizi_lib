@@ -66,13 +66,26 @@ class Tizi_Register extends MY_Controller {
 		}
 		else
 		{
-			$register=$this->register_by_email($email,$password,$rname,$user_type,array('register_subject'=>$mysubject,'register_invite'=>$invite_code));
+			$register_invite=$invite_type=NULL;
+			if($invite_code)
+			{
+				$invite_code=alpha_id(strtoupper($invite_code),true);
+				$register_invite=substr($invite_code,2);
+				$invite_type=substr($invite_code,0,2);
+			}
+			$register=$this->register_by_email($email,$password,$rname,$user_type,array('register_subject'=>$mysubject,'register_invite'=>$register_invite));
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
 			}
 			else
 			{
+				if($invite_code)
+				{
+					$this->load->model('user_data/invite_model');
+			        $invite_info=array('user_id'=>$register['user_id'],'reg_invite'=>$register_invite,'name'=>$rname,'invite_way'=>$invite_type,'reg_time'=>time());
+					$this->invite_model->insert_succ_reg($invite_info);
+				}
 				$submit['errorcode']=true;
 				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_TEACHER,'register');
 			}
