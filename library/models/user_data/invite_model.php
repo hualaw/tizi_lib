@@ -81,7 +81,7 @@ class Invite_Model extends LI_Model {
     function send_invite_text($phone,$my_name,$to_name,$user_id){
         $this->load->library('sms');
         $this->sms->setPhoneNums($phone);
-        $msg = "{$to_name}老师您好，我是{$my_name}，我向您推荐梯子网，有很多免费的备课和试题资源，点击此链接进行注册并完成教师认证：".site_url()."reg/".alpha_id('11'.$user_id);
+        $msg = "{$to_name}老师您好，我是{$my_name}，我向您推荐梯子网，有很多免费的备课和试题资源，点击此链接进行注册并完成教师认证：".site_url()."reg/".alpha_id('11'.$user_id).' ';
         $this->sms->setContent($msg);
         $send=$this->sms->send();  
         return $send;
