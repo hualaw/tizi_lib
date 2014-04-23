@@ -65,8 +65,8 @@ class User_Statistics_Model extends MY_Model {
         /*备课文档下载统计 begin*/
         //debug
         $statistics['lesson_month_down']=0;
-        //$this->load->model('lesson/document_download_model','doc_down');
-        //$statistics['lesson_month_down'] = $this->doc_down->get_lesson_down_statistics($user_id,'m');
+        $this->load->model('lesson/document_download_model','doc_down');
+        $statistics['lesson_month_down'] = $this->doc_down->get_lesson_down_statistics($user_id,'m');
         $statistics['lesson_down_limit'] = $privilege['privilege']['lesson_permonth']['value'];
         /*备课文档下载统计 end*/
 

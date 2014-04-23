@@ -66,10 +66,16 @@ class cloud_model extends MY_Model{
     function insert_upload_file($param){
         $user_cloud_storage = $this->get_user_cloud_storage($param['user_id']);
         //echo $user_cloud_storage;
+        $this->load->library('credit');
+        $privilege = $this->credit->userlevel_privilege($param['user_id']);
+        $my_cloud_size = $privilege['privilege']['cloud_sizem']['value']; //单位是M
+        $my_cloud_size *= 1024*1024; //单位是byte
+
         $user_cloud_storage += $param['file_size']; 
-        if($user_cloud_storage > Constant::CLOUD_DISK_SIZE){
+        if($user_cloud_storage > $my_cloud_size){
             return -1;
         }
+
         $this->db->insert($this->_file_table,$param);
         if($this->redis_model->connect('cloud_statistics'))   
         {
