@@ -59,6 +59,8 @@ class User_Statistics_Model extends MY_Model {
         if(!isset($statistics['homework'])||!$statistics['homework']) $statistics['homework']=0;
         $statistics['paper_limit']=$privilege['privilege']['paper_permonth']['value'];
         $statistics['homework_limit']=$privilege['privilege']['homework_permonth']['value'];
+        if($statistics['paper']>$statistics['paper_limit']) $statistics['paper']=$statistics['paper_limit'];
+        if($statistics['homework']>$statistics['homework_limit']) $statistics['homework']=$statistics['homework_limit'];
 
         /*备课文档下载统计 begin*/
         //debug

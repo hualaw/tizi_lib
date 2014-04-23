@@ -15,9 +15,9 @@
 .header .bd .secLogo .infos span.info{font-size:16px;margin-top:12px;}
 .header .bd .allNumber{margin-top:45px; font-size: 14px;}
 .header .bd .allNumber em{color:#ff9600;}
-.header .bd .rightTips{margin-top:30px;}
-.header .bd .rightTips a{background:url(../../image/common/header_parent_logo.gif) no-repeat;display: block;float: left;margin-left:10px;text-indent: -999em;overflow:hidden;width:110px;height:40px;}
-.header .bd .rightTips a.parChannel{background-position:0px 0;}
+.header .bd .rightTips a{background:url(../../image/common/header_channel.gif) no-repeat;display: block;float: left;margin-left:30px;width:49px;height:20px;text-align: center;padding-top:55px;}
+.header .bd .rightTips a.jiaxiaoChannel{background-position: 0 0}
+.header .bd .rightTips a.jiaChannel{background-position: -80px 0}
 .headerLineGreen{height:5px;overflow: hidden;background:#0f9271;}
 .headerLineJia{height:5px;overflow: hidden;background:#238f83;}
 /*头部样式结束*/
