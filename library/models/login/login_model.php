@@ -79,9 +79,6 @@ class Login_Model extends LI_Model {
 							$user_type=$query->row()->user_type;
 							$errorcode=Constant::LOGIN_SUCCESS;
 							$error="";
-							$this->db->where('id',$user_id);
-							$this->db->set('last_login',date('Y-m-d H:i:s'));
-							$this->db->update($this->_table);
 						}
 						else
 						{
