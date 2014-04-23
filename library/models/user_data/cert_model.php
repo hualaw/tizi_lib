@@ -53,10 +53,10 @@ class Cert_Model extends MY_Model {
 				//给邀请人发积分
 				$this->load->model("login/register_model");
 				$user_info = $this->register_model->get_user_info($_data["user_id"]);
-				$register_invite = $user_info["user"]["register_invite"];
+				$register_invite = $user_info["user"]->register_invite;
 				if ($register_invite > 0){
 					$score = $this->credit->exec($register_invite, "invite_and_certificate", 
-						false, "", array($register_invite));
+						false, "", array($_data["user_id"]));
 					if ($score > 0){
 						$this->load->model("user_data/invite_model");
 						$this->invite_model->update_credit($register_invite, $_data["user_id"], $score);
