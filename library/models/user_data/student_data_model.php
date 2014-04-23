@@ -57,7 +57,7 @@ class Student_Data_Model extends LI_Model {
         if(empty($result)){
             $data['uid'] = $uid;
             return $this->db->insert('student_data',$data);
-        }else{echo 'update';exit;
+        }else{
             $this->db->where("uid",$uid);
             return $this->db->update('student_data',$data);
         }
