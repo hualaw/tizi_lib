@@ -245,13 +245,8 @@ class user_medal_model extends MY_Model {
 	}
 
 	public function send_notice($uid, $msg, $now){
-		$this->load->model("redis/redis_model");
-		$this->redis_model->connect('notice');
-
 		$this->load->model('notice/notice_model');
-
 		$this->notice_model->addNotify($uid, $msg, $now);
-
 	}
 
 }
