@@ -69,7 +69,7 @@ class Tizi_Register extends MY_Controller {
 			$register_invite=$invite_type=NULL;
 			if($invite_code)
 			{
-				$invite_code=alpha_id($invite_code,true);
+				$invite_code=alpha_id(strtoupper($invite_code),true);
 				$register_invite=substr($invite_code,2);
 				$invite_type=substr($invite_code,0,2);
 			}
