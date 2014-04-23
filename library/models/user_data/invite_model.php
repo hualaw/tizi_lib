@@ -64,7 +64,7 @@ class Invite_Model extends LI_Model {
         $this->load->library("mail");
         $subject = "{$my_name}邀请您注册梯子网－中小学优质教学资源服务平台";
         $url  = site_url()."register/teacher/invite/".alpha_id('12'.$user_id);
-        $msg = "尊敬的{$to_name}老师您好：<br />我是{$my_name}，我向您推荐梯子网，这里有很多免费的备课和试题资源可以下载，请点击以下链接进行注册并完成教师认证：<a href='{$url}'>{$url}</a>";
+        $msg = "尊敬的{$to_name}老师您好：<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我是{$my_name}，我向您推荐梯子网，这里有很多免费的备课和试题资源可以下载，请点击以下链接进行注册并完成教师认证：<a href='{$url}'>{$url}</a>";
         $ret = Mail::send($email, $subject, $msg);
         if($ret['ret']==1){
             $errorcode=true;
