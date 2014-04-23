@@ -1,5 +1,5 @@
 <?php
-if(!defined('BASEPATH'))exit('Nodirectscriptaccessallowed');
+if(!defined('BASEPATH'))exit('No direct script access allowed');
 
 class Tizi_Oauthlogin extends MY_Controller{
 
@@ -23,7 +23,8 @@ class Tizi_Oauthlogin extends MY_Controller{
             $this->oauth->login();
 
         }catch(OauthException$e){
-            exit($e->getMessage());
+            //exit($e->getMessage());
+            show_error($e->getMessage());
         }
 
     }
@@ -62,7 +63,8 @@ class Tizi_Oauthlogin extends MY_Controller{
             }
 
         }catch(OauthException $e){
-            exit($e->getMessage());
+            //exit($e->getMessage());
+            show_error($e->getMessage());
         }
 
     }

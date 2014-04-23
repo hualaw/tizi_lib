@@ -1,20 +1,14 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
 $config['qq'] = array(
-    
-    'appid' => '101063587',
-    'appkey' => 'fc5808c5b51035363ab579949fab8154',
+    'appid' => '101069729',
+    'appkey' => '26dfe68a08e9ff97a74058788c83acce',
     'callback' => login_url('oauth/callback/qq'),
-    'scope' => 'get_user_info',
+    'scope' => 'get_user_info'
 );
-
 
 $config['weibo'] = array(
-    
-    'appid' => '4212439649',
-    'appkey' => '78650e6e0e1e1a0b2c916421bb73a0e8',
+    'appid' => '3082683861',
+    'appkey' => '3e5f2540e6621d3d62f3d8d93458a910',
     'callback' => login_url('oauth/callback/weibo')
-
 );
-
