@@ -1051,14 +1051,14 @@ artDialog.defaults = {
 	minHeight: null,				// 最小高度限制
 	padding: '20px',	    	// 内容与边界填充距离
 	skin: '',					// 皮肤名(预留接口,尚未实现)
-	icon: 'warning',			// 消息图标名称
+	icon: 'normal',			   // 消息图标名称
 	time: null,					// 自动关闭时间
 	esc: true,					// 是否支持Esc键关闭
 	focus: true,				// 是否支持对话框按钮自动聚焦
 	show: true,					// 初始化后是否显示对话框
 	follow: null,				// 跟随某元素(即让对话框在元素附近弹出)
 	path: _path,				// artDialog路径
-	iconPath: staticPath + 'image/tizi_dialog',     // icon图片路径
+	iconPath: staticPath + 'lib/tizi_static/image/tizi_dialog',     // icon图片路径
 	lock: true,				    // 是否锁屏
 	background: '#000',			// 遮罩颜色
 	opacity: .4,				// 遮罩透明度
