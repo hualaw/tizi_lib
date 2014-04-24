@@ -6,7 +6,7 @@ class credit_logs_model extends LI_Model {
 	public function recent_list($user_id, $offset, $persize){
 		$res = $this->db->query("select id,foreign_id,credit_change,total,msg,cyclenum,`date` from credit_logs 
 			where user_id=? and credit_change>0 order by `date` 
-			desc limit {$offset},{$persize}", array($user_id))->result_array();
+			desc,total desc limit {$offset},{$persize}", array($user_id))->result_array();
 		return $res;
 	}
 	
