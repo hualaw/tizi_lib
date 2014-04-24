@@ -19,7 +19,7 @@ class Cert_Model extends MY_Model {
                 }
             }
         }
-        if(!$data['real_name'] or !$data['gender'] or !$data['school_id'] or !$data['grade_subject'] or !$data['title']  or !$data['certification_pic']){
+        if(!$data['real_name'] or !$data['gender'] or !($data['school_id'] or $data['school_define_id']) or !$data['grade_subject'] or !$data['title']  or !$data['certification_pic']){
             return array('code'=>false,'msg'=>'缺少参数');
         }
         $res = $this->db->insert($this->_table, $data);
