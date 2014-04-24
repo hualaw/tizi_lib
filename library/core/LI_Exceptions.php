@@ -51,9 +51,23 @@ class LI_Exceptions extends CI_Exceptions {
 			$redirect = $redirect?$redirect:$site_url;
 
 			$static_version = '';
-			if(file_exists(APPPATH.'config/'.ENVIRONMENT.'/version.php'))
+			if(!file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/version.php'))
 			{
-				include(APPPATH.'config/'.ENVIRONMENT.'/version.php');
+				if(!file_exists($file_path = APPPATH.'config/version.php'))
+				{
+					if(!file_exists($file_path = LIBPATH.'config/'.ENVIRONMENT.'/version.php'))
+					{
+						if(!file_exists($file_path = LIBPATH.'config/version.php'))
+						{
+							$file_path = '';
+						}
+					}
+				}
+			}
+
+			if($file_path)
+			{
+				include($file_path);
 				if (isset($config['static_version']))
 				{
 					$static_version = $config['static_version'].'/';
