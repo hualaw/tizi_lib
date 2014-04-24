@@ -425,7 +425,7 @@ class Verify_Model extends LI_Model {
         $errorcode=$this->check_authcode_phone($phone,$code_type);
         if(!$errorcode['errorcode']){
             if($this->_redis){
-                $this->save_check('phone',sha1($phone),'',Constant::SEND_REDIS_AUTHCODE_INTERVAL_PHONE);
+                $this->save_check('phone',sha1($phone),$code_type,Constant::SEND_REDIS_AUTHCODE_INTERVAL_PHONE);
                 $errorcode = true;
             }
             // if(!$errorcode) log_message('error_tizi','18019:Gen phone auth code failed',array('phone'=>$phone));
@@ -440,7 +440,7 @@ class Verify_Model extends LI_Model {
         $errorcode=$this->check_authcode_email($email,$code_type);
         if(!$errorcode['errorcode']){
             if($this->_redis){
-                $this->save_check('email',$email,'',Constant::SEND_REDIS_AUTHCODE_INTERVAL_EMAIL);
+                $this->save_check('email',$email,$code_type,Constant::SEND_REDIS_AUTHCODE_INTERVAL_EMAIL);
                 $errorcode = true;
             }
         }else{
