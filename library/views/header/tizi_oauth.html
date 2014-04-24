@@ -4,15 +4,9 @@
 <title>登陆成功</title>
 </head>
 <body>
-	<div id="container">
-		{$oauth_redirect}
-	</div>
-	<script type="text/javascript">
-		alert()
-		window.opener.location.href = '{$oauth_redirect}';
-		window.close();
-		window.opener.location.reload();
-		window.close();
-	</script>
+<script type="text/javascript">
+window.opener.location.href = '{$oauth_redirect}';
+window.close();
+</script>
 </body>
 </html>
