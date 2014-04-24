@@ -75,17 +75,15 @@ class cloud_model extends MY_Model{
         if($user_cloud_storage > $my_cloud_size){
             return -1;
         }
-
         $this->db->insert($this->_file_table,$param);
-        if($this->redis_model->connect('cloud_statistics'))   
-        {
+        $id = $this->db->insert_id();
+        if($this->redis_model->connect('cloud_statistics')){
             $this->_redis=true;
         }
         if($this->_redis){
             $key = 'user_cloud_storage_'.$param['user_id'];
             $expire=0;
             $this->cache->save($key, $user_cloud_storage, $expire);//所用空间统计
-
             $key = 'user_cloud_file_total_'.$param['user_id'];  // 上传文件的总数
             $value = $this->cache->get($key);
             if($value === false){
@@ -98,7 +96,6 @@ class cloud_model extends MY_Model{
                 $this->cache->save($key, $value+1, 0);
             }
         }
-        $id = $this->db->insert_id();
         if ($id > 0 && isset($param["user_id"])){
 			$this->load->library("credit");
 			$this->credit->exec($param["user_id"], "cloud_first_uploaded");
