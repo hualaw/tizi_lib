@@ -54,10 +54,18 @@ class Classes_Schools extends LI_Model{
 	
 	//自定义的学校
 	public function define_create($schoolname, $province_id, $city_id, $county_id, $sctype, $property){
-		$this->db->query("insert into classes_schools_define(county_id,schoolname,city_id,
-			province_id,status,sctype,property) values(?,?,?,?,?,?,?)", array($county_id,
-			$schoolname, $city_id, $province_id, 1, $sctype, $property));
-		return $this->db->insert_id();
+		$schoolname = trim($schoolname);
+		$res = $this->db->query("select * from classes_schools_define where county_id=? and 
+			schoolname=?", array($county_id, $schoolname))->row_array();
+		if (isset($res["id"]) && $res["sctype"] == $sctype && $res["property"] == $property){
+			$id = $res["id"];
+		} else {
+			$this->db->query("insert into classes_schools_define(county_id,schoolname,city_id,
+				province_id,status,sctype,property) values(?,?,?,?,?,?,?)", array($county_id,
+				$schoolname, $city_id, $province_id, 1, $sctype, $property));
+			$id = $this->db->insert_id();
+		}
+		return $id;
 	}
 	
 	public function update($id, $schoolname, $county_id, $sctype, $py, $first_py){
