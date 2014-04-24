@@ -58,12 +58,11 @@ class Tizi_Oauthlogin extends MY_Controller{
 				//redirect(login_url("login/perfect/role"));
                 $oauth_redirect=login_url("login/perfect/role");
             }else{//绑定用户
-				$this->load->model("login/session_model");
+                $oauth_redirect=$this->session->userdata('oauth_redirect');
 				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
                 $this->session_model->generate_cookie($db_data['open_id'],$user_auth_data["user_id"]);
 				$this->session_model->clear_mscookie();
                 //redirect(redirect_url($session['user_data']['user_type'],'login'));
-                $oauth_redirect=$this->session->set_userdata('oauth_redirect');
                 if(!$oauth_redirect) $oauth_redirect=redirect_url($session['user_data']['user_type'],'login');
             }
             $this->smarty->assign('oauth_redirect',$oauth_redirect);
