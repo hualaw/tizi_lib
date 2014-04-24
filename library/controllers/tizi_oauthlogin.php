@@ -24,8 +24,7 @@ class Tizi_Oauthlogin extends MY_Controller{
         try{
             $this->oauth->init($platform);
             $this->oauth->login();
-
-        }catch(OauthException$e){
+        }catch(OauthException $e){
             //exit($e->getMessage());
             show_error($e->getMessage());
         }
@@ -34,7 +33,6 @@ class Tizi_Oauthlogin extends MY_Controller{
 
     public function callback($platform)
     {
-
         $this->load->library('Oauth');
         try{
             $this->oauth->init($platform);
@@ -53,17 +51,17 @@ class Tizi_Oauthlogin extends MY_Controller{
             );
             //$user_auth_data = array('oauth_id'=>'','user_id'=>'');
             $user_auth_data = $this->oauth_model->save($db_data);
-            $this->oauth_model->save($open_id, $platform, $db_data);
+            $this->oauth_model->save($db_data['open_id'], $platform, $db_data);
 
             if(empty($user_auth_data['user_id'])){//未绑定用户
                 $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
-				redirect(login_url("login/perfect/role"));
+				//redirect(login_url("login/perfect/role"));
             }else{//绑定用户
 				$this->load->model("login/session_model");
 				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
                 $this->session_model->generate_cookie($username,$user_id['user_id'],$cookie_time);
 				$this->session_model->clear_mscookie();
-				redirect(redirect_url($session['user_data']['user_type'],'login'));
+				//redirect(redirect_url($session['user_data']['user_type'],'login'));
             }
 
         }catch(OauthException $e){
