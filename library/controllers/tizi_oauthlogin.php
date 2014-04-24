@@ -63,6 +63,7 @@ class Tizi_Oauthlogin extends MY_Controller{
 				$this->session_model->clear_mscookie();
 				//redirect(redirect_url($session['user_data']['user_type'],'login'));
             }
+            $this->smarty->display('file:[lib]header/tizi_oauth.html');
 
         }catch(OauthException $e){
             //exit($e->getMessage());
