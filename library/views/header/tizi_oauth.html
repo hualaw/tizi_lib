@@ -9,6 +9,8 @@
 	</div>
 	<script type="text/javascript">
 		alert()
+		window.opener.location.href = '{$oauth_redirect}';
+		window.close();
 		window.opener.location.reload();
 		window.close();
 	</script>
