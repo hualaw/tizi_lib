@@ -56,13 +56,16 @@ class Tizi_Oauthlogin extends MY_Controller{
             if(empty($user_auth_data['user_id'])){//未绑定用户
                 $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
 				//redirect(login_url("login/perfect/role"));
+                $oauth_redirect=login_url("login/perfect/role");
             }else{//绑定用户
 				$this->load->model("login/session_model");
 				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
                 $this->session_model->generate_cookie($username,$user_id['user_id'],$cookie_time);
 				$this->session_model->clear_mscookie();
-				//redirect(redirect_url($session['user_data']['user_type'],'login'));
+                //redirect(redirect_url($session['user_data']['user_type'],'login'));
+                $oauth_redirect=$this->session->set_userdata('oauth_redirect');
             }
+            $this->smarty->assign('oauth_redirect',$oauth_redirect);
             $this->smarty->display('file:[lib]header/tizi_oauth.html');
 
         }catch(OauthException $e){

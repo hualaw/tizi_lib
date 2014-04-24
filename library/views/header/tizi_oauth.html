@@ -1,1 +1,16 @@
-123
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>登陆成功</title>
+</head>
+<body>
+	<div id="container">
+		{$oauth_redirect}
+	</div>
+	<script type="text/javascript">
+		alert()
+		window.opener.location.reload();
+		window.close();
+	</script>
+</body>
+</html>
