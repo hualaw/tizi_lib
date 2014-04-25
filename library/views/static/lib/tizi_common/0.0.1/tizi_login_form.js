@@ -11,6 +11,8 @@ define(function(require, exports) {
             ok:false
         });
         require("tizi_valid").indexLogin();
+        // 执行第三方登录
+        exports.oauthLogin();
     }
 
     exports.loginCheckClick = function(){
@@ -90,4 +92,30 @@ define(function(require, exports) {
         });
     }
 
+    exports.checkLogin = function(loginfn,unloginfn){
+        $.tizi_ajax({
+            url: loginUrlName + 'login/check',
+            type: "get",
+            dataType: "jsonp",
+            data: {'nohtml':1},
+            success: function(data) {
+                if(data.errorcode){
+                    loginfn();
+                }else{
+                    unloginfn();
+                }
+            }  
+        });
+    }
+    // 第三方登录
+    exports.oauthLogin = function(){
+        $('#oauthLogin a.qq').click(function(){
+            var _url = $(this).attr('dUrl');
+            window.open(_url,"TencentLogin","width=600,height=400,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
+        });
+        $('#oauthLogin a.weibo').click(function(){
+            var _url = $(this).attr('dUrl');
+            window.open(_url,"WeiboLogin","width=600,height=400,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
+        })
+    }
 });

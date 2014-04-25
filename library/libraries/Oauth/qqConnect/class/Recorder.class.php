@@ -10,8 +10,11 @@ class Recorder{
     private static $data;
     private $inc;
     private $error;
+    private $_CI;
 
     public function __construct($config){
+        $this->_CI = &get_instance();
+        $QC_userData = $this->_CI->session->userdata('QC_userData');
         $this->error = new ErrorCase();
 
         //-------读取配置文件
@@ -20,10 +23,10 @@ class Recorder{
             $this->error->showError("20001");
         }
 
-        if(empty($_SESSION['QC_userData'])){
+        if(!$QC_userData){
             self::$data = array();
         }else{
-            self::$data = $_SESSION['QC_userData'];
+            self::$data = $QC_userData;
         }
     }
 
@@ -52,6 +55,7 @@ class Recorder{
     }
 
     function __destruct(){
-        $_SESSION['QC_userData'] = self::$data;
+        $this->_CI->session->set_userdata('QC_userData',self::$data);
+        //$_SESSION['QC_userData'] = self::$data;
     }
 }

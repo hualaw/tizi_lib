@@ -1,5 +1,5 @@
 <?php
-$config['smsversion'] = 2; // 1:old one.  2:new 
+$config['smsversion'] = 3; // 1:old one.  2:new. 3：大汉三通
 
 switch($config['smsversion']){
   case 1:

@@ -44,8 +44,9 @@ class Student_Data_Model extends LI_Model {
 			if ($this->db->trans_complete() === false) {
 				return false;
 			}
-			return true;
+//			return true;
 		}
+		return $this->get_student_pet_data($uid);
 	}
     // 保存学生信息
     public function save_student_data($uid,$data){
@@ -56,7 +57,7 @@ class Student_Data_Model extends LI_Model {
         if(empty($result)){
             $data['uid'] = $uid;
             return $this->db->insert('student_data',$data);
-        }else{echo 'update';exit;
+        }else{
             $this->db->where("uid",$uid);
             return $this->db->update('student_data',$data);
         }
@@ -224,11 +225,12 @@ class Student_Data_Model extends LI_Model {
 	 * @param $width
 	 * @return int
 	 */
-	public function user_level_progress($level, $exp, $width){
+	public function user_level_progress($exp){
+		$level = $this->exp_to_level($exp);
 		$level_exp_low = ($level == 1) ? 0 : ($this->level_to_exp($level));
 		$level_exp_up = $this->level_to_exp($level + 1);
 
-		return intval((($exp - $level_exp_low) / ($level_exp_up - $level_exp_low)) * $width) ;
+		return intval((($exp - $level_exp_low) / ($level_exp_up - $level_exp_low)) * 100) . '%' ;
 	}
 
 }

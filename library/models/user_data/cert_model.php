@@ -19,7 +19,7 @@ class Cert_Model extends MY_Model {
                 }
             }
         }
-        if(!$data['real_name'] or !$data['gender'] or !$data['school_id'] or !$data['grade_subject'] or !$data['title']  or !$data['certification_pic']){
+        if(!$data['real_name'] or !$data['gender'] or !($data['school_id'] or $data['school_define_id']) or !$data['grade_subject'] or !$data['title']  or !$data['certification_pic']){
             return array('code'=>false,'msg'=>'缺少参数');
         }
         $res = $this->db->insert($this->_table, $data);
@@ -49,6 +49,22 @@ class Cert_Model extends MY_Model {
             if ($this->db->affected_rows() === 1){
 				$this->load->library("credit");
 				$this->credit->exec($_data['user_id'], "certificate_teacher");
+				
+				//给邀请人发积分
+				$this->load->model("login/register_model");
+				$user_info = $this->register_model->get_user_info($_data["user_id"]);
+				$register_invite = $user_info["user"]->register_invite;
+				if ($register_invite > 0){
+					$this->load->model("login/register_model");
+					$user_info = $this->register_model->get_user_info($register_invite);
+					$certificate = $user_info["user"]->certification;
+					$score = $this->credit->exec($register_invite, "invite_and_certificate", 
+						$certificate, "", array($_data["user_id"]));
+					if ($score > 0){
+						$this->load->model("user_data/invite_model");
+						$this->invite_model->update_credit($register_invite, $_data["user_id"], $score);
+					}
+				}
 			}
         }
         $this->db->trans_complete();

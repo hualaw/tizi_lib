@@ -25,8 +25,7 @@ class Oauth{
 
                 list($dir,$module) = explode(".",$this->platforms[$platform]);
                 require(__DIR__.DIRECTORY_SEPARATOR.'Oauth'.DIRECTORY_SEPARATOR.$dir.DIRECTORY_SEPARATOR.$module.'.php');
-                $this->connect = new $module;
-
+				$this->connect = new $module;
             }else{
 
                 throw new OauthException('Param Error:1');       
@@ -55,8 +54,4 @@ class Oauth{
 
 class OauthException extends Exception{
 
-    public function __construct(){
-    
-        parent::__construct();
-    }
 }

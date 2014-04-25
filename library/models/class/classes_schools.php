@@ -39,6 +39,10 @@ class Classes_Schools extends LI_Model{
 		return $r;
 	}
 	
+	public function get_unuserdefine($county_id, $sctype, $fields = "*"){
+		return $this->county_schools($county_id, $sctype, $fields = "*");
+	}
+	
 	public function create($schoolname, $county_id, $sctype, $py, $first_py){
 		$city_id = $this->parentid($county_id);
 		$province_id = $this->parentid($city_id);
@@ -46,6 +50,22 @@ class Classes_Schools extends LI_Model{
 			province_id,status,py,first_py,sctype) values(?,?,?,?,?,?,?,?)", array($county_id,
 			$schoolname, $city_id, $province_id, 1, $py, $first_py, $sctype));
 		return $this->db->affected_rows();
+	}
+	
+	//自定义的学校
+	public function define_create($schoolname, $province_id, $city_id, $county_id, $sctype, $property){
+		$schoolname = trim($schoolname);
+		$res = $this->db->query("select * from classes_schools_define where county_id=? and 
+			schoolname=?", array($county_id, $schoolname))->row_array();
+		if (isset($res["id"]) && $res["sctype"] == $sctype && $res["property"] == $property){
+			$id = $res["id"];
+		} else {
+			$this->db->query("insert into classes_schools_define(county_id,schoolname,city_id,
+				province_id,status,sctype,property) values(?,?,?,?,?,?,?)", array($county_id,
+				$schoolname, $city_id, $province_id, 1, $sctype, $property));
+			$id = $this->db->insert_id();
+		}
+		return $id;
 	}
 	
 	public function update($id, $schoolname, $county_id, $sctype, $py, $first_py){
@@ -84,6 +104,30 @@ class Classes_Schools extends LI_Model{
 			return null;
 		}
 	}
+	
+	public function define_school_info($school_define_id){
+		$res = $this->db->query("select province_id,city_id,county_id,schoolname from 
+			classes_schools_define where id=?", array($school_define_id))->result_array();
+		if (isset($res[0])){
+			$school_info = array();
+			$res = $res[0];
+			$area = $this->db->query("select level,name from classes_area where id in(?,?,?)", 
+				array($res["province_id"], $res["city_id"], $res["county_id"]))->result_array();
+			foreach ($area as $value){
+				if ($value["level"] == 1){
+					$school_info["province"] = $value["name"];
+				} else if ($value["level"] == 2){
+					$school_info["city"] = $value["name"];
+				} else if ($value["level"] == 3){
+					$school_info["county"] = $value["name"];
+				}
+			}
+			$school_info["school"] = $res["schoolname"];
+			return $school_info;
+		} else {
+			return null;
+		}
+	}
 
 	/**
 	 * 通过class_id获取学校的相关信息
@@ -91,7 +135,7 @@ class Classes_Schools extends LI_Model{
 	 */
 	public function getsh_info($class_id){
 		$r = $this->db->query('select classname,province_id,city_id,county_id,school_id,class_grade,
-				class_year,creator_id from classes where id=? and 
+				class_year,creator_id,school_define_id from classes where id=? and 
 				close_status=?', array($class_id, 0))->result_array();
 		if(!isset($r[0])){
 			return null;
@@ -110,7 +154,11 @@ class Classes_Schools extends LI_Model{
 				$sh['county'] = $value['name'];
 			}
 		}
-		$sh['schoolname'] = $this->id_school($sh['school_id']);
+		if ($sh["school_id"] > 0){
+			$sh['schoolname'] = $this->id_school($sh['school_id']);
+		} else {
+			$sh["schoolname"] = $this->id_define_school($sh["school_define_id"]);
+		}
 		
 		$this->load->model('class/classes_teacher');
 		$sh['creator'] = $this->classes_teacher->teacher_realname($sh['creator_id']);
@@ -124,8 +172,14 @@ class Classes_Schools extends LI_Model{
   	 */
   	public function id_school($school_id){
   		$r = $this->db->query('select schoolname from classes_schools where id=?', array($school_id))->result_array();
-  		return isset($r[0]['schoolname']) ? $r[0]['schoolname'] : null;
+  		return isset($r[0]['schoolname']) ? $r[0]['schoolname'] : "";
   	}
+  	
+  	public function id_define_school($school_id){
+		$res = $this->db->query("select schoolname from classes_schools_define where id=?", 
+			array($school_id))->row_array();
+  		return isset($row["schoolname"]) ? $res["schoolname"] : "";
+	}
 
 	public function get($school_id, $fields = "*"){
 		$result = $this->db->query("select {$fields} from classes_schools where 
@@ -144,7 +198,7 @@ class Classes_Schools extends LI_Model{
 		return $this->db->affected_rows();
 	}
 	
-	private function parentid($childid){
+	public function parentid($childid){
 		$id_replace = array(52, 321, 343, 394, 395);
 		$rel = array(
 			52 => 2,

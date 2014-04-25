@@ -4,9 +4,9 @@ class credit_logs_model extends LI_Model {
 	
 	//最近100天积分增长记录
 	public function recent_list($user_id, $offset, $persize){
-		$res = $this->db->query("select id,foreign_id,credit_change,total,msg,`date` from credit_logs 
-			where user_id=? and credit_change>0 order by id 
-			desc limit {$offset},{$persize}", array($user_id))->result_array();
+		$res = $this->db->query("select id,foreign_id,credit_change,total,msg,cyclenum,`date` from credit_logs 
+			where user_id=? and credit_change>0 order by `date` 
+			desc,total desc limit {$offset},{$persize}", array($user_id))->result_array();
 		return $res;
 	}
 	

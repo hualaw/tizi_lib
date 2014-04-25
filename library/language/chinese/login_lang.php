@@ -98,3 +98,7 @@ $lang['download_student_id_end']="\r\n和登录密码，此号码将用作登录
 $lang['error_feedback_content']="请您输入有效的反馈信息";
 $lang['error_feedback_qq']="请您输入正确的QQ号码";
 $lang['success_feedback']="反馈信息提交成功！<br />衷心感谢您的宝贵意见，我们将会尽快处理。";
+
+/*invite邀请注册*/
+$lang['error_invite_email_limit']="请不要频繁发送邀请邮件";
+$lang['error_invite_phone_limit']="请不要频繁发送邀请短信";

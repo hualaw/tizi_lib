@@ -22,6 +22,7 @@ class Pet_Model extends LI_Model{
 		return $this->db->query("SELECT * FROM study_pets WHERE id = {$pet_id}")->row();
 	}
 
+
 	/** 宠物id得到相应的图片地址
 	 * @param $pet_id
 	 * @return mixed
@@ -54,5 +55,6 @@ class Pet_Model extends LI_Model{
 		$result = $this->db->affected_rows();
 		return $result > 0 ? array('status'=>true,'errMsg'=>'') : array('status'=>false,'errMsg'=>'更换宠物失败！');	
 	}
+
 
 }

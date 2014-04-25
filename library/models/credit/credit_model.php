@@ -23,8 +23,24 @@ class credit_model extends LI_Model {
 			if (!isset($total) or !$total){
 				$total = $credit_change;
 			}
+			
+			/**
+			 * 改为一个操作一天只产生一个log
 			$this->db->query("INSERT INTO credit_logs(user_id,foreign_id,credit_change,total,msg) 
 				VALUES(?,?,?,?,?)", array($user_id, $foreign_id, $credit_change, $total, $msg));
+			*/
+			$date = date("Y-m-d");
+			$credit_log = $this->db->query("select id,credit_change,date from credit_logs where user_id=? 
+				and foreign_id=? and date>?", array($user_id, $foreign_id, $date))->row_array();
+			if (isset($credit_log["id"])){
+				$i_credit_change = $credit_log["credit_change"] + $credit_change;
+				$this->db->query("update credit_logs set credit_change=?,total=?,cyclenum=?,`date`=CURRENT_TIMESTAMP() where id=?", 
+					array($i_credit_change, $total, $rule_log["cyclenum"], $credit_log["id"]));
+			} else {
+				$this->db->query("insert into credit_logs(user_id,foreign_id,credit_change,total,msg,cyclenum) 
+					values(?,?,?,?,?,?)", array($user_id, $foreign_id, $credit_change, $total, $msg, $rule_log["cyclenum"]));
+			}
+			
 			if ($this->db->affected_rows() === 1){
 				if (isset($rule_log["id"])){
 					$this->db->where("id", $rule_log["id"]);
