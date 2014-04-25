@@ -8,10 +8,9 @@ define(function(require, exports) {
 			url = url + '&session_id=' + $.cookies.get(baseSessID);
 		}
 		var ie_ver = exports.ie_version();
-		alert(ie_ver);
 		if(openbox == true || ie_ver==6.0 ||ie_ver==7.0 || ie_ver==8.0){
 			if(fname == '' || fname == undefined) fname = "请点击下载";
-			else fname = "请点击下载《" + fname + "》？";
+			else fname = "请点击下载《" + fname + "》";
 			$.tiziDialog({
 				content: fname,
 				ok:false,
