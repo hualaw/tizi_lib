@@ -34,11 +34,11 @@ class credit_model extends LI_Model {
 				and foreign_id=? and date>?", array($user_id, $foreign_id, $date))->row_array();
 			if (isset($credit_log["id"])){
 				$i_credit_change = $credit_log["credit_change"] + $credit_change;
-				$this->db->query("update credit_logs set credit_change=?,total=? where id=?", 
-					array($i_credit_change, $total, $credit_log["id"]));
+				$this->db->query("update credit_logs set credit_change=?,total=?,cyclenum=?,`date`=CURRENT_TIMESTAMP() where id=?", 
+					array($i_credit_change, $total, $rule_log["cyclenum"], $credit_log["id"]));
 			} else {
-				$this->db->query("insert into credit_logs(user_id,foreign_id,credit_change,total,msg) 
-					values(?,?,?,?,?)", array($user_id, $foreign_id, $credit_change, $total, $msg));
+				$this->db->query("insert into credit_logs(user_id,foreign_id,credit_change,total,msg,cyclenum) 
+					values(?,?,?,?,?,?)", array($user_id, $foreign_id, $credit_change, $total, $msg, $rule_log["cyclenum"]));
 			}
 			
 			if ($this->db->affected_rows() === 1){

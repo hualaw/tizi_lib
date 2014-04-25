@@ -86,7 +86,7 @@ class QOauth{
         parse_str($response, $params);
 
         $this->recorder->write("access_token", $params["access_token"]);
-        return $params["access_token"];
+        return $params;
 
     }
 

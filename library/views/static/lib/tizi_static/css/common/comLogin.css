@@ -13,8 +13,8 @@
 #comLogin .tizi_LoginStyle .ft p span{margin-right:3px;*margin-right:0px;}
 #comLogin .tizi_LoginStyle .ft p span.last{margin-right:0px;}
 #comLogin .tizi_LoginStyle .ft p em{color:#f90;}
-#comLogin .outLogin{border-top:1px solid #b9d9d6;margin-top:15px;padding-top: 15px;}
-#comLogin .outLogin a{text-indent: -999em;overflow:hidden;background:url(../../image/common/ico_out_login.gif) no-repeat;display: block;height:20px;margin-left:10px;}
-#comLogin .outLogin a.qq{width:18px;}
-#comLogin .outLogin a.weibo{width:25px;background-position: -31px 0;}
+#comLogin .oauthLogin{border-top:1px solid #b9d9d6;margin-top:15px;padding-top: 15px;}
+#comLogin .oauthLogin a{text-indent: -999em;overflow:hidden;background:url(../../image/common/ico_out_login.gif) no-repeat;display: block;height:20px;margin-left:10px;}
+#comLogin .oauthLogin a.qq{width:18px;}
+#comLogin .oauthLogin a.weibo{width:25px;background-position: -31px 0;}
 /*全站弹出登陆框样式结束*/
