@@ -202,6 +202,28 @@ Class CI_Constant {
 		);
 		return isset($arr[$status_id]) ? $arr[$status_id] : $arr[1];
 	}
+	
+	public static function school_type(){
+		$define = array(
+			1 => "公立小学",
+			2 => "公立中学",
+			3 => "公立九年一贯制",
+			4 => "民办小学",
+			5 => "民办中学",
+			6 => "民办九年一贯制",
+			7 => "培训学校"
+		);
+		return $define;
+	}
+	
+	public function sctype(){
+		$define = array(
+			array("id"=>1,"name"=>"小学"),
+			array("id"=>2,"name"=>"中学"),
+			array("id"=>3,"name"=>"九年一贯制")
+		);
+		return $define;
+	}
 }
 /* End of file Constant.php */
 /* Location: ./application/libraries/Constant.php */
