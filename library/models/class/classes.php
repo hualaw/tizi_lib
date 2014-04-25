@@ -157,7 +157,7 @@ class Classes extends LI_Model{
 		$this->db->query("update classes set class_status=1,invitation='',tch_count=0,stu_count=0 where id=?", array($class_id));
 		/*把所有的学生都踢出班级*/
 		$this->db->query("delete from classes_student where class_id=?", array($class_id));
-		/*把所有的班级创建的未登陆的学生帐号清空*/
+		/*把所有的班级创建的未登录的学生帐号清空*/
 		$this->db->query("delete from classes_student_create where class_id=? and user_id=0", array($class_id));
 		/*把所有的老师踢出学校*/
 		$this->db->query("delete from classes_teacher where class_id=?", array($class_id));

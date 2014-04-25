@@ -37,7 +37,7 @@ class Tizi_Login extends MY_Controller {
 		}
 		else if($user_id['errorcode'] != Constant::LOGIN_INVALID_TYPE)
 		{
-			//每次重新登陆临时帐号需要重置session
+			//每次重新登录临时帐号需要重置session
 			$this->session->unset_userdata("cretae_pk");
 			$this->session->unset_userdata("user_invite_id");
 			

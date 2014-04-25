@@ -24,7 +24,7 @@ Class CI_Constant {
 	const SESSION_EXPIRE_TIME = "2 hour";
 	const COOKIE_EXPIRE_TIME = 0;//14400-4hour,0-with session expire
 	const COOKIE_INVITE_EXPIRE_TIME = 86400;//邀请码过期时间24小时
-	const COOKIE_REMEMBER_EXPIRE_TIME = 2592000;//30天免登录;//604800;//七天免登陆
+	const COOKIE_REMEMBER_EXPIRE_TIME = 2592000;//30天免登录;//604800;//七天免登录
 	const COOKIE_MYSUBJECT_EXPIRE_TIME = 0;//Favorate随浏览器
 	const COOKIE_TIPS_EXPIRE_TIME = 604800;//tips保存七天
 	const PAGE_TOKEN_LIFE_CIRCLE = 604800;/*Page Token 过期时间 单位(秒)*/
