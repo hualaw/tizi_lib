@@ -18,5 +18,6 @@
 .header .bd .rightTips a{background:url(../../image/common/header_channel.gif) no-repeat;display: block;float: left;margin-left:30px;width:49px;height:20px;text-align: center;padding-top:55px;}
 .header .bd .rightTips a.jiaxiaoChannel{background-position: 0 0}
 .header .bd .rightTips a.jiaChannel{background-position: -80px 0}
-
+.headerLineGreen{height:5px;overflow: hidden;background:#0f9271;}
+.headerLineJia{height:5px;overflow: hidden;background:#238f83;}
 /*头部样式结束*/
