@@ -218,7 +218,7 @@ class Tizi_Login extends MY_Controller {
    		switch ($user_type) 
 		{
 			case Constant::USER_TYPE_STUDENT:
-				if(!!$user_data['uname'] || !$user_data['register_grade'])
+				if(!$user_data['uname'] || !$user_data['register_grade'])
 				{
 					$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
 				}
