@@ -2,10 +2,14 @@
 	$.tizi_callback = function(data,success){
 		if(data == undefined) return;
 		if(data.login === false){
-			// 加载公共登陆框
-			seajs.use('tizi_login_form',function(ex){
-				ex.loginForm(data.html);
-			});
+			if(typeof seajs == 'object'){
+				// 加载公共登陆框
+				seajs.use('tizi_login_form',function(ex){
+					ex.loginForm(data.html);
+				});
+			}else{
+				window.location.href = baseUrlName;
+			}
 			return false;
 		}else if(data.dnlogin === true){
 			$.tiziDialog({

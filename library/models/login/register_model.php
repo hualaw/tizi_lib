@@ -53,7 +53,8 @@ class Register_Model extends LI_Model {
 		$this->load->helper('string');
         $password_salt=random_string('alnum','6');
         $this->load->helper('encrypt_helper');
-        $password=encrypt_password($password,$password_salt);
+        if($password) $password=encrypt_password($password,$password_salt);
+        else $password=NULL;
 		
 		$email=$phone=$uname=$student_id=$phone_mask=$qq=null;
 		$email_verified=$phone_verified=0;
@@ -120,8 +121,13 @@ class Register_Model extends LI_Model {
     {
 		$this->db->where('id',$user_id);
         $this->db->update($this->_table,array('email_verified'=>1,'verified'=>1));
-        if($this->db->affected_rows()==1) $errorcode=true;
-		else $errorcode=false;
+        if($this->db->affected_rows()==1){
+			$errorcode=true;
+			$this->load->library("credit");
+			$this->credit->exec($user_id, "certificate_email");
+		} else {
+			$errorcode=false;
+		}
 		return array('errorcode'=>$errorcode);
     }
 
@@ -132,8 +138,13 @@ class Register_Model extends LI_Model {
     {
         $this->db->where('id',$user_id);
         $this->db->update($this->_table,array('phone_verified'=>1));
-        if($this->db->affected_rows()==1) $errorcode=true;
-        else $errorcode=false;
+        if($this->db->affected_rows()==1){
+			$errorcode=true;
+			$this->load->library("credit");
+			$this->credit->exec($user_id, "certificate_phone");
+		} else {
+			$errorcode=false;
+		}
         return array('errorcode'=>$errorcode);
     }
 
@@ -260,14 +271,14 @@ class Register_Model extends LI_Model {
 	{
 		$password_salt=$this->get_password_salt($user_id);
 		$this->load->helper('encrypt_helper');
-		$password=encrypt_password($password,$password_salt);	
+		$password=encrypt_password($password,$password_salt);
 
 		$this->db->where('id',$user_id);
         $query=$this->db->get($this->_table);
 		if($query->num_rows()==1)
 		{	
 			$password1=$query->row()->password;
-			if($password==$password1) $errorcode=true;
+			if($password===$password1) $errorcode=true;
 			else $errorcode=false;
 		}
         else
@@ -301,8 +312,15 @@ class Register_Model extends LI_Model {
 		{
 			$this->db->where("id",$user_id);
 			$this->db->update($this->_table,array("email"=>$email,"email_verified"=>$verified));
-			if($this->db->affected_rows()==1) $errorcode=true;
-			else $errorcode=false;
+			if($this->db->affected_rows()==1){
+				$errorcode=true;
+				if ($verified == 1){
+					$this->load->library("credit");
+					$this->credit->exec($user_id, "certificate_email");
+				}
+			} else {
+				$errorcode=false;
+			}
 			if(!$errorcode) log_message('error_tizi','17012:Email update failed',array('uid'=>$user_id,'email'=>$email));
 		}
 		return array('errorcode'=>$errorcode);
@@ -320,6 +338,12 @@ class Register_Model extends LI_Model {
 			$this->db->where("id",$user_id);
 	    	$this->db->update($this->_table,array("email_verified"=>$verified));
 	    	$update=$this->db->affected_rows();
+	    	if($update==1 && $verified == 1){
+				$this->load->library("credit");
+				$this->credit->exec($user_id, "certificate_email");
+			} else {
+				$errorcode=false;
+			}
 	    }
 	    return $update;
 	}
@@ -352,7 +376,15 @@ class Register_Model extends LI_Model {
 			$phone_mask=mask_phone($phone);
 			$this->db->where("id",$user_id);
 	        $this->db->update($this->_table,array("phone_verified"=>$verified,"phone_mask"=>$phone_mask));
-	        $errorcode=true;
+	        if($this->db->affected_rows()==1){
+				$errorcode=true;
+				if ($verified == 1){
+					$this->load->library("credit");
+					$this->credit->exec($user_id, "certificate_phone");
+				}
+			} else {
+				$errorcode=false;
+			}
 		} 
 		else 
 		{
@@ -374,12 +406,18 @@ class Register_Model extends LI_Model {
 			$this->db->where("id",$user_id);
 	    	$this->db->update($this->_table,array("phone_verified"=>$verified));
 	    	$update=$this->db->affected_rows();
+	    	if($update==1 && $verified == 1){
+				$this->load->library("credit");
+				$this->credit->exec($user_id, "certificate_phone");
+			} else {
+				$errorcode=false;
+			}
 	    }
 	    return $update;
 	}
 
 	/*desc:encrypt password*/
-	function encrypt_password($password,$salt=null)
+	function encrypt_password($password,$salt=false)
 	{
 		if(!$salt)
 		{

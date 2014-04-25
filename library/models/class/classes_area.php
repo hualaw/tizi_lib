@@ -26,4 +26,19 @@ class Classes_Area extends LI_Model{
 		return $result;
 	}
 	
+	public function fullname_get($area_ids = array()){
+		if (empty($area_ids)){
+			return array();
+		}
+		if (is_array($area_ids)){
+			$area_ids = implode(",", $area_ids);
+		}
+		$fullname = array();
+		$res = $this->db->query("select id,name from classes_area where id 
+			in({$area_ids})")->result_array();
+		foreach ($res as $value){
+			$fullname[$value["id"]] = $value["name"];
+		}
+		return $fullname;
+	}
 }

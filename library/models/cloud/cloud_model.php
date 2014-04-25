@@ -34,6 +34,11 @@ class cloud_model extends MY_Model{
                 }
             }
         }
+        
+        $this->load->library("credit");
+        if (isset($param[0]["user_id"])){
+			$this->credit->exec($param[0]["user_id"], "cloud_share");
+		}
         return $insert_id;
     }
 
@@ -59,26 +64,43 @@ class cloud_model extends MY_Model{
 
     //上传文件后写相关数据
     function insert_upload_file($param){
-
         $user_cloud_storage = $this->get_user_cloud_storage($param['user_id']);
         //echo $user_cloud_storage;
+        $this->load->library('credit');
+        $privilege = $this->credit->userlevel_privilege($param['user_id']);
+        $my_cloud_size = $privilege['privilege']['cloud_sizem']['value']; //单位是M
+        $my_cloud_size *= 1024*1024; //单位是byte
+
         $user_cloud_storage += $param['file_size']; 
-        if($user_cloud_storage > Constant::CLOUD_DISK_SIZE){
+        if($user_cloud_storage > $my_cloud_size){
             return -1;
         }
-
         $this->db->insert($this->_file_table,$param);
-
-        if($this->redis_model->connect('cloud_statistics'))   
-        {
+        $id = $this->db->insert_id();
+        if($this->redis_model->connect('cloud_statistics')){
             $this->_redis=true;
         }
         if($this->_redis){
             $key = 'user_cloud_storage_'.$param['user_id'];
             $expire=0;
-            $this->cache->save($key, $user_cloud_storage, $expire);
+            $this->cache->save($key, $user_cloud_storage, $expire);//所用空间统计
+            $key = 'user_cloud_file_total_'.$param['user_id'];  // 上传文件的总数
+            $value = $this->cache->get($key);
+            if($value === false){
+                //redis中没有相应数据就执行sql
+                $sql = "select count(*) as num from $this->_file_table where user_id = ? and is_del = 0";
+                $arr = array($param['user_id']);
+                $value = $this->db->query($sql,$arr)->row(0)->num;
+                $this->cache->save($key, $value, 0);
+            }else{
+                $this->cache->save($key, $value+1, 0);
+            }
         }
-        return $this->db->insert_id();
+        if ($id > 0 && isset($param["user_id"])){
+			$this->load->library("credit");
+			$this->credit->exec($param["user_id"], "cloud_first_uploaded");
+		}
+        return $id;
     }
 
     //redis 操作用户当前网盘存储量
@@ -101,20 +123,24 @@ class cloud_model extends MY_Model{
         }
 
         if($is_percentage){
+            $this->load->library('credit');
+            $privilege = $this->credit->userlevel_privilege($user_id);
+            $my_cloud_size = $privilege['privilege']['cloud_sizem']['value']; //单位是M
+            $my_cloud_size *= 1024*1024; //单位是byte
+            // $my_cloud_size = Constant::CLOUD_DISK_SIZE;//get from previliege
             $value = empty($value)?0:$value;
             $this->load->helper('number');
             if($value > 0){
-                $percentage = $value/Constant::CLOUD_DISK_SIZE * 100;
+                $percentage = $value/$my_cloud_size * 100;
                 $percentage = round($percentage,1)<=2.0 ? 2 :round($percentage,1);
                 $percentage_arr['percentage'] = $percentage > 100 ?'100%':round($percentage,1).'%';
                 $percentage_arr['use_storage'] = byte_format($value,0);
-                $percentage_arr['total_storage'] = byte_format(Constant::CLOUD_DISK_SIZE,0);
+                $percentage_arr['total_storage'] = byte_format($my_cloud_size,0);
             }else{
                 $percentage_arr['percentage'] = '0%';
                 $percentage_arr['use_storage'] = byte_format(0,0);
-                $percentage_arr['total_storage'] = byte_format(Constant::CLOUD_DISK_SIZE,0);
+                $percentage_arr['total_storage'] = byte_format($my_cloud_size,0);
             }
-            
             return $percentage_arr;
         }else{
             return $value;
@@ -427,6 +453,9 @@ class cloud_model extends MY_Model{
             if($this->_redis){
                 $key = 'user_cloud_storage_'.$uid;
                 $this->cache->delete($key);
+
+                $key = 'user_cloud_file_total_'.$uid;  // 上传文件的总数
+                $this->cache->delete($key); 
             }
         }
         return $re_value;
@@ -498,7 +527,7 @@ class cloud_model extends MY_Model{
         return $this->db->query($sql)->row(0)->num;
     }
 
-    //tizi 3.0 老师的 布置作业 的 所有总数
+    //tizi 3.0 老师的 上传文件 的 所有总数
     function teacher_file_total($user_id){
         if($this->redis_model->connect('cloud_statistics')){
             $this->_redis=true;
@@ -563,16 +592,17 @@ class cloud_model extends MY_Model{
 
     //学生下载后，记录加一
     function add_download_share($share_id,$uid){
-        $this->db->trans_start();
         //先往cloud_download_log插入一条记录，再往cloud_share中download_count记录+1
         if($this->db->insert($this->_down_table,array('share_id'=>$share_id,'user_id'=>$uid,'op_time'=>time(),'is_del'=>0))){
             $sql = "update $this->_share_table set download_count=download_count+1 where id=$share_id ";
             $this->db->query($sql);
         }
-        $this->db->trans_complete();
-        if($this->db->trans_status() === FALSE){
-            return false;
-        }
+        $share = $this->get_file_by_share_id($share_id);
+        if (isset($share[0]["user_id"])){
+			$this->load->library("credit");
+			$data = array($uid);
+			$this->credit->exec($share[0]["user_id"], "cloud_share_download", false, "", $data);
+		}
         return true;
     }
 

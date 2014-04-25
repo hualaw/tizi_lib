@@ -122,7 +122,7 @@ class Verify_Model extends LI_Model {
 		return $data;
 	}
 
-	private function save_check($type,$type_key,$authcode,$expire)
+	protected function save_check($type,$type_key,$authcode,$expire)
 	{
 		$this->cache->save($type_key,$authcode,$expire);
         $this->cache->save($type.'_'.$this->_session_id,$authcode,$expire);  
@@ -131,7 +131,7 @@ class Verify_Model extends LI_Model {
         else $this->cache->save($key,1,120);
 	}
 
-	private function check_auth($type,$type_key)
+	protected function check_auth($type,$type_key)
 	{
 		$check=false;
 		if($this->cache->get($type_key)) $check=true;
@@ -186,6 +186,7 @@ class Verify_Model extends LI_Model {
 		{
 			if($this->_redis)
 			{
+
 				$errorcode=$this->check_auth('phone',sha1($phone));
 			}
 			else
@@ -418,6 +419,35 @@ class Verify_Model extends LI_Model {
 		}
 		return array('user_id'=>$user_id,'phone'=>$phone,'code_type'=>$code_type,'errorcode'=>$errorcode);
 	} 	
+
+	//短信邀请，查询是否超过间隔时间
+    function generate_invite_phone($phone,$code_type=0,$user_id="",$user_type=Constant::USER_TYPE_TEACHER){
+        $errorcode=$this->check_authcode_phone($phone,$code_type);
+        if(!$errorcode['errorcode']){
+            if($this->_redis){
+                $this->save_check('phone',sha1($phone),$code_type,Constant::SEND_REDIS_AUTHCODE_INTERVAL_PHONE);
+                $errorcode = true;
+            }
+            // if(!$errorcode) log_message('error_tizi','18019:Gen phone auth code failed',array('phone'=>$phone));
+        }else{
+            $errorcode=false;
+        }
+        return array('errorcode'=>$errorcode);
+    }
+
+     //邮件邀请，查询是否超过间隔时间
+    function generate_invite_email($email,$code_type=0,$user_id="",$user_type=Constant::USER_TYPE_TEACHER){
+        $errorcode=$this->check_authcode_email($email,$code_type);
+        if(!$errorcode['errorcode']){
+            if($this->_redis){
+                $this->save_check('email',$email,$code_type,Constant::SEND_REDIS_AUTHCODE_INTERVAL_EMAIL);
+                $errorcode = true;
+            }
+        }else{
+            $errorcode=false;
+        }
+        return array('errorcode'=>$errorcode);
+    }
 }
 /* End of file verify_model.php */
 /* Location: ./application/models/login/verify_model.php */

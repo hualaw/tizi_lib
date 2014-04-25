@@ -3,23 +3,45 @@
     <span>
         您好，<em class="MyURName">{sub_str($user_name)}</em>！
     </span>
+    {if !isset($hide_logout) || !$hide_logout}
     <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
     <span class="l">|</span>
-    {$return = 'tizi'}
-    <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($redirect) && $redirect}{$redirect}{else}reload{/if}">退出</a>
+    <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($logout_redirect) && $logout_redirect}{$logout_redirect}{else}reload{/if}">退出</a>
+    {/if}
     {else}
-    <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($redirect) && $redirect}{$redirect}{else}reload{/if}">登录</a>
-    <a href="{$login_url}register" target="_blank">免费注册</a>
+    <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($login_redirect) && $login_redirect}{$login_redirect}{else}reload{/if}" role="{if isset($reg_role)}{$reg_role}{/if}">登录</a>
+    {$reg_url=$login_url|cat:"register"}
+    {if isset($reg_redirect) && $reg_redirect}
+        {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($reg_redirect)}
+    {else if isset($this_url) && $this_url && $this_url neq $tizi_url}
+        {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($this_url)}
+    {/if}
+    {if isset($reg_role) && $reg_role}
+        {if isset($reg_redirect) && $reg_redirect}
+            {$reg_url=$reg_url|cat:"&role="|cat:$reg_role}
+        {else}
+            {$reg_url=$reg_url|cat:"?role="|cat:$reg_role}
+        {/if}
+    {/if}
+    <a id="tiziRegister" href="{$reg_url}" target="_blank">免费注册</a>
     {/if}
 </p>
 <p class="fl">
 {if isset($navmode) && $navmode eq 'paper'}
     {if $namespace eq 'paper'}
-    <span class="title">试卷选题</span>
-    <a href="{$site_url}teacher/paper/center" class="returnPrevA">返回上一页</a>
+        <span class="title">试卷选题</span>
+        {if $user_type eq $constant.user_type_teacher}
+        <a href="{$site_url}teacher/paper/center" class="returnPrevA">返回上一页</a>
+        {else}
+        <a href="{$site_url}home/paper" class="returnPrevA">返回上一页</a>
+        {/if}
     {else if $namespace eq 'homework'}
-    <span class="title">作业选题</span>
-    <a href="{$site_url}teacher/homework/center" class="returnPrevA">返回上一页</a>
+        <span class="title">作业选题</span>
+        {if $user_type eq $constant.user_type_teacher}
+        <a href="{$site_url}teacher/homework/center" class="returnPrevA">返回上一页</a>
+        {else}
+        <a href="{$site_url}home/homework" class="returnPrevA">返回上一页</a>
+        {/if}
     {/if}
 {else}
     <a href="{$tizi_url}">梯子网首页</a>

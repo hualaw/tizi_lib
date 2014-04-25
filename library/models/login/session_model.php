@@ -4,6 +4,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Session_Model extends LI_Model {
 	
 	private $_table="session";
+	private $_user_table="user";
 	private $_api_table="session_api";
 
 	function __construct()
@@ -35,6 +36,7 @@ class Session_Model extends LI_Model {
 				'uname'=>$data['uname'],
 				'student_id'=>$data['student_id'],
 				'avatar'=>$register_data->avatar?$register_data->avatar:0,
+				'certification'=>$register_data->certification?$register_data->certification:0,
 				'register_subject'=>$this->question_subject_model->check_subject($register_data->register_subject,'binding')?$register_data->register_subject:0,
 				'register_grade'=>$this->student_data_model->check_grade($register_data->register_grade)?$register_data->register_grade:0,
 				'register_domain'=>$register_data->register_domain,
@@ -46,8 +48,17 @@ class Session_Model extends LI_Model {
 
 			$this->session->set_userdata($user_data);
 
+			$this->db->where('id',$user_id);
+			$this->db->set('last_login',date('Y-m-d H:i:s'));
+			$this->db->update($this->_user_table);
+
 			if($switch_id) $data['switch_id']=$switch_id;
 			if($dbsave) $this->db->insert($this->_table,$data);
+			
+			if ($data["user_type"] == Constant::USER_TYPE_TEACHER){
+				$this->load->library("credit");
+				$this->credit->exec($user_id, "everyday_firstlogin", $user_data["certification"]);
+			}
 			//if($this->db->affected_rows()==1) 
 			$errorcode=true;
 		}
@@ -107,7 +118,8 @@ class Session_Model extends LI_Model {
 						'register_subject'=>$user->register_subject,
 						'register_grade'=>$user->register_grade,
 						'register_domain'=>$register_domain,
-						'avatar'=>$user->avatar
+						'avatar'=>$user->avatar,
+						'certification'=>$user->certification
 					)
 				)
 			);
@@ -159,10 +171,10 @@ class Session_Model extends LI_Model {
 	}
 
 	public function get_lastgen($user_id){
-		$result = $this->db->query("select generate_time from `session` where user_id=? order by 
-			id desc limit 0,1", array($user_id))->result_array();
-		if (isset($result[0]["generate_time"])){
-			return $result[0]["generate_time"];
+		$result = $this->db->query("select last_login from `user` where id=? order by 
+			id desc limit 0,1", array($user_id))->row_array();
+		if (isset($result["last_login"])){
+			return $result["last_login"];
 		}
 		return null;
 	}
