@@ -16,7 +16,7 @@ class Redis_Model extends LI_Model {
 		$db=$type&&isset($redis_config['redis_db'][$type])?$redis_config['redis_db'][$type]:0;
 		if($this->cache->redis->select($db))
 		{			
-	    	return true;
+	    	return $db;
 		}
 		else
 		{
