@@ -34,11 +34,6 @@ class CI_Notification {
     exit(json_ntoken($data));
   }
 
-  function redis_notice(){
-    $this->_CI->load->model("redis/redis_model");
-    $this->_CI->redis_model->connect('notice');
-  }
-
   /**
    * 处理存储的消息
    * @params string $type   消息存储的类型，在lang中存贮的key
