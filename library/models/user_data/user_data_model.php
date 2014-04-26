@@ -118,7 +118,20 @@ class user_data_model extends LI_Model{
 		return intval((($exp - $level_exp_low) / ($level_exp_up - $level_exp_low)) * 100) . '%' ;
 	}
 
-
+	/** 更新用户使用过的应用的值
+	 * @param $user_id 用户id
+	 * @param string $app_name 使用的app的名称
+	 * @return string
+	 */
+	public function update_user_apps($user_id, $app_name = 'tiku'){
+		$app_bit = Constant::user_apps_binary($app_name);
+		$user_data = $this->get_user_data($user_id);
+		$original_bit = base_convert($user_data->user_apps, 10, 2);
+		$bit_res = $original_bit | $app_bit;//按位或
+		$result  = base_convert($bit_res, 2, 10);
+		$param = array('user_apps' => $result);
+		return $this->update_user_data($user_id, $param);
+	}
 
 
 }
