@@ -202,6 +202,19 @@ Class CI_Constant {
 		);
 		return isset($arr[$status_id]) ? $arr[$status_id] : $arr[1];
 	}
+
+	/** 用户使用的应用对应的值s
+	 * @static
+	 * @param $app_name
+	 * @return mixed
+	 */
+	public static function user_apps_binary($app_name){
+		$arr = array(
+			'tiku' => 1,
+			'xuetang' => 10
+		);
+		return isset($arr[$app_name]) ? $arr[$app_name] : $arr['tiku'];
+	}
 	
 	public static function school_type(){
 		$define = array(
