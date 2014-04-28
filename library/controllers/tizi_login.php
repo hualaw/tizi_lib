@@ -19,10 +19,15 @@ class Tizi_Login extends MY_Controller {
 		$password=$this->input->post("password",true);
 		$redirect_type=$this->input->post("redirect",true,false,'login');
 		$redirect_url=$this->input->post("redirect_url",true,false,'');
+		if($redirect_type=='homepage')
+		{
+			$redirect_type='login';
+			$redirect_url='';
+		}
 		if(stripos($redirect_type,'http://')!==false)
 		{
-			$redirect_url=$redirect_type;
 			$redirect_type='login';
+			$redirect_url=$redirect_type;
 		}
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
@@ -237,7 +242,7 @@ class Tizi_Login extends MY_Controller {
 				}
 				break;
             case Constant::USER_TYPE_TEACHER:
-            	if(!$user_data['register_subject']) 
+            	if(!$user_data['register_subject'])
 				{
 					$redirect=redirect_url(Constant::USER_TYPE_TEACHER,'perfect');
 					$redirect.='?redirect='.urlencode($redirect_url);
