@@ -129,6 +129,9 @@ class user_data_model extends LI_Model{
 		$original_bit = base_convert($user_data->user_apps, 10, 2);
 		$bit_res = $original_bit | $app_bit;//按位或
 		$result  = base_convert($bit_res, 2, 10);
+
+		if ($user_data->user_apps == $result) return true;
+
 		$param = array('user_apps' => $result);
 		return $this->update_user_data($user_id, $param);
 	}

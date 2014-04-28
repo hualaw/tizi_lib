@@ -40,6 +40,12 @@ class Tizi_Login extends MY_Controller {
 			//每次重新登录临时帐号需要重置session
 			$this->session->unset_userdata("cretae_pk");
 			$this->session->unset_userdata("user_invite_id");
+
+			//完善信息后跳转页面
+			if(stripos($redirect_type,'http://')!==false)
+			{
+				$this->session->set_userdata('perfect_redirect',$redirect_type);
+			}
 			
 			if (preg_phone($username))
 			{
@@ -212,7 +218,7 @@ class Tizi_Login extends MY_Controller {
         exit();
     }
 
-    private function get_redirect($user_type,$user_data,$redirect_type)
+    protected function get_redirect($user_type,$user_data,$redirect_type,$redirect_url=false)
    	{
    		$redirect=redirect_url($user_type,$redirect_type);
    		switch ($user_type) 
@@ -221,18 +227,21 @@ class Tizi_Login extends MY_Controller {
 				if(!$user_data['uname'] || !$user_data['register_grade'])
 				{
 					$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
+					$redirect.='?redirect='.urlencode($redirect_url);
 				}
 				break;
             case Constant::USER_TYPE_TEACHER:
             	if(!$user_data['register_subject']) 
 				{
 					$redirect=redirect_url(Constant::USER_TYPE_TEACHER,'perfect');
+					$redirect.='?redirect='.urlencode($redirect_url);
 				}
 				break;
             case Constant::USER_TYPE_PARENT:	
             case Constant::USER_TYPE_RESEARCHER:
             default:
-            	$redirect=redirect_url($user_type,$redirect_type);
+            	if($redirect_url) $redirect=$redirect_url;
+            	else $redirect=redirect_url($user_type,$redirect_type);
             	break;
 		}
 		return $redirect;
@@ -240,11 +249,7 @@ class Tizi_Login extends MY_Controller {
 
    	private function get_login_redirect($user_type,$user_data,$redirect_type)
    	{
-   		if(stripos($redirect_type,'http://')!==false)
-		{
-			$redirect=$redirect_type;
-		}
-		else if($redirect_type==='none')
+   		if($redirect_type==='none')
 		{
 			$redirect='';
 		}
@@ -255,6 +260,11 @@ class Tizi_Login extends MY_Controller {
 		else if($redirect_type==='function')
 		{
 			$redirect='function';
+		}
+		else if(stripos($redirect_type,'http://')!==false)
+		{
+			//$redirect=$redirect_type;
+			$redirect=$this->get_redirect($user_type,$user_data,'login',$redirect_type);
 		}
 		else//base
 		{
