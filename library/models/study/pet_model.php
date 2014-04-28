@@ -50,8 +50,8 @@ class Pet_Model extends LI_Model{
 		{
 			return array('status'=>false,'errMsg'=>'更换宠物id错误！');	
 		}
-		$this->db->where('uid', $userInfo['user_id']);
-		$this->db->update('student_data', array('pet_id' => $pet_id));
+		$this->db->where('user_id', $userInfo['user_id']);
+		$this->db->update('user_data', array('pet_id' => $pet_id));
 		$result = $this->db->affected_rows();
 		return $result > 0 ? array('status'=>true,'errMsg'=>'') : array('status'=>false,'errMsg'=>'更换宠物失败！');	
 	}

@@ -36,8 +36,8 @@ Class Tiku_model extends LI_Model
 	 */
 	public function searchComrade($search)
 	{
-		$result = $this->db->query("select u.id as user_id,u.name,sd.pet_id,sd.subject_type,sd.location_id from user u
-				left join student_data sd on u.id=sd.uid where u.name like '".$search."%'")->result_array();
+		$result = $this->db->query("select u.id as user_id,u.name,sd.pet_id,sd.subject_type,sd.location_id from user_id sd
+				left join user u on u.id=sd.user_id where u.name like '".$search."%'")->result_array();
 		return $result;
 	}
 	
@@ -58,16 +58,16 @@ Class Tiku_model extends LI_Model
 				if ($type == 1)
 				{
 					$result = $this->db->query("
-					select sd.uid,sd.pet_id,sd.subject_type,sd.location_id,suws.exp as experience,u.name from student_data sd
-					left join user u on sd.uid = u.id
-					left join study_user_week_stat suws on sd.uid = suws.userId 
-					where sd.uid = ".$v['friendId']." order by suws.exp desc limit ".$rows.','.$offset)->row_array();
+					select sd.user_id as uid,sd.pet_id,sd.subject_type,sd.location_id,suws.exp as experience,u.name from user_id sd
+					left join user u on sd.user_id = u.id
+					left join study_user_week_stat suws on sd.user_id = suws.userId 
+					where sd.user_id = ".$v['friendId']." order by suws.exp desc limit ".$rows.','.$offset)->row_array();
 					$return[] = $result;
 				} else if ($type == 2) {
 					$result = $this->db->query("
-					select sd.uid,sd.pet_id,sd.subject_type,sd.location_id,sd.exp as experience,u.name from student_data sd
-					left join user u on sd.uid = u.id
-					where sd.uid = ".$v['friendId']." order by sd.exp desc limit ".$rows.','.$offset)->row_array();
+					select sd.user_id as uid,sd.pet_id,sd.subject_type,sd.location_id,sd.exp as experience,u.name from user_data sd
+					left join user u on sd.user_id = u.id
+					where sd.user_id = ".$v['friendId']." order by sd.exp desc limit ".$rows.','.$offset)->row_array();
 					$return[] = $result;
 				}
 				
@@ -88,8 +88,8 @@ Class Tiku_model extends LI_Model
 	 */
 	public function getTopstudentList($userInfo,$rows,$offset)
 	{
-		$result = $this->db->query("select sd.uid as user_id,u.name,sd.pet_id,sd.exp as experience from student_data sd 
-				 left join user u on sd.uid = u.id order by sd.exp desc limit ".$rows.','.$offset)->result_array();
+		$result = $this->db->query("select sd.user_id,u.name,sd.pet_id,sd.exp as experience from user_data sd 
+				 left join user u on sd.user_id = u.id order by sd.exp desc limit ".$rows.','.$offset)->result_array();
 		return $result;
 	}
 	
@@ -102,7 +102,7 @@ Class Tiku_model extends LI_Model
 
 		foreach ($result as $k=>$v)
 		{
-			$nums = $this->db->query("select id from study_user_relation where userId = ".$userInfo['user_id'].' and friendId = '.$v['user_id'])->num_rows();
+			$nums = $this->db->query("select id from study_user_relation where userId = ".$userInfo['user_id']." and friendId = ".$v['user_id'])->num_rows();
 			if ($nums > 0)
 			{
 				$result[$k]['is_follow'] = 1;
@@ -122,7 +122,7 @@ Class Tiku_model extends LI_Model
 	{
 		$person = array();
 		//用户当前拥有的经验、宠物id
-		$tmp = $this->db->query('select exp as experience,pet_id from  student_data where uid = '.$user_id)->row_array();
+		$tmp = $this->db->query('select exp as experience,pet_id from  user_data where user_id = '.$user_id)->row_array();
 		$person['experience'] = $tmp['experience'];
 		$person['pet_id'] = $tmp['pet_id'];
 
@@ -172,7 +172,7 @@ Class Tiku_model extends LI_Model
             }
 
             $sql = "SELECT exp AS experience, pet_id AS petId, location_id AS locationId, subject_type AS subjectType
-                    FROM student_data WHERE uid={$userId}";
+                    FROM user_data WHERE user_id={$userId}";
             $userInfo = $this->db->query($sql)->row_array();
 
             return $userInfo;
@@ -187,8 +187,8 @@ Class Tiku_model extends LI_Model
          */
         public function setUserRegionCatalog($userId, $locationId, $subjectType)
         {
-            $sql = "UPDATE student_data SET location_id={$locationId}, subject_type={$subjectType}
-                    WHERE uid={$userId}";
+            $sql = "UPDATE user_data SET location_id={$locationId}, subject_type={$subjectType}
+                    WHERE user_id={$userId}";
 
             return $this->db->query($sql);
         }
@@ -200,10 +200,10 @@ Class Tiku_model extends LI_Model
          */
         public function updateUserExp($userData)
         {
-            $sql = "SELECT exp FROM student_data WHERE uid={$userData['userId']}";
+            $sql = "SELECT exp FROM user_data WHERE user_id={$userData['userId']}";
             $userInfo = $this->db->query($sql)->row_array($sql);
             $currentExp = $userData['exp'] + $userInfo['exp'];
-            $sql = "UPDATE student_data SET exp={$currentExp} WHERE uid={$userData['userId']}";
+            $sql = "UPDATE user_data SET exp={$currentExp} WHERE user_id={$userData['userId']}";
             $res = $this->db->query($sql);
             if($res) {
                 return $currentExp;
@@ -219,7 +219,7 @@ Class Tiku_model extends LI_Model
          */
         public function getUserSubjectType($userId)
         {
-            $sql = "SELECT subject_type FROM student_data WHERE uid={$userId}";
+            $sql = "SELECT subject_type FROM user_data WHERE user_id={$userId}";
             $userInfo = $this->db->query($sql)->row_array();
 
             return $userInfo['subject_type'];
@@ -231,7 +231,7 @@ Class Tiku_model extends LI_Model
         function checkUserExists($user_id)
         {
             $num = $this->db->query("select id from user where id = ".$user_id)->num_rows();
-            $row = $this->db->query("select id from student_data where uid = ".$user_id)->num_rows();
+            $row = $this->db->query("select id from user_data where user_id = ".$user_id)->num_rows();
             return ($num > 0 && $row > 0) ? true : false;
         }
 }
