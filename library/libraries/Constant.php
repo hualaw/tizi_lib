@@ -24,7 +24,7 @@ Class CI_Constant {
 	const SESSION_EXPIRE_TIME = "2 hour";
 	const COOKIE_EXPIRE_TIME = 0;//14400-4hour,0-with session expire
 	const COOKIE_INVITE_EXPIRE_TIME = 86400;//邀请码过期时间24小时
-	const COOKIE_REMEMBER_EXPIRE_TIME = 2592000;//30天免登录;//604800;//七天免登陆
+	const COOKIE_REMEMBER_EXPIRE_TIME = 2592000;//30天免登录;//604800;//七天免登录
 	const COOKIE_MYSUBJECT_EXPIRE_TIME = 0;//Favorate随浏览器
 	const COOKIE_TIPS_EXPIRE_TIME = 604800;//tips保存七天
 	const PAGE_TOKEN_LIFE_CIRCLE = 604800;/*Page Token 过期时间 单位(秒)*/
@@ -201,6 +201,41 @@ Class CI_Constant {
 			2 => 'fail'
 		);
 		return isset($arr[$status_id]) ? $arr[$status_id] : $arr[1];
+	}
+
+	/** 用户使用的应用对应的值s
+	 * @static
+	 * @param $app_name
+	 * @return mixed
+	 */
+	public static function user_apps_binary($app_name){
+		$arr = array(
+			'tiku' => 1,
+			'xuetang' => 10
+		);
+		return isset($arr[$app_name]) ? $arr[$app_name] : $arr['tiku'];
+	}
+	
+	public static function school_type(){
+		$define = array(
+			1 => "公立小学",
+			2 => "公立中学",
+			3 => "公立九年一贯制",
+			4 => "民办小学",
+			5 => "民办中学",
+			6 => "民办九年一贯制",
+			7 => "培训学校"
+		);
+		return $define;
+	}
+	
+	public function sctype(){
+		$define = array(
+			array("id"=>1,"name"=>"小学"),
+			array("id"=>2,"name"=>"中学"),
+			array("id"=>3,"name"=>"九年一贯制")
+		);
+		return $define;
 	}
 }
 /* End of file Constant.php */

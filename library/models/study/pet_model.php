@@ -7,6 +7,11 @@
  * To change this template use File | Settings | File Templates.
  */
 class Pet_Model extends LI_Model{
+
+	public function __construct(){
+		parent::__construct();
+	}
+
 	/**获取所有的宠物
 	 * @return mixed
 	 */

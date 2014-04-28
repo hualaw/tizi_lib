@@ -41,7 +41,7 @@ class classes_student_create extends LI_Model{
 	}
 	
 	/**
-	 * 获取班级内所有未登陆过的学生帐号密码
+	 * 获取班级内所有未登录过的学生帐号密码
 	 */
 	public function get($class_id, $fields = "*"){
 		$result = $this->db->query("select {$fields} from classes_student_create where class_id=? 
@@ -94,7 +94,7 @@ class classes_student_create extends LI_Model{
 	 * @param string $password
 	 * @return
 	 * 	>0:返回classes_student_create表的主键
-	 * 	-1:验证失败，无该学生的登陆信息
+	 * 	-1:验证失败，无该学生的登录信息
 	 */
 	public function login($student_id, $password){
 		$rs = $this->db->select("id,password,user_id")->from("classes_student_create")->where("student_id",$student_id)->get()->row();
@@ -133,7 +133,7 @@ class classes_student_create extends LI_Model{
 	}
 	
 	/**
-	 * 获取所有未登陆且有学生姓名的学生
+	 * 获取所有未登录且有学生姓名的学生
 	 */ 
 	public function get_hadname($class_id){
 		$res = $this->db->query("select id,student_id,student_name from classes_student_create 
@@ -147,7 +147,7 @@ class classes_student_create extends LI_Model{
 		return intval($res[0]["num"]);
 	}
 	
-	//所有未登陆的数量
+	//所有未登录的数量
 	public function ulog_total($class_id){
 		$res = $this->db->query("select count(*) as num from classes_student_create where 
 			class_id=? and user_id=0", array($class_id))->result_array();

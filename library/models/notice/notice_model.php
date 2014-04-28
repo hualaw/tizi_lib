@@ -13,6 +13,8 @@ class Notice_Model extends CI_Model {
 	
 	private $_redis=false;
 
+	private $_redis_db=false;
+
     /**
 	 * 构造函数
 	 * @access public
@@ -20,7 +22,8 @@ class Notice_Model extends CI_Model {
 	 public function __construct(){
         parent::__construct();
 		$this->load->model("redis/redis_model");
-		if($this->redis_model->connect('notice'))
+		$this->_redis_db=$this->redis_model->connect('notice');
+		if($this->_redis_db)
 		{
 			$this->_redis=true;
 		}
@@ -35,6 +38,7 @@ class Notice_Model extends CI_Model {
 	 */
 	 public function addNotify($uid, $msg, $create){
 		if($this->_redis){
+			$this->cache->redis->select($this->_redis_db);
 			return $this->cache->redis->zadd($uid, $create, $msg);
 		}
 	 }
@@ -47,6 +51,7 @@ class Notice_Model extends CI_Model {
 	 */
 	 public function addNotifies($uids, $msg, $create){
 		if($this->_redis){
+			$this->cache->redis->select($this->_redis_db);
 			foreach($uids as $uid){
 				$this->cache->redis->zadd($uid, $create, $msg);	
 			}
@@ -63,6 +68,7 @@ class Notice_Model extends CI_Model {
 	 public function listMsgs($uid, $page=1, $per_page=10){
 		$result = array();
 		if($this->_redis){
+			$this->cache->redis->select($this->_redis_db);
 			//获取$page分页显示的记录，带score值（和消息时间关联）,只获取当前时间以前的通知
 			$offset = $per_page * ($page -1);
 			$msgs = $this->cache->redis->zrevrangebyscore($uid, time(), 0, $offset, $per_page, 1);
@@ -94,6 +100,7 @@ class Notice_Model extends CI_Model {
 	 */
 	 public function getNewNoticeNums($uid){
 		if($this->_redis){
+			$this->cache->redis->select($this->_redis_db);
 			return $this->cache->redis->zcount($uid, $this->_split_read_limits, time());
 		}
 	 }
@@ -107,6 +114,7 @@ class Notice_Model extends CI_Model {
 	 */
 	 public function zcount($uid, $min, $time){
 		if($this->_redis){
+			$this->cache->redis->select($this->_redis_db);
 			return $this->cache->redis->zcount($uid, $min, $time);
 		}
 	 }
@@ -114,6 +122,7 @@ class Notice_Model extends CI_Model {
 	 //删除
 	 public function zrem($uid,$member){
 	 	if($this->_redis){
+	 		$this->cache->redis->select($this->_redis_db);
 			return $this->cache->redis->zrem($uid, $member);
 		}
 	 }
