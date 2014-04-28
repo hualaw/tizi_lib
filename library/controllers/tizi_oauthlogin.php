@@ -56,12 +56,18 @@ class Tizi_Oauthlogin extends Tizi_Login {
                 $user_auth_data = $this->oauth_model->save($db_data);
                 $this->oauth_model->save($db_data['open_id'], $platform, $db_data);
 
+                $oauth_redirect=$this->session->userdata('oauth_redirect');
                 if(empty($user_auth_data['user_id'])){//未绑定用户
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
     				//redirect(login_url("login/perfect/role"));
                     $oauth_redirect=login_url("login/perfect/role?platform={$platform}");
+
+                    if(stripos($oauth_redirect,'http://')!==false)
+                    {
+                        $this->session->set_userdata('perfect_redirect',$oauth_redirect);
+                    }
+
                 }else{//绑定用户
-                    $oauth_redirect=$this->session->userdata('oauth_redirect');
     				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
                     $this->session_model->generate_cookie($db_data['open_id'],$user_auth_data["user_id"]);
     				$this->session_model->clear_mscookie();
