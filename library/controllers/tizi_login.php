@@ -267,7 +267,7 @@ class Tizi_Login extends MY_Controller {
 		{
 			$redirect=$this->get_redirect($user_type,$user_data,'login',$redirect_type);
 		}
-		else//base
+		else//login
 		{
 			$redirect=$this->get_redirect($user_type,$user_data,$redirect_type,$redirect_url);
 		}
