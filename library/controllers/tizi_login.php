@@ -241,11 +241,7 @@ class Tizi_Login extends MY_Controller {
 
    	private function get_login_redirect($user_type,$user_data,$redirect_type)
    	{
-   		if(stripos($redirect_type,'http://')!==false)
-		{
-			$redirect=$redirect_type;
-		}
-		else if($redirect_type==='none')
+   		if($redirect_type==='none')
 		{
 			$redirect='';
 		}
@@ -256,6 +252,11 @@ class Tizi_Login extends MY_Controller {
 		else if($redirect_type==='function')
 		{
 			$redirect='function';
+		}
+		else if(stripos($redirect_type,'http://')!==false)
+		{
+			//$redirect=$redirect_type;
+			$redirect=$this->get_redirect($user_type,$user_data,'login',$redirect_type);
 		}
 		else//base
 		{
