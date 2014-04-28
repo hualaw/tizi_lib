@@ -18,6 +18,17 @@ class Tizi_Login extends MY_Controller {
 		$username=$this->input->post("username",true);
 		$password=$this->input->post("password",true);
 		$redirect_type=$this->input->post("redirect",true,false,'login');
+		$redirect_url=$this->input->post("redirect_url",true,false,'');
+		if($redirect_type=='homepage')
+		{
+			$redirect_type='login';
+			$redirect_url='';
+		}
+		if(stripos($redirect_type,'http://')!==false)
+		{
+			$redirect_type='login';
+			$redirect_url=$redirect_type;
+		}
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
 
@@ -32,7 +43,7 @@ class Tizi_Login extends MY_Controller {
 			$this->session_model->clear_mscookie();
 			if($user_id['error']) $submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 			
-			$submit['redirect']=$this->get_login_redirect($user_id['user_type'],$session['user_data'],$redirect_type);
+			$submit['redirect']=$this->get_login_redirect($user_id['user_type'],$session['user_data'],$redirect_type,$redirect_url);
 			$submit['errorcode']=true;
 		}
 		else if($user_id['errorcode'] != Constant::LOGIN_INVALID_TYPE)
@@ -42,9 +53,9 @@ class Tizi_Login extends MY_Controller {
 			$this->session->unset_userdata("user_invite_id");
 
 			//完善信息后跳转页面
-			if(stripos($redirect_type,'http://')!==false)
+			if(stripos($redirect_url,'http://')!==false)
 			{
-				$this->session->set_userdata('perfect_redirect',$redirect_type);
+				$this->session->set_userdata('perfect_redirect',$redirect_url);
 			}
 			
 			if (preg_phone($username))
@@ -231,7 +242,7 @@ class Tizi_Login extends MY_Controller {
 				}
 				break;
             case Constant::USER_TYPE_TEACHER:
-            	if(!$user_data['register_subject']) 
+            	if(!$user_data['register_subject'])
 				{
 					$redirect=redirect_url(Constant::USER_TYPE_TEACHER,'perfect');
 					$redirect.='?redirect='.urlencode($redirect_url);
@@ -247,28 +258,23 @@ class Tizi_Login extends MY_Controller {
 		return $redirect;
    	}
 
-   	private function get_login_redirect($user_type,$user_data,$redirect_type)
+   	private function get_login_redirect($user_type,$user_data,$redirect_type,$redirect_url=false)
    	{
    		if($redirect_type==='none')
 		{
 			$redirect='';
 		}
-		else if(stripos($redirect_type,'http://')!==false || $redirect_type==='reload' || stripos($redirect_type,'callback:')!==false)
+		else if($redirect_type==='reload' || stripos($redirect_type,'callback:')!==false || $redirect_type==='function')
 		{
 			$redirect=$redirect_type;
 		}
-		else if($redirect_type==='function')
-		{
-			$redirect='function';
-		}
 		else if(stripos($redirect_type,'http://')!==false)
 		{
-			//$redirect=$redirect_type;
 			$redirect=$this->get_redirect($user_type,$user_data,'login',$redirect_type);
 		}
-		else//base
+		else//login
 		{
-			$redirect=$this->get_redirect($user_type,$user_data,$redirect_type);
+			$redirect=$this->get_redirect($user_type,$user_data,$redirect_type,$redirect_url);
 		}
 		return $redirect;
    	}
