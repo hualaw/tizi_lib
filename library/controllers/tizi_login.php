@@ -212,7 +212,7 @@ class Tizi_Login extends MY_Controller {
         exit();
     }
 
-    private function get_redirect($user_type,$user_data,$redirect_type)
+    protected function get_redirect($user_type,$user_data,$redirect_type)
    	{
    		$redirect=redirect_url($user_type,$redirect_type);
    		switch ($user_type) 

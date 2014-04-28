@@ -11,7 +11,7 @@ class Tizi_Oauthlogin extends MY_Controller{
         $this->load->model("login/session_model");
     }
 
-    public function index()
+    public function oauth()
     {
         /*platform*/
         $platform = 'qq';
