@@ -34,6 +34,7 @@
     {/if}
     <div class="cf bottomLogin">
         <input type="hidden" name="redirect" value="{if isset($login_redirect)}{$login_redirect}{/if}" />
+        <input type="hidden" name="redirect_url" value="{if isset($reg_redirect)}{$reg_redirect}{/if}" />
         <input type="submit" class="cBtnNormal submitBtn yh fl" tabindex="3" value="登录" />
         {if !isset($hide_register) or !$hide_register}
             {$reg_url=$login_url|cat:"register"}
