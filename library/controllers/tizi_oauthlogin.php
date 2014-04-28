@@ -66,8 +66,8 @@ class Tizi_Oauthlogin extends Tizi_Login {
                     $this->session_model->generate_cookie($db_data['open_id'],$user_auth_data["user_id"]);
     				$this->session_model->clear_mscookie();
                     //redirect(redirect_url($session['user_data']['user_type'],'login'));
-                    if(!$oauth_redirect) $oauth_redirect=redirect_url($session['user_data']['user_type'],'login');
-                    //if(!$oauth_redirect)=$this->get_login_redirect($session['user_data']['user_type'],$session['user_data'],'login');
+                    //if(!$oauth_redirect) $oauth_redirect=redirect_url($session['user_data']['user_type'],'login');
+                    $oauth_redirect=$this->get_redirect($session['user_data']['user_type'],$session['user_data'],'login',$oauth_redirect);
                 }
             }
             $this->smarty->assign('oauth_redirect',$oauth_redirect);

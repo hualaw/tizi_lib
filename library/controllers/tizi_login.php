@@ -212,7 +212,7 @@ class Tizi_Login extends MY_Controller {
         exit();
     }
 
-    protected function get_redirect($user_type,$user_data,$redirect_type)
+    protected function get_redirect($user_type,$user_data,$redirect_type,$redirect_url=false)
    	{
    		$redirect=redirect_url($user_type,$redirect_type);
    		switch ($user_type) 
@@ -232,7 +232,8 @@ class Tizi_Login extends MY_Controller {
             case Constant::USER_TYPE_PARENT:	
             case Constant::USER_TYPE_RESEARCHER:
             default:
-            	$redirect=redirect_url($user_type,$redirect_type);
+            	if($redirect_url) $redirect=$redirect_url;
+            	else $redirect=redirect_url($user_type,$redirect_type);
             	break;
 		}
 		return $redirect;
