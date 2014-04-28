@@ -58,7 +58,7 @@ class Tizi_Oauthlogin extends MY_Controller{
                 if(empty($user_auth_data['user_id'])){//未绑定用户
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
     				//redirect(login_url("login/perfect/role"));
-                    $oauth_redirect=login_url("login/perfect/role");
+                    $oauth_redirect=login_url("login/perfect/role?platform={$platform}");
                 }else{//绑定用户
                     $oauth_redirect=$this->session->userdata('oauth_redirect');
     				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
