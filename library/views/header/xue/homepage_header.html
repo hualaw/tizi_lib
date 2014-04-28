@@ -4,9 +4,10 @@
 <div class="header cf">
 	<div class="headleft fl">
 		分享给小伙伴<br>
-		<img src="debug/images/homePage/share.png" alt="">
+        <img src="{$static_url}debug/images/homePage/share.png" alt="">
 	</div>
 	<div class="headright fr">
+        {if !isset($user_id) || !$user_id}
 		<!--登录前 头部右侧导航 开始-->
 		<div class="loginBefore cf undis">
 			<a href="" class="fr loginCheck">登录</a>
@@ -14,11 +15,12 @@
 			<a href="" class="fr">注册</a>
 		</div>
 		<!--登录前 头部右侧导航 结束-->
+        {else}
 		<!--登录后 头部右侧导航 开始-->
 		<div class="loginAfter cf undis">
 			<a href="" class="fl warn">提醒<span class="warnBox"><var>3</var></span></a>
 			<div class="fr posr">
-				<em>用户名</em>
+                <em>{$username}</em>
 				<ul class="infor cf">
 					<li><a href="">我的账号</a></li>
 					<li><a href="">退出</a></li>
@@ -26,6 +28,7 @@
 			</div>
 		</div>
 		<!--登录后 头部右侧导航 结束-->
+        {/if}
 	</div>
 	<h1 class="indexLogo">
 		<a href="" class="logo"></a>
