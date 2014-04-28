@@ -332,6 +332,10 @@ class LI_Controller extends CI_Controller{
 			    {
 			    	if($this->tizi_ajax)
 					{
+						$this->load->config('version');
+						$this->smarty->assign('static_url', static_url($this->site));
+				        $this->smarty->assign('static_version',$this->config->item('static_version')
+				        	.($this->config->item('static_version')?'/':''));
 						$login_redirect=$this->input->get_post('redirect',true,false,'reload');
 						$reg_redirect=$this->input->get_post('reg_redirect',true);
 						$reg_role=$this->input->get_post('reg_role',true);
