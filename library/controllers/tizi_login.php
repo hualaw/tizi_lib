@@ -18,6 +18,12 @@ class Tizi_Login extends MY_Controller {
 		$username=$this->input->post("username",true);
 		$password=$this->input->post("password",true);
 		$redirect_type=$this->input->post("redirect",true,false,'login');
+		$redirect_url=$this->input->post("redirect_url",true,false,'');
+		if(stripos($redirect_type,'http://')!==false)
+		{
+			$redirect_url=$redirect_type;
+			$redirect_type='login';
+		}
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
 
@@ -32,7 +38,7 @@ class Tizi_Login extends MY_Controller {
 			$this->session_model->clear_mscookie();
 			if($user_id['error']) $submit['error']=$this->lang->line('error_'.strtolower($user_id['error']));
 			
-			$submit['redirect']=$this->get_login_redirect($user_id['user_type'],$session['user_data'],$redirect_type);
+			$submit['redirect']=$this->get_login_redirect($user_id['user_type'],$session['user_data'],$redirect_type,$redirect_url);
 			$submit['errorcode']=true;
 		}
 		else if($user_id['errorcode'] != Constant::LOGIN_INVALID_TYPE)
@@ -42,9 +48,9 @@ class Tizi_Login extends MY_Controller {
 			$this->session->unset_userdata("user_invite_id");
 
 			//完善信息后跳转页面
-			if(stripos($redirect_type,'http://')!==false)
+			if(stripos($redirect_url,'http://')!==false)
 			{
-				$this->session->set_userdata('perfect_redirect',$redirect_type);
+				$this->session->set_userdata('perfect_redirect',$redirect_url);
 			}
 			
 			if (preg_phone($username))
@@ -247,7 +253,7 @@ class Tizi_Login extends MY_Controller {
 		return $redirect;
    	}
 
-   	private function get_login_redirect($user_type,$user_data,$redirect_type)
+   	private function get_login_redirect($user_type,$user_data,$redirect_type,$redirect_url=false)
    	{
    		if($redirect_type==='none')
 		{
@@ -268,7 +274,7 @@ class Tizi_Login extends MY_Controller {
 		}
 		else//base
 		{
-			$redirect=$this->get_redirect($user_type,$user_data,$redirect_type);
+			$redirect=$this->get_redirect($user_type,$user_data,$redirect_type,$redirect_url);
 		}
 		return $redirect;
    	}
