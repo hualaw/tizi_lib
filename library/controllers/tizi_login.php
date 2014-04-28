@@ -259,17 +259,12 @@ class Tizi_Login extends MY_Controller {
 		{
 			$redirect='';
 		}
-		else if(stripos($redirect_type,'http://')!==false || $redirect_type==='reload' || stripos($redirect_type,'callback:')!==false)
+		else if($redirect_type==='reload' || stripos($redirect_type,'callback:')!==false || $redirect_type==='function')
 		{
 			$redirect=$redirect_type;
 		}
-		else if($redirect_type==='function')
-		{
-			$redirect='function';
-		}
 		else if(stripos($redirect_type,'http://')!==false)
 		{
-			//$redirect=$redirect_type;
 			$redirect=$this->get_redirect($user_type,$user_data,'login',$redirect_type);
 		}
 		else//base
