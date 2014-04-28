@@ -40,6 +40,12 @@ class Tizi_Login extends MY_Controller {
 			//每次重新登录临时帐号需要重置session
 			$this->session->unset_userdata("cretae_pk");
 			$this->session->unset_userdata("user_invite_id");
+
+			//完善信息后跳转页面
+			if(stripos($redirect_type,'http://')!==false)
+			{
+				$this->session->set_userdata('perfect_redirect',$redirect_type);
+			}
 			
 			if (preg_phone($username))
 			{
@@ -221,12 +227,14 @@ class Tizi_Login extends MY_Controller {
 				if(!$user_data['uname'] || !$user_data['register_grade'])
 				{
 					$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
+					$redirect.='?redirect='.urlencode($redirect_url);
 				}
 				break;
             case Constant::USER_TYPE_TEACHER:
             	if(!$user_data['register_subject']) 
 				{
 					$redirect=redirect_url(Constant::USER_TYPE_TEACHER,'perfect');
+					$redirect.='?redirect='.urlencode($redirect_url);
 				}
 				break;
             case Constant::USER_TYPE_PARENT:	
