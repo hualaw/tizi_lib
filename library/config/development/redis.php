@@ -20,9 +20,8 @@ $config['redis_db']['statistics'] 	= 16;//小型数据统计，hash结构，首�
 $config['redis_db']['seo'] 			= 17;//SEO
 $config['redis_db']['medal'] 		= 18;//勋章medal
 $config['redis_db']['cloud_statistics'] = 19;//网盘统计
-$config['redis_db']['qiniu_img'] = 20 ; //七牛上的的图片的地址
+$config['redis_db']['qiniu_file'] = 20 ; //七牛上的文件的地址
 $config['redis_db']['study_statistics'] = 21;//梯子学堂统计
-
 
 // Default connection group
 $config['redis_default']['host'] = '192.168.11.12';	// IP address or host
