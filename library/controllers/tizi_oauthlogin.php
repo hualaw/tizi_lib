@@ -1,7 +1,8 @@
 <?php
 if(!defined('BASEPATH'))exit('No direct script access allowed');
+require_once "tizi_login.php";
 
-class Tizi_Oauthlogin extends MY_Controller{
+class Tizi_Oauthlogin extends Tizi_Login {
 
     function __construct()
     {
@@ -66,6 +67,7 @@ class Tizi_Oauthlogin extends MY_Controller{
     				$this->session_model->clear_mscookie();
                     //redirect(redirect_url($session['user_data']['user_type'],'login'));
                     if(!$oauth_redirect) $oauth_redirect=redirect_url($session['user_data']['user_type'],'login');
+                    //if(!$oauth_redirect)=$this->get_login_redirect($session['user_data']['user_type'],$session['user_data'],'login');
                 }
             }
             $this->smarty->assign('oauth_redirect',$oauth_redirect);
