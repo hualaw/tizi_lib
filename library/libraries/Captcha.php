@@ -53,8 +53,9 @@ class Captcha {
 
         $this->config['word'] = $this->word;
         $captcha_arr  = create_captcha($this->config);
+        //unset($captcha_arr['word']);
 
-        return $captcha_arr['im'];
+        return $captcha_arr;
     }
 
     private function setWord($count=4){
