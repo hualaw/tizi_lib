@@ -45,6 +45,12 @@ define(function(require, exports) {
             success:function (data) {
                 if(data.errorcode){
                     img.attr('src',data.image);
+                    if(data.word) {
+                        $('.'+captcha_name).parent().addClass('undis');
+                        $('.'+captcha_name+'Word').val(data.word);
+                    }else{
+                        $('.'+captcha_name).parent().removeClass('undis');
+                    }
                 }
             }
         });

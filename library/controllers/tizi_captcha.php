@@ -10,14 +10,16 @@ class Tizi_Captcha extends MY_Controller {
     
     public function generate()
     {
-        ob_start();
         $captcha_name = $this->input->get('captcha_name');
+        $need_check=true;
+        ob_start();
         $image_obj = $this->captcha->generateCaptcha($captcha_name);
         $this->output->set_content_type('jpeg');
         ImageJPEG($image_obj['im']);
         ImageDestroy($image_obj['im']);
         $image = ob_get_clean();
         $image_obj['image']='data:image/jpeg;base64,'.base64_encode($image);
+        if($need_check) $image_obj['word']='';
         unset($image_obj['im']);
         $image_obj['errorcode']=true;
         echo json_token($image_obj);

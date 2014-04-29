@@ -53,7 +53,6 @@ class Captcha {
 
         $this->config['word'] = $this->word;
         $captcha_arr  = create_captcha($this->config);
-        unset($captcha_arr['word']);
 
         return $captcha_arr;
     }
