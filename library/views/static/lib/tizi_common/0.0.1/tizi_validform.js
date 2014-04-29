@@ -36,8 +36,18 @@ define(function(require, exports) {
         if(captcha_name == undefined) captcha_name = basePageName;
         var img = $('.'+captcha_name).siblings("img");
         var now = (new Date).valueOf();
-        var url =  baseUrlName + "captcha?captcha_name="+captcha_name+"&ver=" + now;
-        img.attr('src',url);
+        //var url =  baseUrlName + "captcha?captcha_name="+captcha_name+"&ver=" + now;
+        $.tizi_ajax({
+            url:baseUrlName + "captcha",
+            type:'get',
+            dataType:"json",
+            data:{'captcha_name':captcha_name,ver:(new Date).valueOf()},
+            success:function (data) {
+                if(data.errorcode){
+                    img.attr('src',data.image);
+                }
+            }
+        });
     };
     //更换验证码
     exports.bindChangeVerify = function(captcha_name){
