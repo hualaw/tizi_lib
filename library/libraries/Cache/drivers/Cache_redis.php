@@ -415,6 +415,12 @@ class CI_Cache_redis extends CI_Driver
         }       
     }
 
+    public function hincrby($key,$field,$value){
+    	if($this->_redis){
+            return $this->_redis->hincrby($key,$field,$value);       
+        }
+    }
+
     public function hgetall($key){
 
         if ($this->_slave)
