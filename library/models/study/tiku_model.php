@@ -48,7 +48,8 @@ Class Tiku_model extends LI_Model
 	 */
 	public function rankComrade($userInfo,$type,$rows,$offset)
 	{
-		$return = array();
+
+		$return = array();	
 		$friend_ids = $this->getComradeUserId($userInfo['user_id']);
 		//var_dump($friend_ids);die;
 		if ($friend_ids)
@@ -57,30 +58,52 @@ Class Tiku_model extends LI_Model
 			{
 				if ($type == 1)
 				{
-					$result = $this->db->query("
-					select sd.user_id as uid,sd.pet_id,sd.subject_type,sd.location_id,suws.exp as experience,u.name from user_id sd
-					left join user u on sd.user_id = u.id
-					left join study_user_week_stat suws on sd.user_id = suws.userId 
-					where sd.user_id = ".$v['friendId']." order by suws.exp desc limit ".$rows.','.$offset)->row_array();
-					$return[] = $result;
+					$return[] = $this->weekRanking($v['friendId'], $rows, $offset);
 				} else if ($type == 2) {
-					$result = $this->db->query("
-					select sd.user_id as uid,sd.pet_id,sd.subject_type,sd.location_id,sd.exp as experience,u.name from user_data sd
-					left join user u on sd.user_id = u.id
-					where sd.user_id = ".$v['friendId']." order by sd.exp desc limit ".$rows.','.$offset)->row_array();
-					$return[] = $result;
+					$return[]  = $this->totleRanking($v['friendId'], $rows, $offset);
 				}
-				
 			}
 		}
+		
+		//排行要添加自己
+		if ($type == 1) {
+			$return[] = $this->weekRanking($userInfo['user_id'], $rows, $offset);
+		} else if ($type == 2) {
+			$return[]  = $this->totleRanking($userInfo['user_id'], $rows, $offset);
+		}
+		
 		foreach ($return as $key=>$val)
 		{
 			if (empty($return[$key])){
 				unset($return[$key]);
 			}
 		}
-		
 		return $return;
+	}
+	
+	/*
+	 * 用户的周排行
+	 */
+	public function weekRanking($user_id,$rows,$offset){
+		$result = $this->db->query("select sd.user_id,sd.pet_id,sd.subject_type,
+				sd.location_id,suws.exp as experience,u.name from user_data sd
+				left join user u on sd.user_id = u.id
+				left join study_user_week_stat suws on sd.user_id = suws.userId
+				where sd.user_id = ".$user_id." order by suws.exp desc
+				limit ".$rows.','.$offset)->row_array();
+		return $result;
+	}
+	
+	/*
+	 * 用户的总排行
+	 */
+	public function totleRanking($user_id,$rows,$offset){
+		$result = $this->db->query("select sd.user_id,sd.pet_id,sd.subject_type,sd.location_id,
+				sd.exp as experience,u.name from user_data sd
+				left join user u on sd.user_id = u.id
+				where sd.user_id = ".$user_id." order by sd.exp desc
+				limit ".$rows.','.$offset)->row_array();
+		return $result;
 	}
 	
 	/*
@@ -88,8 +111,9 @@ Class Tiku_model extends LI_Model
 	 */
 	public function getTopstudentList($userInfo,$rows,$offset)
 	{
-		$result = $this->db->query("select sd.user_id,u.name,sd.pet_id,sd.exp as experience from user_data sd 
-				 left join user u on sd.user_id = u.id order by sd.exp desc limit ".$rows.','.$offset)->result_array();
+		$result = $this->db->query("select sd.user_id,u.name,sd.pet_id,sd.exp as experience 
+				from user_data sd left join user u on sd.user_id = u.id 
+				order by sd.exp desc limit ".$rows.','.$offset)->result_array();
 		return $result;
 	}
 	
@@ -161,6 +185,17 @@ Class Tiku_model extends LI_Model
 		$friends = $this->db->query("select friendId from study_user_relation where userId = ".$user_id)->result_array();
 		return $friends;
 	}
+	
+	/*
+	 * 根据uid判断该用户是否存在
+	*/
+	function checkUserExists($user_id)
+	{
+		$num = $this->db->query("select id from user where id = ".$user_id)->num_rows();
+		$row = $this->db->query("select id from user_data where user_id = ".$user_id)->num_rows();
+		return ($num > 0 && $row > 0) ? true : false;
+	}
+	
         
         /**
          * 获取用户的地域Id,经验值,所选学科类型这些基本数据
@@ -223,15 +258,5 @@ Class Tiku_model extends LI_Model
             $userInfo = $this->db->query($sql)->row_array();
 
             return $userInfo['subject_type'];
-        }
-
-        /*
-         * 根据uid判断该用户是否存在
-         */
-        function checkUserExists($user_id)
-        {
-            $num = $this->db->query("select id from user where id = ".$user_id)->num_rows();
-            $row = $this->db->query("select id from user_data where user_id = ".$user_id)->num_rows();
-            return ($num > 0 && $row > 0) ? true : false;
         }
 }
