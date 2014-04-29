@@ -23,7 +23,7 @@ class Login_Model extends LI_Model {
 		}
 		else if($type==Constant::LOGIN_TYPE_PHONE)
 		{
-			//$this->db->where("phone",$username);//登陆时需要通过服务获取用户id
+			//$this->db->where("phone",$username);//登录时需要通过服务获取用户id
 			$this->load->library("thrift");
 			$uid = $this->thrift->get_uid($username);
 			if ($uid == -127)

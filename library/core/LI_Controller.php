@@ -379,11 +379,11 @@ class LI_Controller extends CI_Controller{
 
 	protected function token_list()
 	{
-		//登陆情况下才可以访问的页面
+		//登录情况下才可以访问的页面
 		$this->_loginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
-		//不登陆情况下可以访问的页面
+		//不登录情况下可以访问的页面
 		$this->_unloginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
-		//登陆情况下不可以访问的页面
+		//登录情况下不可以访问的页面
 		$this->_dnloginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//必须经过验证码验证的请求
 		$this->_captchalist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());

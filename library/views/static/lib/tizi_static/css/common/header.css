@@ -6,7 +6,7 @@
 .topNav .info .newMassage{background:url(../../image/common/ico_newMassage.gif) no-repeat left;padding-left:20px;color:#fe9d25;}
 .topNav .info .normalMassage{background:url(../../image/common/ico_newMassage_grey.gif) no-repeat left;padding-left:20px;}
 .topNav .miniBox{margin:0px 10px;}
-.header .bd{padding:13px 0px;}
+.header .bd{padding:13px 0px;height:75px;}
 .header .bd .logo a{background:url(../../image/common/w_logo.gif) no-repeat;width:162px;height:67px;display:block; text-indent: -999em; overflow: hidden;}
 .header .bd .secLogo{margin-top:3px;}
 .header .bd .secLogo .infos{padding-left:20px;font-size:24px; font-weight: normal;}

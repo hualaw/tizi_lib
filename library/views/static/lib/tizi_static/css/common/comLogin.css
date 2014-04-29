@@ -1,4 +1,4 @@
-/*全站弹出登陆框样式开始*/
+/*全站弹出登录框样式开始*/
 #comLogin{padding:0 60px;}
 #comLogin .tizi_LoginStyle li{margin-bottom:18px;position: relative;*zoom:1;*margin-bottom:15px;}
 #comLogin .tizi_LoginStyle li input{border-radius: 5px;font-size:14px;line-height: 38px;width:226px;border:1px solid #c4c5c4;box-shadow:1px 1px 1px #dadddc inset;}
@@ -17,4 +17,4 @@
 #comLogin .oauthLogin a{text-indent: -999em;overflow:hidden;background:url(../../image/common/ico_out_login.gif) no-repeat;display: block;height:20px;margin-left:10px;}
 #comLogin .oauthLogin a.qq{width:18px;}
 #comLogin .oauthLogin a.weibo{width:25px;background-position: -31px 0;}
-/*全站弹出登陆框样式结束*/
+/*全站弹出登录框样式结束*/
