@@ -33,11 +33,36 @@ define(function(require, exports) {
     };
     // 加载验证码
     exports.changeCaptcha = function(captcha_name){
-        if(captcha_name == undefined) captcha_name = basePageName;
+        //if(captcha_name == undefined) captcha_name = basePageName;
+        if(captcha_name == undefined) return false;
         var img = $('.'+captcha_name).siblings("img");
         var now = (new Date).valueOf();
-        var url =  baseUrlName + "captcha?captcha_name="+captcha_name+"&ver=" + now;
-        img.attr('src',url);
+        //var url =  baseUrlName + "captcha?captcha_name="+captcha_name+"&ver=" + now;
+        $.tizi_ajax({
+            url:baseUrlName + "captcha",
+            type:'get',
+            dataType:"json",
+            data:{'captcha_name':captcha_name,ver:(new Date).valueOf()},
+            success:function (data) {
+                if(data.errorcode){
+                    img.attr('src',data.image);
+                    if(data.word) {
+                        $('.'+captcha_name).parent().addClass('undis');
+                        $('.'+captcha_name+'Word').val(data.word);
+                    }else{
+                        $('.'+captcha_name).parent().removeClass('undis');
+                    }
+                }else{
+                    require.async('tiziDialog',function(){
+                        $.tiziDialog({
+                            icon:'error',
+                            content:data.error,
+                            time:3
+                        })
+                    });
+                }
+            }
+        });
     };
     //更换验证码
     exports.bindChangeVerify = function(captcha_name){
@@ -70,6 +95,7 @@ define(function(require, exports) {
                     if(show_dialog) {
                         require.async('tiziDialog',function(){
                             $.tiziDialog({
+                                icon:'error',
                                 content:data.error,
                                 time:3
                             })
