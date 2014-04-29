@@ -6,12 +6,19 @@ class Tizi_Captcha extends MY_Controller {
     {
         parent::__construct();
         $this->load->library('captcha');
+        $this->load->model('redis/redis_model');
     }
     
     public function generate()
     {
         $captcha_name = $this->input->get('captcha_name');
-        $need_check=true;
+        if(!$captcha_name)
+        {
+            echo json_token(array('errorcode'=>false,'error'=>$this->lang->line('default_error')));
+            exit();
+        }
+
+        $need_check=$this->captcha_rule($captcha_name);
         ob_start();
         $image_obj = $this->captcha->generateCaptcha($captcha_name);
         $this->output->set_content_type('jpeg');
@@ -48,5 +55,29 @@ class Tizi_Captcha extends MY_Controller {
 
         echo json_token($data); 
         exit; 
+    }
+
+    protected function captcha_rule($captcha_name)
+    {
+        $need_check=true;
+
+        //download paper
+        if($captcha_name=='PaperDownBox'&&$this->redis_model->connect('download'))
+        {
+            $paper_key=date('Y-m-d').'_paper_'.$this->tizi_uid;
+            $download_paper_count=$this->cache->get($paper_key);
+            log_message('error',$download_paper_count);
+            if($download_paper_count < Constant::PAPER_DOWNLOAD_CAPTCHA_LIMIT) $need_check=false;
+        }
+        //download homework
+        if($captcha_name=='HomeworkDownBox'&&$this->redis_model->connect('download'))
+        {
+            $paper_key=date('Y-m-d').'_homework_'.$this->tizi_uid;
+            $download_paper_count=$this->cache->get($paper_key);
+            log_message('error',$download_paper_count);
+            if($download_paper_count < Constant::PAPER_DOWNLOAD_CAPTCHA_LIMIT) $need_check=false;
+        }
+
+        return $need_check;
     }
 }

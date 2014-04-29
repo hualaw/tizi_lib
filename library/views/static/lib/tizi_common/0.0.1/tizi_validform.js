@@ -33,7 +33,8 @@ define(function(require, exports) {
     };
     // 加载验证码
     exports.changeCaptcha = function(captcha_name){
-        if(captcha_name == undefined) captcha_name = basePageName;
+        //if(captcha_name == undefined) captcha_name = basePageName;
+        if(captcha_name == undefined) return false;
         var img = $('.'+captcha_name).siblings("img");
         var now = (new Date).valueOf();
         //var url =  baseUrlName + "captcha?captcha_name="+captcha_name+"&ver=" + now;
@@ -51,6 +52,14 @@ define(function(require, exports) {
                     }else{
                         $('.'+captcha_name).parent().removeClass('undis');
                     }
+                }else{
+                    require.async('tiziDialog',function(){
+                        $.tiziDialog({
+                            icon:'error',
+                            content:data.error,
+                            time:3
+                        })
+                    });
                 }
             }
         });
@@ -86,6 +95,7 @@ define(function(require, exports) {
                     if(show_dialog) {
                         require.async('tiziDialog',function(){
                             $.tiziDialog({
+                                icon:'error',
                                 content:data.error,
                                 time:3
                             })
