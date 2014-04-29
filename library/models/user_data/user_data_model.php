@@ -62,6 +62,24 @@ class user_data_model extends LI_Model{
 		return true;
 	}
 
+	/** 获得宠物的状态
+	 * @param $brush_times 刷题次数
+	 * @param $last_success_time 最近刷题成功的时间
+	 * @return mixed
+	 */
+	public function get_pet_status($brush_times, $last_success_time){
+		//没有刷过题
+		if ($brush_times == 0) return Constant::pet_status(1);
+
+		$status_id = 1;
+		if ($last_success_time < strtotime(date('Y-m-d', strtotime('-4 days')))) {
+			$status_id = 3;
+		} elseif ($last_success_time < strtotime(date('Y-m-d', strtotime('-1 days')))) {
+			$status_id = 2;
+		}
+		return Constant::pet_status($status_id);
+	}
+
 	/** 用户经验得到相应的等级
 	 * @param $exp
 	 * @return int
