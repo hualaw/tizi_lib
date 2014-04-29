@@ -13,8 +13,8 @@ class Tizi_Captcha extends MY_Controller {
         $captcha_name = $this->input->get('captcha_name');
         $image_obj = $this->captcha->generateCaptcha($captcha_name);
         $this->output->set_content_type('jpeg');
-        ImageJPEG($image_obj);
-        ImageDestroy($image_obj);
+        ImageJPEG($image_obj['im']);
+        ImageDestroy($image_obj['im']);
         exit;
     }
 
