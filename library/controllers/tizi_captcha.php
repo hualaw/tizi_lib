@@ -10,12 +10,18 @@ class Tizi_Captcha extends MY_Controller {
     
     public function generate()
     {
+        ob_start();
         $captcha_name = $this->input->get('captcha_name');
         $image_obj = $this->captcha->generateCaptcha($captcha_name);
         $this->output->set_content_type('jpeg');
         ImageJPEG($image_obj['im']);
         ImageDestroy($image_obj['im']);
-        exit;
+        $image = ob_get_clean();
+        $image_obj['image']='data:image/jpeg;base64,'.base64_encode($image);
+        unset($image_obj['im']);
+        $image_obj['errorcode']=true;
+        echo json_token($image_obj);
+        exit();
     }
 
     public function validate() 
