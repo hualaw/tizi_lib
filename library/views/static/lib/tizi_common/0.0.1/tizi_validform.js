@@ -52,6 +52,14 @@ define(function(require, exports) {
                     }else{
                         $('.'+captcha_name).parent().removeClass('undis');
                     }
+                }else{
+                    require.async('tiziDialog',function(){
+                        $.tiziDialog({
+                            icon:'error',
+                            content:data.error,
+                            time:3
+                        })
+                    });
                 }
             }
         });
@@ -87,6 +95,7 @@ define(function(require, exports) {
                     if(show_dialog) {
                         require.async('tiziDialog',function(){
                             $.tiziDialog({
+                                icon:'error',
                                 content:data.error,
                                 time:3
                             })
