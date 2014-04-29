@@ -60,24 +60,6 @@ class Tizi_Captcha extends MY_Controller {
     protected function captcha_rule($captcha_name)
     {
         $need_check=true;
-
-        //download paper
-        if($captcha_name=='PaperDownBox'&&$this->redis_model->connect('download'))
-        {
-            $paper_key=date('Y-m-d').'_paper_'.$this->tizi_uid;
-            $download_paper_count=$this->cache->get($paper_key);
-            log_message('error',$download_paper_count);
-            if($download_paper_count < Constant::PAPER_DOWNLOAD_CAPTCHA_LIMIT) $need_check=false;
-        }
-        //download homework
-        if($captcha_name=='HomeworkDownBox'&&$this->redis_model->connect('download'))
-        {
-            $paper_key=date('Y-m-d').'_homework_'.$this->tizi_uid;
-            $download_paper_count=$this->cache->get($paper_key);
-            log_message('error',$download_paper_count);
-            if($download_paper_count < Constant::PAPER_DOWNLOAD_CAPTCHA_LIMIT) $need_check=false;
-        }
-
         return $need_check;
     }
 }
