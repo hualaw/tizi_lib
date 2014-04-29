@@ -9,11 +9,12 @@ define(function(require, exports) {
 		}
 		var ie_ver = exports.ie_version();
 		if(openbox == true || ie_ver==6.0 ||ie_ver==7.0 || ie_ver==8.0){
-			if(fname == '' || fname == undefined) fname = "是否下载？";
-			else fname = "是否下载《" + fname + "》？";
+			if(fname == '' || fname == undefined) fname = "请点击下载";
+			else fname = "请点击下载《" + fname + "》";
 			$.tiziDialog({
 				content: fname,
 				ok:false,
+				cancel:false,
 				icon:null,
 				button:[{
 					name:'点击下载',

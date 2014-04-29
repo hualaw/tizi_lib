@@ -48,9 +48,9 @@ $lang['error_login_not_verify_email']=$lang['error_login_error_username_or_passw
 $lang['error_login_not_verify_phone']=$lang['error_login_error_username_or_password'];
 $lang['error_login_first']="请您首先登录";
 $lang['error_login_is_block']=$lang['error_invalid_user'];
-$lang['login_please'] = $lang['error_login_first'];//'您的登录已超时，是否重新登陆？';
-$lang['sh_login_error'] = $lang['error_login_first'];//'未登陆';
-$lang['error_login']= $lang['error_login_first'];//"请您登陆";
+$lang['login_please'] = $lang['error_login_first'];//'您的登录已超时，是否重新登录？';
+$lang['sh_login_error'] = $lang['error_login_first'];//'未登录';
+$lang['error_login']= $lang['error_login_first'];//"请您登录";
 
 /*zujuan send auth email*/
 $lang['error_send_auth_email']=$lang['default_error'];//"邮件服务不可用，请您稍后再试";

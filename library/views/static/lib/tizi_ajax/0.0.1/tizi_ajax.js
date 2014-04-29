@@ -3,7 +3,7 @@
 		if(data == undefined) return;
 		if(data.login === false){
 			if(typeof seajs == 'object'){
-				// 加载公共登陆框
+				// 加载公共登录框
 				seajs.use('tizi_login_form',function(ex){
 					ex.loginForm(data.html);
 				});
