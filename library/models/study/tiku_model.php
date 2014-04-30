@@ -36,7 +36,7 @@ Class Tiku_model extends LI_Model
 	 */
 	public function searchComrade($search)
 	{
-		$result = $this->db->query("select u.id as user_id,u.name,sd.pet_id,sd.subject_type,sd.location_id from user_id sd
+		$result = $this->db->query("select u.id as user_id,u.name,sd.pet_id,sd.subject_type,sd.location_id from user_data sd
 				left join user u on u.id=sd.user_id where u.name like '".$search."%'")->result_array();
 		return $result;
 	}
