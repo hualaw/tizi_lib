@@ -6,16 +6,31 @@ class Tizi_Captcha extends MY_Controller {
     {
         parent::__construct();
         $this->load->library('captcha');
+        $this->load->model('redis/redis_model');
     }
     
     public function generate()
     {
         $captcha_name = $this->input->get('captcha_name');
+        if(!$captcha_name)
+        {
+            echo json_token(array('errorcode'=>false,'error'=>$this->lang->line('default_error')));
+            exit();
+        }
+
+        $need_check=$this->captcha_rule($captcha_name);
+        ob_start();
         $image_obj = $this->captcha->generateCaptcha($captcha_name);
         $this->output->set_content_type('jpeg');
         ImageJPEG($image_obj['im']);
         ImageDestroy($image_obj['im']);
-        exit;
+        $image = ob_get_clean();
+        $image_obj['image']='data:image/jpeg;base64,'.base64_encode($image);
+        if($need_check) $image_obj['word']='';
+        unset($image_obj['im']);
+        $image_obj['errorcode']=true;
+        echo json_token($image_obj);
+        exit();
     }
 
     public function validate() 
@@ -40,5 +55,11 @@ class Tizi_Captcha extends MY_Controller {
 
         echo json_token($data); 
         exit; 
+    }
+
+    protected function captcha_rule($captcha_name)
+    {
+        $need_check=true;
+        return $need_check;
     }
 }
