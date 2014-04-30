@@ -34,7 +34,7 @@ class qqConnect extends Connect{
             'access_token' => $access_token,
             'openid' => $openid
         );
-        $user_info = $this->qc->get_user_info('', $access_token, $openid);
+        $user_info = $this->qc->get_user_info();
         $user_info['access_token'] = $access_token;
         $user_info['open_id'] = $openid;
         
