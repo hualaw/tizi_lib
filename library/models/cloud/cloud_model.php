@@ -510,8 +510,9 @@ class cloud_model extends MY_Model{
                 $file_path='http://'.$file_path;
             }
         }else{
-            $this->load->library('qiniu');
-            $file_path = $this->qiniu->qiniu_download_link($file_path,$file_info['file_name'].$file_info['file_ext']);
+            // $this->load->library('qiniu');
+            $this->load->helper('qiniu');
+            $file_path = qiniu_download($file_path,$file_info['file_name'].$file_info['file_ext']);
         }
         return $file_path;
     }

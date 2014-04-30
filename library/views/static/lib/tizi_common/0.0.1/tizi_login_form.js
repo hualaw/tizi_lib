@@ -1,6 +1,12 @@
 define(function(require, exports) {
     require('tiziDialog');
     require('tizi_ajax');
+    // 公共登录入口
+    exports.init = function(){
+        exports.loginCheckClick();
+        exports.logoutCheckClick();
+        exports.oauthLogin();
+    };
     exports.loginForm = function(html){
         $.tiziDialog({
             id:'loginFormID',
