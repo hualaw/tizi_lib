@@ -113,22 +113,6 @@ define(function(require, exports) {
             var _url = $(this).attr('dUrl');
             window.open(_url,"TencentLogin","width=600,height=400,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
         });
-        /*
-        $('#oauthLogin a.qq').click(function(){
-            var _url = $(this).attr('dUrl');
-            var _notice = "由于腾讯公司要求登录服务上线后才可以进行审核工作，您暂时还不能通过腾讯QQ进行登录，请您耐心等待或者使用新浪微博进行登录。";
-            $.tiziDialog({
-                id:'oauthQQID',
-                title:'QQ登录提示',
-                content:_notice,
-                okVal:"继续登录",
-                ok:function(){
-                    window.open(_url,"TencentLogin","width=600,height=400,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");       
-                },
-                cancel:true
-            });
-        });
-        */
         $('#oauthLogin a.weibo').click(function(){
             var _url = $(this).attr('dUrl');
             window.open(_url,"WeiboLogin","width=600,height=400,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
