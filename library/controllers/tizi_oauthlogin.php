@@ -42,8 +42,10 @@ class Tizi_Oauthlogin extends Tizi_Login {
             $this->load->model('oauth/oauth_model');
             if($platform == 'qq'){
                 $platform = 1;
+                $nickname = $data["nickname"];
             }elseif($platform == 'weibo'){
                 $platform = 2;
+                $nickname = '';
             }
             $db_data=array(
                 'open_id'=>$data['open_id'],
@@ -59,7 +61,7 @@ class Tizi_Oauthlogin extends Tizi_Login {
                 $oauth_redirect=$this->session->userdata('oauth_redirect');
                 if(empty($user_auth_data['user_id'])){//未绑定用户
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
-    				//redirect(login_url("login/perfect/role"));
+    				$this->session->set_userdata("oauth_nickname", $nickname);
 
                     if(stripos($oauth_redirect,'http://')!==false)
                     {
