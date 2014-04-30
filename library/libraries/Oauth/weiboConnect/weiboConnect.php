@@ -42,10 +42,13 @@ class weiboConnect extends Connect{
             if(isset($user['uid'])){
                 $open_id = $user['uid'];
             }
-            return  array(
-                'access_token'=>$token_val,
-                'open_id'=>$open_id
-            );
+            $user_message = $client_connect->show_user_by_id($open_id);
+            $user_message['nickname'] = $user_message['screen_name'];
+            $user_message['access_token'] = $token_val;
+            $user_message['open_id'] = $open_id;
+
+            return $user_message;
+
         }
     }
 

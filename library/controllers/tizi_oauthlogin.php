@@ -59,7 +59,7 @@ class Tizi_Oauthlogin extends Tizi_Login {
                 $oauth_redirect=$this->session->userdata('oauth_redirect');
                 if(empty($user_auth_data['user_id'])){//未绑定用户
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
-    				//redirect(login_url("login/perfect/role"));
+    				$this->session->set_userdata("oauth_nickname", $data["nickname"]);
 
                     if(stripos($oauth_redirect,'http://')!==false)
                     {
@@ -76,9 +76,15 @@ class Tizi_Oauthlogin extends Tizi_Login {
                     $oauth_redirect=$this->get_redirect($session['user_data']['user_type'],$session['user_data'],'login',$oauth_redirect);
                 }
             }
-            $this->smarty->assign('oauth_redirect',$oauth_redirect);
-            $this->smarty->display('file:[lib]header/tizi_oauth.html');
-
+            if($this->tizi_mobile)
+            {
+                redirect($oauth_redirect);
+            }
+            else
+            {
+                $this->smarty->assign('oauth_redirect',$oauth_redirect);
+                $this->smarty->display('file:[lib]header/tizi_oauth.html');
+            }
         }catch(OauthException $e){
             //exit($e->getMessage());
             show_error($e->getMessage());
