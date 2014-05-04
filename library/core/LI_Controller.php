@@ -71,7 +71,7 @@ class LI_Controller extends CI_Controller{
 		$this->tizi_cert=$this->session->userdata("certification");
 
 		$this->load->library('user_agent');
-		$this->tizi_mobile=(($this->agent->is_mobile()&&$this->_CI->input->cookie(Constant::COOKIE_TZMOBILE) !== '0')
+		$this->tizi_mobile=(($this->agent->is_mobile()&&$this->input->cookie(Constant::COOKIE_TZMOBILE) !== '0')
 			|| $this->input->cookie(Constant::COOKIE_TZMOBILE))?1:0;
 
 		$this->_segment['n']=$this->uri->uri_string();
