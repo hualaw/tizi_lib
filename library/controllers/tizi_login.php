@@ -21,13 +21,13 @@ class Tizi_Login extends MY_Controller {
 		$redirect_url=$this->input->post("redirect_url",true,false,'');
 		if($redirect_type=='homepage')
 		{
-			$redirect_type='login';
 			$redirect_url='';
+			$redirect_type='login';
 		}
 		if(stripos($redirect_type,'http://')!==false)
 		{
-			$redirect_type='login';
 			$redirect_url=$redirect_type;
+			$redirect_type='login';
 		}
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
