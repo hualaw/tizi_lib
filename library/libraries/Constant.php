@@ -171,7 +171,8 @@ Class CI_Constant {
 	public static function pet_path($pet_id) {
 		$arr = array(
 			1 => 'myPet/cat/',
-			2 => 'myPet/cat/'
+			2 => 'myPet/chick/',
+			3 => 'myPet/beaver/'
 		);
 		return isset($arr[$pet_id]) ? $arr[$pet_id] : $arr[1];
 	}
