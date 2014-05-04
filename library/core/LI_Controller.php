@@ -18,6 +18,7 @@ class LI_Controller extends CI_Controller{
 	protected $tizi_redirect='';
 
 	protected $tizi_ajax=false;
+	protected $tizi_mobile=false;
 	protected $tizi_debug=false;
 	protected $need_password=false;
 	protected $user_constant=array();
@@ -68,7 +69,11 @@ class LI_Controller extends CI_Controller{
         $this->tizi_urdomain=$this->session->userdata("register_domain");
 		$this->tizi_avatar=$this->session->userdata("avatar");
 		$this->tizi_cert=$this->session->userdata("certification");
-		
+
+		$this->load->library('user_agent');
+		$this->tizi_mobile=(($this->agent->is_mobile()&&$this->input->cookie(Constant::COOKIE_TZMOBILE) !== '0')
+			|| $this->input->cookie(Constant::COOKIE_TZMOBILE))?1:0;
+
 		$this->_segment['n']=$this->uri->uri_string();
 		$segment=$this->uri->segment_array();
         $this->_segment['an']=isset($segment[1])?$segment[1]:'';
@@ -135,6 +140,7 @@ class LI_Controller extends CI_Controller{
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
         $this->smarty->assign('tzu', Constant::COOKIE_TZUSERNAME);
+        $this->smarty->assign('is_mobile', $this->tizi_mobile);
         
         $this->smarty->assign('static_url', $static_url);
         $this->smarty->assign('static_base_url', $static_base_url);
