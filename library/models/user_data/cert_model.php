@@ -40,6 +40,9 @@ class Cert_Model extends MY_Model {
     function edit_apply_status($_data){
         $data['apply_status'] = $_data['apply_status'];
         $data['verify_time'] = time();
+        $data['reject_msg'] = $_data['reject_msg'];
+        $data['cert_type'] = $_data['cert_type'];
+        $data['cert_num'] = $_data['cert_num'];
         $this->db->trans_start();
         $this->db->where('id',$_data['id']);
         $res = $this->db->update($this->_table, $data); 
@@ -93,5 +96,13 @@ class Cert_Model extends MY_Model {
 
         $query=$this->db->get($_table);   
         return $query->row(0)->num;
+    }
+
+    //按照条件搜索
+    function search($data){
+        $this->db->select("count(*) as num ");
+        $this->db->where($data);
+        $query = $this->db->get($this->_table)->row(0)->num;
+        return $query;
     }
 }
