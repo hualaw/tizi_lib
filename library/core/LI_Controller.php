@@ -18,6 +18,7 @@ class LI_Controller extends CI_Controller{
 	protected $tizi_redirect='';
 
 	protected $tizi_ajax=false;
+	protected $tizi_mobile=false;
 	protected $tizi_debug=false;
 	protected $need_password=false;
 	protected $user_constant=array();
@@ -68,7 +69,11 @@ class LI_Controller extends CI_Controller{
         $this->tizi_urdomain=$this->session->userdata("register_domain");
 		$this->tizi_avatar=$this->session->userdata("avatar");
 		$this->tizi_cert=$this->session->userdata("certification");
-		
+
+		$this->load->library('user_agent');
+		$this->tizi_mobile=(($this->agent->is_mobile()&&$this->input->cookie(Constant::COOKIE_TZMOBILE) !== '0')
+			|| $this->input->cookie(Constant::COOKIE_TZMOBILE))?1:0;
+
 		$this->_segment['n']=$this->uri->uri_string();
 		$segment=$this->uri->segment_array();
         $this->_segment['an']=isset($segment[1])?$segment[1]:'';
@@ -135,6 +140,7 @@ class LI_Controller extends CI_Controller{
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
         $this->smarty->assign('tzu', Constant::COOKIE_TZUSERNAME);
+        $this->smarty->assign('is_mobile', $this->tizi_mobile);
         
         $this->smarty->assign('static_url', $static_url);
         $this->smarty->assign('static_base_url', $static_base_url);
@@ -284,28 +290,31 @@ class LI_Controller extends CI_Controller{
 		}
 		
 		//post 检测token
-		if($this->_page_name&&$this->_check_token)
-	    {
-			$check_token=$this->page_token->check_csrf_token($this->_page_name,$token);
-			if(!$check_token)
-			{
-				if($this->tizi_ajax)
+		if($this->_check_token)
+		{
+			if($this->_page_name)
+		    {
+				$check_token=$this->page_token->check_csrf_token($this->_page_name,$token);
+				if(!$check_token)
 				{
-					log_message('trace_tizi','Token check failed',array('user_id'=>$this->tizi_uid,'page_name'=>$this->_page_name));
-					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_token'),'token'=>false,'code'=>1));
-					exit();
-				}
-				else
-				{
-					$_POST=array();
-					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+					if($this->tizi_ajax)
+					{
+						log_message('trace_tizi','Token check failed',array('user_id'=>$this->tizi_uid,'page_name'=>$this->_page_name));
+						echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_token'),'token'=>false,'code'=>1));
+						exit();
+					}
+					else
+					{
+						$_POST=array();
+						if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+					}
 				}
 			}
-		}
-		else
-		{
-			$_POST=array();
-			if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+			else
+			{
+				$_POST=array();
+				if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+			}
 		}
 
 		//检测未登录

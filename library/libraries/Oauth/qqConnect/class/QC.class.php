@@ -11,6 +11,7 @@ require_once(CLASS_PATH."QOauth.class.php");
  * */
 class QC extends QOauth{
     private $kesArr, $APIMap;
+    public $keysArr;
 
     /**
      * _construct
@@ -230,6 +231,9 @@ class QC extends QOauth{
      * @return array          返加调用结果数组
      */
     public function __call($name,$arg){
+
+        $this->keysArr['oauth_consumer_key'] = (int)$this->recorder->readInc("appid");
+
         //如果APIMap不存在相应的api
         if(empty($this->APIMap[$name])){
             $this->error->showError("api调用名称错误","不存在的API: <span style='color:red;'>$name</span>");
