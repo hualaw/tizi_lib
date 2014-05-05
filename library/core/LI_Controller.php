@@ -290,28 +290,31 @@ class LI_Controller extends CI_Controller{
 		}
 		
 		//post 检测token
-		if($this->_page_name&&$this->_check_token)
-	    {
-			$check_token=$this->page_token->check_csrf_token($this->_page_name,$token);
-			if(!$check_token)
-			{
-				if($this->tizi_ajax)
+		if($this->_check_token)
+		{
+			if($this->_page_name)
+		    {
+				$check_token=$this->page_token->check_csrf_token($this->_page_name,$token);
+				if(!$check_token)
 				{
-					log_message('trace_tizi','Token check failed',array('user_id'=>$this->tizi_uid,'page_name'=>$this->_page_name));
-					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_token'),'token'=>false,'code'=>1));
-					exit();
-				}
-				else
-				{
-					$_POST=array();
-					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+					if($this->tizi_ajax)
+					{
+						log_message('trace_tizi','Token check failed',array('user_id'=>$this->tizi_uid,'page_name'=>$this->_page_name));
+						echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_token'),'token'=>false,'code'=>1));
+						exit();
+					}
+					else
+					{
+						$_POST=array();
+						if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+					}
 				}
 			}
-		}
-		else
-		{
-			$_POST=array();
-			if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+			else
+			{
+				$_POST=array();
+				if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+			}
 		}
 
 		//检测未登录

@@ -10,7 +10,7 @@
 		baseUnID = '{$tzu}',
 		basePageName = '{$page_name}',
 		basePageToken = '{$page_token}',
-		baseIsMobile = {$is_mobile},
+		baseIsMobile = {if isset($is_mobile)}{$is_mobile}{else}0{/if},
 		staticPath =  staticUrlName + staticVersion,
 		libPath = 'lib/',
 		aliasContent = {
