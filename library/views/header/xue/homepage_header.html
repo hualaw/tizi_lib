@@ -3,8 +3,12 @@
 <!-- 首页头部结构开始 -->
 <div class="header cf">
 	<div class="headleft fl">
-		分享给小伙伴<br>
-        <img src="{$static_url}debug/images/homePage/share.png" alt="">
+		分享给小伙伴<br>      
+		<div class="bdsharebuttonbox">
+			<a href="#" class="bds_tsina" data-cmd="tsina"></a>
+			<a href="#" class="bds_qzone" data-cmd="qzone"></a>
+			<a href="#" class="popup_sqq" data-cmd="sqq"></a>
+		</div>
 	</div>
 	<div class="headright fr">
         {if !isset($user_id) || !$user_id}
