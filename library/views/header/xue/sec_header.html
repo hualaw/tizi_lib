@@ -14,12 +14,12 @@
 			<li class="myPet fl"><a href="{$site_url}pet/my">我的宠物</a></li>
 		</ul>
 		<div class="loginAfter fr">
-			<a href="" class="fl warn">提醒<span class="warnBox"><var>3</var></span></a>
+			<a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" class="fl warn">提醒<span class="warnBox"><var>3</var></span></a>
 			<div class="fr posr">
-				<em>用户名</em>
+				<em>您好，{$username}</em>
 				<ul class="infor cf">
 					<li><a href="">我的账号</a></li>
-					<li><a href="">退出</a></li>
+					<li><a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{$site_url}">退出</a></li>
 				</ul>
 			</div>
 		</div>

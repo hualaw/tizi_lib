@@ -95,7 +95,7 @@ class Student_Data_Model extends LI_Model {
     function check_grade($grade_id)
     {
         $check_grade = false;
-        if($grade_id>0 && $grade_id <= 12) $check_grade=true;
+        if($grade_id>0 && $grade_id <= 14) $check_grade=true;
         return $check_grade;
     }
 

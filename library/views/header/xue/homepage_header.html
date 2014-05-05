@@ -10,7 +10,7 @@
         {if !isset($user_id) || !$user_id}
 		<!--登录前 头部右侧导航 开始-->
 		<div class="loginBefore cf undis">
-			<a href="" class="fr loginCheck">登录</a>
+			<a href="" class="fr loginCheck" dest="reload">登录</a>
 			<span class="fr">|</span>
 			<a href="" class="fr">注册</a>
 		</div>
@@ -20,10 +20,10 @@
 		<div class="loginAfter cf undis">
 			<a href="" class="fl warn">提醒<span class="warnBox"><var>3</var></span></a>
 			<div class="fr posr">
-                <em title="{$username}">{$username}</em>
+                <em title="{$username}">您好，{$username}</em>
 				<ul class="infor cf">
 					<li><a href="">我的账号</a></li>
-					<li><a href="">退出</a></li>
+					<li><a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{$site_url}">退出</a></li>
 				</ul>
 			</div>
 		</div>

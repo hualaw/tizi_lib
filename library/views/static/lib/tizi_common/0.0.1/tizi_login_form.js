@@ -1,6 +1,12 @@
 define(function(require, exports) {
     require('tiziDialog');
     require('tizi_ajax');
+    // 公共登录入口
+    exports.init = function(){
+        exports.loginCheckClick();
+        exports.logoutCheckClick();
+        exports.oauthLogin();
+    };
     exports.loginForm = function(html){
         $.tiziDialog({
             id:'loginFormID',
@@ -111,11 +117,19 @@ define(function(require, exports) {
     exports.oauthLogin = function(){
         $('#oauthLogin a.qq').click(function(){
             var _url = $(this).attr('dUrl');
-            window.open(_url,"TencentLogin","width=600,height=400,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
+            if(baseIsMobile){
+                window.location.href=_url;
+            }else{
+                window.open(_url,"TencentLogin","width=600,height=400,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
+            }
         });
         $('#oauthLogin a.weibo').click(function(){
             var _url = $(this).attr('dUrl');
-            window.open(_url,"WeiboLogin","width=600,height=400,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
-        })
+            if(baseIsMobile){
+                window.location.href=_url;
+            }else{
+                window.open(_url,"WeiboLogin","width=600,height=400,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
+            }
+        });
     }
 });
