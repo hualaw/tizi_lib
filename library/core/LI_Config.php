@@ -90,7 +90,7 @@ class LI_Config extends CI_Config {
 
 	function site_url($uri = '', $url_prefix = 'base')
 	{
-		if (!$this->slash_item($url_prefix.'_url')&&!$this->config[$url_prefix.'_url'])
+		if (!$this->slash_item($url_prefix.'_url')&&!empty($this->config[$url_prefix.'_url']))
 		{
 			$this->set_item($url_prefix.'_url', $this->slash_item('base_url'));
 		}
