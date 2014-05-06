@@ -2,7 +2,7 @@
 
 class Tizi_Register extends MY_Controller {
 
-	private $_smarty_dir="login/";
+	protected $_smarty_dir="login/";
 
     function __construct()
     {
