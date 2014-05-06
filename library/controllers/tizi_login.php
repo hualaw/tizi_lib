@@ -3,7 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Tizi_Login extends MY_Controller {
 	
-	private $_smarty_dir="login/";
+	protected $_smarty_dir="login/";
 
     function __construct()
     {
