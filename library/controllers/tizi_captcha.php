@@ -33,6 +33,17 @@ class Tizi_Captcha extends MY_Controller {
         exit();
     }
 
+    public function generate_img()
+    {
+        $captcha_name = $this->input->get('captcha_name');
+        $image_obj = $this->captcha->generateCaptcha($captcha_name);
+        $this->output->set_content_type('jpeg');
+        ImageJPEG($image_obj['im']);
+        ImageDestroy($image_obj['im']);
+        unset($image_obj['im']);
+        exit();
+    }
+
     public function validate() 
     {
         $input_captcha = $this->input->get('check_code');

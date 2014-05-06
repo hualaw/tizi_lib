@@ -1,8 +1,7 @@
-<?php
-if(!defined('BASEPATH'))exit('No direct script access allowed');
-require_once "tizi_login.php";
+<?php  if(!defined('BASEPATH'))exit('No direct script access allowed');
+require_once("tizi_controller.php");
 
-class Tizi_Oauthlogin extends Tizi_Login {
+class Tizi_Oauthlogin extends Tizi_Controller {
 
     function __construct()
     {
@@ -66,7 +65,7 @@ class Tizi_Oauthlogin extends Tizi_Login {
                         $this->session->set_userdata('perfect_redirect',$oauth_redirect);
                     }
 
-                    $oauth_redirect=login_url("login/perfect/role?platform={$platform}");
+                    $oauth_redirect=login_url("oauth/firstlogin?platform={$platform}");
                 }else{//绑定用户
     				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
                     $this->session_model->generate_cookie($db_data['open_id'],$user_auth_data["user_id"]);
