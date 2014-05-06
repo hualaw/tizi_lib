@@ -145,6 +145,10 @@ Class Tiku_model extends LI_Model
 	public function getUserInfo($user_id)
 	{
 		$person = array();
+		//用户id和昵称
+		$info = $this->db->query("select id ,name from user where id = ".$user_id)->row_array();
+		$person['user_id'] = $info['id'];
+		$person['nick_name'] = $info['name'];
 		//用户当前拥有的经验、宠物id
 		$tmp = $this->db->query('select exp as experience,pet_id from  user_data where user_id = '.$user_id)->row_array();
 		$person['experience'] = round($tmp['experience']);
