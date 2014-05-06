@@ -34,6 +34,12 @@ class Parent_Data_Model extends LI_Model {
         return $this->update_parent_data($user_id,$birthday,'birthday');
     }
 
+    public function update_parent_phone($user_id,$phone)
+    {
+        if(!$phone) return false;
+        return $this->update_parent_data($user_id,$phone,'phone');
+    }
+
     private function update_parent_data($user_id,$data_value,$data_name)
     {
         if(empty($data_name)) return false;
