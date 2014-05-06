@@ -1,8 +1,7 @@
-<?php
-if(!defined('BASEPATH'))exit('No direct script access allowed');
-require_once "tizi_login.php";
+<?php  if(!defined('BASEPATH'))exit('No direct script access allowed');
+require_once("tizi_controller.php");
 
-class Tizi_Oauthlogin extends Tizi_Login {
+class Tizi_Oauthlogin extends Tizi_Controller {
 
     function __construct()
     {
