@@ -198,6 +198,10 @@ class Tizi_Register extends MY_Controller {
 		{
 			$submit['error']=$this->lang->line('error_invalid_password');
 		}
+		else if($password!=$password1)
+		{
+			$submit['error']=$this->lang->line('error_invalid_confirm_password');
+		}
 		else
 		{
 			$register=$this->register_by_email($email,$password,$rname,$user_type);

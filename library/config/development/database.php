@@ -82,37 +82,21 @@ $db['jxt']['autoinit'] = TRUE;
 $db['jxt']['stricton'] = FALSE;
 
 //读写分裂
-$db['dbr']['hostname'] = '192.168.11.12';
-$db['dbr']['username'] = 'tizi';
-$db['dbr']['password'] = 'tizi';
-$db['dbr']['database'] = 'survey';
-$db['dbr']['dbdriver'] = 'mysql';
-$db['dbr']['dbprefix'] = '';
-$db['dbr']['pconnect'] = TRUE;
-$db['dbr']['db_debug'] = TRUE;
-$db['dbr']['cache_on'] = FALSE;
-$db['dbr']['cachedir'] = '';
-$db['dbr']['char_set'] = 'utf8';
-$db['dbr']['dbcollat'] = 'utf8_general_ci';
-$db['dbr']['swap_pre'] = '';
-$db['dbr']['autoinit'] = TRUE;
-$db['dbr']['stricton'] = FALSE;
-
-$db['dbw']['hostname'] = '192.168.11.12';
-$db['dbw']['username'] = 'tizi';
-$db['dbw']['password'] = 'tizi';
-$db['dbw']['database'] = 'survey';
-$db['dbw']['dbdriver'] = 'mysql';
-$db['dbw']['dbprefix'] = '';
-$db['dbw']['pconnect'] = TRUE;
-$db['dbw']['db_debug'] = TRUE;
-$db['dbw']['cache_on'] = FALSE;
-$db['dbw']['cachedir'] = '';
-$db['dbw']['char_set'] = 'utf8';
-$db['dbw']['dbcollat'] = 'utf8_general_ci';
-$db['dbw']['swap_pre'] = '';
-$db['dbw']['autoinit'] = TRUE;
-$db['dbw']['stricton'] = FALSE;
+$db['survey']['hostname'] = '192.168.11.12';
+$db['survey']['username'] = 'tizi';
+$db['survey']['password'] = 'tizi';
+$db['survey']['database'] = 'survey';
+$db['survey']['dbdriver'] = 'mysql';
+$db['survey']['dbprefix'] = '';
+$db['survey']['pconnect'] = TRUE;
+$db['survey']['db_debug'] = TRUE;
+$db['survey']['cache_on'] = FALSE;
+$db['survey']['cachedir'] = '';
+$db['survey']['char_set'] = 'utf8';
+$db['survey']['dbcollat'] = 'utf8_general_ci';
+$db['survey']['swap_pre'] = '';
+$db['survey']['autoinit'] = TRUE;
+$db['survey']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
