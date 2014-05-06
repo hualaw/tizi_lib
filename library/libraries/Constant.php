@@ -222,22 +222,25 @@ Class CI_Constant {
 			1 => "公立小学",
 			2 => "公立中学",
 			3 => "公立九年一贯制",
-			4 => "民办小学",
-			5 => "民办中学",
-			6 => "民办九年一贯制",
-			7 => "培训学校"
+			8 => "公立十二年一贯制",
+			4 => "私立小学",
+			5 => "私立中学",
+			6 => "私立九年一贯制",
+			9 => "私立十二年一贯制",
+			7 => "培训机构"
 		);
 		return $define;
 	}
-	
-	public function sctype(){
-		$define = array(
-			array("id"=>1,"name"=>"小学"),
-			array("id"=>2,"name"=>"中学"),
-			array("id"=>3,"name"=>"九年一贯制")
+
+	public static function relation(){
+		$relation = array(
+			1 => '爸爸',
+			2 => '妈妈',
+			3 => '其他'
 		);
-		return $define;
+		return $relation;
 	}
+
 }
 /* End of file Constant.php */
 /* Location: ./application/libraries/Constant.php */
