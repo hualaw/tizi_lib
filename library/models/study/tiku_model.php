@@ -144,9 +144,15 @@ Class Tiku_model extends LI_Model
 	 * user_id 为空,查看自己的主页
 	 * user_id 不为空,查看别人的主页
 	 */
-	public function getUserInfo($user_id)
+	public function getUserInfo($user_id,$user)
 	{
 		$person = array();
+		//自己去查看别人的主页，看自己和别人是否是好友
+		if ($user_id !=$user)
+		{
+		    $record= $this->db->query("select id from study_user_relation where userId = ".$user." and friendId=".$user_id)->num_rows();
+		    $person['is_follow'] = $record > 0 ? 1 : 0;
+		}
 		//用户id和昵称
 		$info = $this->db->query("select id ,name from user where id = ".$user_id)->row_array();
 		$person['user_id'] = $info['id'];
