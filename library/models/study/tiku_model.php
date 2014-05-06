@@ -36,7 +36,7 @@ Class Tiku_model extends LI_Model
 	 */
 	public function searchComrade($search)
 	{
-		$result = $this->db->query("select u.id as user_id,u.name,sd.pet_id,sd.subject_type,sd.location_id from user_data sd
+		$result = $this->db->query("select u.id as user_id,u.name as nick_name,sd.pet_id,sd.subject_type,sd.location_id from user_data sd
 				left join user u on u.id=sd.user_id where u.name like '".$search."%'")->result_array();
 		return $result;
 	}
@@ -86,7 +86,7 @@ Class Tiku_model extends LI_Model
 	 */
 	public function weekRanking($user_id,$rows,$offset){
 		$result = $this->db->query("select sd.user_id,sd.pet_id,sd.subject_type,
-				sd.location_id,suws.exp as experience,u.name from user_data sd
+				sd.location_id,suws.exp as experience,u.name as nick_name from user_data sd
 				left join user u on sd.user_id = u.id
 				left join study_user_week_stat suws on sd.user_id = suws.userId
 				where sd.user_id = ".$user_id." order by suws.exp desc
@@ -99,7 +99,7 @@ Class Tiku_model extends LI_Model
 	 */
 	public function totleRanking($user_id,$rows,$offset){
 		$result = $this->db->query("select sd.user_id,sd.pet_id,sd.subject_type,sd.location_id,
-				sd.exp as experience,u.name from user_data sd
+				sd.exp as experience,u.name as nick_name from user_data sd
 				left join user u on sd.user_id = u.id
 				where sd.user_id = ".$user_id." order by sd.exp desc
 				limit ".$rows.','.$offset)->row_array();
@@ -111,7 +111,7 @@ Class Tiku_model extends LI_Model
 	 */
 	public function getTopstudentList($userInfo,$rows,$offset)
 	{
-		$result = $this->db->query("select sd.user_id,u.name,sd.pet_id,sd.exp as experience 
+		$result = $this->db->query("select sd.user_id,u.name as nick_name,sd.pet_id,sd.exp as experience 
 				from user_data sd left join user u on sd.user_id = u.id 
 				order by sd.exp desc limit ".$rows.','.$offset)->result_array();
 		return $result;
@@ -126,7 +126,9 @@ Class Tiku_model extends LI_Model
 
 		foreach ($result as $k=>$v)
 		{
-			$nums = $this->db->query("select id from study_user_relation where userId = ".$userInfo['user_id']." and friendId = ".$v['user_id'])->num_rows();
+			$nums = $this->db->query("
+			        select id from study_user_relation 
+			        where userId = ".$userInfo['user_id']." and friendId = ".$v['user_id'])->num_rows();
 			if ($nums > 0)
 			{
 				$result[$k]['is_follow'] = 1;
@@ -142,9 +144,15 @@ Class Tiku_model extends LI_Model
 	 * user_id 为空,查看自己的主页
 	 * user_id 不为空,查看别人的主页
 	 */
-	public function getUserInfo($user_id)
+	public function getUserInfo($user_id,$user)
 	{
 		$person = array();
+		//自己去查看别人的主页，看自己和别人是否是好友
+		if ($user_id !=$user)
+		{
+		    $record= $this->db->query("select id from study_user_relation where userId = ".$user." and friendId=".$user_id)->num_rows();
+		    $person['is_follow'] = $record > 0 ? 1 : 0;
+		}
 		//用户id和昵称
 		$info = $this->db->query("select id ,name from user where id = ".$user_id)->row_array();
 		$person['user_id'] = $info['id'];
