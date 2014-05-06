@@ -3,8 +3,12 @@
 <!-- 首页头部结构开始 -->
 <div class="header cf">
 	<div class="headleft fl">
-		分享给小伙伴<br>
-        <img src="{$static_url}debug/images/homePage/share.png" alt="">
+		分享给小伙伴<br>      
+		<div class="bdsharebuttonbox">
+			<a href="#" class="bds_tsina" data-cmd="tsina"></a>
+			<a href="#" class="bds_qzone" data-cmd="qzone"></a>
+			<a href="#" class="popup_sqq" data-cmd="sqq"></a>
+		</div>
 	</div>
 	<div class="headright fr">
         {if !isset($user_id) || !$user_id}
@@ -20,7 +24,7 @@
 		<div class="loginAfter cf undis">
 			<a href="" class="fl warn">提醒<span class="warnBox"><var>3</var></span></a>
 			<div class="fr posr">
-                <em>您好，{$username}</em>
+                <em>{$username}</em>
 				<ul class="infor cf">
 					<li><a href="">我的账号</a></li>
 					<li><a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{$site_url}">退出</a></li>
@@ -31,7 +35,7 @@
         {/if}
 	</div>
 	<h1 class="indexLogo">
-		<a href="" class="logo"></a>
+		<a href="{$site_url}" class="logo"></a>
 	</h1>
 </div>
 <!-- 首页头部结构结束 -->
