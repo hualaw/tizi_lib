@@ -120,6 +120,7 @@ class LI_Controller extends CI_Controller{
         $zl_url=zl_url();
         $jia_url=jia_url();
         $xue_url=xue_url();
+        $survey_url=survey_url();
         $static_url=static_url($this->site);
         $static_base_url=static_url('base');
 
@@ -136,6 +137,7 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('zl_url', $zl_url);
         $this->smarty->assign('jia_url', $jia_url);
         $this->smarty->assign('xue_url', $xue_url);
+        $this->smarty->assign('survey_url', $survey_url);
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
