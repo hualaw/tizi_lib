@@ -122,7 +122,7 @@ class user_data_model extends LI_Model{
 		return ($level - 1) * ($level - 1) + 4 * ($level - 1);
 	}
 
-	/** 根据用户当前的经验等级 算出前台等级进度条的width
+	/** 根据用户当前的经验等级 算出前台等级进度条width百分比
 	 * @param $level
 	 * @param $exp
 	 * @param $width
@@ -133,7 +133,7 @@ class user_data_model extends LI_Model{
 		$level_exp_low = ($level == 1) ? 0 : ($this->level_to_exp($level));
 		$level_exp_up = $this->level_to_exp($level + 1);
 
-		return intval((($exp - $level_exp_low) / ($level_exp_up - $level_exp_low)) * 100) . '%' ;
+		return round((($exp - $level_exp_low) / ($level_exp_up - $level_exp_low)) * 100, 2) . '%' ;
 	}
 
 	/** 更新用户使用过的应用的值

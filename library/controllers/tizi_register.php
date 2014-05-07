@@ -1,8 +1,9 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+require_once("tizi_controller.php");
 
-class Tizi_Register extends MY_Controller {
+class Tizi_Register extends Tizi_Controller {
 
-	private $_smarty_dir="login/";
+	protected $_smarty_dir="login/";
 
     function __construct()
     {
@@ -197,6 +198,10 @@ class Tizi_Register extends MY_Controller {
 		else if(empty($password))
 		{
 			$submit['error']=$this->lang->line('error_invalid_password');
+		}
+		else if($password!=$password1)
+		{
+			$submit['error']=$this->lang->line('error_invalid_confirm_password');
 		}
 		else
 		{
