@@ -45,16 +45,22 @@ class Captcha {
     public function generateCaptcha($page_name)
     {
         if(!$page_name) return false;
+
+        $this->config['word'] = $this->generate_word($page_name);
+        $captcha_arr  = create_captcha($this->config);
+
+        return $captcha_arr;
+    }
+
+    public function generate_word($page_name)
+    {
+        if(!$page_name) return false;
         $captcha_token = $this->_ci->session->userdata('captcha_token');
         if($captcha_token) $captcha_token=json_decode($captcha_token,true);
         else $captcha_token=array($page_name=>'');
         $captcha_token[$page_name]=$this->word;
         $this->_ci->session->set_userdata('captcha_token', json_encode($captcha_token));
-
-        $this->config['word'] = $this->word;
-        $captcha_arr  = create_captcha($this->config);
-
-        return $captcha_arr;
+        return $this->word;
     }
 
     private function setWord($count=4){

@@ -37,37 +37,35 @@ define(function(require, exports) {
         if(captcha_name == undefined) return false;
         var img = $('.'+captcha_name).siblings("img");
         var now = (new Date).valueOf();
+        var type = 'base64';
         if($.browser.msie && $.browser.version == '6.0'){
-            var url =  baseUrlName + "captcha_img?captcha_name="+captcha_name+"&ver=" + now;
-            img.attr('src',url);
-            $('.'+captcha_name).parent().removeClass('undis');
-        }else{
-            $.tizi_ajax({
-                url:baseUrlName + "captcha",
-                type:'get',
-                dataType:"json",
-                data:{'captcha_name':captcha_name,ver:(new Date).valueOf()},
-                success:function (data) {
-                    if(data.errorcode){
-                        img.attr('src',data.image);
-                        if(data.word) {
-                            $('.'+captcha_name).parent().addClass('undis');
-                            $('.'+captcha_name+'Word').val(data.word);
-                        }else{
-                            $('.'+captcha_name).parent().removeClass('undis');
-                        }
-                    }else{
-                        require.async('tiziDialog',function(){
-                            $.tiziDialog({
-                                icon:'error',
-                                content:data.error,
-                                time:3
-                            })
-                        });
-                    }
-                }
-            });
+            type = 'normal';
         }
+        $.tizi_ajax({
+            url:baseUrlName + "captcha",
+            type:'get',
+            dataType:"json",
+            data:{'captcha_name':captcha_name,'captcha_type':type,ver:(new Date).valueOf()},
+            success:function (data) {
+                if(data.errorcode){
+                    img.attr('src',data.image);
+                    if(data.word) {
+                        $('.'+captcha_name).parent().addClass('undis');
+                        $('.'+captcha_name+'Word').val(data.word);
+                    }else{
+                        $('.'+captcha_name).parent().removeClass('undis');
+                    }
+                }else{
+                    require.async('tiziDialog',function(){
+                        $.tiziDialog({
+                            icon:'error',
+                            content:data.error,
+                            time:3
+                        })
+                    });
+                }
+            }
+        });
     };
     //更换验证码
     exports.bindChangeVerify = function(captcha_name){
