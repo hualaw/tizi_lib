@@ -16,7 +16,7 @@
 		<div class="loginAfter fr">
 			<a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" class="fl warn">提醒<span class="warnBox"></span></a>
 			<div class="fr posr">
-				<em>{$username}</em>
+				<em>{$username|truncate:15}</em>
 				<ul class="infor cf">
 					<li><a href="">我的账号</a></li>
 					<li><a href="javascript:void(0);" class="changeGrade">更改年级</a></li>
