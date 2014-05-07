@@ -232,6 +232,15 @@ Class CI_Constant {
 		return $define;
 	}
 
+	public static function relation(){
+		$relation = array(
+			1 => '爸爸',
+			2 => '妈妈',
+			3 => '其他'
+		);
+		return $relation;
+	}
+
 }
 /* End of file Constant.php */
 /* Location: ./application/libraries/Constant.php */

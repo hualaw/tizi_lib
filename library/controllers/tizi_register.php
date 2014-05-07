@@ -1,6 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+require_once("tizi_controller.php");
 
-class Tizi_Register extends MY_Controller {
+class Tizi_Register extends Tizi_Controller {
 
 	protected $_smarty_dir="login/";
 
