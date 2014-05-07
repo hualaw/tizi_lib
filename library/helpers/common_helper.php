@@ -92,7 +92,7 @@ if (!function_exists('strap')) {
 }
 
 if (!function_exists('sub_str')) {
-    function sub_str($str,$start=0,$length=18,$left="...",$charset="utf-8")
+    function sub_str($str,$start=0,$length=12,$left="...",$charset="utf-8")
     {
         if($charset=="utf-8"){
             $index=0; 
