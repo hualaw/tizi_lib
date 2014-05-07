@@ -1,7 +1,7 @@
 <p class="info fr">
     {if $user_type}
     <span>
-        您好，<em class="MyURName">{sub_str($user_name)}</em>！
+        您好，<em class="MyURName">{sub_str($user_name,0,12)}</em>！
     </span>
     {if !isset($hide_logout) || !$hide_logout}
     <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
