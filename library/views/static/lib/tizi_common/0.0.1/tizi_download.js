@@ -15,6 +15,7 @@ define(function(require, exports) {
 				content: fname,
 				ok:false,
 				cancel:false,
+				dblclick:false,
 				icon:null,
 				button:[{
 					name:'点击下载',
