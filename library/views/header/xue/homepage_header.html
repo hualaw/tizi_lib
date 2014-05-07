@@ -24,7 +24,7 @@
 		<div class="loginAfter cf undis">
 			<a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" class="fl warn">提醒<span class="warnBox"></span></a>
 			<div class="fr posr">
-                <em>{$username}</em>
+                <em>{sub_str($username,0,12)}</em>
 				<ul class="infor cf">
 					<li><a href="{$login_url}{$constant.user_type[$user_type]}/user/center">我的账号</a></li>
 					<li><a href="javascript:void(0);" class="changeGrade">更改年级</a></li>
