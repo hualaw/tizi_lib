@@ -46,7 +46,7 @@ Class Tiku_model extends LI_Model
 	/*
 	 * 战友排行
 	 */
-	public function rankComrade($userInfo,$type,$rows,$offset)
+	public function rankComrade($userInfo,$type)
 	{
 
 		$return = array();	
@@ -58,18 +58,18 @@ Class Tiku_model extends LI_Model
 			{
 				if ($type == 1)
 				{
-					$return[] = $this->weekRanking($v['friendId'], $rows, $offset);
+					$return[] = $this->weekRanking($v['friendId']);
 				} else if ($type == 2) {
-					$return[]  = $this->totleRanking($v['friendId'], $rows, $offset);
+					$return[]  = $this->totleRanking($v['friendId']);
 				}
 			}
 		}
 		
 		//排行要添加自己
 		if ($type == 1) {
-			$return[] = $this->weekRanking($userInfo['user_id'], $rows, $offset);
+			$return[] = $this->weekRanking($userInfo['user_id']);
 		} else if ($type == 2) {
-			$return[]  = $this->totleRanking($userInfo['user_id'], $rows, $offset);
+			$return[]  = $this->totleRanking($userInfo['user_id']);
 		}
 		
 		foreach ($return as $key=>$val)
@@ -84,25 +84,23 @@ Class Tiku_model extends LI_Model
 	/*
 	 * 用户的周排行
 	 */
-	public function weekRanking($user_id,$rows,$offset){
+	public function weekRanking($user_id){
 		$result = $this->db->query("select sd.user_id,sd.pet_id,sd.subject_type,
 				sd.location_id,suws.exp as experience,u.name as nick_name from user_data sd
 				left join user u on sd.user_id = u.id
 				left join study_user_week_stat suws on sd.user_id = suws.userId
-				where sd.user_id = ".$user_id." order by suws.exp desc
-				limit ".$rows.','.$offset)->row_array();
+				where sd.user_id = ".$user_id)->row_array();
 		return $result;
 	}
 	
 	/*
 	 * 用户的总排行
 	 */
-	public function totleRanking($user_id,$rows,$offset){
+	public function totleRanking($user_id){
 		$result = $this->db->query("select sd.user_id,sd.pet_id,sd.subject_type,sd.location_id,
 				sd.exp as experience,u.name as nick_name from user_data sd
 				left join user u on sd.user_id = u.id
-				where sd.user_id = ".$user_id." order by sd.exp desc
-				limit ".$rows.','.$offset)->row_array();
+				where sd.user_id = ".$user_id)->row_array();
 		return $result;
 	}
 	
@@ -113,7 +111,7 @@ Class Tiku_model extends LI_Model
 	{
 		$result = $this->db->query("select sd.user_id,u.name as nick_name,sd.pet_id,sd.exp as experience 
 				from user_data sd left join user u on sd.user_id = u.id 
-				order by sd.exp desc limit ".$rows.','.$offset)->result_array();
+				order by sd.exp desc limit ".$offset.','.$rows)->result_array();
 		return $result;
 	}
 	
