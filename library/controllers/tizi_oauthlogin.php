@@ -47,7 +47,7 @@ class Tizi_Oauthlogin extends Tizi_Controller {
             $db_data=array(
                 'open_id'=>$data['open_id'],
                 'platform'=>$platform,
-                'access_token'=>$data['access_token'],
+                'access_token'=>$data['access_token']
             );
 
             $oauth_redirect='';
