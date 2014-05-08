@@ -106,6 +106,7 @@ define(function(require, exports) {
                     };
                     $(".commonCaptcha .Validform_checktip").text(data.error).attr('class','Validform_checktip Validform_wrong');
                     if($('.'+captcha_name).parent().hasClass('undis')){
+                        $('.'+captcha_name+'Word').val('');
                         exports.changeCaptcha(captcha_name);
                     }
                     check = false;
