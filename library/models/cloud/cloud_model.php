@@ -7,6 +7,7 @@ class cloud_model extends MY_Model{
     private $_love_table = 'cloud_love_log';
     private $_down_table = 'cloud_download_log';
     private $_redis=false;
+    private $_old_cloud_dir_where = 'cat_id=null ';
     function __construct(){
         parent::__construct();
         $this->load->model("redis/redis_model");
@@ -182,13 +183,12 @@ class cloud_model extends MY_Model{
 
     //获取某人名下的某个文件夹下的所有文件和文件夹
     function get_dir_child_by_p_id($user_id,$dir_id=0,$page_num=1,$file_offset=0,$total=false){
-
         if($total){
-            
             $this->db->select("COUNT(`id`) AS filenum");
-            $files_total = $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0))->row()->filenum;
+            $files_total = $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0,'dir_cat_id'=>null))->row()->filenum;
+            // echo $this->db->last_query();
             $this->db->select("COUNT(`dir_id`) AS dirnum");
-            $dir_total = $this->db->get_where($this->_dir_table,array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0))->row()->dirnum;
+            $dir_total = $this->db->get_where($this->_dir_table,array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0,'cat_id'=>null))->row()->dirnum;
             $all_total = $dir_total+$files_total;
             if($files_total>0){
                 return array('all_total'=>$all_total,'total_page'=>$all_total,'dir_total'=>$dir_total,'file_total'=>$files_total);
@@ -199,7 +199,7 @@ class cloud_model extends MY_Model{
             $limit=Constant::CLOUD_FILE_PER_PAGE_NUM;
             if($page_num<=0) $page_num=1;
             $offset=($page_num-1)*$limit;
-            $this->db->where(array('user_id'=>$user_id,'is_del'=>0,'p_id'=>$dir_id));
+            $this->db->where(array('user_id'=>$user_id,'is_del'=>0,'p_id'=>$dir_id,'cat_id'=>null));
             $this->db->limit($limit,$offset);
             $this->db->order_by('create_time','desc');
             $dir_query=$this->db->get($this->_dir_table);
@@ -210,18 +210,15 @@ class cloud_model extends MY_Model{
             if(!$count_file){
                 return $return;
             }
-
             if(!$file_offset){
                 $file_offset = $count_file;
                 $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$user_id and is_del=0 order by upload_time desc limit 0,$file_offset";
             }else{
-
                 $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$user_id and is_del=0 order by upload_time desc limit $file_offset,".Constant::CLOUD_FILE_PER_PAGE_NUM;
             }
             $return['file'] = $this->db->query($sql)->result_array();            
             return $return;
         }
-        
     }
 
     //获取文件夹下的文件
@@ -622,20 +619,22 @@ class cloud_model extends MY_Model{
             $select = 'file_name';
             $dir_index = 'dir_id';
             $ext_sql = " and file_ext='$ext' ";
+            $cat = ' and dir_cat_id is null ';
         }else{
             $table = $this->_dir_table;
             $select = 'dir_name';
             $dir_index = 'p_id';
             $ext_sql = "";
+            $cat = ' and cat_id is null ';
         }
-        $sql = "select count(1) as num from $table where user_id=$uid and is_del=0 and $select=? and $dir_index=$pid $ext_sql";
+        $sql = "select count(1) as num from $table where user_id=$uid $cat and is_del=0 and $select=? and $dir_index=$pid $ext_sql";
         $sql_arr = array($dir_name);
         $num = $this->db->query($sql,$sql_arr)->row(0)->num;
         if(!$num){//不存在就返回当前名字
             return $dir_name;
         }
         $tmp_dir_name = addslashes($dir_name);
-        $sql = "select $select from $table where user_id=$uid and is_del=0 and $dir_index=$pid $ext_sql and $select REGEXP '^$tmp_dir_name\\\(?[0-9]*\\\)?$' order by $select ";
+        $sql = "select $select from $table where user_id=$uid $cat and is_del=0 and $dir_index=$pid $ext_sql and $select REGEXP '^$tmp_dir_name\\\(?[0-9]*\\\)?$' order by $select ";
         $res = $this->db->query($sql)->result_array();
         if(!$res){
             return $dir_name."(1)";
