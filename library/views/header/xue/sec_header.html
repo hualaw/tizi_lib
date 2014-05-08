@@ -2,7 +2,7 @@
 
 <!-- 二级栏目头部结构开始 -->
 <div class="base_header">
-	<div class="headerCon layout">
+	<div class="headerCon cf">
 		<h1 class="fl">
 			<a href="{$site_url}" class="logo"></a>
 		</h1>
@@ -14,7 +14,6 @@
 			<li class="myPet fl"><a href="{$site_url}pet/my">我的宠物</a></li>
 		</ul>
 		<div class="loginAfter fr">
-			<a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" class="fl warn">提醒<span class="warnBox"></span></a>
 			<div class="fr posr">
 				<em>{sub_str($username,0,12)}</em>
 				<ul class="infor cf">
@@ -23,6 +22,7 @@
 					<li><a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{$site_url}">退出</a></li>
 				</ul>
 			</div>
+			<a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" class="fr warn">提醒<span class="warnBox"></span></a>
 		</div>
 	</div>
 </div>
