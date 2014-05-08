@@ -15,6 +15,7 @@ define(function(require, exports) {
 				content: fname,
 				ok:false,
 				cancel:false,
+				dblclick:false,
 				icon:null,
 				button:[{
 					name:'点击下载',
@@ -33,5 +34,21 @@ define(function(require, exports) {
 		var version = $.browser.version;
 		if(ie) return version;
 		else return false;
+	};
+
+	/*是否下载xxx文件*/
+	exports.down_confirm_box = function(url,fname){
+		$.tiziDialog({
+			content: '是否下载文件《'+fname+'》？',
+			ok:false,
+			cancel:true,
+			icon:null,
+			button:[{
+				name:'点击下载',
+				href:url,
+				className:'aui_state_highlight',
+				target:'_self'
+			}]
+		});
 	};
 });

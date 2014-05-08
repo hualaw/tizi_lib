@@ -19,17 +19,44 @@ class Tizi_Captcha extends MY_Controller {
         }
 
         $need_check=$this->captcha_rule($captcha_name);
-        ob_start();
+        if($need_check)
+        {
+            if($this->input->get('captcha_type',true,true,'') == 'base64')
+            {
+                ob_start();
+                $image_obj = $this->captcha->generateCaptcha($captcha_name);
+                $this->output->set_content_type('jpeg');
+                ImageJPEG($image_obj['im']);
+                ImageDestroy($image_obj['im']);
+                $image = ob_get_clean();
+                $captcha_img['image']='data:image/jpeg;base64,'.base64_encode($image);
+            }
+            else
+            {
+                $captcha_img['image']=site_url('captcha_img')."?captcha_name=".$captcha_name."&ver=".time();
+            }
+            
+            $captcha_img['word']='';
+        }
+        else
+        {
+            $captcha_img['image']='';
+            $captcha_img['word']=$this->captcha->generate_word($captcha_name);
+        }
+        $captcha_img['errorcode']=true;
+
+        echo json_token($captcha_img);
+        exit();
+    }
+
+    public function generate_img()
+    {
+        $captcha_name = $this->input->get('captcha_name');
         $image_obj = $this->captcha->generateCaptcha($captcha_name);
         $this->output->set_content_type('jpeg');
         ImageJPEG($image_obj['im']);
         ImageDestroy($image_obj['im']);
-        $image = ob_get_clean();
-        $image_obj['image']='data:image/jpeg;base64,'.base64_encode($image);
-        if($need_check) $image_obj['word']='';
         unset($image_obj['im']);
-        $image_obj['errorcode']=true;
-        echo json_token($image_obj);
         exit();
     }
 
