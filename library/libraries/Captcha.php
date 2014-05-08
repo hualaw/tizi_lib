@@ -52,13 +52,14 @@ class Captcha {
         return $captcha_arr;
     }
 
-    public function generate_word($page_name)
+    public function generate_word($page_name,$captcha_word=false)
     {
         if(!$page_name) return false;
         $captcha_token = $this->_ci->session->userdata('captcha_token');
         if($captcha_token) $captcha_token=json_decode($captcha_token,true);
         else $captcha_token=array($page_name=>'');
-        $captcha_token[$page_name]=$this->word;
+        if(!$captcha_word) $captcha_word=$this->word;
+        $captcha_token[$page_name]=$captcha_word;
         $this->_ci->session->set_userdata('captcha_token', json_encode($captcha_token));
         return $this->word;
     }
