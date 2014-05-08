@@ -66,6 +66,12 @@ class Tizi_Captcha extends MY_Controller {
         $keep_captcha = $this->input->get('keep_code');
         $captcha_name = $this->input->get('captcha_name');
 		
+        if(!$captcha_name)
+        {
+            echo json_token(array('errorcode'=>false,'error'=>$this->lang->line('default_error')));
+            exit();
+        }
+
         $need_check=$this->captcha_rule($captcha_name);
         if($need_check)
         {
@@ -88,7 +94,7 @@ class Tizi_Captcha extends MY_Controller {
             $this->captcha->generate_word($captcha_name,$captcha_word);
             $data['error'] = 'Ok';
             $data['errorcode'] = true;
-            $data['status'] = '0';
+            $data['status'] = '3';
         }
 
         echo json_token($data); 
