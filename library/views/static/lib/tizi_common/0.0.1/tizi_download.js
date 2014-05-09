@@ -37,7 +37,10 @@ define(function(require, exports) {
 	};
 
 	/*是否下载xxx文件*/
-	exports.down_confirm_box = function(url,fname){
+	exports.down_confirm_box = function(url,fname,noxunlei){
+		if(!noxunlei){
+			url = url + '&session_id=' + $.cookies.get(baseSessID);
+		}
 		$.tiziDialog({
 			content: '是否下载文件《'+fname+'》？',
 			ok:false,
