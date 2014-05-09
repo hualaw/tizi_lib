@@ -18,7 +18,11 @@ Class CI_Constant {
 	const REG_ORIGEN_AQ_IOS = 21;
 	const REG_ORIGIN_AQ_ANDROID = 31;
 	const REG_ORIGIN_CRM = 41;
-	const REG_ORIGIN_CRM_STUID= 43;
+	const REG_ORIGIN_CRM_STUID	= 43;
+	const REG_ORIGIN_QQ_PERFECT	= 51;
+	const REG_ORIGIN_QQ_SKIP	= 52;
+	const REG_ORIGIN_WEIBO_PERFECT = 53;
+	const REG_ORIGIN_WEIBO_SKIP = 54;
 
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
