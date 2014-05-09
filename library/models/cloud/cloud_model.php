@@ -372,10 +372,15 @@ class cloud_model extends MY_Model{
     }
 
     //移动文件夹/文件
-    function move_dir_or_file($is_file,$resouce_id,$to_dir_id,$uid){
+    function move_dir_or_file($is_file,$resouce_id,$to_dir_id,$uid,$dir_cat_id=false,$sub_cat_id=false,$resource_type=false){
         if($is_file){//是文件
             $table = $this->_file_table;
             $data = array('dir_id' => $to_dir_id );
+            if($dir_cat_id and $sub_cat_id and $resource_type){
+                $data['dir_cat_id'] = $dir_cat_id;
+                $data['sub_cat_id'] = $sub_cat_id;
+                $data['resource_type'] = $resource_type;
+            }
             $index = 'id';
         }else{//是目录
             $table = $this->_dir_table;
@@ -613,19 +618,26 @@ class cloud_model extends MY_Model{
 
     //新建文件夹和rename文件夹的时候，如果有重名，就自动加一
     //$dir_name是用户输入或上传的文件的原始名字
-    function check_dir_name_exist($pid=0,$dir_name,$uid,$is_file=false,$ext=0){
+    //$to_cat 为true，就是检查资源库中的文件；为false就是检查老网盘中的文件
+    function check_dir_name_exist($pid=0,$dir_name,$uid,$is_file=false,$ext=0,$to_cat=false){
         if($is_file){
             $table = $this->_file_table;
             $select = 'file_name';
             $dir_index = 'dir_id';
             $ext_sql = " and file_ext='$ext' ";
             $cat = ' and dir_cat_id is null ';
+            if($to_cat){
+                $cat = ' and dir_cat_id is not null ';
+            }
         }else{
             $table = $this->_dir_table;
             $select = 'dir_name';
             $dir_index = 'p_id';
             $ext_sql = "";
             $cat = ' and cat_id is null ';
+            if($to_cat){
+                $cat = ' and dir_cat_id is not null ';
+            }
         }
         $sql = "select count(1) as num from $table where user_id=$uid $cat and is_del=0 and $select=? and $dir_index=$pid $ext_sql";
         $sql_arr = array($dir_name);
