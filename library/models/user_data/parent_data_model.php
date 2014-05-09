@@ -37,7 +37,7 @@ class Parent_Data_Model extends LI_Model {
     public function update_parent_phone($user_id,$phone)
     {
         if(!$phone) return false;
-        return $this->update_parent_data($user_id,$phone,'phone');
+        return $this->update_parent_data($user_id,$phone,'bind_phone');
     }
 
     private function update_parent_data($user_id,$data_value,$data_name)
