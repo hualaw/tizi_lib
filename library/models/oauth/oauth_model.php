@@ -45,6 +45,7 @@ class Oauth_Model extends MY_Model{
             $platform = $data['platform'];
             $result = $this->getData($open_id, $platform);
             if(empty($result)){
+				$data["create_date"] = date("Y-m-d H:i:s");
                 $this->db->insert($this->_table, $data);
                 $oauth_id = $this->db->insert_id();
                 $user_id = '';
@@ -59,6 +60,7 @@ class Oauth_Model extends MY_Model{
             if(!isset($data['user_id']) || !$data['user_id']){
                 return false;
             }
+            $data["bind_date"] = date("Y-m-d H:i:s");
             $this->db->where('id', $oauth_id);
             $this->db->update($this->_table, $data);
             $user_id = $data['user_id'];

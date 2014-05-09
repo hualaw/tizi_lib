@@ -47,7 +47,7 @@ class Tizi_Oauthlogin extends Tizi_Controller {
             $db_data=array(
                 'open_id'=>$data['open_id'],
                 'platform'=>$platform,
-                'access_token'=>$data['access_token'],
+                'access_token'=>$data['access_token']
             );
 
             $oauth_redirect='';
@@ -59,13 +59,14 @@ class Tizi_Oauthlogin extends Tizi_Controller {
                 if(empty($user_auth_data['user_id'])){//未绑定用户
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
     				$this->session->set_userdata("oauth_nickname", $data["nickname"]);
+    				$this->session->set_userdata("oauth_platform", $platform);
 
                     if(stripos($oauth_redirect,'http://')!==false)
                     {
                         $this->session->set_userdata('perfect_redirect',$oauth_redirect);
                     }
 
-                    $oauth_redirect=login_url("oauth/firstlogin?platform={$platform}");
+                    $oauth_redirect=login_url("oauth/firstlogin");
                 }else{//绑定用户
     				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
                     $this->session_model->generate_cookie($db_data['open_id'],$user_auth_data["user_id"]);
