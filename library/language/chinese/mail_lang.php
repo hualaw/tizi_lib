@@ -5,35 +5,34 @@ $lang['sms_sign']="";
 $lang['mail_subject_verify']="梯子网注册验证邮件";
 $lang['mail_body_verify']="尊敬的用户：<br/>
 您好！非常感谢您使用梯子网（www.tizi.com）！<br/>
-为了保障您的服务畅通，建议您在收到该邮件的24小时内激活邮箱并完成注册。<br/>
-请点击如下链接来激活邮箱：";
+本邮件24小时内有效，请点击如下链接来完成邮箱激活：";
 $lang['mail_end_verify']="如果浏览器不能自动打开，请您把地址复制到浏览器地址栏中手动打开。";
 
 $lang['mail_subject_reset']="梯子网重置密码验证邮件";
 $lang['mail_body_reset']="尊敬的用户：<br/>
 您好！您已申请梯子网重置密码服务。<br/>
-请点击如下链接来完成密码重置：";
+本邮件24小时内有效，请点击如下链接来完成密码重置：";
 $lang['mail_end_reset']="如果浏览器不能自动打开，请您把地址复制到浏览器地址栏中手动打开。";
 
 $lang['mail_subject_update_email']="梯子网绑定邮箱验证邮件";
 $lang['mail_body_update_email']="尊敬的用户：<br/>
 您好！您已申请梯子网绑定邮箱服务。<br/>
 {stuid}
-请点击如下链接来完成绑定邮箱：";
+本邮件24小时内有效，请点击如下链接来完成邮箱绑定：";
 $lang['mail_end_update_email']="如果浏览器不能自动打开，请您把地址复制到浏览器地址栏中手动打开。";
 
 $lang['mail_subject_reg_reverify']="梯子网邮箱验证邮件";
 $lang['mail_body_reg_reverify']="尊敬的用户：<br/>
 您好！梯子网已收到了您的重复注册信息，为防止其他人盗用您的邮箱注册，请您尽快激活邮箱，并使用首次注册密码登录。<br/>
 您可以尽情享受梯子强大、优质的教学服务！<br/>
-请点击如下链接来激活邮箱：";
+本邮件24小时内有效，请点击如下链接来激活邮箱：";
 $lang['mail_end_reg_reverify']="如果浏览器不能自动打开，请您把地址复制到浏览器地址栏中手动打开。";
 
 $lang['mail_subject_login_reverify']="梯子网邮箱验证邮件";
 $lang['mail_body_login_reverify']="尊敬的用户：<br/>
 您好！梯子网已收到了您的重复注册信息，为防止其他人盗用您的邮箱登录，请您尽快激活邮箱，并使用首次注册密码登录。<br/>
 您可以尽情享受梯子强大、优质的教学服务！<br/>
-请点击如下链接来激活邮箱：";
+本邮件24小时内有效，请点击如下链接来激活邮箱：";
 $lang['mail_end_login_reverify']="如果浏览器不能自动打开，请您把地址复制到浏览器地址栏中手动打开。";
 
 $lang['mail_disclaimer'] = "<br/>欢迎您使用梯子网（www.tizi.com）！<br/>

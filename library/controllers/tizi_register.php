@@ -169,30 +169,20 @@ class Tizi_Register extends Tizi_Controller {
 		
 		$user_id=$this->register_model->insert_register($email,$password,$rname,Constant::INSERT_REGISTER_EMAIL,$user_type,$user_data);
 		if($user_id['errorcode'])
-		{							
-			$authcode=$this->verify_model->generate_authcode_email($email,Constant::CODE_TYPE_REGISTER,$user_id['user_id'],$user_type,false);
-			if($authcode['errorcode'])
+		{
+			if(!Constant::LOGIN_NEED_EMAIL_VERIFY)
 			{
-				$this->verify_model->send_authcode_email($authcode['authcode'],$email,Constant::CODE_TYPE_REGISTER);
-			
-				if(!Constant::LOGIN_NEED_EMAIL_VERIFY)
+				//login
+				if($auto_login)
 				{
-					//login
-					if($auto_login)
-					{
-						$this->session_model->generate_session($user_id['user_id']);
-						$this->session_model->generate_cookie($email,$user_id['user_id']);
-						$this->session_model->clear_mscookie();
-					}
+					$this->session_model->generate_session($user_id['user_id']);
+					$this->session_model->generate_cookie($email,$user_id['user_id']);
+					$this->session_model->clear_mscookie();
 				}
+			}
 
-				$register['user_id']=$user_id['user_id'];
-				$register['errorcode']=true;
-			}
-			else
-			{
-				$register['error']=$this->lang->line('error_send_authcode_email');	
-			}
+			$register['user_id']=$user_id['user_id'];
+			$register['errorcode']=true;
 		}
 		else
 		{
