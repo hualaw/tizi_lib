@@ -31,23 +31,11 @@ class Tizi_Register extends Tizi_Controller {
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
 
-		$check_email=$this->register_model->check_email($email);
+		$reg_check=$this->register_check($email,$rname,$password,$password1);
 		
-		if(empty($email))
+		if(!$reg_check['errorcode'])
 		{
-			$submit['error']=$this->lang->line('error_invalid_email');
-		}
-		else if($email&&!preg_email($email))
-		{
-			$submit['error']=$this->lang->line('error_invalid_email');
-		}
-		else if($email&&$check_email['errorcode'])
-		{
-			$submit['error']=$this->lang->line('error_reg_exist_email');
-		}
-		else if(empty($rname))
-		{
-			$submit['error']=$this->lang->line('error_invalid_name');
+			$submit['error']=$reg_check['error'];
 		}
 		else if(empty($mysubject))
 		{
@@ -56,14 +44,6 @@ class Tizi_Register extends Tizi_Controller {
 		else if($mysubject&&!$this->question_subject_model->check_subject($mysubject,'binding'))
 		{
 			$submit['error']=$this->lang->line('error_invalid_mysubject');
-		}
-		else if(empty($password))
-		{
-			$submit['error']=$this->lang->line('error_invalid_password');
-		}
-		else if($password!=$password1)
-		{
-			$submit['error']=$this->lang->line('error_invalid_confirm_password');
 		}
 		else
 		{
@@ -98,7 +78,8 @@ class Tizi_Register extends Tizi_Controller {
 
     public function student_submit()
     {
-    	$uname=$this->input->post("s_uname",true,true);
+    	//$uname=$this->input->post("s_uname",true,true);
+    	$email=$this->input->post("s_email",true,true);
 		$password=$this->input->post("s_password",true);
 		$password1=$this->input->post("s_repassword",true,false,$password);
 		$rname=$this->input->post("s_name",true,true);
@@ -111,23 +92,11 @@ class Tizi_Register extends Tizi_Controller {
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
 
-		$check_uname=$this->register_model->check_uname($uname);
-
-		if(empty($uname))
+		$reg_check=$this->register_check($email,$rname,$password,$password1);
+		
+		if(!$reg_check['errorcode'])
 		{
-			$submit['error']=$this->lang->line('error_invalid_uname');
-		}
-		else if($uname&&!preg_uname($uname))
-		{
-			$submit['error']=$this->lang->line('error_invalid_uname');
-		}
-		else if($uname&&$check_uname['errorcode'])
-		{
-			$submit['error']=$this->lang->line('error_reg_exist_uname');
-		}
-		else if(empty($rname))
-		{
-			$submit['error']=$this->lang->line('error_invalid_name');
+			$submit['error']=$reg_check['error'];
 		}
 		else if(empty($mygrade))
 		{
@@ -137,17 +106,10 @@ class Tizi_Register extends Tizi_Controller {
 		{
 			$submit['error']=$this->lang->line('error_invalid_mygrade');
 		}
-		else if(empty($password))
-		{
-			$submit['error']=$this->lang->line('error_invalid_password');
-		}
-		else if($password!=$password1)
-		{
-			$submit['error']=$this->lang->line('error_invalid_confirm_password');
-		}
 		else
 		{
-			$register=$this->register_by_uname($uname,$password,$rname,$user_type,array('register_grade'=>$mygrade));
+			//$register=$this->register_by_uname($uname,$password,$rname,$user_type,array('register_grade'=>$mygrade));
+			$register=$this->register_by_email($email,$password,$rname,$user_type,array('register_grade'=>$mygrade));
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
@@ -177,31 +139,11 @@ class Tizi_Register extends Tizi_Controller {
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
 
-		$check_email=$this->register_model->check_email($email);
+		$reg_check=$this->register_check($email,$rname,$password,$password1);
 		
-		if(empty($email))
+		if(!$reg_check['errorcode'])
 		{
-			$submit['error']=$this->lang->line('error_invalid_email');
-		}
-		else if($email&&!preg_email($email))
-		{
-			$submit['error']=$this->lang->line('error_invalid_email');
-		}
-		else if($email&&$check_email['errorcode'])
-		{
-			$submit['error']=$this->lang->line('error_reg_exist_email');
-		}
-		else if(empty($rname))
-		{
-			$submit['error']=$this->lang->line('error_invalid_name');
-		}
-		else if(empty($password))
-		{
-			$submit['error']=$this->lang->line('error_invalid_password');
-		}
-		else if($password!=$password1)
-		{
-			$submit['error']=$this->lang->line('error_invalid_confirm_password');
+			$submit['error']=$reg_check['error'];
 		}
 		else
 		{
@@ -283,6 +225,45 @@ class Tizi_Register extends Tizi_Controller {
 		}
 
 		return $register;
+   	}
+
+   	protected function register_check($email,$rname,$password,$password1)
+   	{
+   		$check=array('errorcode'=>false,'error'=>'');
+
+   		$check_email=$this->register_model->check_email($email);
+
+		if(empty($email))
+		{
+			$check['error']=$this->lang->line('error_invalid_email');
+		}
+		else if($email&&!preg_email($email))
+		{
+			$check['error']=$this->lang->line('error_invalid_email');
+		}
+		else if($email&&$check_email['errorcode'])
+		{
+			$check['error']=$this->lang->line('error_reg_exist_email');
+		}
+		else if(empty($rname))
+		{
+			$check['error']=$this->lang->line('error_invalid_name');
+		}
+		else if(empty($password))
+		{
+			$check['error']=$this->lang->line('error_invalid_password');
+		}
+		else if($password!=$password1)
+		{
+			$check['error']=$this->lang->line('error_invalid_confirm_password');
+		}
+		else
+		{
+			$check['error']='';
+			$check['errorcode']=true;
+		}
+
+		return $check;
    	}
 
 }
