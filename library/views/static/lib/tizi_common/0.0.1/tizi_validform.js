@@ -105,11 +105,10 @@ define(function(require, exports) {
                         });
                     };
                     $(".commonCaptcha .Validform_checktip").text(data.error).attr('class','Validform_checktip Validform_wrong');
-                    //require.async("tizi_validform",function(ex){
-                        // 提交注册结果
-                        //ex.changeCaptcha(captcha_name);
-                    //});
-                    //$('.textCaptcha').siblings('.Validform_checktip').text(data.error).attr('class','Validform_checktip Validform_wrong');
+                    if($('.'+captcha_name).parent().hasClass('undis')){
+                        $('.'+captcha_name+'Word').val('');
+                        exports.changeCaptcha(captcha_name);
+                    }
                     check = false;
                 }
             }
