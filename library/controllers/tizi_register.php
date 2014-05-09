@@ -170,10 +170,10 @@ class Tizi_Register extends Tizi_Controller {
 		$user_id=$this->register_model->insert_register($email,$password,$rname,Constant::INSERT_REGISTER_EMAIL,$user_type,$user_data);
 		if($user_id['errorcode'])
 		{							
-			$authcode=$this->verify_model->generate_authcode_email($email,Constant::CODE_TYPE_REGISTER,$user_id['user_id'],$user_type,false);
-			if($authcode['errorcode'])
+			//$authcode=$this->verify_model->generate_authcode_email($email,Constant::CODE_TYPE_REGISTER,$user_id['user_id'],$user_type,false);
+			//if($authcode['errorcode'])
 			{
-				$this->verify_model->send_authcode_email($authcode['authcode'],$email,Constant::CODE_TYPE_REGISTER);
+				//$this->verify_model->send_authcode_email($authcode['authcode'],$email,Constant::CODE_TYPE_REGISTER);
 			
 				if(!Constant::LOGIN_NEED_EMAIL_VERIFY)
 				{
@@ -189,9 +189,9 @@ class Tizi_Register extends Tizi_Controller {
 				$register['user_id']=$user_id['user_id'];
 				$register['errorcode']=true;
 			}
-			else
+			//else
 			{
-				$register['error']=$this->lang->line('error_send_authcode_email');	
+				//$register['error']=$this->lang->line('error_send_authcode_email');	
 			}
 		}
 		else
