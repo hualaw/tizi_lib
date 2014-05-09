@@ -266,28 +266,6 @@ class LI_Controller extends CI_Controller{
 
 		$token=$this->input->post('token');
 		$captcha=$this->input->post('captcha_word');
-
-		//post 检测captcha
-		if($this->_check_captcha)
-		{
-			$check_captcha=0;
-			foreach($this->_segmenttype as $st)
-			{
-				if(!empty($this->_segment[$st])&&isset($this->_captchalist[$st])&&!empty($this->_captchalist[$st])&&in_array($this->_segment[$st],$this->_captchalist[$st]))
-				{
-					$check_captcha++;
-				}
-			}
-			if($check_captcha)
-			{
-				$check_captcha=$this->captcha->validateCaptcha($captcha,$this->_captcha_name);
-				if(!$check_captcha)
-				{
-					$_POST=array();
-					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
-				}
-			}
-		}
 		
 		//post 检测token
 		if($this->_check_token)
@@ -387,6 +365,28 @@ class LI_Controller extends CI_Controller{
 		            }
 		        }
 		    }
+		}
+
+		//post 检测captcha
+		if($this->_check_captcha)
+		{
+			$check_captcha=0;
+			foreach($this->_segmenttype as $st)
+			{
+				if(!empty($this->_segment[$st])&&isset($this->_captchalist[$st])&&!empty($this->_captchalist[$st])&&in_array($this->_segment[$st],$this->_captchalist[$st]))
+				{
+					$check_captcha++;
+				}
+			}
+			if($check_captcha)
+			{
+				$check_captcha=$this->captcha->validateCaptcha($captcha,$this->_captcha_name);
+				if(!$check_captcha)
+				{
+					$_POST=array();
+					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+				}
+			}
 		}
 	}
 
