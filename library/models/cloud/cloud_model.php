@@ -146,8 +146,6 @@ class cloud_model extends MY_Model{
         }else{
             return $value;
         }
-      
-
     }
 
     //获取某人的某类型的文件集合
@@ -232,7 +230,7 @@ class cloud_model extends MY_Model{
         return $this->db->query($sql)->result_array();
     }
 
-    //完整的目录结构
+    //完整的目录结构    2014-05-10备注：暂时封存了，新版不用这样的了；
     function get_dir_tree($uid,$from_dir=0){
         $sql = "select dir_id,dir_name,depth,p_id from $this->_dir_table where user_id=$uid and is_del=0 and dir_id>=$from_dir order by dir_id desc";
         $res = $this->db->query($sql)->result_array();
@@ -461,7 +459,6 @@ class cloud_model extends MY_Model{
             }
         }
         return $re_value;
-        
     }
 
     //删除一个文件夹下的所有文件
@@ -470,28 +467,6 @@ class cloud_model extends MY_Model{
         $sql = "update $this->_file_table set is_del=1,del_time = $time where user_id=$uid and dir_id=$dir_id";
         $this->db->query($sql);
     }
-
-    //获取完整的文件路径  暂时不用
-    // function get_view_file_path($file_id,$is_qiniu=false){
-    //     $file_info = $this->file_info($file_id);
-    //     if(!$file_info){
-    //         return '';
-    //     }
-    //     $this->load->config('upload');
-    //     $file_path = $file_info['file_path'];
-    //     $file_type = $file_info['file_type'];
-    //     if(!$is_qiniu){
-    //         $base_url  = $this->config->item('domain_document');//这里应该是访问swf的地址,得改
-    //         $file_path = $base_url.urldecode($file_path);
-    //         if(strpos($file_path, 'http://')===false){
-    //             $file_path='http://'.$file_path;
-    //         }
-    //     }elseif($file_type==Constant::CLOUD_FILETYPE_PIC){
-    //         $this->load->library('qiniu');
-    //         $file_path = $this->qiniu->qiniu_get_image($file_path,1,660,660);
-    //     }
-    //     return $file_path;
-    // }
 
     //获取下载链接
     function get_download_file_path($file_id,$file_path=''){
@@ -671,8 +646,7 @@ class cloud_model extends MY_Model{
         return $dir_name."($_tmp)";
     }
 
-    function get_parent_dir($p_id)
-    {
+    function get_parent_dir($p_id){
         return $this->db->get_where($this->_dir_table,array('dir_id'=>$p_id))->row();
     }
 
@@ -702,6 +676,12 @@ class cloud_model extends MY_Model{
         $this->db->limit(1);
         return $this->db->get($this->_file_table)->row();
         
+    }
+
+    function update_file_table($data,$where){
+        $this->db->where($where);
+        $res = $this->db->update($this->_file_table,$data);
+        return $res;
     }
 
 
