@@ -86,6 +86,7 @@ class Tizi_Register extends Tizi_Controller {
 		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
 		$class_code=$this->input->post("invite_class",true);
+		$parent_phone=$this->input->post("s_pphone",true);
 
 		$user_type=Constant::USER_TYPE_STUDENT;
 
@@ -104,6 +105,10 @@ class Tizi_Register extends Tizi_Controller {
 		else if($mygrade&&!$this->student_data_model->check_grade($mygrade,true,true))
 		{
 			$submit['error']=$this->lang->line('error_invalid_mygrade');
+		}
+		else if($parent_phone&&!preg_phone($parent_phone))
+		{
+			$check['error']=$this->lang->line('error_invalid_phone');
 		}
 		else
 		{
