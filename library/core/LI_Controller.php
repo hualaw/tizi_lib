@@ -22,7 +22,7 @@ class LI_Controller extends CI_Controller{
 	protected $need_password=false;
 	protected $user_constant=array();
 
-	protected $reg_role='';
+	protected $reg_role='student';
 
 	protected $_segmenttype=array('n','an','r','ar');
 	protected $_segment=array('n'=>'','an'=>'','r'=>'','ar'=>'');
