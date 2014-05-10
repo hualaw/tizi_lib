@@ -372,15 +372,15 @@ class cloud_model extends MY_Model{
     }
 
     //移动文件夹/文件
-    function move_dir_or_file($is_file,$resouce_id,$to_dir_id,$uid,$dir_cat_id=false,$sub_cat_id=false,$resource_type=false){
+    function move_dir_or_file($is_file,$resouce_id,$to_dir_id,$uid,$dir_cat_id=null,$sub_cat_id=null,$resource_type=null){
         if($is_file){//是文件
             $table = $this->_file_table;
             $data = array('dir_id' => $to_dir_id );
-            if($dir_cat_id and $sub_cat_id and $resource_type){
+            // if($dir_cat_id and $sub_cat_id and $resource_type){
                 $data['dir_cat_id'] = $dir_cat_id;
                 $data['sub_cat_id'] = $sub_cat_id;
                 $data['resource_type'] = $resource_type;
-            }
+            // }
             $index = 'id';
         }else{//是目录
             $table = $this->_dir_table;
