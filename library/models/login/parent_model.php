@@ -71,7 +71,7 @@ class Parent_Model extends LI_Model {
     //取出某个孩子的所有家长
     //$except可以是某个家长id，结果中不会包含此家长
     public function get_parents($kid, $except=false){
-        $sql = "select u.name realname, u.email, u.phone_mask, pd.phone parent_phone, pk.relation_ship relation, pk.parent_user_id pid from user u "
+        $sql = "select u.name realname, u.email, u.phone_mask, pd.bind_phone parent_phone, pk.relation_ship relation, pk.parent_user_id pid from user u "
             ." left join user_parent_data pd on pd.user_id=u.id"
             ." left join $this->_parent_kid_table pk on pk.parent_user_id=u.id where pk.kid_user_id='$kid' and pk.is_del=0 ";
         if($except){
