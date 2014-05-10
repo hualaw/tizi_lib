@@ -128,6 +128,8 @@ class Tizi_Register extends Tizi_Controller {
 				{
 					//加入班级
 					//保存家长手机号码
+					$this->load->model("user_data/student_data_model");
+                	if($parent_phone) $this->student_data_model->update_parent_phone($register['user_id'],$parent_phone);
 				}
 				$submit['errorcode']=true;
 				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_STUDENT,'register');
