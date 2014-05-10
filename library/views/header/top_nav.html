@@ -19,6 +19,8 @@
     {if isset($reg_role) && $reg_role}
         {if isset($reg_redirect) && $reg_redirect}
             {$reg_url=$reg_url|cat:"&role="|cat:$reg_role}
+        {else if isset($this_url) && $this_url}
+            {$reg_url=$reg_url|cat:"&role="|cat:$reg_role}
         {else}
             {$reg_url=$reg_url|cat:"?role="|cat:$reg_role}
         {/if}

@@ -52,7 +52,9 @@ define(function(require, exports) {
                             }
                         }else if(data.redirect.substr(0,9) == 'callback:'){
                             var callback = data.redirect.substr(9);
-                            seajs.use('module/common/ajax/unlogin/' + callback);
+                            seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
+                                ex.callback();
+                            });
                         }else if(data.redirect){
                             window.location.href=data.redirect;
                         }

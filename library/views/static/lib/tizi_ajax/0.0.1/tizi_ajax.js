@@ -5,7 +5,7 @@
 			if(typeof seajs == 'object'){
 				// 加载公共登录框
 				seajs.use('tizi_login_form',function(ex){
-					ex.loginForm(data.html);
+					ex.loginForm(data.html,data.redirect);
 				});
 			}else{
 				window.location.href = baseUrlName;
