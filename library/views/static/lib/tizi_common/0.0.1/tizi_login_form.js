@@ -18,7 +18,7 @@ define(function(require, exports) {
             close:function(){
                 if(redirect.substr(0,9) == 'callback:'){
                     var callback = redirect.substr(9);
-                    seajs.use('module/common/ajax/unlogin/' + callback, function(ex){
+                    seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
                         ex.close();
                     });
                 }
@@ -65,7 +65,7 @@ define(function(require, exports) {
                         }
 					}else if(data.redirect.substr(0,9) == 'callback:'){
                         var callback = data.redirect.substr(9);
-                        seajs.use('module/common/ajax/unlogin/' + callback, function(ex){
+                        seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
                             ex.callback();
                         });
                     }else if(data.redirect){
