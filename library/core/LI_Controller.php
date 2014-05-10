@@ -22,6 +22,8 @@ class LI_Controller extends CI_Controller{
 	protected $need_password=false;
 	protected $user_constant=array();
 
+	protected $reg_role='';
+
 	protected $_segmenttype=array('n','an','r','ar');
 	protected $_segment=array('n'=>'','an'=>'','r'=>'','ar'=>'');
 
@@ -190,6 +192,8 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('user_stuid',$this->tizi_stuid);
         $this->smarty->assign('user_cert',$this->tizi_cert);
 
+        $this->smarty->assign('reg_role',$this->reg_role);
+
 		//generate global errormsg
         if(!$this->_errormsg) $this->_errormsg="";
         $this->smarty->assign('errormsg',$this->_errormsg);
@@ -325,7 +329,7 @@ class LI_Controller extends CI_Controller{
 				        	.($this->config->item('static_version')?'/':''));
 						$login_redirect=$this->input->get_post('redirect',true,false,'reload');
 						$reg_redirect=$this->input->get_post('reg_redirect',true);
-						$reg_role=$this->input->get_post('reg_role',true);
+						$reg_role=$this->input->get_post('reg_role',true,true,$this->reg_role);
 						$this->smarty->assign('login_url',login_url());
 						$this->smarty->assign('login_redirect',$login_redirect);
 						$this->smarty->assign('reg_redirect',$reg_redirect);
