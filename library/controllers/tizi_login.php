@@ -8,7 +8,6 @@ class Tizi_Login extends Tizi_Controller {
     function __construct()
     {
         parent::__construct();
-
 		$this->load->model("login/login_model");
 		$this->load->model("login/session_model");
     }

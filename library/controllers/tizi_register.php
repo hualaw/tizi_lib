@@ -8,7 +8,6 @@ class Tizi_Register extends Tizi_Controller {
     function __construct()
     {
         parent::__construct();
-
 		$this->load->model('login/register_model');
 		$this->load->model('login/verify_model');
 		$this->load->model("login/session_model");
