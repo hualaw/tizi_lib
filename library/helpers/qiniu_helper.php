@@ -1,10 +1,16 @@
 <?php 
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+/*    设置所选bucket */
+if (!function_exists('qiniu_set_bucket')) {
+    function qiniu_set_bucket($bucket = '') {
+        $ci =& get_instance();
+        $ci->load->library('qiniu');
+        $ci->qiniu->change_bucket($bucket);
+    }
+}
 
-/*
-    从七牛上获取图片   mode，long，short都是七牛接口的参数
-*/
+/*    从七牛上获取图片   mode，long，short都是七牛接口的参数 */
 if (!function_exists('qiniu_img')) {
     function qiniu_img($key,$mode=0,$short=0,$long=600,$ttl=3600) {
         $ci =& get_instance();
