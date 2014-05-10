@@ -34,6 +34,10 @@ class Login_Model extends LI_Model {
 			{
 				$this->db->where("id", $uid);
 			}
+			else
+			{
+				return array('user_id'=>null,'errorcode'=>Constant::LOGIN_ERROR_USERNAME_OR_PASSWORD,'error'=>'LOGIN_ERROR_USERNAME_OR_PASSWORD'); 
+			}
 		}
 		else if($type==Constant::LOGIN_TYPE_STUID)
 		{
