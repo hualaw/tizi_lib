@@ -8,7 +8,6 @@ class Tizi_Register extends Tizi_Controller {
     function __construct()
     {
         parent::__construct();
-
 		$this->load->model('login/register_model');
 		$this->load->model('login/verify_model');
 		$this->load->model("login/session_model");
@@ -86,7 +85,8 @@ class Tizi_Register extends Tizi_Controller {
 		$mygrade=$this->input->post("s_mygrade",true,false,Constant::DEFAULT_GRADE_ID);
 		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
-		$invite_code=$this->input->post("invite",true);
+		$class_code=$this->input->post("invite_class",true);
+		$parent_phone=$this->input->post("s_pphone",true);
 
 		$user_type=Constant::USER_TYPE_STUDENT;
 
@@ -106,8 +106,16 @@ class Tizi_Register extends Tizi_Controller {
 		{
 			$submit['error']=$this->lang->line('error_invalid_mygrade');
 		}
+		else if($parent_phone&&!preg_phone($parent_phone))
+		{
+			$check['error']=$this->lang->line('error_invalid_phone');
+		}
 		else
 		{
+			if($class_code)
+			{
+				//获取注册年级
+			}
 			//$register=$this->register_by_uname($uname,$password,$rname,$user_type,array('register_grade'=>$mygrade));
 			$register=$this->register_by_email($email,$password,$rname,$user_type,array('register_grade'=>$mygrade));
 			if(!$register['errorcode'])
@@ -116,6 +124,13 @@ class Tizi_Register extends Tizi_Controller {
 			}
 			else
 			{
+				if($class_code)
+				{
+					//加入班级
+					//保存家长手机号码
+					$this->load->model("user_data/student_data_model");
+                	if($parent_phone) $this->student_data_model->update_parent_phone($register['user_id'],$parent_phone);
+				}
 				$submit['errorcode']=true;
 				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_STUDENT,'register');
 			}
@@ -133,7 +148,6 @@ class Tizi_Register extends Tizi_Controller {
 		$rname=$this->input->post("p_name",true,true);
 		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
-		$invite_code=$this->input->post("invite",true);
 
 		$user_type=Constant::USER_TYPE_PARENT;
 

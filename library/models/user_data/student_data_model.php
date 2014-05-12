@@ -74,6 +74,22 @@ class Student_Data_Model extends LI_Model {
         }
         return false;
     }
+
+    public function update_parent_phone($uid,$parent_phone){
+        if(!$parent_phone) return false;
+        $result = $this->db->query("select * from `student_data` where `uid` = {$uid}")->row();
+        if(empty($result)){
+            if($this->db->query("insert `student_data` (`uid`,`parent_phone`)values($uid,$parent_phone)")){
+                return true;
+            }
+        }else{
+             if($this->db->query("update `student_data` set `parent_phone` = $qq where `uid` = $uid")){
+                return true;
+            }           
+        }
+        return false;
+    }
+
    //获取学生地区信息
     public function get_student_area($uid){
         if(empty($uid)) return array();
