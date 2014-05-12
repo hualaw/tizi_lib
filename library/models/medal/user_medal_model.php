@@ -89,7 +89,9 @@ class user_medal_model extends MY_Model {
 				$this->cache->redis->hset($r_key, $vr->medal_type, serialize($vr));
 			}
 		}
-		$this->cache->redis->expire($r_key, Constant::USER_MEDAL_TIMEOUT);
+		if ($is_redis) {
+			$this->cache->redis->expire($r_key, Constant::USER_MEDAL_TIMEOUT);
+		}
 		return $login_statistics;
 	}
 
@@ -161,7 +163,7 @@ class user_medal_model extends MY_Model {
 
 	public function init_user_medal ($uid) {
 		$this->load->model('login/register_model');
-//		$this->load->model('medal/user_medal_model');
+		$this->load->library("notice");
 
 		$user_medal = $this->get_user_medal_info($uid);
 
@@ -189,8 +191,8 @@ class user_medal_model extends MY_Model {
 
 			//插入数据库，插入notice
 			$this->insert_user_medal($param);
-//			$this->notice_model->addNotify($param['user_id'], '恭喜您成功获得资深达人勋章', time());
-			$this->send_notice($param['user_id'], '恭喜您成功获得资深达人勋章', time());
+
+			$this->notice->add($param['user_id'], "register_master");
 		} else {
 			//不为空的时候判断等级是否 改变
 			if ($senior_master_level == $senior_info->level) {
@@ -204,11 +206,11 @@ class user_medal_model extends MY_Model {
 					$this->update_user_medal($uid, $senior_medal_type, $param);
 				}
 			} else {
-				if ($senior_master_level != 1) {
+				if ($senior_master_level != 1){
 					$pre_level_days = $this->medal_register_level_days($senior_master_level - 1, 'days');
-					$senior_master_get_day = strtotime($user_info['user']->register_time + 86400 * $pre_level_days);
+					$senior_master_get_day = strtotime($user_info['user']->register_time) + 86400 * $pre_level_days;
 				} elseif ($senior_master_level == 5) {
-					$senior_master_get_day = strtotime($user_info['user']->register_time + 86400 * 720);
+					$senior_master_get_day = strtotime($user_info['user']->register_time) + 86400 * 720;
 				}
 				//将原有的值赋给param，后面新加字段更新值,因为后面在更新的时候要操作redis更新数据
 				unset($senior_info->id);
@@ -218,35 +220,14 @@ class user_medal_model extends MY_Model {
 				$param['level'] = $senior_master_level;
 				//更新notice
 				$this->update_user_medal($uid, $senior_medal_type, $param);
-				//$this->notice_model->addNotify($uid, '您的资深达人勋章等级上升为V' . $param['level'], time());
-				$this->send_notice($uid, '您的资深达人勋章等级上升为V' . $param['level'], time());
+
+				$msg_data = array('level' => $param['level']);
+				$this->notice->add($uid, 'register_master_up', $msg_data);
 			}
 		}
 		//资深达人-------------------end
 
-
-//		//教师认证
-//		if (empty($user_medal[Constant::TEACHER_AUTHENTICATION_MEDAL])) {
-//			$this->load->model('user_data/cert_model');
-//			$teacher_certification = $this->cert_model->get_apply_status($uid);
-//
-//			if ((!empty($teacher_certification) && $teacher_certification[0]['apply_status'] == Constant::APPLY_STATUS_SUCC) || ($this->session->userdata['certification'] == 1)) {
-//				$param['user_id'] = $uid;
-//				$param['medal_type'] = Constant::TEACHER_AUTHENTICATION_MEDAL;
-//				$param['upgrade_msg'] = '';
-//				$param['get_date'] = $teacher_certification[0]['verify_time'];
-//				$param['level'] = 1;
-//				$this->notice_model->addNotify($uid, '恭喜您成功获得教师认证勋章！' . $param['level'], time());
-//				$this->insert_user_medal($param);
-//			}
-//		}
-
 		return $this->get_user_medal_info($uid);
-	}
-
-	public function send_notice($uid, $msg, $now){
-		$this->load->model('notice/notice_model');
-		$this->notice_model->addNotify($uid, $msg, $now);
 	}
 
 }
