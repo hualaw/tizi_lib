@@ -206,7 +206,7 @@ class user_medal_model extends MY_Model {
 					$this->update_user_medal($uid, $senior_medal_type, $param);
 				}
 			} else {
-				if ($senior_master_level != 1) {
+				if ($senior_master_level != 1){
 					$pre_level_days = $this->medal_register_level_days($senior_master_level - 1, 'days');
 					$senior_master_get_day = strtotime($user_info['user']->register_time) + 86400 * $pre_level_days;
 				} elseif ($senior_master_level == 5) {
