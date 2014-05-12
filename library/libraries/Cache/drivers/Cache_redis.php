@@ -491,6 +491,20 @@ class CI_Cache_redis extends CI_Driver
         }       
     }
 
+    public function srandmember($key){
+        if ($this->_slave)
+        {
+            return $this->_slave->srandmember($key);
+        }       
+    }
+
+    public function scard($key){
+        if ($this->_slave)
+        {
+            return $this->_slave->scard($key);
+        }       
+    }
+
     public function ttl($key){
         if ($this->_slave)
         {
