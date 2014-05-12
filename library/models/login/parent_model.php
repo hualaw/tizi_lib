@@ -9,24 +9,45 @@ class Parent_Model extends LI_Model {
         parent::__construct();
     }
 
-    // 增加孩子
-    public function add_kid($user_id, $kid_id, $relation_ship=''){
-        if(!$relation_ship) $relation_ship=$this->lang->line('other_relative');
+    // 绑定
+    public function add_kid($user_id, $kid_id, $relation_ship=3){
+        $relation_ship = intval($relation_ship);
+        //先判断家长的帐号是不是家长身份（老师也不能bind kid）
+        $this->load->model('login/register_model');
+        $p_info = $this->register_model->get_user_info($user_id);
+        if(!isset($p_info['user']->user_type) or $p_info['user']->user_type!=Constant::USER_TYPE_PARENT){
+            return array('status'=>false, 'msg'=>$this->lang->line('no_teacher'));
+        }
+        if(!$relation_ship) $relation_ship=3;
+
+        // 一个家长最多能绑定的孩子的数量
         $totalSql = "select count(1) as total from $this->_parent_kid_table where parent_user_id=$user_id and is_del=0";
         $total = $this->db->query($totalSql)->row(0)->total;
-        if($total>=Constant::ONE_PARENT_BIND_KID_MAX){ // 一个家长最多能绑定的孩子的数量
+        if($total>=Constant::ONE_PARENT_BIND_KID_MAX){ 
             return array('status'=>false, 'msg'=>sprintf($this->lang->line('bindlimit'),Constant::ONE_PARENT_BIND_KID_MAX));
         }
+
+        // 重复绑定孩子判断
         $sql = "select count(1) as count from $this->_parent_kid_table where parent_user_id = $user_id and kid_user_id = $kid_id and is_del = 0 ";
         $count = $this->db->query($sql)->row(0)->count ;
-        if($count){ // 重复绑定孩子判断
+        if($count){ 
             return array('status'=>false, 'msg'=>$this->lang->line('dupli_kid'));
         }
+
+        // 一个孩子对多能被x个家长绑定
         $sql = "select count(1) as count from $this->_parent_kid_table where kid_user_id=$kid_id and is_del=0";
         $count = $this->db->query($sql)->row(0)->count;
-        if($count>=Constant::ONE_KID_IS_BINDED_MAX){ // 一个孩子对多能被x个家长绑定
+        if($count>=Constant::ONE_KID_IS_BINDED_MAX){ 
         return array('status'=>false, 'msg'=>sprintf($this->lang->line('too_many_parent_bind_kid'),Constant::ONE_KID_IS_BINDED_MAX));
         }
+
+        //一个孩子只能有一个爸爸and一个妈妈, 后来的自动绑定成 其他
+        $sql = "select count(1) as count from $this->_parent_kid_table where kid_user_id=$kid_id and relation_ship=$relation_ship and is_del=0";
+        $count = $this->db->query($sql)->row(0)->count;
+        if($count>=1){ 
+            $relation_ship = 3;//后来的自动绑定成   其他监护人
+        }
+
         //replace into 
         $sql = "replace into $this->_parent_kid_table values(0,$user_id,$kid_id,'$relation_ship',0)  ";
         $res = $this->db->query($sql);

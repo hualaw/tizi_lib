@@ -236,13 +236,13 @@ Class CI_Constant {
 		return $define;
 	}
 
-	public static function relation(){
+	public static function relation($id=false){
 		$relation = array(
 			1 => '爸爸',
 			2 => '妈妈',
 			3 => '其他'
 		);
-		return $relation;
+		return isset($relation[$id])?$relation[$id]:$relation;
 	}
 
 }
