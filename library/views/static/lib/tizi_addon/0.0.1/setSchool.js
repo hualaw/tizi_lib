@@ -97,7 +97,25 @@ define(function(require, exports) {
             },
             showAllError: false,
             ajaxPost: true,
-            callback: function(data){    
+            callback: function(data){
+				var words = $('.schoolNames').val();
+				if ($.trim(words) != ''){
+					if(/.*[\u4e00-\u9fa5]+.*$/.test(words)){
+						$.ajax({
+							'url' : baseUrlName + 'class/schools/convert?chinese='+encodeURIComponent(words),
+							'type' : 'GET',
+							'dataType' : 'json',
+							success : function(json, status){
+								words = json.py;
+								exports.query(words);	
+							}
+						});
+					} else {
+						exports.query(words);
+					}
+				} else {
+					exports.buildSchool();
+				}
                 $('.school').hide();
                 $('.seacherResult').fadeIn();
                 $('span.reset').removeClass('undis');
@@ -111,6 +129,25 @@ define(function(require, exports) {
             }
         ]);
     };
+    
+    //搜索学校
+    exports.query = function(words){
+    	var _li = '';
+    	$.each(school_array, function(k, v){
+    		$.each(v, function(k2, v2){
+    			if (typeof words != 'undefined' && $.trim(words) != ''){
+    				if (v2.schoolname.indexOf(words) != -1 || v2.py.indexOf(words) != -1 || v2.first_py.indexOf(words) != -1){
+    					_li += '<li data-id="'+v2.id+'">'+v2.schoolname+'</li>';
+    				}
+    			}
+    		});
+    	});
+    	if (_li == ''){
+    		_li = '没有找到相关学校，请重新输入关键词。';
+    	}
+    	$('.seacherResult ul').html(_li);
+    }
+    
     //取出学校第一个字母
     exports.buildSchool = function(query) {
         $('.schoolInfo').fadeIn();
@@ -242,8 +279,8 @@ define(function(require, exports) {
         });
         //点击搜索结果的li
         $('.seacherResult li').live('click', function(){
-            $('.seacherResult li').removeClass('active');
-            $(this).addClass('active');
+			$('.seacherResult li').removeClass('active');
+			$(this).addClass('active');
         });  
     }
     // 点击没有我的学校
