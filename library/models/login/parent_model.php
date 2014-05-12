@@ -19,7 +19,7 @@ class Parent_Model extends LI_Model {
             return array('status'=>false, 'msg'=>$this->lang->line('no_teacher'));
         }
         //判断被bind的是否为学生帐号
-        $stu_info = $this->register_model->get_user_info($user_id);
+        $stu_info = $this->register_model->get_user_info($kid_id);
         if(!isset($stu_info['user']->user_type) or $stu_info['user']->user_type!=Constant::USER_TYPE_STUDENT){
             return array('status'=>false, 'msg'=>$this->lang->line('only_child_can_be_bind'));
         }
