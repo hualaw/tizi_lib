@@ -23,15 +23,10 @@ class Parent_Model extends LI_Model {
         if(!isset($stu_info['user']->user_type) or $stu_info['user']->user_type!=Constant::USER_TYPE_STUDENT){
             return array('status'=>false, 'msg'=>$this->lang->line('only_child_can_be_bind'));
         }
-        //判
         if(!$relation_ship) $relation_ship=3;
 
         // 一个家长最多能绑定的孩子的数量
-        $totalSql = "select count(1) as total from $this->_parent_kid_table where parent_user_id=$user_id and is_del=0";
-        $total = $this->db->query($totalSql)->row(0)->total;
-        if($total>=Constant::ONE_PARENT_BIND_KID_MAX){ 
-            return array('status'=>false, 'msg'=>sprintf($this->lang->line('bindlimit'),Constant::ONE_PARENT_BIND_KID_MAX));
-        }
+        $this->bind_exceed($user_id,Constant::USER_TYPE_PARENT);
 
         // 重复绑定孩子判断
         $sql = "select count(1) as count from $this->_parent_kid_table where parent_user_id = $user_id and kid_user_id = $kid_id and is_del = 0 ";
@@ -41,11 +36,7 @@ class Parent_Model extends LI_Model {
         }
 
         // 一个孩子对多能被x个家长绑定
-        $sql = "select count(1) as count from $this->_parent_kid_table where kid_user_id=$kid_id and is_del=0";
-        $count = $this->db->query($sql)->row(0)->count;
-        if($count>=Constant::ONE_KID_IS_BINDED_MAX){ 
-        return array('status'=>false, 'msg'=>sprintf($this->lang->line('too_many_parent_bind_kid'),Constant::ONE_KID_IS_BINDED_MAX));
-        }
+        $this->bind_exceed($kid_id,Constant::USER_TYPE_STUDENT);
 
         //一个孩子只能有一个爸爸and一个妈妈, 后来的自动绑定成 其他
         $sql = "select count(1) as count from $this->_parent_kid_table where kid_user_id=$kid_id and relation_ship=$relation_ship and is_del=0";
@@ -62,6 +53,31 @@ class Parent_Model extends LI_Model {
             return array('status'=>true,'msg'=>$this->lang->line('succbind'));
         }
         return array('status'=>false,'msg'=>$this->lang->line('failbind'));
+    }
+
+    /*检查绑定数目是否超过,  role*/
+    function bind_exceed($user_id,$role = Constant::USER_TYPE_STUDENT){
+        if($role == Constant::USER_TYPE_STUDENT){ //学生最多能绑6个家长
+            $sql = "select count(1) as count from $this->_parent_kid_table where kid_user_id=$user_id and is_del=0";
+            $count = $this->db->query($sql)->row(0)->count;
+            if($count>=Constant::ONE_KID_IS_BINDED_MAX){ 
+                $msg = sprintf($this->lang->line('too_many_parent_bind_kid'),Constant::ONE_KID_IS_BINDED_MAX);
+                return array('status'=>false,'errorcode'=>false, 'msg'=>$msg,'error'=>$msg);
+            }
+            // return array('status'=>true,'errorcode'=>true);
+        }elseif($role == Constant::USER_TYPE_PARENT){
+            $totalSql = "select count(1) as total from $this->_parent_kid_table where parent_user_id=$user_id and is_del=0";
+            $total = $this->db->query($totalSql)->row(0)->total;
+            if($total>=Constant::ONE_PARENT_BIND_KID_MAX){ 
+                $msg = sprintf($this->lang->line('bindlimit'),Constant::ONE_PARENT_BIND_KID_MAX);
+                return array('status'=>false,'errorcode'=>false, 'msg'=>$msg,'error'=>$msg);
+            }
+            // return array('status'=>true,'errorcode'=>true);
+        }else{
+            $msg = '此帐号类型不支持绑定'; 
+            return array('status'=>false,'msg'=>$msg,'errorcode'=>false,'error'=>$msg);
+        }
+
     }
 
     // 家长移除（解绑）孩子
