@@ -36,6 +36,14 @@ class Classes_student extends LI_Model{
 		if ($this->db->trans_status() === false){
 			return false;
 		}
+		
+		//add notice join_class_succ(student)
+		$this->load->library("notice");
+		$this->load->model("class/classes");
+		$class_info = $this->classes->get($class_id, "classname");
+		$data = array("classname" => $class_info["classname"]);
+		$this->notice->add($user_id, "join_class_succ", $data);
+		
 		// 2014-01-09 给新进来的学生布置未截止的作业
 		$this->load->model('homework/homework_assign_model','ham');
 		$this->ham->get_hw_to_new_stu($user_id,$class_id);
