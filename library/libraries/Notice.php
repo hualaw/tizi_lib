@@ -32,7 +32,7 @@ class CI_Notice {
 			if ($score === false){
 				$score = time();
 			}
-			$data = array_merge(array("_mt" => $msg_type), $data);
+			$data = array_merge(array("_mt" => $msg_type, "_u" => $score), $data);
 			$data = json_encode($data);
 			$this->_CI->cache->redis->select($this->_redis_db);
 			return $this->_CI->cache->redis->zadd($user_id, $score, $data);

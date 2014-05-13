@@ -27,7 +27,7 @@ if (!function_exists('preg_uname')) {
 
 if (!function_exists('preg_qq')) {
     function preg_qq($qq) {
-        return preg_match("/^\d{5,12}$/",$qq);
+        return preg_match("/^[1-9]{1}\d{4,11}$/",$qq);
     }   
 }
 
