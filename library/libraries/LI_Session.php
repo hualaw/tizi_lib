@@ -41,7 +41,7 @@ class LI_Session extends CI_Session {
 		// Are we using a database?  If so, load it
 		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '')
 		{
-			$this->CI->load->database('',true);
+			if($this->_use_db) $this->CI->load->database('',true);
 		}
 
 		// Set the "now" time.  Can either be GMT or server time, based on the
