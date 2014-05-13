@@ -10,7 +10,7 @@ class Parent_Model extends LI_Model {
     }
 
     // 绑定
-    public function add_kid($user_id, $kid_id, $relation_ship=3){
+    public function add_kid($user_id, $kid_id, $relation_ship=3,$operater=Constant::USER_TYPE_PARENT){
         $relation_ship = intval($relation_ship);
         //先判断家长的帐号是不是家长身份（老师也不能bind kid）
         $this->load->model('login/register_model');
@@ -50,6 +50,7 @@ class Parent_Model extends LI_Model {
         $res = $this->db->query($sql);
 
         if($res){
+            $this->send_binding_notice($user_id,$kid_id,$operater,'bind');
             return array('status'=>true,'msg'=>$this->lang->line('succbind'));
         }
         return array('status'=>false,'msg'=>$this->lang->line('failbind'));
@@ -81,11 +82,15 @@ class Parent_Model extends LI_Model {
     }
 
     // 家长移除（解绑）孩子
-    public function remove_kid($user_id, $kid_id){
+    public function remove_kid($user_id, $kid_id,$operater=Constant::USER_TYPE_PARENT){
         $data = array('is_del'=>TRUE);
         $this->db->where('kid_user_id', $kid_id); 
         $this->db->where('parent_user_id', $user_id); 
-        return $this->db->update($this->_parent_kid_table, $data);
+        $res = $this->db->update($this->_parent_kid_table, $data);
+        if($res){
+            $this->send_binding_notice($user_id,$kid_id,$operater,'unbind');
+        }
+        return $res;
     }
 
     // 修改关系
@@ -123,6 +128,17 @@ class Parent_Model extends LI_Model {
         $res = $this->db->query($sql)->result_array();
         return $res;      
     }
+    
+    //获取某个孩子的家长ID，不链表，一维数组
+    public function get_parents_id($kid_user_id){
+		$parent_ids = array();
+		$res = $this->db->query("select parent_user_id from parents_kids where kid_user_id=? and 
+			is_del=0", array($kid_user_id))->result_array();
+		foreach ($res as $value){
+			$parent_ids[] = $value["parent_user_id"];
+		}
+		return $parent_ids;
+	}
 
     /*
     获取学生们的家长的id
@@ -209,5 +225,27 @@ class Parent_Model extends LI_Model {
     // 获取家长信息
     public function get_info($user_id){
         return $this->db->query("select name,phone,email from user  where id = $user_id limit 1 ")->result_array();
+    }
+
+    /*绑定/取绑 操作后，给双方发送通知*/
+    function send_binding_notice($p_id,$kid_id,$operater=Constant::USER_TYPE_PARENT,$op='bind'){
+        $this->load->library("notice");
+        if($operater == Constant::USER_TYPE_PARENT){
+            $p = $this->get_info($p_id);
+            $p_name = isset($p[0]['name'])?$p[0]['name']:'';
+            $msg_data = array("p_name" => $p_name);
+            if($op == 'bind'){//孩子收到一条 : 家长{p_name}已成功绑定你的帐号
+                $this->notice->add($kid_id, "bind_kid_succ", $msg_data);
+            }elseif($op == 'unbind'){
+                $this->notice->add($kid_id, "remove_bind_kid", $msg_data);
+            }
+        }elseif($operater == Constant::USER_TYPE_STUDENT){//kid_bind_succ 
+            $s = $this->get_info($kid_id);
+            $s_name = isset($s[0]['name'])?$s[0]['name']:'';
+            $msg_data = array("s_name" => $s_name);
+            if($op == 'bind'){
+                $this->notice->add($p_id, "kid_bind_succ", $msg_data);
+            }
+        }
     }
 }
