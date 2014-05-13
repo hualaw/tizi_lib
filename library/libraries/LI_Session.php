@@ -40,7 +40,7 @@ class LI_Session extends CI_Session {
 		// Are we using a database?  If so, load it
 		if ($this->sess_use_database === TRUE AND $this->sess_table_name != '')
 		{
-			$this->CI->load->database();
+			$this->CI->load->database('',true);
 		}
 
 		// Set the "now" time.  Can either be GMT or server time, based on the
@@ -208,6 +208,7 @@ class LI_Session extends CI_Session {
 			{
 				if($this->_use_db)
 				{
+					$this->CI->load->database('',true);
 					$this->CI->db->where('session_id',$session_id);
 					$query = $this->CI->db->get($this->sess_table_name);
 
@@ -326,6 +327,7 @@ class LI_Session extends CI_Session {
 		// Run the update query
 		if($this->_use_db)
 		{
+			$this->CI->load->database('',true);
 			$this->CI->db->where('session_id', $this->userdata['session_id']);
 			$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
 		}
@@ -366,7 +368,11 @@ class LI_Session extends CI_Session {
 		// Save the data to the DB if needed
 		if ($this->sess_use_database === TRUE)
 		{
-			if($this->_use_db) $this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->userdata));
+			if($this->_use_db) 
+			{
+				$this->CI->load->database('',true);
+				$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->userdata));
+			}
 			$this->_redis_set($this->userdata['session_id'],json_encode($this->userdata),$this->sess_expiration);
 		}
 
@@ -415,8 +421,12 @@ class LI_Session extends CI_Session {
 				$cookie_data[$val] = $this->userdata[$val];
 			}
 
-			if($this->_use_db) $this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
-			
+			if($this->_use_db) 
+			{
+				$this->CI->load->database('',true);
+				$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
+			}
+
 			$userdata = $this->_redis_get($old_sessid);
 			$userdata = json_decode($userdata,true);
 			$userdata['last_activity'] = $this->now;
@@ -437,6 +447,7 @@ class LI_Session extends CI_Session {
 		{
 			if($this->_use_db)
 			{
+				$this->CI->load->database('',true);
 				$this->CI->db->where('session_id', $this->userdata['session_id']);
 				$this->CI->db->delete($this->sess_table_name);
 			}
@@ -516,6 +527,7 @@ class LI_Session extends CI_Session {
 		{
 			$expire = $this->now - $this->sess_expiration;
 
+			$this->CI->load->database('',true);
 			$this->CI->db->where("last_activity < {$expire}");
 			$this->CI->db->delete($this->sess_table_name);
 
