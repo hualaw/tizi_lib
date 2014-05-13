@@ -74,8 +74,10 @@ class Question_Subject_Model extends LI_Model {
         $check_subject = false;
         switch($check_type)
         {
+            case 'cloud_question':/*网盘知识点目录*/
             case 'paper_question': 
             case 'homework_question': if($subject_id > 0 && $subject_id <= 21 || $subject_id >= 24 && $subject_id <= 26) $check_subject = true;break;
+            case 'cloud':/*网盘同步目录*/
             case 'paper': 
             case 'homework': if($subject_id > 0 && $subject_id <= 26) $check_subject = true;break;
             case 'lesson': if($subject_id > 0 && $subject_id <= 26 && $subject_id != 23) $check_subject = true;break;
