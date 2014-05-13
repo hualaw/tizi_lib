@@ -26,8 +26,10 @@ class Parent_Model extends LI_Model {
         if(!$relation_ship) $relation_ship=3;
 
         // 一个家长最多能绑定的孩子的数量
-        $this->bind_exceed($user_id,Constant::USER_TYPE_PARENT);
-
+        $res = $this->bind_exceed($user_id,Constant::USER_TYPE_PARENT);
+        if(isset($res['status']) and !$res['status']){
+            return $res;
+        }
         // 重复绑定孩子判断
         $sql = "select count(1) as count from $this->_parent_kid_table where parent_user_id = $user_id and kid_user_id = $kid_id and is_del = 0 ";
         $count = $this->db->query($sql)->row(0)->count ;
@@ -36,7 +38,10 @@ class Parent_Model extends LI_Model {
         }
 
         // 一个孩子对多能被x个家长绑定
-        $this->bind_exceed($kid_id,Constant::USER_TYPE_STUDENT);
+        $res = $this->bind_exceed($kid_id,Constant::USER_TYPE_STUDENT);
+        if(isset($res['status']) and !$res['status']){
+            return $res;
+        }
 
         //一个孩子只能有一个爸爸and一个妈妈, 后来的自动绑定成 其他
         $sql = "select count(1) as count from $this->_parent_kid_table where kid_user_id=$kid_id and relation_ship=$relation_ship and is_del=0";
@@ -69,13 +74,14 @@ class Parent_Model extends LI_Model {
         }elseif($role == Constant::USER_TYPE_PARENT){
             $totalSql = "select count(1) as total from $this->_parent_kid_table where parent_user_id=$user_id and is_del=0";
             $total = $this->db->query($totalSql)->row(0)->total;
+            // var_dump($total,Constant::ONE_PARENT_BIND_KID_MAX);die;
             if($total>=Constant::ONE_PARENT_BIND_KID_MAX){ 
                 $msg = sprintf($this->lang->line('bindlimit'),Constant::ONE_PARENT_BIND_KID_MAX);
-                return array('status'=>false,'errorcode'=>false, 'msg'=>$msg,'error'=>$msg);
+                return array('status'=>false,'errorcode'=>false,'msg'=>$msg,'error'=>$msg);
             }
             // return array('status'=>true,'errorcode'=>true);
         }else{
-            $msg = '此帐号类型不支持绑定'; 
+            $msg = '此账号类型不支持绑定'; 
             return array('status'=>false,'msg'=>$msg,'errorcode'=>false,'error'=>$msg);
         }
 
