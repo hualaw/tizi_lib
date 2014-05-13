@@ -4,6 +4,7 @@ class LI_Session extends CI_Session {
 
 	private $_md5_encrypt = false;
 	private $_redis = null;
+	private $_use_db = true;
 
 	public function __construct($params = array())
 	{
@@ -205,19 +206,28 @@ class LI_Session extends CI_Session {
 			
 			if(empty($session))
 			{
-				$this->CI->db->where('session_id',$session_id);
-				$query = $this->CI->db->get($this->sess_table_name);
+				if($this->_use_db)
+				{
+					$this->CI->db->where('session_id',$session_id);
+					$query = $this->CI->db->get($this->sess_table_name);
 
-				// No result?  Kill it!
-				if ($query->num_rows() == 0)
+					// No result?  Kill it!
+					if ($query->num_rows() == 0)
+					{
+						log_message('trace_tizi','session_destroy_unload_session');
+						$this->sess_destroy();
+						return FALSE;
+					}
+
+					// Is there custom data?  If so, add it to the main session array
+					$session = $query->row_array();
+				}
+				else
 				{
 					log_message('trace_tizi','session_destroy_unload_session');
 					$this->sess_destroy();
 					return FALSE;
 				}
-
-				// Is there custom data?  If so, add it to the main session array
-				$session = $query->row_array();
 			}
 
 			if (isset($session['user_data']) AND $session['user_data'] != '')
@@ -314,8 +324,11 @@ class LI_Session extends CI_Session {
 		}
 
 		// Run the update query
-		$this->CI->db->where('session_id', $this->userdata['session_id']);
-		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
+		if($this->_use_db)
+		{
+			$this->CI->db->where('session_id', $this->userdata['session_id']);
+			$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
+		}
 
 		$userdata = $this->_redis_get($this->userdata['session_id']);
 		$userdata = json_decode($userdata,true);
@@ -353,7 +366,7 @@ class LI_Session extends CI_Session {
 		// Save the data to the DB if needed
 		if ($this->sess_use_database === TRUE)
 		{
-			$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->userdata));
+			if($this->_use_db) $this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->userdata));
 			$this->_redis_set($this->userdata['session_id'],json_encode($this->userdata),$this->sess_expiration);
 		}
 
@@ -402,7 +415,7 @@ class LI_Session extends CI_Session {
 				$cookie_data[$val] = $this->userdata[$val];
 			}
 
-			$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
+			if($this->_use_db) $this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
 			
 			$userdata = $this->_redis_get($old_sessid);
 			$userdata = json_decode($userdata,true);
@@ -422,8 +435,11 @@ class LI_Session extends CI_Session {
 		// Kill the session DB row
 		if ($this->sess_use_database === TRUE && isset($this->userdata['session_id']))
 		{
-			$this->CI->db->where('session_id', $this->userdata['session_id']);
-			$this->CI->db->delete($this->sess_table_name);
+			if($this->_use_db)
+			{
+				$this->CI->db->where('session_id', $this->userdata['session_id']);
+				$this->CI->db->delete($this->sess_table_name);
+			}
 
 			$this->_redis_del($this->userdata['session_id']);
 		}
@@ -481,6 +497,30 @@ class LI_Session extends CI_Session {
 					$this->cookie_domain,
 					$this->cookie_secure
 				);
+	}
+
+	function _sess_gc()
+	{
+		if ($this->sess_use_database != TRUE)
+		{
+			return;
+		}
+
+		if(!$this->_use_db)
+		{
+			return;
+		}
+
+		srand(time());
+		if ((rand() % 100) < $this->gc_probability)
+		{
+			$expire = $this->now - $this->sess_expiration;
+
+			$this->CI->db->where("last_activity < {$expire}");
+			$this->CI->db->delete($this->sess_table_name);
+
+			log_message('debug', 'Session garbage collection performed.');
+		}
 	}
 
 }
