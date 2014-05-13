@@ -1,6 +1,6 @@
 define(function(require, exports) {
     //设置学校
-    $('#resetSchool').live('click',function(){
+    $('.resetSchool').live('click',function(){
         var _this = $(this);
         $.ajax({
             'url' : baseUrlName + 'class/area?id=1',
@@ -39,14 +39,14 @@ define(function(require, exports) {
                 fullname = province + city + county + schoolname;
                 // 判断是否是重设学校
                 if(_this.hasClass('resetSchool')){
-                     $(".theGenusScholl_n").add("undis");                        
-                     $("#school").html(fullname);
-                      $('#resetSchool').text('重设学校');
+                    $(".theGenusScholl_n").add("undis");
+                    _this.prev('.schoolFullName').html(fullname);
+                    _this.text('重设学校');
                     $("#schoolVal").val(school_id);
                 }else{
                     $("#schoolVal").val(school_id);
-                    $("#school").html(fullname);
-                    $('#resetSchool').text('重设学校');
+                    _this.prev('.schoolFullName').html(fullname);
+                    _this.text('重设学校');
                     if($("#schoolVal").val() > 0){
                         $('.schoolBox').find('.ValidformInfo,.Validform_checktip').hide();
                     }
@@ -248,8 +248,9 @@ define(function(require, exports) {
         });
         //点击学校
         $('.sctype li').live('click', function(){
-            $('.schoolInfo .hd').show();
-            $('.schoolInfo .bd').hide();
+            $('.schoolInfo,.schoolInfo .hd').show();
+            $('.schoolNames').val('');
+            $('.schoolInfo .seacherResult,.schoolInfo .reset').hide();
             if($(this).attr('class') !== 'active'){
                 var sctype = $(this).attr('data-id');
                 var county_id = $('.aui_content .county li.active').attr('data-id');
