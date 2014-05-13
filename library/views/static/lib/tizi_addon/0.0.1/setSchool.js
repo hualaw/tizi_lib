@@ -23,29 +23,31 @@ define(function(require, exports) {
             icon:null,
             width:800,
             ok:function(){
-                if($('.school li.active').length < 1){
-                    return;
-                };
                 $(".theGenusScholl_n").addClass("undis");
                 $(".theGenusScholl_y").removeClass("undis");
                 var class_id = $('#class_id').val();
                 var school_id = $('.aui_content .school li.active').attr('data-id');
-                var fullname = '';
+                // var fullname = '';
                 var province = $(".schoolProvice li.active").html();
                 var city = $(".schoolCity li.active").html();
                 var county = $(".schoolCounty li.active").html();
                 var schoolname = $(".schoolName li.active").html();
+                var seacherResultname = $('.schoolInfo .seacherResult li.active').html();
+                var writeSchoolName = $('.writeSchoolName').val();
+                if (typeof writeSchoolName == 'undefined'){writeSchoolName = '';}
+                if (typeof seacherResultname == 'undefined'){seacherResultname = '';}
+                if (typeof schoolname == 'undefined'){schoolname = '';}
                 if (typeof city == 'undefined'){city = '';}
-                fullname = province + city + county + schoolname;
+                var fullname = province + city + county + schoolname + seacherResultname + writeSchoolName;
                 // 判断是否是重设学校
                 if(_this.hasClass('resetSchool')){
                     $(".theGenusScholl_n").add("undis");
-                    _this.prev('.schoolFullName').html(fullname);
+                    _this.siblings('.schoolFullName').html(fullname);
                     _this.text('重设学校');
                     $("#schoolVal").val(school_id);
                 }else{
                     $("#schoolVal").val(school_id);
-                    _this.prev('.schoolFullName').html(fullname);
+                    _this.siblings('.schoolFullName').html(fullname);
                     _this.text('重设学校');
                     if($("#schoolVal").val() > 0){
                         $('.schoolBox').find('.ValidformInfo,.Validform_checktip').hide();
@@ -107,7 +109,7 @@ define(function(require, exports) {
 							'dataType' : 'json',
 							success : function(json, status){
 								words = json.py;
-								exports.query(words);	
+								exports.query(words);
 							}
 						});
 					} else {
@@ -250,7 +252,7 @@ define(function(require, exports) {
         $('.sctype li').live('click', function(){
             $('.schoolInfo,.schoolInfo .hd').show();
             $('.schoolNames').val('');
-            $('.schoolInfo .seacherResult,.schoolInfo .reset').hide();
+            $('.schoolInfo .seacherResult,.schoolInfo .reset,.schoolInfo .bd').hide();
             if($(this).attr('class') !== 'active'){
                 var sctype = $(this).attr('data-id');
                 var county_id = $('.aui_content .county li.active').attr('data-id');
