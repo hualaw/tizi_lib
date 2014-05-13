@@ -4,6 +4,7 @@ class LI_Session extends CI_Session {
 
 	private $_md5_encrypt = false;
 	private $_redis = null;
+	private $_redis_select = false;
 	private $_use_db = true;
 
 	public function __construct($params = array())
@@ -87,6 +88,7 @@ class LI_Session extends CI_Session {
 			$this->CI->config->load('redis', TRUE, TRUE);
 			$redis_config = $this->CI->config->item('redis');
 			$config = $redis_config['redis_default'];
+			$this->_redis_select=$redis_config['redis_db']['session']
 			//$config['timeout'] = 0.1;
 
 			$redis = new Redis();
@@ -104,7 +106,7 @@ class LI_Session extends CI_Session {
 				try
 				{
 					$redis->auth($config['password']);
-					$redis->select($redis_config['redis_db']['session']);
+					$redis->select($this->_redis_select);
 				}
 				catch (RedisException $e)
 				{
@@ -127,26 +129,53 @@ class LI_Session extends CI_Session {
 
 	private function _redis_set($key, $value, $ttl)
 	{
-		if($this->_redis) return $this->_redis->set($key, $value, $ttl);
-		else log_message('error_tizi', '100706:session redis set failed');
+		if($this->_redis && $this->_redis_select) 
+		{
+			$this->_redis->select($this->_redis_select);
+			return $this->_redis->set($key, $value, $ttl);
+		}
+		else 
+		{
+			log_message('error_tizi', '100706:session redis set failed');
+		}
 	}
 
 	private function _redis_get($key)
 	{
-		if($this->_redis) return $this->_redis->get($key);
-		else log_message('error_tizi', '100707:session redis get failed');
+		if($this->_redis && $this->_redis_select) 
+		{
+			$this->_redis->select($this->_redis_select);
+			return $this->_redis->get($key);
+		}
+		else 
+		{
+			log_message('error_tizi', '100707:session redis get failed');
+		}
 	}
 
 	private function _redis_del($key)
 	{
-		if($this->_redis) return $this->_redis->del($key);
-		else log_message('error_tizi', '100708:session redis del failed');
+		if($this->_redis && $this->_redis_select) 
+		{
+			$this->_redis->select($this->_redis_select);
+			return $this->_redis->del($key);
+		}
+		else 
+		{
+			log_message('error_tizi', '100708:session redis del failed');
+		}
 	}
 
 	private function _redis_close()
 	{
-		if($this->_redis) return $this->_redis->close();
-		else log_message('error_tizi', '100709:session redis close failed');
+		if($this->_redis) 
+		{
+			return $this->_redis->close();
+		}
+		else 
+		{
+			log_message('error_tizi', '100709:session redis close failed');
+		}
 	}
 
 	function sess_read()
