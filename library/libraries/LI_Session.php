@@ -561,6 +561,10 @@ class LI_Session extends CI_Session {
 		{
 			//return;
 		}
+		if (!$this->_use_db)
+		{
+			return;
+		}
 
 		srand(time());
 		if ((rand() % 100) < $this->gc_probability)
