@@ -128,6 +128,17 @@ class Parent_Model extends LI_Model {
         $res = $this->db->query($sql)->result_array();
         return $res;      
     }
+    
+    //获取某个孩子的家长ID，不链表，一维数组
+    public function get_parents_id($kid_user_id){
+		$parent_ids = array();
+		$res = $this->db->query("select parent_user_id from parents_kids where kid_user_id=? and 
+			is_del=0", array($kid_user_id))->result_array();
+		foreach ($res as $value){
+			$parent_ids[] = $value["parent_user_id"];
+		}
+		return $parent_ids;
+	}
 
     /*
     获取学生们的家长的id
