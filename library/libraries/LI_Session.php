@@ -83,7 +83,8 @@ class LI_Session extends CI_Session {
 
 	private function _redis_load()
 	{
-		if($this->_redis !== false && !$this->CI->input->cookie('_nrd') && extension_loaded('redis'))
+		$_nrd = $this->CI->input->cookie('_nrd');
+		if($this->_redis !== false && !$_nrd && extension_loaded('redis'))
 		{
 			$this->CI->config->load('redis', TRUE, TRUE);
 			$redis_config = $this->CI->config->item('redis');
@@ -121,7 +122,7 @@ class LI_Session extends CI_Session {
 			}
 			$this->_redis = $redis;
 		}
-		else
+		else if(!$_nrd)
 		{
 			$this->CI->input->set_cookie('_nrd','1',0);
 		}
@@ -232,24 +233,24 @@ class LI_Session extends CI_Session {
 				$userdata = $this->_redis_get($session_id);
 				if(!empty($userdata)) $session = json_decode($userdata,true);
 			}
-			
-			if(empty($session))
+			if(empty($session)&&$this->_use_db)
 			{
-				if($this->_use_db)
-				{
-					$this->CI->load->database('',true);
-					$this->CI->db->where('session_id',$session_id);
-					$query = $this->CI->db->get($this->sess_table_name);
+				$this->CI->load->database('',true);
+				$this->CI->db->where('session_id',$session_id);
+				$query = $this->CI->db->get($this->sess_table_name);
 
-					// No result?  Kill it!
-					if ($query->num_rows() == 0)
+				// No result?  Kill it!
+				if ($query->num_rows() == 0)
+				{
+					$session = array();
+				}
+				else
+				{
+					// Is there custom data?  If so, add it to the main session array
+					$session = $query->row_array();
+					if($this->_redis)
 					{
-						$session = array();
-					}
-					else
-					{
-						// Is there custom data?  If so, add it to the main session array
-						$session = $query->row_array();
+						$this->_redis_set($session['session_id'],json_encode($session),$this->sess_expiration);
 					}
 				}
 			}
@@ -363,8 +364,7 @@ class LI_Session extends CI_Session {
 			$userdata['user_data'] = $custom_userdata;
 			$this->_redis_set($this->userdata['session_id'],json_encode($userdata),$this->sess_expiration);
 		}
-		
-		if($this->_use_db)
+		else if($this->_use_db)
 		{
 			$this->CI->load->database('',true);
 			$this->CI->db->where('session_id', $this->userdata['session_id']);
@@ -405,7 +405,7 @@ class LI_Session extends CI_Session {
 			{
 				$this->_redis_set($this->userdata['session_id'],json_encode($this->userdata),$this->sess_expiration);
 			}
-			if($this->_use_db) 
+			else if($this->_use_db) 
 			{
 				$this->CI->load->database('',true);
 				$this->CI->db->query($this->CI->db->insert_string($this->sess_table_name, $this->userdata));
@@ -467,7 +467,7 @@ class LI_Session extends CI_Session {
 				//$this->_redis_del($old_sessid);
 				$this->_redis_set($old_sessid,json_encode($userdata),120);
 			}
-			if($this->_use_db) 
+			else if($this->_use_db) 
 			{
 				$this->CI->load->database('',true);
 				$this->CI->db->query($this->CI->db->update_string($this->sess_table_name, array('last_activity' => $this->now, 'session_id' => $new_sessid), array('session_id' => $old_sessid)));
@@ -487,7 +487,7 @@ class LI_Session extends CI_Session {
 			{
 				$this->_redis_del($this->userdata['session_id']);
 			}
-			if($this->_use_db)
+			else if($this->_use_db)
 			{
 				$this->CI->load->database('',true);
 				$this->CI->db->where('session_id', $this->userdata['session_id']);
@@ -559,7 +559,7 @@ class LI_Session extends CI_Session {
 
 		if ($this->_redis)
 		{
-			//return;
+			return;
 		}
 		if (!$this->_use_db)
 		{
