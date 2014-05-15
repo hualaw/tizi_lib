@@ -23,4 +23,22 @@ define(function(require, exports) {
 			}
 		});
 	};
+
+	//学堂 消息
+	exports.xGetNotice = function (){
+		$.tizi_ajax({
+	        type:'GET',
+	        url:loginUrlName + 'notice',
+	        dataType:"jsonp",
+	        success:function(data){
+	            if(data.status==99){
+	                if(data.msg > 0){
+	                    $('.warnBox').html('<var>'+data.msg+'</var>');
+	                }else{
+	                    $('.warnBox').html('');
+	                }
+	            };
+	        }
+	    });
+	}
 });

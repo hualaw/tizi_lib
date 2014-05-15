@@ -1,0 +1,80 @@
+{literal}
+<style>
+#teacherSetSchool ul.schooLocation,
+#teacherSetSchool .schoolInfo .school,
+#teacherSetSchool .seacherResult{border: 1px solid #999;padding:10px 8px;background: #eee;margin-bottom: 10px;width:798px;}
+#teacherSetSchool ul.schooLocation li{float: left;padding: 0px 7px;line-height: 20px;cursor: pointer;white-space:nowrap;margin:0px!important;}
+#teacherSetSchool .active{background: #f90;color: #fff;}
+#teacherSetSchool .schoolInfo .hd{padding-bottom:10px;}
+#teacherSetSchool .schoolInfo .cInput{height:27px;line-height: 27px;border:1px solid #ccc;}
+#teacherSetSchool .schoolInfo .hd .cBtnSilver{height:27px;line-height: 27px;margin-left:10px;}
+#teacherSetSchool .schoolInfo .noMySchollBtn,
+#teacherSetSchool .schoolInfo .returnSetSchool{color:#09aa83;margin-left:10px;}
+#teacherSetSchool .schoolInfo .noMySchollBtn:hover,
+#teacherSetSchool .schoolInfo .returnSetSchool:hover{color:#f90;}
+#teacherSetSchool .schoolInfo .school,
+#teacherSetSchool .schoolInfo .seacherResult{height:90px;overflow-y: scroll;}
+#teacherSetSchool .schoolInfo .school dt{width:20px;text-align: center;font-size:14px;}
+#teacherSetSchool .schoolInfo .school dd{width: 760px;}
+#teacherSetSchool .schoolInfo .school dt{font-weight:bold;}
+#teacherSetSchool .schoolInfo span.reset{position: absolute;top: 8px;right:8px;background:url({/literal}{$static_url}{$static_version}{literal}lib/tizi_static/image/common/close.gif) no-repeat;);width:11px;height:11px;text-indent: -999em; overflow: hidden;cursor: pointer;}
+#teacherSetSchool .schoolInfo .school dd li{width:25%;padding:0px;display:block;float: left;height:24px;overflow: hidden; cursor: pointer; text-indent: 10px;}
+#teacherSetSchool .seacherResult li{width:25%;padding:0px;display:block;float: left;height:24px;overflow: hidden; cursor: pointer; text-indent: 10px;}
+</style>
+{/literal}
+<div id="resetSchoolPop" class="pop_box">
+    <div id="teacherSetSchool">
+        <div class="pop_main resetSchoolPopCon_beta">
+            <!-- 选择省份开始 -->
+            <ul class="schooLocation schoolProvice cf province undis"></ul>
+            <!-- 选择省份结束 -->
+            <!-- 选择城市开始 -->
+            <ul class="schooLocation schoolCity cf city undis"></ul>
+            <!-- 选择城市结束 -->
+            <!-- 选择区县开始 -->
+            <ul class="schooLocation schoolCounty cf county undis"></ul>
+            <!-- 选择区县结束 -->
+            <!-- 选择学校性质开始 -->
+            <ul class="schooLocation schoolGrade cf sctype undis"></ul>
+            <!-- 选择学校性质结束 -->
+            <!-- 选择学校开始 -->
+            <div class="schoolInfo undis">
+                <div class="hd">
+                    <form action="###" class="seacherSchoolForm" method="post" onsubmit="return false;">
+                        <span class="fl">输入学校名称直接搜索：</span>
+                        <div class="posr fl">
+                            <input type="text" name="" class="cInput schoolNames" />
+                            <div class="ValidformInfo">
+                              <span class="Validform_checktip"></span>
+                              <span class="dec">
+                                <s class="dec1">&#9670;</s>
+                                <s class="dec2">&#9670;</s>
+                              </span>
+                            </div>
+                            <span class="reset undis" title="重置">X</span>
+                        </div>
+                        <input type="submit" value="搜索" class="cBtnSilver fl" />
+                        <a href="javascript:void(0)" class="noMySchollBtn fl">没有我的学校？</a>
+                    </form>
+                </div>
+                <div class="schooLocation schoolName school undis">
+                </div>
+                <!-- 搜索结果开始 -->
+                <div class="seacherResult undis cf">
+                    <ul></ul>
+                </div>
+                <!-- 搜索结果结束 -->
+                <!-- 没有我的学校开始 -->
+                <div class="bd undis">
+                    <span class="fl">
+                        请输入您的学校名称：
+                    </span>
+                    <input type="text" class="cInput fl writeSchoolName" />
+                    <a href="javascript:void(0)" class="returnSetSchool fl">返回选择学校</a>
+                </div>
+                <!-- 没有我的学校结束 -->
+            </div>
+            <!-- 选择学校结束 -->
+        </div>
+    </div>
+</div>

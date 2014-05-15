@@ -146,6 +146,7 @@ class Question_Exam_Model extends MY_Model {
     public function get_exam_by_id($exam_id)
     {
         $this->db->where('id',$exam_id);
+        $this->db->where($this->_table.'.online',1);
         $query=$this->db->get($this->_table);
         return $query->row();
     }

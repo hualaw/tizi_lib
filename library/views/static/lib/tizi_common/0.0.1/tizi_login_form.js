@@ -1,14 +1,28 @@
 define(function(require, exports) {
     require('tiziDialog');
     require('tizi_ajax');
-    exports.loginForm = function(html){
+    // 公共登录入口
+    exports.init = function(){
+        exports.loginCheckClick();
+        exports.logoutCheckClick();
+        exports.oauthLogin();
+    };
+    exports.loginForm = function(html,redirect){
         $.tiziDialog({
             id:'loginFormID',
         	title:'用户登录',
             content:html,
             icon:null,
             width:400,
-            ok:false
+            ok:false,
+            close:function(){
+                if(redirect.substr(0,9) == 'callback:'){
+                    var callback = redirect.substr(9);
+                    seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
+                        ex.close();
+                    });
+                }
+            }
         });
         require("tizi_valid").indexLogin();
         // 执行第三方登录
@@ -51,12 +65,14 @@ define(function(require, exports) {
                         }
 					}else if(data.redirect.substr(0,9) == 'callback:'){
                         var callback = data.redirect.substr(9);
-                        seajs.use('module/common/ajax/unlogin/' + callback);
+                        seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
+                            ex.callback();
+                        });
                     }else if(data.redirect){
                         window.location.href=data.redirect;
                     }
                 }else{
-                    exports.loginForm(data.html);
+                    exports.loginForm(data.html,data.redirect);
                     seajs.use('placeHolder');
                 }
             }  

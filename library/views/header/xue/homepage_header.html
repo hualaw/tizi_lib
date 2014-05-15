@@ -3,32 +3,43 @@
 <!-- 首页头部结构开始 -->
 <div class="header cf">
 	<div class="headleft fl">
-		分享给小伙伴<br>
-		<img src="debug/images/homePage/share.png" alt="">
+		分享给小伙伴<br>      
+		<div class="bdsharebuttonbox">
+			<a href="#" class="bds_tsina" data-cmd="tsina"></a>
+			<a href="#" class="bds_qzone" data-cmd="qzone"></a>
+			<a href="#" class="popup_sqq" data-cmd="sqq"></a>
+		</div>
 	</div>
 	<div class="headright fr">
+        {if !isset($user_id) || !$user_id}
 		<!--登录前 头部右侧导航 开始-->
-		<div class="loginBefore cf">
-			<a href="" class="fr loginCheck">登录</a>
+		<div class="loginBefore cf undis">
+			<a href="" class="fr loginCheck" dest="reload">登录</a>
 			<span class="fr">|</span>
-			<a href="" class="fr">注册</a>
+			<a href="{$login_url}register?redirect={urlencode($xue_url)}" target="_blank" class="fr">注册</a>
 		</div>
 		<!--登录前 头部右侧导航 结束-->
+        {else}
 		<!--登录后 头部右侧导航 开始-->
 		<div class="loginAfter cf undis">
-			<a href="" class="fl warn">提醒<span class="warnBox"><var>3</var></span></a>
 			<div class="fr posr">
-				<em>用户名</em>
+                <em>{sub_str($username,0,12)}</em>
 				<ul class="infor cf">
-					<li><a href="">我的账号</a></li>
-					<li><a href="">退出</a></li>
+					<li><a href="{$login_url}{$constant.user_type[$user_type]}/user/center">我的账号</a></li>
+					<li><a href="javascript:void(0);" class="changeGrade">更改年级</a></li>
+					<li><a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{$site_url}">退出</a></li>
 				</ul>
 			</div>
+			<a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" class="fr warn">提醒<span class="warnBox"></span></a>
 		</div>
 		<!--登录后 头部右侧导航 结束-->
+        {/if}
 	</div>
 	<h1 class="indexLogo">
-		<a href="" class="logo"></a>
+		<a href="{$site_url}" class="logo"></a>
 	</h1>
 </div>
 <!-- 首页头部结构结束 -->
+
+{include file='file:[lib]header/xue/set_grade_dialog.html'}
+

@@ -6,7 +6,6 @@ class Tizi_Oauthlogin extends Tizi_Controller {
     function __construct()
     {
         parent::__construct();
-
         $this->load->model("login/login_model");
         $this->load->model("login/session_model");
     }
@@ -28,7 +27,6 @@ class Tizi_Oauthlogin extends Tizi_Controller {
             //exit($e->getMessage());
             show_error($e->getMessage());
         }
-
     }
 
     public function callback($platform)

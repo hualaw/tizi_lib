@@ -34,6 +34,7 @@ class Session_Model extends LI_Model {
 				'urname'=>$data['name'],
 				'user_type'=>$data['user_type'],
 				'uname'=>$data['uname'],
+				'email'=>$data['email'],
 				'student_id'=>$data['student_id'],
 				'avatar'=>$register_data->avatar?$register_data->avatar:0,
 				'certification'=>$register_data->certification?$register_data->certification:0,
@@ -115,6 +116,7 @@ class Session_Model extends LI_Model {
 				'expire_time'=>'',
 				'user_data'=>json_encode(
 					array(
+						'email'=>$user->email,
 						'register_subject'=>$user->register_subject,
 						'register_grade'=>$user->register_grade,
 						'register_domain'=>$register_domain,
