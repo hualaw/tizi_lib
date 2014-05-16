@@ -7,6 +7,7 @@ class cloud_model extends MY_Model{
     private $_love_table = 'cloud_love_log';
     private $_down_table = 'cloud_download_log';
     private $_redis=false;
+    private $_old_cloud_dir_where = 'cat_id=null ';
     function __construct(){
         parent::__construct();
         $this->load->model("redis/redis_model");
@@ -145,8 +146,6 @@ class cloud_model extends MY_Model{
         }else{
             return $value;
         }
-      
-
     }
 
     //获取某人的某类型的文件集合
@@ -182,13 +181,12 @@ class cloud_model extends MY_Model{
 
     //获取某人名下的某个文件夹下的所有文件和文件夹
     function get_dir_child_by_p_id($user_id,$dir_id=0,$page_num=1,$file_offset=0,$total=false){
-
         if($total){
-            
             $this->db->select("COUNT(`id`) AS filenum");
-            $files_total = $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0))->row()->filenum;
+            $files_total = $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0,'dir_cat_id'=>null))->row()->filenum;
+            // echo $this->db->last_query();
             $this->db->select("COUNT(`dir_id`) AS dirnum");
-            $dir_total = $this->db->get_where($this->_dir_table,array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0))->row()->dirnum;
+            $dir_total = $this->db->get_where($this->_dir_table,array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0,'cat_id'=>null))->row()->dirnum;
             $all_total = $dir_total+$files_total;
             if($files_total>0){
                 return array('all_total'=>$all_total,'total_page'=>$all_total,'dir_total'=>$dir_total,'file_total'=>$files_total);
@@ -199,7 +197,7 @@ class cloud_model extends MY_Model{
             $limit=Constant::CLOUD_FILE_PER_PAGE_NUM;
             if($page_num<=0) $page_num=1;
             $offset=($page_num-1)*$limit;
-            $this->db->where(array('user_id'=>$user_id,'is_del'=>0,'p_id'=>$dir_id));
+            $this->db->where(array('user_id'=>$user_id,'is_del'=>0,'p_id'=>$dir_id,'cat_id'=>null));
             $this->db->limit($limit,$offset);
             $this->db->order_by('create_time','desc');
             $dir_query=$this->db->get($this->_dir_table);
@@ -210,18 +208,15 @@ class cloud_model extends MY_Model{
             if(!$count_file){
                 return $return;
             }
-
             if(!$file_offset){
                 $file_offset = $count_file;
                 $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$user_id and is_del=0 order by upload_time desc limit 0,$file_offset";
             }else{
-
                 $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$user_id and is_del=0 order by upload_time desc limit $file_offset,".Constant::CLOUD_FILE_PER_PAGE_NUM;
             }
             $return['file'] = $this->db->query($sql)->result_array();            
             return $return;
         }
-        
     }
 
     //获取文件夹下的文件
@@ -235,7 +230,7 @@ class cloud_model extends MY_Model{
         return $this->db->query($sql)->result_array();
     }
 
-    //完整的目录结构
+    //完整的目录结构    2014-05-10备注：暂时封存了，新版不用这样的了；
     function get_dir_tree($uid,$from_dir=0){
         $sql = "select dir_id,dir_name,depth,p_id from $this->_dir_table where user_id=$uid and is_del=0 and dir_id>=$from_dir order by dir_id desc";
         $res = $this->db->query($sql)->result_array();
@@ -375,10 +370,15 @@ class cloud_model extends MY_Model{
     }
 
     //移动文件夹/文件
-    function move_dir_or_file($is_file,$resouce_id,$to_dir_id,$uid){
+    function move_dir_or_file($is_file,$resouce_id,$to_dir_id,$uid,$dir_cat_id=null,$sub_cat_id=null,$resource_type=null){
         if($is_file){//是文件
             $table = $this->_file_table;
             $data = array('dir_id' => $to_dir_id );
+            // if($dir_cat_id and $sub_cat_id and $resource_type){
+                $data['dir_cat_id'] = $dir_cat_id;
+                $data['sub_cat_id'] = $sub_cat_id;
+                $data['resource_type'] = $resource_type;
+            // }
             $index = 'id';
         }else{//是目录
             $table = $this->_dir_table;
@@ -459,7 +459,6 @@ class cloud_model extends MY_Model{
             }
         }
         return $re_value;
-        
     }
 
     //删除一个文件夹下的所有文件
@@ -468,28 +467,6 @@ class cloud_model extends MY_Model{
         $sql = "update $this->_file_table set is_del=1,del_time = $time where user_id=$uid and dir_id=$dir_id";
         $this->db->query($sql);
     }
-
-    //获取完整的文件路径  暂时不用
-    // function get_view_file_path($file_id,$is_qiniu=false){
-    //     $file_info = $this->file_info($file_id);
-    //     if(!$file_info){
-    //         return '';
-    //     }
-    //     $this->load->config('upload');
-    //     $file_path = $file_info['file_path'];
-    //     $file_type = $file_info['file_type'];
-    //     if(!$is_qiniu){
-    //         $base_url  = $this->config->item('domain_document');//这里应该是访问swf的地址,得改
-    //         $file_path = $base_url.urldecode($file_path);
-    //         if(strpos($file_path, 'http://')===false){
-    //             $file_path='http://'.$file_path;
-    //         }
-    //     }elseif($file_type==Constant::CLOUD_FILETYPE_PIC){
-    //         $this->load->library('qiniu');
-    //         $file_path = $this->qiniu->qiniu_get_image($file_path,1,660,660);
-    //     }
-    //     return $file_path;
-    // }
 
     //获取下载链接
     function get_download_file_path($file_id,$file_path=''){
@@ -510,8 +487,9 @@ class cloud_model extends MY_Model{
                 $file_path='http://'.$file_path;
             }
         }else{
-            $this->load->library('qiniu');
-            $file_path = $this->qiniu->qiniu_download_link($file_path,$file_info['file_name'].$file_info['file_ext']);
+            // $this->load->library('qiniu');
+            $this->load->helper('qiniu');
+            $file_path = qiniu_download($file_path,$file_info['file_name'].$file_info['file_ext']);
         }
         return $file_path;
     }
@@ -615,26 +593,35 @@ class cloud_model extends MY_Model{
 
     //新建文件夹和rename文件夹的时候，如果有重名，就自动加一
     //$dir_name是用户输入或上传的文件的原始名字
-    function check_dir_name_exist($pid=0,$dir_name,$uid,$is_file=false,$ext=0){
+    //$to_cat 为true，就是检查资源库中的文件；为false就是检查老网盘中的文件
+    function check_dir_name_exist($pid=0,$dir_name,$uid,$is_file=false,$ext=0,$to_cat=false){
         if($is_file){
             $table = $this->_file_table;
             $select = 'file_name';
             $dir_index = 'dir_id';
             $ext_sql = " and file_ext='$ext' ";
+            $cat = ' and dir_cat_id is null ';
+            if($to_cat){
+                $cat = ' and dir_cat_id is not null ';
+            }
         }else{
             $table = $this->_dir_table;
             $select = 'dir_name';
             $dir_index = 'p_id';
             $ext_sql = "";
+            $cat = ' and cat_id is null ';
+            if($to_cat){
+                $cat = ' and dir_cat_id is not null ';
+            }
         }
-        $sql = "select count(1) as num from $table where user_id=$uid and is_del=0 and $select=? and $dir_index=$pid $ext_sql";
+        $sql = "select count(1) as num from $table where user_id=$uid $cat and is_del=0 and $select=? and $dir_index=$pid $ext_sql";
         $sql_arr = array($dir_name);
         $num = $this->db->query($sql,$sql_arr)->row(0)->num;
         if(!$num){//不存在就返回当前名字
             return $dir_name;
         }
         $tmp_dir_name = addslashes($dir_name);
-        $sql = "select $select from $table where user_id=$uid and is_del=0 and $dir_index=$pid $ext_sql and $select REGEXP '^$tmp_dir_name\\\(?[0-9]*\\\)?$' order by $select ";
+        $sql = "select $select from $table where user_id=$uid $cat and is_del=0 and $dir_index=$pid $ext_sql and $select REGEXP '^$tmp_dir_name\\\(?[0-9]*\\\)?$' order by $select ";
         $res = $this->db->query($sql)->result_array();
         if(!$res){
             return $dir_name."(1)";
@@ -659,8 +646,7 @@ class cloud_model extends MY_Model{
         return $dir_name."($_tmp)";
     }
 
-    function get_parent_dir($p_id)
-    {
+    function get_parent_dir($p_id){
         return $this->db->get_where($this->_dir_table,array('dir_id'=>$p_id))->row();
     }
 
@@ -690,6 +676,12 @@ class cloud_model extends MY_Model{
         $this->db->limit(1);
         return $this->db->get($this->_file_table)->row();
         
+    }
+
+    function update_file_table($data,$where){
+        $this->db->where($where);
+        $res = $this->db->update($this->_file_table,$data);
+        return $res;
     }
 
 

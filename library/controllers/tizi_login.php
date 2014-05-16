@@ -1,14 +1,13 @@
-<?php
-if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+require_once("tizi_controller.php");
 
-class Tizi_Login extends MY_Controller {
+class Tizi_Login extends Tizi_Controller {
 	
 	protected $_smarty_dir="login/";
 
     function __construct()
     {
         parent::__construct();
-
 		$this->load->model("login/login_model");
 		$this->load->model("login/session_model");
     }
@@ -228,34 +227,6 @@ class Tizi_Login extends MY_Controller {
         echo json_token(array('errorcode'=>$errorcode));
         exit();
     }
-
-    protected function get_redirect($user_type,$user_data,$redirect_type,$redirect_url=false)
-   	{
-   		if($redirect_url) $redirect=$redirect_url;
-        else $redirect=redirect_url($user_type,$redirect_type);
-   		switch ($user_type) 
-		{
-			case Constant::USER_TYPE_STUDENT:
-				if(!$user_data['uname'] || !$user_data['register_grade'])
-				{
-					$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
-					$redirect.='?redirect='.urlencode($redirect_url);
-				}
-				break;
-            case Constant::USER_TYPE_TEACHER:
-            	if(!$user_data['register_subject'])
-				{
-					$redirect=redirect_url(Constant::USER_TYPE_TEACHER,'perfect');
-					$redirect.='?redirect='.urlencode($redirect_url);
-				}
-				break;
-            case Constant::USER_TYPE_PARENT:	
-            case Constant::USER_TYPE_RESEARCHER:
-            default:
-            	break;
-		}
-		return $redirect;
-   	}
 
    	private function get_login_redirect($user_type,$user_data,$redirect_type,$redirect_url=false)
    	{

@@ -739,6 +739,9 @@ class Student_Homework_Model extends LI_Model{
                 if(isset($val['analysis'])){
                     $val['analysis'] = str_replace($img_k,$img_v,$val['analysis']);
                 }
+                if(isset($val['analysis_text'])){
+                    $val['analysis_text'] = str_replace($img_k,$img_v,$val['analysis_text']);
+                }
                 if(isset($val['answer_text'])){
                     $val['answer_text'] = str_replace($img_k,$img_v,$val['answer_text']);
                 }

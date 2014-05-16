@@ -13,7 +13,7 @@ class Register_Model extends LI_Model {
 	/*desc:insert new register to db*/
 	/*input:arg(username,password,name,type(1-email,2-phone),user_type(1-admin,2-student,3-teacher,4-parent))*/
 	/*output:return(userid,errorcode(1-success,0-duplicate))*/
-	function insert_register($username,$password,$name,$type,$user_type=Constant::USER_TYPE_TEACHER,$user_data=false)
+	function insert_register($username,$password,$name,$type,$user_type=Constant::USER_TYPE_TEACHER,$user_data=false,$send_email=true)
 	{
 		$username=strip_tags(trim($username));
     	if(!$username) return array('errorcode'=>false,'user_id'=>0,'student_id'=>0);
@@ -23,7 +23,13 @@ class Register_Model extends LI_Model {
 		$insert_id = $this->db->insert_id();
 		if($insert_id > 0)
 		{
-			$errorcode=true;		
+			$errorcode=true;	
+			if($send_email&&$data['email'])
+			{
+				$this->load->model('login/verify_model');
+                $authcode=$this->verify_model->generate_authcode_email($data['email'],Constant::CODE_TYPE_REGISTER,$insert_id,$data['user_type'],false);
+                if($authcode['errorcode']) $this->verify_model->send_authcode_email($authcode['authcode'],$data['email'],Constant::CODE_TYPE_REGISTER);
+			}	
 			/* thrift insert start */
 			if ($type == Constant::INSERT_REGISTER_PHONE)
 			{

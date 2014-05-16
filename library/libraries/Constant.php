@@ -18,7 +18,11 @@ Class CI_Constant {
 	const REG_ORIGEN_AQ_IOS = 21;
 	const REG_ORIGIN_AQ_ANDROID = 31;
 	const REG_ORIGIN_CRM = 41;
-	const REG_ORIGIN_CRM_STUID= 43;
+	const REG_ORIGIN_CRM_STUID	= 43;
+	const REG_ORIGIN_QQ_PERFECT	= 51;
+	const REG_ORIGIN_QQ_SKIP	= 52;
+	const REG_ORIGIN_WEIBO_PERFECT = 53;
+	const REG_ORIGIN_WEIBO_SKIP = 54;
 
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
@@ -163,44 +167,17 @@ Class CI_Constant {
 		return isset($redirect_url[$redirect_type][$user_type])?$redirect_url[$redirect_type][$user_type]:site_url();
 	}
 
-	/** 宠物id得到相应目录
+	/** 用户使用的应用对应的值s
 	 * @static
-	 * @param $pet_id
+	 * @param $app_name
 	 * @return mixed
 	 */
-	public static function pet_path($pet_id) {
+	public static function user_apps_binary($app_name){
 		$arr = array(
-			1 => 'myPet/cat',
-			2 => 'myPet/cat'
+			'tiku' => 1,
+			'xuetang' => 10
 		);
-		return isset($arr[$pet_id]) ? $arr[$pet_id] : $arr[1];
-	}
-
-	/** 宠物状态
-	 * @static
-	 * @param $status_id
-	 * @return mixed
-	 */
-	public static function pet_status($status_id) {
-		$arr = array(
-			1 => 'happy',
-			2 => 'hungry',
-			3 => 'cold'
-		);
-		return isset($arr[$status_id]) ? $arr[$status_id] : $arr[1];
-	}
-
-	/** 宠物闯关成功失败状态
-	 * @static
-	 * @param $status_id
-	 * @return mixed
-	 */
-	public static function pet_through_status($status_id){
-		$arr = array(
-			1 =>'success',
-			2 => 'fail'
-		);
-		return isset($arr[$status_id]) ? $arr[$status_id] : $arr[1];
+		return isset($arr[$app_name]) ? $arr[$app_name] : $arr['tiku'];
 	}
 	
 	public static function school_type(){
@@ -216,6 +193,15 @@ Class CI_Constant {
 			7 => "培训机构"
 		);
 		return $define;
+	}
+
+	public static function relation($id=false){
+		$relation = array(
+			1 => '爸爸',
+			2 => '妈妈',
+			3 => '其他'
+		);
+		return isset($relation[$id])?$relation[$id]:$relation;
 	}
 
 }
