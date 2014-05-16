@@ -232,13 +232,11 @@ class Student_Task_Model extends LI_Model{
     public function advance_save($data, $q_order = 1){
         $this->db->trans_start();
         foreach($data as $workinfo){
-            /*
             if($q_order == 1){
                 $workinfo['random_number'] = 0;
             }else{
                 $workinfo['random_number'] = rand(1,100);;
             }
-             */
             $this->db->insert('student_homework',$workinfo);
             $id = $this->db->insert_id();
             $this->pushTaskOnAddHomework($workinfo['student_id'],$id);
