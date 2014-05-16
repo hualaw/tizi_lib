@@ -12,7 +12,7 @@ class Question_Category_Model extends MY_Model {
     /*get root id*/
     public function get_root_id($subject_id)
     {
-		$this->db->select("id,name,lft,rgt,type");
+		$this->db->select("id,name,lft,rgt,type,category_type");
 		$this->db->where('subject_id',$subject_id);
 		$this->db->where('depth',1);
 		$this->db->order_by('list_order', 'desc');
