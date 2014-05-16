@@ -14,31 +14,29 @@
 | path to your installation.
 |
 */
-$config['static_url'] = 'http://static.tizi.com/';
-
 $config['base_url']	= '';
 $config['base_static_url'] = 'application/views/static/';
 
-$config['tizi_url'] = 'http://www.tizi.com/';
-$config['tizi_static_url'] = 'http://tizi-static.tizi.com/';
+$config['tizi_url'] = '';
+$config['tizi_static_url'] = 'application/views/static/';
 
-$config['login_url'] = 'http://user.tizi.com/';
-$config['login_static_url'] = 'http://user-static.tizi.com/';//'application/views/static/';
+$config['login_url'] = '';
+$config['login_static_url'] = 'application/views/static/';
 
-$config['edu_url'] = 'http://edu.tizi.com/';
-$config['edu_static_url'] = 'http://edu-static.tizi.com/';//'application/views/static/';
+$config['edu_url'] = 'http://192.168.11.110:8091/';
+$config['edu_static_url'] = 'application/views/static/';
 
-$config['jxt_url'] = 'http://jiaxiao.tizi.com/';
-$config['jxt_static_url'] = 'http://jxt-static.tizi.com/';
+$config['jxt_url'] = 'http://jxt.tizi.com/';
+$config['jxt_static_url'] = 'application/views/static/';
 
-$config['zl_url'] = 'http://ziliao.tizi.com/';
-$config['zl_static_url'] = 'http://tizi-static.tizi.com/';
+$config['zl_url'] = 'http://192.168.11.110:8088/';
+$config['zl_static_url'] = 'application/views/static/';
 
-$config['jia_url'] = 'http://jia.tizi.com/';
-$config['jia_static_url'] = 'http://tizi-static.tizi.com/';
+$config['jia_url'] = 'http://192.168.11.110:8088/';
+$config['jia_static_url'] = 'application/views/static/';
 
-$config['xue_url'] = 'http://xue.tizi.com/';
-$config['xue_static_url'] = 'http://xue-static.tizi.com/';
+$config['xue_url'] = '';
+$config['xue_static_url'] = 'application/views/static/';
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -289,7 +287,7 @@ $config['sess_time_to_update']	= 7200;
 |
 */
 $config['cookie_prefix']	= "";
-$config['cookie_domain']	= ".tizi.com";
+$config['cookie_domain']	= "";
 $config['cookie_path']		= "/";
 $config['cookie_secure']	= FALSE;
 
