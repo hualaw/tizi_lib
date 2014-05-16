@@ -116,25 +116,22 @@ Class Tiku_model extends LI_Model
 	}
 	
 	
-	/*
-	 * 是否被关注
+	/**
+	 * 判断我是否已关注某个用户
+         * @param int $myId      本用户的用户Id
+         * @param int $othersId  其他人的用户Id
 	 */
-	 public function isFollow($userInfo,$result)
+	 public function isFollow($myId,$othersId)
 	 {
-
-		foreach ($result as $k=>$v)
-		{
-			$nums = $this->db->query("
-			        select id from study_user_relation 
-			        where userId = ".$userInfo['user_id']." and friendId = ".$v['user_id'])->num_rows();
-			if ($nums > 0)
-			{
-				$result[$k]['is_follow'] = 1;
-			} else {
-				$result[$k]['is_follow'] = 0;
-			}
-		}
-		return $result;	
+             $nums = $this->db->query("
+                    select id from study_user_relation 
+                    where userId = ".$myId." and friendId = ".$othersId)->num_rows();
+             if ($nums > 0) {
+                 $result = 1;
+             } else {
+                 $result = 0;
+             }
+             return $result;	
 	 }
 	 
 	/*
