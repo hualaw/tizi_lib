@@ -235,7 +235,7 @@ class Student_Task_Model extends LI_Model{
             if($q_order == 1){
                 $workinfo['random_number'] = 0;
             }else{
-                $workinfo['random_number'] = rand(1,100);;
+                $workinfo['random_number'] = rand(1,100);
             }
             $this->db->insert('student_homework',$workinfo);
             $id = $this->db->insert_id();
