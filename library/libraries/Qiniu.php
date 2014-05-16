@@ -88,9 +88,18 @@ class Qiniu {
         $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
         $getPolicy->Expires = $ttl;
         $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
-        $baseUrl .= "?avthumb/{$ext}/r/24/vcodec/libx264";
+        //同后缀就不用加转换参数
+        $rpos = strrpos($key , '.');
+        $get_ext = '';
+        if($rpos !== false){
+            $get_ext = substr($key,$rpos+1);
+        }
+        if($get_ext != $ext){
+            $baseUrl .= "?avthumb/{$ext}/r/24/vcodec/libx264";
+        }
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
-        // var_dump($getPolicy);die;    
+        // $privateUrl = urlencode(str_replace("http://", '',$privateUrl));
+        $privateUrl = urlencode($privateUrl);
         return $privateUrl;
     }
 
@@ -138,17 +147,17 @@ class Qiniu {
     }
 
     //按要求获取视频资源，second是切片时间长度，preset是预设集
-    function qiniu_get_video($key,$second=10,$preset="video_16x9_440k"){
-        $domain = $this->domain;
-        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+    // function qiniu_get_video($key,$second=10,$preset="video_16x9_440k"){
+    //     $domain = $this->domain;
+    //     $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
 
-        $baseUrl = "http://apitest.b1.qiniudn.com/sample.wav";
-        $imgViewPrivateUrl = $baseUrl .= "?avthumb/m3u8/preset/{$preset}";
-        //对fopUrl 进行签名，生成privateUrl。 公有bucket 此步可以省去。
-        $getPolicy = new Qiniu_RS_GetPolicy();
-        // $imgViewPrivateUrl = $getPolicy->MakeRequest($baseUrl, null);
-        return $imgViewPrivateUrl;
-    }
+    //     $baseUrl = "http://apitest.b1.qiniudn.com/sample.wav";
+    //     $imgViewPrivateUrl = $baseUrl .= "?avthumb/m3u8/preset/{$preset}";
+    //     //对fopUrl 进行签名，生成privateUrl。 公有bucket 此步可以省去。
+    //     $getPolicy = new Qiniu_RS_GetPolicy();
+    //     // $imgViewPrivateUrl = $getPolicy->MakeRequest($baseUrl, null);
+    //     return $imgViewPrivateUrl;
+    // }
 
     function test($key){
         $domain = $this->domain;
