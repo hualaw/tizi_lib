@@ -81,6 +81,19 @@ class Qiniu {
         return $privateUrl;
     }
 
+    //获取下载链接 (私有资源)   时间默认设置成 3小时
+    function qiniu_video($key,$ext='mp4',$ttl=10800){
+        $domain = $this->domain;
+        $client = new Qiniu_MacHttpClient(null);
+        $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
+        $getPolicy->Expires = $ttl;
+        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+        $baseUrl .= "?avthumb/{$ext}/r/24/vcodec/libx264";
+        $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
+        // var_dump($getPolicy);die;    
+        return $privateUrl;
+    }
+
     //删除七牛上的资源
     function qiniu_del($key){
         $bucket = $this->bucket;
