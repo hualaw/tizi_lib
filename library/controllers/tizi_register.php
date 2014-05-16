@@ -283,8 +283,8 @@ class Tizi_Register extends Tizi_Controller {
 			$this->load->model('class/classes');
 	   		$class_id=alpha_id_num($class_code,true);
 
-			$class_info=$this->classes->get($class_id,'class_grade');
-			if(isset($class_info['class_grade']))
+			$class_info=$this->classes->get($class_id,'class_grade,class_status');
+			if(isset($class_info['class_grade'])&&$class_info['class_status']==0)
 			{
 				$class['errorcode']=true;
 				$class['class_id']=$class_id;
