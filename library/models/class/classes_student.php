@@ -5,6 +5,7 @@ class Classes_student extends LI_Model{
 	const JOIN_METHOD_TCREATE	= 2;				//通过教师生成账号直接加入班级 
 	const JOIN_METHOD_INVITESITE= 3;				//通过tizi.com/invite/xxx
 	const JOIN_METHOD_TLET		= 4;				//通过老师输入用户名，学号等方式加入
+	const JOIN_METHOD_REGCLASS	= 5;				//通过班级编号注册直接加入
 	
 	public function __construct(){
         parent::__construct();
