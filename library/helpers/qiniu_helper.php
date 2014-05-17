@@ -56,7 +56,7 @@ if (!function_exists('qiniu_download')) {
     }
 }
 
-/*七牛 视频文件 转换成 mp4 链接*/
+/*七牛 视频文件 转换成 mp4 链接, 默认3小时*/
 if (!function_exists('qiniu_mp4')) {
     function qiniu_mp4($key ,$ttl=10800) {
         $ci =& get_instance();
