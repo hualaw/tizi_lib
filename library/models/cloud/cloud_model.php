@@ -600,9 +600,9 @@ class cloud_model extends MY_Model{
             $select = 'file_name';
             $dir_index = 'dir_id';
             $ext_sql = " and file_ext='$ext' ";
-            $cat = ' and dir_cat_id is null ';
+            $cat = ' and (dir_cat_id is null or dir_cat_id = 0 ) ';
             if($to_cat){
-                $cat = ' and dir_cat_id is not null ';
+                $cat = ' and dir_cat_id > 0 ';
             }
         }else{
             $table = $this->_dir_table;
@@ -617,6 +617,7 @@ class cloud_model extends MY_Model{
         $sql = "select count(1) as num from $table where user_id=$uid $cat and is_del=0 and $select=? and $dir_index=$pid $ext_sql";
         $sql_arr = array($dir_name);
         $num = $this->db->query($sql,$sql_arr)->row(0)->num;
+        // echo $this->db->last_query();die;
         if(!$num){//不存在就返回当前名字
             return $dir_name;
         }
