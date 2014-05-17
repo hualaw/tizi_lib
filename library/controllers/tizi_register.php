@@ -117,9 +117,14 @@ class Tizi_Register extends Tizi_Controller {
 		}
 		else
 		{
-			if($class_code&&$class_check['class_grade']) $mygrade=$class_check['class_grade'];
+			$reg_data=array('register_grade'=>$mygrade);
+			if($class_code) 
+			{
+				if($class_check['class_grade']) $reg_data['register_grade']=$class_check['class_grade'];
+				$reg_data['register_origin']=Constant::REG_ORIGEN_CLASS_EMAIL;
+			}
 			//$register=$this->register_by_uname($uname,$password,$rname,$user_type,array('register_grade'=>$mygrade));
-			$register=$this->register_by_email($email,$password,$rname,$user_type,array('register_grade'=>$mygrade));
+			$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data);
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
