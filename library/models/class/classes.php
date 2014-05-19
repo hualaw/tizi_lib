@@ -194,4 +194,11 @@ class Classes extends LI_Model{
 		}
 		return $data;
 	}
+	
+	//获取一个老师的最新的一个班级信息
+	public function last_info($user_id, $fields = "*"){
+		$res = $this->db->query("select {$fields} from classes where creator_id=? and class_status=0 
+			order by id desc limit 0,1", array($user_id))->row_array();
+		return $res;
+	}
 }

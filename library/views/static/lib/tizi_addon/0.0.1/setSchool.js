@@ -27,10 +27,11 @@ define(function(require, exports) {
                 $(".theGenusScholl_y").removeClass("undis");
                 var class_id = $('#class_id').val();
                 var school_id = $('.aui_content .school li.active').attr('data-id');
-                // var fullname = '';
                 var province = $(".schoolProvice li.active").html();
                 var city = $(".schoolCity li.active").html();
                 var county = $(".schoolCounty li.active").html();
+                var county_id = $(".schoolCounty li.active").attr('data-id');
+                var sctype_id = $('.schoolGrade li.active').attr('data-id');
                 var schoolname = $(".schoolName li.active").html();
                 var seacherResultname = $('.schoolInfo .seacherResult li.active').html();
                 var writeSchoolName = $('.writeSchoolName').val();
@@ -53,6 +54,9 @@ define(function(require, exports) {
                         $('.schoolBox').find('.ValidformInfo,.Validform_checktip').hide();
                     }
                 }
+                $('#schoolname').val(writeSchoolName);
+                $('#area_county_id').val(county_id);
+                $('#school_type').val(sctype_id);
             },
             cancel:true,
             close:function(){
