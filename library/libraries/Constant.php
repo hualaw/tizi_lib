@@ -46,6 +46,7 @@ Class CI_Constant {
 	const COOKIE_INVITE = "invite";//invite cookie name
 	const COOKIE_CURRENT_CLOUD_DIR = "_mdir";//cloud cookie name
 	const COOKIE_TZMOBILE = "_mobile";//cloud cookie name
+	const COOKIE_TZSUPPLY = "_sis";//skip information supply
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
@@ -153,11 +154,11 @@ Class CI_Constant {
 			    self::USER_TYPE_PARENT => jia_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
-			'perfect' => array(
-				self::USER_TYPE_STUDENT => login_url("student/user/perfect"),
-			    self::USER_TYPE_TEACHER => login_url("teacher/user/perfect"),
-			    self::USER_TYPE_PARENT => login_url("parent/user/perfect"),
-			    self::USER_TYPE_RESEARCHER => login_url("researcher/user/perfect"),
+			'supply' => array(
+				self::USER_TYPE_STUDENT => login_url("student/user/supply"),
+			    self::USER_TYPE_TEACHER => login_url("teacher/user/supply"),
+			    self::USER_TYPE_PARENT => login_url("parent/user/supply"),
+			    self::USER_TYPE_RESEARCHER => login_url("researcher/user/supply"),
 			)
 		);
 

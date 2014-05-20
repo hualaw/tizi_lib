@@ -42,6 +42,8 @@ class Session_Model extends LI_Model {
 				'register_subject'=>$register_data->register_subject,
 				'register_grade'=>$register_data->register_grade,
 				'register_domain'=>$register_data->register_domain,
+				'email_verified'=>$register_data->email_verified,
+				'phone_verified'=>$register_data->phone_verified,
 				'login_time'=>time()
 			);
 			
@@ -121,7 +123,9 @@ class Session_Model extends LI_Model {
 					'register_grade'=>$user->register_grade,
 					'register_domain'=>$register_domain,
 					'avatar'=>$user->avatar,
-					'certification'=>$user->certification
+					'certification'=>$user->certification,
+					'email_verified'=>$user->email_verified,
+					'phone_verified'=>$user->phone_verified
 				)
 			);
 
