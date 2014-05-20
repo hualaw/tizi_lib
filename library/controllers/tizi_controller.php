@@ -15,19 +15,13 @@ class Tizi_Controller extends MY_Controller {
    		switch ($user_type) 
 		{
 			case Constant::USER_TYPE_STUDENT:
-				if(empty($user_data['email']) || !$user_data['register_grade'])
+				if(empty($user_data['email']))
 				{
 					$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
 					$redirect.='?redirect='.urlencode($redirect_url);
 				}
 				break;
             case Constant::USER_TYPE_TEACHER:
-            	if(!$user_data['register_subject'])
-				{
-					$redirect=redirect_url(Constant::USER_TYPE_TEACHER,'perfect');
-					$redirect.='?redirect='.urlencode($redirect_url);
-				}
-				break;
             case Constant::USER_TYPE_PARENT:	
             case Constant::USER_TYPE_RESEARCHER:
             default:
