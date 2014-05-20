@@ -160,7 +160,7 @@ class Tizi_Register extends Tizi_Controller {
 
     public function class_submit()
     {
-    	$euname=$this->input->post("s_euname",true,true);
+    	$euname=$this->input->post("s_username",true,true);
 		$password=$this->input->post("s_password",true);
 		$password1=$this->input->post("s_repassword",true,false,$password);
 		$rname=$this->input->post("s_name",true,true);
@@ -174,7 +174,7 @@ class Tizi_Register extends Tizi_Controller {
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
 
-		$class_check=$this->class_check($euname,$rname,$password,$class_code);
+		$class_check=$this->class_check($euname,$rname,$password,$password1,$class_code);
 
 		if(!$class_check['errorcode'])
 		{
@@ -186,14 +186,19 @@ class Tizi_Register extends Tizi_Controller {
 		}
 		else
 		{
-			$reg_data=array('register_grade'=>$mygrade);
-			if($class_code) 
+			$reg_data=array('register_grade'=>$class_check['class_grade']?$class_check['class_grade']:$mygrade);
+			
+			if($check['utype']==Constant::LOGIN_TYPE_EMAIL)
 			{
-				if($class_check['class_grade']) $reg_data['register_grade']=$class_check['class_grade'];
 				$reg_data['register_origin']=Constant::REG_ORIGEN_CLASS_EMAIL;
+				$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data);
 			}
-			//$register=$this->register_by_uname($uname,$password,$rname,$user_type,$reg_data
-			$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data);
+			else
+			{
+				$reg_data['register_origin']=Constant::REG_ORIGEN_CLASS_UNAME;
+				$register=$this->register_by_uname($uname,$password,$rname,$user_type,$reg_data);
+			}
+			
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
@@ -311,16 +316,16 @@ class Tizi_Register extends Tizi_Controller {
 		return $check;
    	}
 
-   	protected function class_check($euname,$rname,$password,$class_code)
+   	protected function class_check($euname,$rname,$password,$password1,$class_code)
    	{
    		$check=array('errorcode'=>false,'error'=>'');
 
-   		$type=preg_utype($euname);
-		if($type==Constant::LOGIN_TYPE_EMAIL)
+   		$check['utype']=preg_utype($euname);
+		if($check['utype']==Constant::LOGIN_TYPE_EMAIL)
 		{
 			$check_euname=$this->register_model->check_email($euname);
 		}
-		else if($type==Constant::LOGIN_TYPE_UNAME)
+		else if($check['utype']==Constant::LOGIN_TYPE_UNAME)
 		{
 			$check_euname=$this->register_model->check_uname($euname);
 		}
@@ -335,7 +340,7 @@ class Tizi_Register extends Tizi_Controller {
 		}
 		else if($euname&&$check_euname['errorcode'])
 		{
-			$check['error']=$this->lang->line('error_reg_exist_email');
+			$check['error']=$this->lang->line('error_reg_exist_euname');
 		}
 		else if(empty($rname))
 		{
