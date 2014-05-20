@@ -130,6 +130,15 @@ class Qiniu {
         return $imgViewPrivateUrl;
     }
 
+    //返回结果
+    protected function qiniu_result($res,$ret=null){
+        if ($res !== null) {
+            return array('errorcode'=>false,'msg'=>$res);
+        } else {
+            return array('errorcode'=>true,'msg'=>$res,'ret'=>$ret);
+        }
+    }
+
     /* $name 是上传字段的name*/
     // function qiniu_upload($name='uploadfile'){
     //     if(!strlen($name)) {return false;}
@@ -180,14 +189,7 @@ class Qiniu {
         return $imgViewPrivateUrl;
     }
 
-    //返回结果
-    protected function qiniu_result($res,$ret=null){
-        if ($res !== null) {
-            return array('errorcode'=>false,'msg'=>$res);
-        } else {
-            return array('errorcode'=>true,'msg'=>$res,'ret'=>$ret);
-        }
-    }
+    
     //移动文件或重命名, 暂时没用到；
     // function qiniu_move($key, $new_key){
     //     $bucket = $this->bucket;
