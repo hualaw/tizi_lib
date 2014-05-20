@@ -24,6 +24,7 @@ Class CI_Constant {
 	const REG_ORIGIN_WEIBO_PERFECT = 53;
 	const REG_ORIGIN_WEIBO_SKIP = 54;
 	const REG_ORIGEN_CLASS_EMAIL = 62;
+	const REG_ORIGEN_CLASS_UNAME = 64;
 
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
