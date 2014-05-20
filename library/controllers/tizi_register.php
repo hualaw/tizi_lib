@@ -188,17 +188,17 @@ class Tizi_Register extends Tizi_Controller {
 		{
 			$reg_data=array('register_grade'=>$class_check['class_grade']?$class_check['class_grade']:$mygrade);
 			
-			if($check['utype']==Constant::LOGIN_TYPE_EMAIL)
+			if($class_check['utype']==Constant::LOGIN_TYPE_EMAIL)
 			{
 				$reg_data['register_origin']=Constant::REG_ORIGEN_CLASS_EMAIL;
-				$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data);
+				$register=$this->register_by_email($euname,$password,$rname,$user_type,$reg_data);
 			}
 			else
 			{
 				$reg_data['register_origin']=Constant::REG_ORIGEN_CLASS_UNAME;
-				$register=$this->register_by_uname($uname,$password,$rname,$user_type,$reg_data);
+				$register=$this->register_by_uname($euname,$password,$rname,$user_type,$reg_data);
 			}
-			
+
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
@@ -362,6 +362,7 @@ class Tizi_Register extends Tizi_Controller {
 	   		{
 				$this->load->model('class/classes');
 		   		$class_id=alpha_id_num($class_code,true);
+		   		$class_id=alpha_id($class_code,true);
 
 				$class_info=$this->classes->get($class_id,'class_grade,class_status');
 				if(isset($class_info['class_grade'])&&$class_info['class_status']==0)
