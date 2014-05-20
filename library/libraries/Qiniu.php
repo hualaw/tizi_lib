@@ -32,7 +32,10 @@ class Qiniu {
     //     $this->domain = $this->bucket."qiniudn.com";
     // } 
 
-    /*生成token  需要轉換成mp4的话：PersistentOps = 'avthumb/mp4'*/
+    /*生成token  
+        需要轉換成mp4的话：PersistentOps = 'avthumb/mp4'
+        转成mp3： avthumb/mp3
+    */
     function make_token($expires=3600,$PersistentOps=null)
     {
         $bucket = $this->bucket;
@@ -55,7 +58,7 @@ class Qiniu {
     }
 
     //即时转换成mp4的接口   访问时间默认设置成 3小时
-    function qiniu_video($key,$ext='mp4',$ttl=10800){
+    function qiniu_media($key,$ext='mp4',$ttl=10800){
         $domain = $this->domain;
         $client = new Qiniu_MacHttpClient(null);
         $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
@@ -71,12 +74,12 @@ class Qiniu {
             $baseUrl .= "?avthumb/{$ext}";
         }
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
-        $privateUrl = urlencode($privateUrl);
+        $privateUrl = ($privateUrl);
         return $privateUrl;
     }
 
     //访问预处理后的非mp4资源  如果没转换好，访问链接得到 not found 
-    function qiniu_video_afterfop($key,$ext='mp4',$ttl=10800){
+    function qiniu_media_afterfop($key,$ext='mp4',$ttl=10800){
         $domain = $this->domain;
         $client = new Qiniu_MacHttpClient(null);
         $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
@@ -92,7 +95,7 @@ class Qiniu {
             $baseUrl .= "?p/1/avthumb/{$ext}";
         }
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
-        $privateUrl = urlencode($privateUrl);
+        $privateUrl = ($privateUrl);
         return $privateUrl;
     }
 
