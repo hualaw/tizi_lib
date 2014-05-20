@@ -183,10 +183,10 @@ class cloud_model extends MY_Model{
     function get_dir_child_by_p_id($user_id,$dir_id=0,$page_num=1,$file_offset=0,$total=false){
         if($total){
             $this->db->select("COUNT(`id`) AS filenum");
-            $files_total = $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0,'dir_cat_id'=>null))->row()->filenum;
+            $files_total = $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0))->row()->filenum;
             // echo $this->db->last_query();
             $this->db->select("COUNT(`dir_id`) AS dirnum");
-            $dir_total = $this->db->get_where($this->_dir_table,array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0,'cat_id'=>null))->row()->dirnum;
+            $dir_total = $this->db->get_where($this->_dir_table,array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0))->row()->dirnum;
             $all_total = $dir_total+$files_total;
             if($files_total>0){
                 return array('all_total'=>$all_total,'total_page'=>$all_total,'dir_total'=>$dir_total,'file_total'=>$files_total);
