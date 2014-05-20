@@ -137,7 +137,7 @@ Class CI_Constant {
 		$redirect_url = array(
 			'login' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
-			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
+			    self::USER_TYPE_TEACHER => tizi_url("teacher/cloud"),
 			    self::USER_TYPE_PARENT => jia_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
