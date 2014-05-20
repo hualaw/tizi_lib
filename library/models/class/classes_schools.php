@@ -105,8 +105,8 @@ class Classes_Schools extends LI_Model{
 		}
 	}
 	
-	public function define_school_info($school_define_id){
-		$res = $this->db->query("select province_id,city_id,county_id,schoolname from 
+	public function define_school_info($school_define_id, $moreinfo = false){
+		$res = $this->db->query("select province_id,city_id,county_id,schoolname,sctype from 
 			classes_schools_define where id=?", array($school_define_id))->result_array();
 		if (isset($res[0])){
 			$school_info = array();
@@ -123,6 +123,9 @@ class Classes_Schools extends LI_Model{
 				}
 			}
 			$school_info["school"] = $res["schoolname"];
+			if ($moreinfo === true){
+				$school_info = array_merge($school_info, $res);
+			}
 			return $school_info;
 		} else {
 			return null;
