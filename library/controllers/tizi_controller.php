@@ -15,19 +15,14 @@ class Tizi_Controller extends MY_Controller {
    		switch ($user_type) 
 		{
 			case Constant::USER_TYPE_STUDENT:
-				if(empty($user_data['email']) || !$user_data['register_grade'])
+        		$skip_supply=$this->input->cookie(Constant::COOKIE_TZSUPPLY);
+				if(empty($user_data['email'])&&!$user_data['phone_verified']&&!$skip_supply)
 				{
-					$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'perfect');
-					$redirect.='?redirect='.urlencode($redirect_url);
+					$redirect=redirect_url(Constant::USER_TYPE_STUDENT,'supply');
+					if($redirect_url) $redirect.='?redirect='.urlencode($redirect_url);
 				}
 				break;
             case Constant::USER_TYPE_TEACHER:
-            	if(!$user_data['register_subject'])
-				{
-					$redirect=redirect_url(Constant::USER_TYPE_TEACHER,'perfect');
-					$redirect.='?redirect='.urlencode($redirect_url);
-				}
-				break;
             case Constant::USER_TYPE_PARENT:	
             case Constant::USER_TYPE_RESEARCHER:
             default:
