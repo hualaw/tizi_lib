@@ -356,7 +356,7 @@ class Tizi_Register extends Tizi_Controller {
 		}
 		else
 		{
-   			$class=array('errorcode'=>false,'error'=>$this->lang->line('error_invalid_class'));
+   			$class=array('errorcode'=>false,'error'=>$this->lang->line('error_invalid_class'),'utype'=>$check['utype']);
 
 			if($class_code)
 	   		{
