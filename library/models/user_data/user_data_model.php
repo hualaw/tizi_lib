@@ -20,7 +20,7 @@ class User_Data_Model extends Data_Model{
 
 	public function get_user_data($user_id)
     {
-        return parent::get_data($user_id);
+        return parent::get_data(intval($user_id));
     }
 
 	/**
