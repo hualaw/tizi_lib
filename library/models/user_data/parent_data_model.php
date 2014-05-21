@@ -40,10 +40,10 @@ class Parent_Data_Model extends LI_Model {
         return $this->update_parent_data($user_id,$phone,'bind_phone');
     }
 
-    public function update_parent_school_id($user_id,$school_id)
+    public function update_parent_child_school($user_id,$school_id,$grade_id)
     {
-        if(!$school_id) return false;
-        return $this->update_parent_data($user_id,$school_id,'school_id');
+        if(!$school_id||!$grade_id) return false;
+        return $this->update_parent_data_array($user_id,array('child_school'=>$school_id,'child_grade'=>$grade_id));
     }
 
     private function update_parent_data($user_id,$data_value,$data_name)
@@ -63,6 +63,34 @@ class Parent_Data_Model extends LI_Model {
             
             $this->db->where('user_id',$user_id);
             $this->db->update($this->_table,array($data_name=>$data_value));
+            if($this->db->affected_rows()) return true;
+        }
+        return false;
+    }
+
+    private function update_parent_data_array($user_id,$data)
+    {
+        if(empty($data)||!is_array($data)) return false;
+
+        $parent_data=$this->get_parent_data($user_id);
+
+        if(empty($parent_data))
+        {
+            $data['user_id']=$user_id;
+            $this->db->insert($this->_table,$data);
+            if($this->db->affected_rows()) return $this->db->insert_id();
+        }
+        else
+        {
+            $check=0;
+            foreach($data as $k=>$v)
+            {
+                if($parent_data->{$k}!==$v) $check++;
+            }
+            if($check==0) return true;
+
+            $this->db->where('user_id',$user_id);
+            $this->db->update($this->_table,$data);
             if($this->db->affected_rows()) return true;
         }
         return false;
