@@ -23,7 +23,7 @@ class Session_Model extends LI_Model {
 	/*desc:generate session after login*/
 	/*input:arg($user_id)*/
 	/*output:session,return(errorcode(1-success,0-failed))*/
-	function generate_session($user_id,$switch_id=false,$dbsave=true)
+	function generate_session($user_id,$dbsave=true)
 	{
 		$session_id=$this->session->userdata("session_id");
 		$data=$this->bind_session($session_id,$user_id);
@@ -56,8 +56,11 @@ class Session_Model extends LI_Model {
 			$this->db->set('last_login',date('Y-m-d H:i:s'));
 			$this->db->update($this->_user_table);
 
-			if($switch_id) $data['switch_id']=$switch_id;
-			if($dbsave) $this->db->insert($this->_table,$data);
+			if($dbsave) 
+			{
+				$data['uid']=$this->input->cookie('uid');
+				$this->db->insert($this->_table,$data);
+			}
 			
 			if ($data["user_type"] == Constant::USER_TYPE_TEACHER){
 				$this->load->library("credit");
