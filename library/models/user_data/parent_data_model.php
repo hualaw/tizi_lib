@@ -39,6 +39,12 @@ class Parent_Data_Model extends Data_Model {
         return $this->update_data($user_id,$phone,'bind_phone');
     }
 
+    public function update_parent_detail($user_id,$gender,$birthday)
+    {
+        if(!$gender||!$birthday) return false;
+        return $this->update_data_array($user_id,array('gender'=>$gender,'birthday'=>$birthday));
+    }
+
     public function update_parent_child_school($user_id,$school_id,$grade_id)
     {
         if(!$school_id||!$grade_id) return false;
