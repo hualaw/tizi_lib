@@ -7,14 +7,14 @@ class Student_Survey_Model extends LI_Model{
     public function __construct(){
 
         parent::__construct();
-        $this->_db_name = 'survey';
+        $this->_tb_name = 'student_survey';
 
     }
 
     public function add($data){
 
         return $this->db->insert(
-            $this->_db_name,
+            $this->_tb_name,
             $data
         );
     }
@@ -22,7 +22,7 @@ class Student_Survey_Model extends LI_Model{
     public function getData($id){
                
         return $this->db
-            ->query("select * from `survey` where `id` = {$id}")
+            ->query("select * from {$this->_tb_name} where `id` = {$id}")
             ->row_array();
 
     }
