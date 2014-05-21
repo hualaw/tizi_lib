@@ -45,6 +45,12 @@ class Student_Data_Model extends LI_Model {
         return $this->update_student_data($user_id,$parent_phone,'parent_phone');
     }
 
+    public function update_student_school_id($user_id,$school_id)
+    {
+        if(!$school_id) return false;
+        return $this->update_student_data($user_id,$school_id,'school_id');
+    }
+
     private function update_student_data($user_id,$data_value,$data_name)
     {
         if(empty($data_name)) return false;
