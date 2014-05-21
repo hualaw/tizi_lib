@@ -185,7 +185,7 @@ class Tizi_Register extends Tizi_Controller {
 			$submit=$this->register_teacher($email,$rname,$password,$password1,$mysubject,$redirect,array('register_invite'=>$invite_check['register_invite']));
 
 			$this->load->model('user_data/invite_model');
-	        $invite_info=array('user_id'=>$submit['register']['user_id'],'reg_invite'=>$invite_check['register_invite'],'name'=>$rname,'invite_way'=>$$invite_check['invite_type'],'reg_time'=>time());
+	        $invite_info=array('user_id'=>$submit['register']['user_id'],'reg_invite'=>$invite_check['register_invite'],'name'=>$rname,'invite_way'=>$invite_check['invite_type'],'reg_time'=>time());
 			$this->invite_model->insert_succ_reg($invite_info);
 		}
 
