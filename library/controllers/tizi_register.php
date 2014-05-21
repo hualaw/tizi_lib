@@ -178,7 +178,6 @@ class Tizi_Register extends Tizi_Controller {
 
     protected function register_invite($email,$rname,$password,$password1,$mysubject,$redirect,$invite_code)
     {
-		$reg_data=array();
 		$register_invite=$invite_type=NULL;
 		if($invite_code)
 		{
@@ -414,6 +413,29 @@ class Tizi_Register extends Tizi_Controller {
 		}
 
 		return $check;
+   	}
+
+   	protected function invite_check($invite_code)
+   	{
+   		$invite=array('errorcode'=>false,'error'=>$this->lang->line('error_invalid_invite'));
+
+		if($invite_code)
+		{
+			$invite_code=alpha_id(strtoupper($invite_code),true);
+			$register_invite=substr($invite_code,2);
+			$invite_type=substr($invite_code,0,2);
+			$invite_user=$this->register_model->get_user_info($register_invite);
+
+			if($invite_user['errorcode'])
+			{
+				$invite['errorcode']=true;
+				$invite['register_invite']=$register_invite;
+				$invite['invite_type']=$invite_type;
+				$invite['error']='';
+			}
+		}
+
+		return $invite;
    	}
 
    	protected function class_check($class_code)
