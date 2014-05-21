@@ -40,8 +40,12 @@ class Classes_student extends LI_Model{
 		//add notice join_class_succ(student)
 		$this->load->library("notice");
 		$this->load->model("class/classes");
-		$class_info = $this->classes->get($class_id, "classname");
-		$data = array("classname" => $class_info["classname"]);
+		$this->load->model("constant/grade_model");
+		$class_info = $this->classes->get($class_id, "classname,class_grade");
+		$arr_grade = $this->grade_model->arr_grade();
+		$class_grade = $class_info["class_grade"];
+		$grade_name = isset($arr_grade[$class_grade]) ? $arr_grade[$class_grade]["name"]: "";
+		$data = array("classname" => $grade_name.$class_info["classname"]);
 		$this->notice->add($user_id, "join_class_succ", $data);
 		//add notice kid_join_class(parent)
 		$this->load->model("login/parent_model");
@@ -54,7 +58,7 @@ class Classes_student extends LI_Model{
 			} else {
 				$s_name = "";
 			}
-			$data = array("s_name" => $s_name, "classname" => $class_info["classname"]);
+			$data = array("s_name" => $s_name, "classname" => $grade_name.$class_info["classname"]);
 			foreach ($parent_ids as $pid){
 				$this->notice->add($pid, "kid_join_class", $data);
 			}
