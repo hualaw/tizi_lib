@@ -15,16 +15,9 @@ class Tizi_Register extends Tizi_Controller {
 		$this->load->model('question/question_subject_model');
     }
 
-    public function teacher_submit()
+    protected function register_teacher($email,$rname,$password,$password1,$mysubject,$redirect,$reg_data=array())
     {
-    	$email=$this->input->post("t_email",true,true);
-		$password=$this->input->post("t_password",true);
-		$password1=$this->input->post("t_repassword",true,false,$password);
-		$rname=$this->input->post("t_name",true,true);
-		$mysubject=$this->input->post("t_mysubject",true,false,Constant::DEFAULT_SUBJECT_ID);
-		$redirect=$this->input->post("redirect",true);
 		if(strpos($redirect,'http://') === false) $redirect='';
-		$invite_code=$this->input->post("invite",true);
 
 		$user_type=Constant::USER_TYPE_TEACHER;
 
@@ -46,31 +39,71 @@ class Tizi_Register extends Tizi_Controller {
 		}
 		else
 		{
-			$register_invite=$invite_type=NULL;
-			if($invite_code)
-			{
-				$invite_code=alpha_id(strtoupper($invite_code),true);
-				$register_invite=substr($invite_code,2);
-				$invite_type=substr($invite_code,0,2);
-			}
-			$register=$this->register_by_email($email,$password,$rname,$user_type,array('register_subject'=>$mysubject,'register_invite'=>$register_invite));
+			$reg_data=array_merge(array('register_subject'=>$mysubject),$reg_data);
+			$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data);
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
 			}
 			else
 			{
-				if($invite_code)
-				{
-					$this->load->model('user_data/invite_model');
-			        $invite_info=array('user_id'=>$register['user_id'],'reg_invite'=>$register_invite,'name'=>$rname,'invite_way'=>$invite_type,'reg_time'=>time());
-					$this->invite_model->insert_succ_reg($invite_info);
-				}
 				$submit['errorcode']=true;
 				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_TEACHER,'register');
+				$submit['register']=$register;
 			}
 		}
 
+		return $submit;
+    }
+
+    protected function register_invite($email,$rname,$password,$password1,$mysubject,$redirect,$invite_code)
+    {
+		$reg_data=array();
+		$register_invite=$invite_type=NULL;
+		if($invite_code)
+		{
+			$invite_code=alpha_id(strtoupper($invite_code),true);
+			$register_invite=substr($invite_code,2);
+			$invite_type=substr($invite_code,0,2);
+			$invite_user=$this->register_model->get_user_info($register_invite);
+		}
+
+		if(!$register_invite||!$invite_type||!$invite_user['errorcode'])
+		{
+			$submit=array('errorcode'=>false,'error'=>$this->lang->line('error_invalid_invite'),'redirect'=>'');
+		}
+		else
+		{
+			$submit=$this->register_teacher($email,$rname,$password,$password1,$mysubject,$redirect,array('register_invite'=>$register_invite));
+
+			$this->load->model('user_data/invite_model');
+	        $invite_info=array('user_id'=>$submit['register']['user_id'],'reg_invite'=>$register_invite,'name'=>$rname,'invite_way'=>$invite_type,'reg_time'=>time());
+			$this->invite_model->insert_succ_reg($invite_info);
+		}
+
+		return $submit;
+    }
+
+    public function teacher_submit()
+    {
+    	$email=$this->input->post("t_email",true,true);
+		$password=$this->input->post("t_password",true);
+		$password1=$this->input->post("t_repassword",true,false,$password);
+		$rname=$this->input->post("t_name",true,true);
+		$mysubject=$this->input->post("t_mysubject",true,false,Constant::DEFAULT_SUBJECT_ID);
+		$redirect=$this->input->post("redirect",true);
+		$invite_code=$this->input->post("invite",true,true,'');
+
+		if($invite_code)
+		{
+			$submit=$this->register_invite($email,$rname,$password,$password1,$mysubject,$redirect,$invite_code);
+		}
+		else
+		{
+			$submit=$this->register_teacher($email,$rname,$password,$password1,$mysubject,$redirect);
+		}
+
+		unset($submit['register']);
 		echo json_token($submit);
     	exit();
     }
