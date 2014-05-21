@@ -6,6 +6,8 @@
 
 class Student_Data_Model extends LI_Model {
 
+    private $_table='student_data';
+
     function __construct()
     {
         parent::__construct();
@@ -14,8 +16,55 @@ class Student_Data_Model extends LI_Model {
     /**
      * @info 获取学生资料
      */
-    public function get_student_data($uid){
-        return $this->db->query("select * from `student_data` where `uid` = $uid")->row();
+    //public function get_student_data($uid){
+    //    return $this->db->query("select * from `student_data` where `uid` = $uid")->row();
+    //}
+
+    public function get_student_data($user_id)
+    {
+        $this->db->where('uid',$user_id);
+        $query=$this->db->get($this->_table);
+        return $query->row();
+    }
+
+    public function update_student_gender($user_id,$gender)
+    {
+        if(!$gender) return false;
+        return $this->update_student_data($user_id,$gender,'sex');
+    }
+
+    public function update_student_qq($user_id,$qq)
+    {
+        if(!$qq) return false;
+        return $this->update_student_data($user_id,$qq,'qq');
+    }
+
+    public function update_student_parent_phone($user_id,$parent_phone)
+    {
+        if(!$parent_phone) return false;
+        return $this->update_student_data($user_id,$parent_phone,'parent_phone');
+    }
+
+    private function update_student_data($user_id,$data_value,$data_name)
+    {
+        if(empty($data_name)) return false;
+
+        $student_data=$this->get_student_data($user_id);
+
+        if(empty($student_data))
+        {
+            $this->db->insert($this->_table,array('uid'=>$user_id,$data_name=>$data_value));
+            if($this->db->affected_rows()) return $this->db->insert_id();
+        }
+        else
+        {
+            if($student_data->{$data_name}===$data_value) return true;
+            
+            $this->db->where('uid',$user_id);
+            $this->db->update($this->_table,array($data_name=>$data_value));
+            if($this->db->affected_rows()) return true;
+        }
+        return false;
     }
 
     // 保存学生信息
