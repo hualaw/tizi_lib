@@ -82,6 +82,7 @@ $lang['error_invalid_password']="无效的登录密码";
 $lang['error_invalid_uname']="无效的用户名";
 $lang['error_invalid_euname']="无效的用户名或邮箱";
 $lang['error_invalid_student_id']="无效的学生号码";
+$lang['error_invalid_invite']="无效的老师邀请码";
 $lang['error_invalid_class']="无效的班级编号";
 $lang['error_invalid_confirm_password']=$lang['error_reg_confirm_password'];
 
