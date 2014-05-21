@@ -178,25 +178,14 @@ class Tizi_Register extends Tizi_Controller {
 
     protected function register_invite($email,$rname,$password,$password1,$mysubject,$redirect,$invite_code)
     {
-		$register_invite=$invite_type=NULL;
-		if($invite_code)
-		{
-			$invite_code=alpha_id(strtoupper($invite_code),true);
-			$register_invite=substr($invite_code,2);
-			$invite_type=substr($invite_code,0,2);
-			$invite_user=$this->register_model->get_user_info($register_invite);
-		}
+    	$invite_check=$this->invite_check($invite_code);
 
-		if(!$register_invite||!$invite_type||!$invite_user['errorcode'])
+    	if($invite_check['errorcode'])
 		{
-			$submit=array('errorcode'=>false,'error'=>$this->lang->line('error_invalid_invite'),'redirect'=>'');
-		}
-		else
-		{
-			$submit=$this->register_teacher($email,$rname,$password,$password1,$mysubject,$redirect,array('register_invite'=>$register_invite));
+			$submit=$this->register_teacher($email,$rname,$password,$password1,$mysubject,$redirect,array('register_invite'=>$invite_check['register_invite']));
 
 			$this->load->model('user_data/invite_model');
-	        $invite_info=array('user_id'=>$submit['register']['user_id'],'reg_invite'=>$register_invite,'name'=>$rname,'invite_way'=>$invite_type,'reg_time'=>time());
+	        $invite_info=array('user_id'=>$submit['register']['user_id'],'reg_invite'=>$invite_check['register_invite'],'name'=>$rname,'invite_way'=>$$invite_check['invite_type'],'reg_time'=>time());
 			$this->invite_model->insert_succ_reg($invite_info);
 		}
 
@@ -426,7 +415,7 @@ class Tizi_Register extends Tizi_Controller {
 			$invite_type=substr($invite_code,0,2);
 			$invite_user=$this->register_model->get_user_info($register_invite);
 
-			if($invite_user['errorcode'])
+			if($register_invite&&$invite_type&&$invite_user['errorcode'])
 			{
 				$invite['errorcode']=true;
 				$invite['register_invite']=$register_invite;
