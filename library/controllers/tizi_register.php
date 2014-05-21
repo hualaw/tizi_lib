@@ -15,6 +15,126 @@ class Tizi_Register extends Tizi_Controller {
 		$this->load->model('question/question_subject_model');
     }
 
+    public function teacher_submit()
+    {
+    	$email=$this->input->post("t_email",true,true);
+		$password=$this->input->post("t_password",true);
+		$password1=$this->input->post("t_repassword",true,false,$password);
+		$rname=$this->input->post("t_name",true,true);
+		$mysubject=$this->input->post("t_mysubject",true,false,Constant::DEFAULT_SUBJECT_ID);
+		$redirect=$this->input->post("redirect",true);
+		$invite_code=$this->input->post("invite",true,true,'');
+
+		if($invite_code)
+		{
+			$submit=$this->register_invite($email,$rname,$password,$password1,$mysubject,$redirect,$invite_code);
+		}
+		else
+		{
+			$submit=$this->register_teacher($email,$rname,$password,$password1,$mysubject,$redirect);
+		}
+
+		unset($submit['register']);
+		echo json_token($submit);
+    	exit();
+    }
+
+    public function student_submit()
+    {
+    	$email=$this->input->post("s_email",true,true);
+		$password=$this->input->post("s_password",true);
+		$password1=$this->input->post("s_repassword",true,false,$password);
+		$rname=$this->input->post("s_name",true,true);
+		$mygrade=$this->input->post("s_mygrade",true,false,Constant::DEFAULT_GRADE_ID);
+		$redirect=$this->input->post("redirect",true);
+		
+		$submit=$this->register_student($email,$rname,$password,$password1,$mygrade,$redirect);
+
+		unset($submit['register']);
+		echo json_token($submit);
+    	exit();
+    }
+
+    public function parent_submit()
+    {
+    	$email=$this->input->post("p_email",true,true);
+		$password=$this->input->post("p_password",true);
+		$password1=$this->input->post("p_repassword",true,false,$password);
+		$rname=$this->input->post("p_name",true,true);
+		$redirect=$this->input->post("redirect",true);
+		
+		$submit=$this->register_parent($email,$rname,$password,$password1,$mygrade,$redirect);
+
+		unset($submit['register']);
+		echo json_token($submit);
+    	exit();
+    }
+
+    public function class_submit()
+    {
+    	$euname=$this->input->post("s_username",true,true);
+		$password=$this->input->post("s_password",true);
+		$password1=$this->input->post("s_repassword",true,false,$password);
+		$rname=$this->input->post("s_name",true,true);
+		$mygrade=$this->input->post("s_mygrade",true,false,Constant::DEFAULT_GRADE_ID);
+		$redirect=$this->input->post("redirect",true);
+		if(strpos($redirect,'http://') === false) $redirect='';
+		$class_code=$this->input->post("invite_class",true);
+		$parent_phone=$this->input->post("s_pphone",true);
+		
+		$user_type=Constant::USER_TYPE_STUDENT;
+
+		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
+
+		$class_check=$this->class_check($euname,$rname,$password,$password1,$class_code);
+
+		if(!$class_check['errorcode'])
+		{
+			$submit['error']=$class_check['error'];
+		}
+		else if($parent_phone&&!preg_phone($parent_phone))
+		{
+			$check['error']=$this->lang->line('error_invalid_phone');
+		}
+		else
+		{
+			$reg_data=array('register_grade'=>$class_check['class_grade']?$class_check['class_grade']:$mygrade);
+			
+			if($class_check['utype']==Constant::LOGIN_TYPE_EMAIL)
+			{
+				$reg_data['register_origin']=Constant::REG_ORIGEN_CLASS_EMAIL;
+				$register=$this->register_by_email($euname,$password,$rname,$user_type,$reg_data);
+			}
+			else
+			{
+				$reg_data['register_origin']=Constant::REG_ORIGEN_CLASS_UNAME;
+				$register=$this->register_by_uname($euname,$password,$rname,$user_type,$reg_data);
+			}
+
+			if(!$register['errorcode'])
+			{
+				$submit['error']=$register['error'];
+			}
+			else
+			{
+				if($class_code)
+				{
+					//加入班级
+					$this->load->model('class/classes_student');
+					$this->classes_student->add($class_check['class_id'],$register['user_id'],time(),Classes_student::JOIN_METHOD_REGCLASS);
+					//保存家长手机号码
+					$this->load->model("user_data/student_data_model");
+                	if($parent_phone) $this->student_data_model->update_parent_phone($register['user_id'],$parent_phone);
+				}
+				$submit['errorcode']=true;
+				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_STUDENT,'register');
+			}
+		}
+
+		echo json_token($submit);
+    	exit();
+    }
+
     protected function register_teacher($email,$rname,$password,$password1,$mysubject,$redirect,$reg_data=array())
     {
 		if(strpos($redirect,'http://') === false) $redirect='';
@@ -84,39 +204,9 @@ class Tizi_Register extends Tizi_Controller {
 		return $submit;
     }
 
-    public function teacher_submit()
+    protected function register_student($email,$rname,$password,$password1,$mygrade,$redirect,$reg_data=array())
     {
-    	$email=$this->input->post("t_email",true,true);
-		$password=$this->input->post("t_password",true);
-		$password1=$this->input->post("t_repassword",true,false,$password);
-		$rname=$this->input->post("t_name",true,true);
-		$mysubject=$this->input->post("t_mysubject",true,false,Constant::DEFAULT_SUBJECT_ID);
-		$redirect=$this->input->post("redirect",true);
-		$invite_code=$this->input->post("invite",true,true,'');
-
-		if($invite_code)
-		{
-			$submit=$this->register_invite($email,$rname,$password,$password1,$mysubject,$redirect,$invite_code);
-		}
-		else
-		{
-			$submit=$this->register_teacher($email,$rname,$password,$password1,$mysubject,$redirect);
-		}
-
-		unset($submit['register']);
-		echo json_token($submit);
-    	exit();
-    }
-
-    public function student_submit()
-    {
-    	$email=$this->input->post("s_email",true,true);
-		$password=$this->input->post("s_password",true);
-		$password1=$this->input->post("s_repassword",true,false,$password);
-		$rname=$this->input->post("s_name",true,true);
-		$mygrade=$this->input->post("s_mygrade",true,false,Constant::DEFAULT_GRADE_ID);
-		$redirect=$this->input->post("redirect",true);
-		if(strpos($redirect,'http://') === false) $redirect='';
+    	if(strpos($redirect,'http://') === false) $redirect='';
 		
 		$user_type=Constant::USER_TYPE_STUDENT;
 
@@ -147,21 +237,16 @@ class Tizi_Register extends Tizi_Controller {
 			{
 				$submit['errorcode']=true;
 				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_STUDENT,'register');
+				$submit['register']=$register;
 			}
 		}
 
-		echo json_token($submit);
-    	exit();
+		return $submit;
     }
 
-    public function parent_submit()
-    {
-    	$email=$this->input->post("p_email",true,true);
-		$password=$this->input->post("p_password",true);
-		$password1=$this->input->post("p_repassword",true,false,$password);
-		$rname=$this->input->post("p_name",true,true);
-		$redirect=$this->input->post("redirect",true);
-		if(strpos($redirect,'http://') === false) $redirect='';
+    protected function register_parent($email,$rname,$password,$password1,$mygrade,$redirect,$reg_data=array())
+   	{
+   		if(strpos($redirect,'http://') === false) $redirect='';
 
 		$user_type=Constant::USER_TYPE_PARENT;
 
@@ -184,77 +269,12 @@ class Tizi_Register extends Tizi_Controller {
 			{
 				$submit['errorcode']=true;
 				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_PARENT,'register');
+				$submit['register']=$register;
 			}
 		}
 
-		echo json_token($submit);
-    	exit();
-    }
-
-    public function class_submit()
-    {
-    	$euname=$this->input->post("s_username",true,true);
-		$password=$this->input->post("s_password",true);
-		$password1=$this->input->post("s_repassword",true,false,$password);
-		$rname=$this->input->post("s_name",true,true);
-		$mygrade=$this->input->post("s_mygrade",true,false,Constant::DEFAULT_GRADE_ID);
-		$redirect=$this->input->post("redirect",true);
-		if(strpos($redirect,'http://') === false) $redirect='';
-		$class_code=$this->input->post("invite_class",true);
-		$parent_phone=$this->input->post("s_pphone",true);
-		
-		$user_type=Constant::USER_TYPE_STUDENT;
-
-		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
-
-		$class_check=$this->class_check($euname,$rname,$password,$password1,$class_code);
-
-		if(!$class_check['errorcode'])
-		{
-			$submit['error']=$class_check['error'];
-		}
-		else if($parent_phone&&!preg_phone($parent_phone))
-		{
-			$check['error']=$this->lang->line('error_invalid_phone');
-		}
-		else
-		{
-			$reg_data=array('register_grade'=>$class_check['class_grade']?$class_check['class_grade']:$mygrade);
-			
-			if($class_check['utype']==Constant::LOGIN_TYPE_EMAIL)
-			{
-				$reg_data['register_origin']=Constant::REG_ORIGEN_CLASS_EMAIL;
-				$register=$this->register_by_email($euname,$password,$rname,$user_type,$reg_data);
-			}
-			else
-			{
-				$reg_data['register_origin']=Constant::REG_ORIGEN_CLASS_UNAME;
-				$register=$this->register_by_uname($euname,$password,$rname,$user_type,$reg_data);
-			}
-
-			if(!$register['errorcode'])
-			{
-				$submit['error']=$register['error'];
-			}
-			else
-			{
-				if($class_code)
-				{
-					//加入班级
-					$this->load->model('class/classes_student');
-					$this->classes_student->add($class_check['class_id'],$register['user_id'],time(),Classes_student::JOIN_METHOD_REGCLASS);
-					//保存家长手机号码
-					$this->load->model("user_data/student_data_model");
-                	if($parent_phone) $this->student_data_model->update_parent_phone($register['user_id'],$parent_phone);
-				}
-				$submit['errorcode']=true;
-				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_STUDENT,'register');
-			}
-		}
-
-		echo json_token($submit);
-    	exit();
-    }
+		return $submit;
+   	}
 
     protected function register_by_email($email,$password,$rname,$user_type,$user_data=false,$auto_login=true)
    	{
@@ -349,7 +369,7 @@ class Tizi_Register extends Tizi_Controller {
 		return $check;
    	}
 
-   	protected function class_check($euname,$rname,$password,$password1,$class_code)
+   	protected function euname_check($euname,$rname,$password,$password1,$class_code)
    	{
    		$check=array('errorcode'=>false,'error'=>'');
 
@@ -389,28 +409,34 @@ class Tizi_Register extends Tizi_Controller {
 		}
 		else
 		{
-   			$class=array('errorcode'=>false,'error'=>$this->lang->line('error_invalid_class'),'utype'=>$check['utype']);
-
-			if($class_code)
-	   		{
-				$this->load->model('class/classes');
-		   		$class_id=alpha_id_num($class_code,true);
-		   		//$class_id=alpha_id($class_code,true);
-
-				$class_info=$this->classes->get($class_id,'class_grade,class_status');
-				if(isset($class_info['class_grade'])&&$class_info['class_status']==0)
-				{
-					$class['errorcode']=true;
-					$class['class_id']=$class_id;
-					$class['class_grade']=$class_info['class_grade'];
-					$class['error']='';
-				}
-			}
-
-			$check = $class;
+   			$check['error']='';
+			$check['errorcode']=true;
 		}
 
 		return $check;
+   	}
+
+   	protected function class_check($class_code)
+   	{
+		$class=array('errorcode'=>false,'error'=>$this->lang->line('error_invalid_class'));
+
+		if($class_code)
+   		{
+			$this->load->model('class/classes');
+	   		$class_id=alpha_id_num($class_code,true);
+	   		//$class_id=alpha_id($class_code,true);
+
+			$class_info=$this->classes->get($class_id,'class_grade,class_status');
+			if(isset($class_info['class_grade'])&&$class_info['class_status']==0)
+			{
+				$class['errorcode']=true;
+				$class['class_id']=$class_id;
+				$class['class_grade']=$class_info['class_grade'];
+				$class['error']='';
+			}
+		}
+
+		return $class;
    	}
 
 }
