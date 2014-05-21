@@ -33,7 +33,7 @@ class Parent_Data_Model extends Data_Model {
         return $this->update_data($user_id,$birthday,'birthday');
     }
 
-    public function update_parent_phone($user_id,$phone)
+    public function update_parent_bind_phone($user_id,$phone)
     {
         if(!$phone) return false;
         return $this->update_data($user_id,$phone,'bind_phone');

@@ -63,7 +63,7 @@ class Tizi_Register extends Tizi_Controller {
 		$rname=$this->input->post("p_name",true,true);
 		$redirect=$this->input->post("redirect",true);
 		
-		$submit=$this->register_parent($email,$rname,$password,$password1,$mygrade,$redirect);
+		$submit=$this->register_parent($email,$rname,$password,$password1,$redirect);
 
 		unset($submit['register']);
 		echo json_token($submit);
@@ -88,7 +88,7 @@ class Tizi_Register extends Tizi_Controller {
     	exit();
     }
 
-    protected function register_teacher($email,$rname,$password,$password1,$mysubject,$redirect,$reg_data=array())
+    protected function register_teacher($email,$rname,$password,$password1,$mysubject,$redirect,$reg_data=array(),$auto_login=true)
     {
 		if(strpos($redirect,'http://') === false) $redirect='';
 
@@ -113,7 +113,7 @@ class Tizi_Register extends Tizi_Controller {
 		else
 		{
 			$reg_data=array_merge(array('register_subject'=>$mysubject),$reg_data);
-			$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data);
+			$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data,$auto_login);
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
@@ -152,7 +152,7 @@ class Tizi_Register extends Tizi_Controller {
 		return $submit;
     }
 
-    protected function register_student($email,$rname,$password,$password1,$mygrade,$redirect,$reg_data=array())
+    protected function register_student($email,$rname,$password,$password1,$mygrade,$redirect,$reg_data=array(),$auto_login=true)
     {
     	if(strpos($redirect,'http://') === false) $redirect='';
 		
@@ -177,7 +177,7 @@ class Tizi_Register extends Tizi_Controller {
 		else
 		{
 			$reg_data=array_merge(array('register_grade'=>$mygrade),$reg_data);
-			$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data);
+			$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data,$auto_login);
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
@@ -193,7 +193,7 @@ class Tizi_Register extends Tizi_Controller {
 		return $submit;
     }
 
-    protected function register_euname($euname,$rname,$password,$password1,$mygrade,$redirect,$reg_data=array())
+    protected function register_euname($euname,$rname,$password,$password1,$mygrade,$redirect,$reg_data=array(),$auto_login=true)
     {
     	if(strpos($redirect,'http://') === false) $redirect='';
 
@@ -213,12 +213,12 @@ class Tizi_Register extends Tizi_Controller {
 			if($euname_check['utype']==Constant::LOGIN_TYPE_EMAIL)
 			{
 				$reg_data['register_origin']=Constant::REG_ORIGEN_EUNAME_EMAIL;
-				$register=$this->register_by_email($euname,$password,$rname,$user_type,$reg_data);
+				$register=$this->register_by_email($euname,$password,$rname,$user_type,$reg_data,$auto_login);
 			}
 			else
 			{
 				$reg_data['register_origin']=Constant::REG_ORIGEN_EUNAME_UNAME;
-				$register=$this->register_by_uname($euname,$password,$rname,$user_type,$reg_data);
+				$register=$this->register_by_uname($euname,$password,$rname,$user_type,$reg_data,$auto_login);
 			}
 
 			if(!$register['errorcode'])
@@ -260,14 +260,14 @@ class Tizi_Register extends Tizi_Controller {
 				$this->classes_student->add($class_check['class_id'],$submit['register']['user_id'],time(),Classes_student::JOIN_METHOD_REGCLASS);
 				//保存家长手机号码
 				$this->load->model("user_data/student_data_model");
-            	if($parent_phone) $this->student_data_model->update_parent_phone($submit['register']['user_id'],$parent_phone);
+            	if($parent_phone) $this->student_data_model->update_student_parent_phone($submit['register']['user_id'],$parent_phone);
 			}
 		}
 
 		return $submit;
     }
 
-    protected function register_parent($email,$rname,$password,$password1,$mygrade,$redirect,$reg_data=array())
+    protected function register_parent($email,$rname,$password,$password1,$redirect,$reg_data=array(),$auto_login=true)
    	{
    		if(strpos($redirect,'http://') === false) $redirect='';
 
@@ -283,7 +283,7 @@ class Tizi_Register extends Tizi_Controller {
 		}
 		else
 		{
-			$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data);
+			$register=$this->register_by_email($email,$password,$rname,$user_type,$reg_data,$auto_login);
 			if(!$register['errorcode'])
 			{
 				$submit['error']=$register['error'];
