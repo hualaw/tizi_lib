@@ -230,10 +230,11 @@ class cloud_model extends MY_Model{
         return $this->db->query($sql)->result_array();
     }
 
-    //完整的目录结构    2014-05-10备注：暂时封存了，新版不用这样的了；
+    //完整的目录结构     班级分享，从网盘上传 的box的左侧
     function get_dir_tree($uid,$from_dir=0){
-        $sql = "select dir_id,dir_name,depth,p_id from $this->_dir_table where user_id=$uid and is_del=0 and dir_id>=$from_dir order by dir_id desc";
+        $sql = "select dir_id,dir_name,depth,p_id from $this->_dir_table where user_id=$uid and is_del=0 and dir_id>=$from_dir and cat_id is null order by dir_id desc";
         $res = $this->db->query($sql)->result_array();
+        // print_r($res);die;
         if(!isset($res[0])){
             $html="<ul>
             <!-- 第一级 -->
@@ -262,6 +263,7 @@ class cloud_model extends MY_Model{
                 }
             }
         }
+        // var_dump($res);die;
         $res = array_merge($res);//让下标从0开始按顺序排，不然加html的时候会出错；
         $return =  $this->build_dir_tree_with_html($res);
         $html="<ul>
