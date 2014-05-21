@@ -1,4 +1,5 @@
 <?php
+require_once('data_model.php');
 /**
  * Created by JetBrains PhpStorm.
  * User: 91waijiao
@@ -6,21 +7,28 @@
  * Time: 上午11:27
  * To change this template use File | Settings | File Templates.
  */
-class user_data_model extends LI_Model{
+class User_Data_Model extends Data_Model{
 
+	protected $_table='user_data';
 	private $user_data_table = 'user_data';
 	private $study_pets_table = 'study_pets';
 
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 	}
+
+	public function get_user_data($user_id)
+    {
+        return parent::get_data($user_id);
+    }
 
 	/**
 	 * @info 获取用户资料
 	 */
-	public function get_user_data($uid){
-		return $this->db->query("select * from `{$this->user_data_table}` where `user_id` = " . intval($uid))->row();
-	}
+	//public function get_user_data($uid){
+	//	return $this->db->query("select * from `{$this->user_data_table}` where `user_id` = " . intval($uid))->row();
+	//}
 	/** 获得用户和宠物的信息
 	 * @param $uid
 	 * @return mixed
