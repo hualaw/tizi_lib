@@ -43,7 +43,7 @@ class Data_Model extends LI_Model {
     {
         if(empty($data)||!is_array($data)) return false;
 
-        $parent_data=$this->get_parent_data($user_id);
+        $parent_data=$this->get_data($user_id);
 
         if(empty($parent_data))
         {
