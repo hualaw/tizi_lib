@@ -23,8 +23,8 @@ Class CI_Constant {
 	const REG_ORIGIN_QQ_SKIP	= 52;
 	const REG_ORIGIN_WEIBO_PERFECT = 53;
 	const REG_ORIGIN_WEIBO_SKIP = 54;
-	const REG_ORIGEN_CLASS_EMAIL = 62;
-	const REG_ORIGEN_CLASS_UNAME = 64;
+	const REG_ORIGEN_EUNAME_EMAIL = 62;
+	const REG_ORIGEN_EUNAME_UNAME = 64;
 
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
@@ -36,6 +36,7 @@ Class CI_Constant {
 	const PAGE_TOKEN_LIFE_CIRCLE = 604800;/*Page Token 过期时间 单位(秒)*/
 	const NO_PASSWORD_EXPIRE_TIME = 1800;//用户登录后，免输入密码验证的过期时间,30分钟
 	const COOKIE_MYDIR_EXPIRE_TIME = 0;//MYDIR随浏览器
+	const COOKIE_TZSUPPLY_EXPIRE_TIME = 31536000;//skip information supply
 
 	const COOKIE_TZUSERNAME = "TZU";//自动登录cookie name
 	const COOKIE_TZMYSUBJECT = "_ms";//mysubject cookie name
