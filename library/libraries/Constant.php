@@ -170,7 +170,7 @@ Class CI_Constant {
 			)
 		);
 
-		$redirect_url['register']=$redirect_url['login'];
+		//$redirect_url['register']=$redirect_url['login'];
 		$redirect_url['edu']=$redirect_url['tizi'];
 		if(!isset($redirect_url[$redirect_type])) $redirect_url[$redirect_type] = $redirect_url['login'];
 
