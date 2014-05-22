@@ -150,6 +150,12 @@ Class CI_Constant {
 			    self::USER_TYPE_PARENT => jia_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => tizi_url()
 			),
+			'register' => array(
+				self::USER_TYPE_STUDENT => tizi_url("student/home"),
+			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
+			    self::USER_TYPE_PARENT => jia_url("parent/home"),
+			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
+			),
 			'tizi' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 			    self::USER_TYPE_TEACHER => tizi_url(),
