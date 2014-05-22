@@ -35,6 +35,9 @@ define(function(require, exports) {
                 var schoolname = $(".schoolName li.active").html();
                 var seacherResultname = $('.schoolInfo .seacherResult li.active').html();
                 var writeSchoolName = $('.writeSchoolName').val();
+                if (typeof province == 'undefined'){province = '';}
+                if (typeof city == 'undefined'){city = '';}
+                if (typeof county == 'undefined'){county = '';}
                 if (typeof writeSchoolName == 'undefined'){writeSchoolName = '';}
                 if (typeof seacherResultname == 'undefined'){seacherResultname = '';}
                 if (typeof schoolname == 'undefined'){schoolname = '';}
@@ -124,7 +127,7 @@ define(function(require, exports) {
 				}
                 $('.school').hide();
                 $('.seacherResult').fadeIn();
-                $('span.reset').removeClass('undis');
+                $('span.reset').removeClass('undis').show();
             }
         });
         _Form.addRule([{
