@@ -95,6 +95,7 @@
   background: -ms-linear-gradient(#21dcae 0%,#0bd3a2 55%,#0cbe93 100%);
 }
 .cBtnNormal:hover{
+  color:#fff;
   background: #0bd3a2;
   background: linear-gradient(#0bd3a2 0%,#0cbe93 55%,#09aa83 100%);
   background: -webkit-linear-gradient(#0bd3a2 0%,#0cbe93 55%,#09aa83 100%);
