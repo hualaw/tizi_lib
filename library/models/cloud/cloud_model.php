@@ -183,10 +183,10 @@ class cloud_model extends MY_Model{
     function get_dir_child_by_p_id($user_id,$dir_id=0,$page_num=1,$file_offset=0,$total=false){
         if($total){
             $this->db->select("COUNT(`id`) AS filenum");
-            $files_total = $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0,'dir_cat_id'=>null))->row()->filenum;
+            $files_total = $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0))->row()->filenum;
             // echo $this->db->last_query();
             $this->db->select("COUNT(`dir_id`) AS dirnum");
-            $dir_total = $this->db->get_where($this->_dir_table,array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0,'cat_id'=>null))->row()->dirnum;
+            $dir_total = $this->db->get_where($this->_dir_table,array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0))->row()->dirnum;
             $all_total = $dir_total+$files_total;
             if($files_total>0){
                 return array('all_total'=>$all_total,'total_page'=>$all_total,'dir_total'=>$dir_total,'file_total'=>$files_total);
@@ -220,24 +220,25 @@ class cloud_model extends MY_Model{
     }
 
     //获取文件夹下的文件
-    function get_files_in_a_dir($uid,$dir_id,$filetype=0){
+    function get_files_in_a_dir($uid,$dir_id,$filetype=0,$sub_cat_id=null){
         if(in_array($filetype,array_keys(Constant::cloud_filetype(0,true)))){
             $f_sql = " and file_type=$filetype";
         }else{
             $f_sql = "";
         }
-        $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$uid and is_del=0 $f_sql order by id desc ";
+        $sub_cat_sql = $sub_cat_id?" and sub_cat_id = $sub_cat_id ":'';
+        $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$uid $sub_cat_sql and is_del=0 $f_sql order by id desc ";
         return $this->db->query($sql)->result_array();
     }
 
-    //完整的目录结构    2014-05-10备注：暂时封存了，新版不用这样的了；
+    //完整的目录结构     班级分享，从网盘上传 的box的左侧
     function get_dir_tree($uid,$from_dir=0){
-        $sql = "select dir_id,dir_name,depth,p_id from $this->_dir_table where user_id=$uid and is_del=0 and dir_id>=$from_dir order by dir_id desc";
+        $sql = "select dir_id,dir_name,depth,p_id from $this->_dir_table where user_id=$uid and is_del=0 and dir_id>=$from_dir and cat_id is null order by dir_id desc";
         $res = $this->db->query($sql)->result_array();
         if(!isset($res[0])){
             $html="<ul>
             <!-- 第一级 -->
-            <li class=''><div class='tree-title' dir-id='0'><a href='javascript:void(0)' class='icon'></a><a href='javascript:void(0)' class='shareItem  unfold'>全部文件</a></div>";
+            <li class=''><div class='tree-title' dir-id='0'><a href='javascript:void(0)' class='icon'></a><a href='javascript:void(0)' class='shareItem  unfold'>其他文件（原网盘）</a></div>";
             $html.="</li></ul>";
             return $html;
         }
@@ -266,19 +267,19 @@ class cloud_model extends MY_Model{
         $return =  $this->build_dir_tree_with_html($res);
         $html="<ul>
             <!-- 第一级 -->
-            <li class=''><div class='tree-title' dir-id='0'><a href='javascript:void(0)' class='icon icon-plus'></a><a href='javascript:void(0)' class='shareItem fold unfold'>全部文件</a></div>";
+            <li class=''><div class='tree-title' dir-id='0'><a href='javascript:void(0)' class='icon icon-plus'></a><a href='javascript:void(0)' class='shareItem fold unfold'>其他文件（原网盘）</a></div>";
         $html.=$return."</li></ul>";
         return $html;
     }
 
-    private function build_dir_tree_with_html($res,$html='',$collaps_times=1){
+    function build_dir_tree_with_html($res,$html='',$collaps_times=1){
         $collaps = 15;//前端写的是m_l_15, m_l_30 这样的 , 15为一个单位，跟前端商定就好
         $indent = $collaps_times*$collaps;
         $indent_style = "style='margin-left:{$indent}px;'";
         $has_sibling = 0;
         $ul_begin = "<ul class='undis folderList'>";
         $ul_end = "</ul>";
-        $li_begin = "<li><div class='tree-title' dir-id='%d'><a href='javascript:void(0)' class='icon icon-width %s' %s></a><a href='javascript:void(0)' class='shareItem fold'>%s</a></div>";//%s处是dir_name
+        $li_begin = "<li><div class='tree-title' dir-id='%d' sub_cat_id='%d'><a href='javascript:void(0)' class='icon icon-width %s' %s></a><a href='javascript:void(0)' class='shareItem fold'>%s</a></div>";//%s处是dir_name
         // $li_begin = "<li>%s";//%s处是dir_name
         $li_end = "</li>";
         $count_li_end = $count_ul_end = 0;
@@ -291,11 +292,10 @@ class cloud_model extends MY_Model{
             }else{
                 $icon_add = '';
             }
-            // if(isset($val['child'])){
-            //     $html.=sprintf($li_begin,$val['dir_id'],$icon_add,$indent_style,$val['dir_name']);
-            // }else{
-                $html.=sprintf($li_begin,$val['dir_id'],$icon_add,$indent_style,$val['dir_name']);
-            // }
+            if(!isset($val['sub_cat_id'])){
+                $val['sub_cat_id'] = 0;
+            }
+            $html.=sprintf($li_begin,$val['dir_id'],$val['sub_cat_id'],$icon_add,$indent_style,$val['dir_name']);
             $count_li_end++;
             if(isset($val['child'])){
                 $html = $this->build_dir_tree_with_html($val['child'],$html,$collaps_times+2);
@@ -600,9 +600,9 @@ class cloud_model extends MY_Model{
             $select = 'file_name';
             $dir_index = 'dir_id';
             $ext_sql = " and file_ext='$ext' ";
-            $cat = ' and dir_cat_id is null ';
+            $cat = ' and (dir_cat_id is null or dir_cat_id = 0 ) ';
             if($to_cat){
-                $cat = ' and dir_cat_id is not null ';
+                $cat = ' and dir_cat_id > 0 ';
             }
         }else{
             $table = $this->_dir_table;
@@ -617,6 +617,7 @@ class cloud_model extends MY_Model{
         $sql = "select count(1) as num from $table where user_id=$uid $cat and is_del=0 and $select=? and $dir_index=$pid $ext_sql";
         $sql_arr = array($dir_name);
         $num = $this->db->query($sql,$sql_arr)->row(0)->num;
+        // echo $this->db->last_query();die;
         if(!$num){//不存在就返回当前名字
             return $dir_name;
         }

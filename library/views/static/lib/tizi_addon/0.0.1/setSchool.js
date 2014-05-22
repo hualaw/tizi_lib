@@ -27,18 +27,26 @@ define(function(require, exports) {
                 $(".theGenusScholl_y").removeClass("undis");
                 var class_id = $('#class_id').val();
                 var school_id = $('.aui_content .school li.active').attr('data-id');
-                // var fullname = '';
                 var province = $(".schoolProvice li.active").html();
                 var city = $(".schoolCity li.active").html();
                 var county = $(".schoolCounty li.active").html();
+                var county_id = $(".schoolCounty li.active").attr('data-id');
+                var sctype_id = $('.schoolGrade li.active').attr('data-id');
                 var schoolname = $(".schoolName li.active").html();
                 var seacherResultname = $('.schoolInfo .seacherResult li.active').html();
+                var searcherResultid = $('.schoolInfo .seacherResult li.active').attr('data-id');
                 var writeSchoolName = $('.writeSchoolName').val();
+                if (typeof province == 'undefined'){province = '';}
+                if (typeof city == 'undefined'){city = '';}
+                if (typeof county == 'undefined'){county = '';}
                 if (typeof writeSchoolName == 'undefined'){writeSchoolName = '';}
                 if (typeof seacherResultname == 'undefined'){seacherResultname = '';}
                 if (typeof schoolname == 'undefined'){schoolname = '';}
                 if (typeof city == 'undefined'){city = '';}
                 var fullname = province + city + county + schoolname + seacherResultname + writeSchoolName;
+                if(searcherResultid){
+                    school_id = searcherResultid;
+                }
                 // 判断是否是重设学校
                 if(_this.hasClass('resetSchool')){
                     $(".theGenusScholl_n").add("undis");
@@ -53,6 +61,9 @@ define(function(require, exports) {
                         $('.schoolBox').find('.ValidformInfo,.Validform_checktip').hide();
                     }
                 }
+                $('#schoolname').val(writeSchoolName);
+                $('#area_county_id').val(county_id);
+                $('#school_type').val(sctype_id);
             },
             cancel:true,
             close:function(){
@@ -120,7 +131,7 @@ define(function(require, exports) {
 				}
                 $('.school').hide();
                 $('.seacherResult').fadeIn();
-                $('span.reset').removeClass('undis');
+                $('span.reset').removeClass('undis').show();
             }
         });
         _Form.addRule([{
@@ -250,6 +261,8 @@ define(function(require, exports) {
         });
         //点击学校
         $('.sctype li').live('click', function(){
+            $(".seacherSchoolForm").Validform().resetForm();
+            $('.ValidformInfo').hide();
             $('.schoolInfo,.schoolInfo .hd').show();
             $('.schoolNames').val('');
             $('.schoolInfo .seacherResult,.schoolInfo .reset,.schoolInfo .bd').hide();

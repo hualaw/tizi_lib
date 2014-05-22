@@ -32,43 +32,19 @@ class Qiniu {
     //     $this->domain = $this->bucket."qiniudn.com";
     // } 
 
-    /*生成token*/
-    function make_token($expires=3600)
+    /*生成token  
+        需要轉換成mp4的话：PersistentOps = 'avthumb/mp4'
+        转成mp3： avthumb/mp3
+    */
+    function make_token($expires=3600,$PersistentOps=null)
     {
         $bucket = $this->bucket;
         $putPolicy = new Qiniu_RS_PutPolicy($bucket);
         $putPolicy->Expires = $expires;
+        $putPolicy->PersistentOps = $PersistentOps;
         $upToken = $putPolicy->Token(null);
         return $upToken;
     }
-
-    /* $name 是上传字段的name*/
-    function qiniu_upload($name='uploadfile'){
-        if(!strlen($name)) {return false;}
-        $filesize = $_FILES[$name]["size"];
-        // file_put_contents('test_speed.txt', 'size:'.$filesize.',start time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
-        $bucket = $this->bucket;
-        if (!isset($_FILES[$name]["error"]) || $_FILES[$name]["error"] != 0){
-            return false;
-        }
-        
-        $pathinfo = pathinfo($_FILES[$name]["name"]);
-        $ext = isset($pathinfo["extension"])?$pathinfo["extension"]:"";
-        $md5 = md5(uniqid());
-        $filename = alpha_id(mt_rand(1000000, 9999999)) . "." . $ext;
-
-        $key = date("Ymd") . "/" . substr($md5, 3, 2) . "/" . substr($md5, 7,26).$filename; //不能是slash开头，不然下载会报：bad oauth request
-
-        $_file_content = $_FILES[$name]["tmp_name"];
-        $putPolicy = new Qiniu_RS_PutPolicy($bucket);
-        $upToken = $putPolicy->Token(null);
-        $putExtra = new Qiniu_PutExtra();
-        $putExtra->Crc32 = 1;
-        list($ret, $err) = Qiniu_PutFile($upToken, $key, $_file_content, $putExtra);
-        // file_put_contents('test_speed.txt', 'over time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
-        return $this->qiniu_result($err,$ret);
-    }
-
  
     //获取下载链接 (私有资源)
     function qiniu_download_link($key,$name = 'unknow'){
@@ -78,6 +54,48 @@ class Qiniu {
         $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
         $baseUrl.='?download/'.$name;
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
+        return $privateUrl;
+    }
+
+    //即时转换成mp4的接口   访问时间默认设置成 3小时
+    function qiniu_media($key,$ext='mp4',$ttl=10800){
+        $domain = $this->domain;
+        $client = new Qiniu_MacHttpClient(null);
+        $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
+        $getPolicy->Expires = $ttl;
+        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+        //同后缀就不用加转换参数
+        $rpos = strrpos($key , '.');
+        $get_ext = '';
+        if($rpos !== false){
+            $get_ext = substr($key,$rpos+1);
+        }
+        if($get_ext != $ext){
+            $baseUrl .= "?avthumb/{$ext}";
+        }
+        $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
+        $privateUrl = ($privateUrl);
+        return $privateUrl;
+    }
+
+    //访问预处理后的非mp4资源  如果没转换好，访问链接得到 not found 
+    function qiniu_media_afterfop($key,$ext='mp4',$ttl=10800){
+        $domain = $this->domain;
+        $client = new Qiniu_MacHttpClient(null);
+        $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
+        $getPolicy->Expires = $ttl;
+        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+        //同后缀就不用加转换参数
+        $rpos = strrpos($key , '.');
+        $get_ext = '';
+        if($rpos !== false){
+            $get_ext = substr($key,$rpos+1);
+        }
+        if($get_ext != $ext){
+            $baseUrl .= "?p/1/avthumb/{$ext}";
+        }
+        $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
+        $privateUrl = ($privateUrl);
         return $privateUrl;
     }
 
@@ -94,18 +112,6 @@ class Qiniu {
         return $this->qiniu_result($err);
     }
 
-    //移动文件或重命名, 暂时没用到；
-    function qiniu_move($key, $new_key){
-        $bucket = $this->bucket;
-        $domain = $this->domain;
-        $client = new Qiniu_MacHttpClient(null);
-        $getPolicy = new Qiniu_RS_GetPolicy();
-        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
-        $privateUrl = $getPolicy->MakeRequest($baseUrl, null);
-        $client = new Qiniu_MacHttpClient(null);
-        $err = Qiniu_RS_Move($client, $bucket, $key, $bucket, $new_key);
-        return $this->qiniu_result($err);
-    }
 
     //获取指定大小的图片
     function qiniu_get_image($key,$mode=1,$width=100,$height=100){
@@ -124,18 +130,54 @@ class Qiniu {
         return $imgViewPrivateUrl;
     }
 
-    //按要求获取视频资源，second是切片时间长度，preset是预设集
-    function qiniu_get_video($key,$second=10,$preset="video_16x9_440k"){
-        $domain = $this->domain;
-        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
-
-        $baseUrl = "http://apitest.b1.qiniudn.com/sample.wav";
-        $imgViewPrivateUrl = $baseUrl .= "?avthumb/m3u8/preset/{$preset}";
-        //对fopUrl 进行签名，生成privateUrl。 公有bucket 此步可以省去。
-        $getPolicy = new Qiniu_RS_GetPolicy();
-        // $imgViewPrivateUrl = $getPolicy->MakeRequest($baseUrl, null);
-        return $imgViewPrivateUrl;
+    //返回结果
+    protected function qiniu_result($res,$ret=null){
+        if ($res !== null) {
+            return array('errorcode'=>false,'msg'=>$res);
+        } else {
+            return array('errorcode'=>true,'msg'=>$res,'ret'=>$ret);
+        }
     }
+
+    /* $name 是上传字段的name*/
+    // function qiniu_upload($name='uploadfile'){
+    //     if(!strlen($name)) {return false;}
+    //     $filesize = $_FILES[$name]["size"];
+    //     // file_put_contents('test_speed.txt', 'size:'.$filesize.',start time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
+    //     $bucket = $this->bucket;
+    //     if (!isset($_FILES[$name]["error"]) || $_FILES[$name]["error"] != 0){
+    //         return false;
+    //     }
+        
+    //     $pathinfo = pathinfo($_FILES[$name]["name"]);
+    //     $ext = isset($pathinfo["extension"])?$pathinfo["extension"]:"";
+    //     $md5 = md5(uniqid());
+    //     $filename = alpha_id(mt_rand(1000000, 9999999)) . "." . $ext;
+
+    //     $key = date("Ymd") . "/" . substr($md5, 3, 2) . "/" . substr($md5, 7,26).$filename; //不能是slash开头，不然下载会报：bad oauth request
+
+    //     $_file_content = $_FILES[$name]["tmp_name"];
+    //     $putPolicy = new Qiniu_RS_PutPolicy($bucket);
+    //     $upToken = $putPolicy->Token(null);
+    //     $putExtra = new Qiniu_PutExtra();
+    //     $putExtra->Crc32 = 1;
+    //     list($ret, $err) = Qiniu_PutFile($upToken, $key, $_file_content, $putExtra);
+    //     // file_put_contents('test_speed.txt', 'over time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
+    //     return $this->qiniu_result($err,$ret);
+    // }
+    
+    //按要求获取视频资源，second是切片时间长度，preset是预设集
+    // function qiniu_get_video($key,$second=10,$preset="video_16x9_440k"){
+    //     $domain = $this->domain;
+    //     $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+
+    //     $baseUrl = "http://apitest.b1.qiniudn.com/sample.wav";
+    //     $imgViewPrivateUrl = $baseUrl .= "?avthumb/m3u8/preset/{$preset}";
+    //     //对fopUrl 进行签名，生成privateUrl。 公有bucket 此步可以省去。
+    //     $getPolicy = new Qiniu_RS_GetPolicy();
+    //     // $imgViewPrivateUrl = $getPolicy->MakeRequest($baseUrl, null);
+    //     return $imgViewPrivateUrl;
+    // }
 
     function test($key){
         $domain = $this->domain;
@@ -147,13 +189,18 @@ class Qiniu {
         return $imgViewPrivateUrl;
     }
 
-    //返回结果
-    protected function qiniu_result($res,$ret=null){
-        if ($res !== null) {
-            return array('errorcode'=>false,'msg'=>$res);
-        } else {
-            return array('errorcode'=>true,'msg'=>$res,'ret'=>$ret);
-        }
-    }
+    
+    //移动文件或重命名, 暂时没用到；
+    // function qiniu_move($key, $new_key){
+    //     $bucket = $this->bucket;
+    //     $domain = $this->domain;
+    //     $client = new Qiniu_MacHttpClient(null);
+    //     $getPolicy = new Qiniu_RS_GetPolicy();
+    //     $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+    //     $privateUrl = $getPolicy->MakeRequest($baseUrl, null);
+    //     $client = new Qiniu_MacHttpClient(null);
+    //     $err = Qiniu_RS_Move($client, $bucket, $key, $bucket, $new_key);
+    //     return $this->qiniu_result($err);
+    // }
 
 }
