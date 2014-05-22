@@ -12,7 +12,7 @@ class Parent_Data_Model extends Data_Model {
 
     public function get_parent_data($user_id)
     {
-        parent::__construct();
+        return parent::get_data($user_id);
     }
 
     public function update_parent_gender($user_id,$gender)
