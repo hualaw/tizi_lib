@@ -34,12 +34,19 @@ define(function(require, exports) {
                 var sctype_id = $('.schoolGrade li.active').attr('data-id');
                 var schoolname = $(".schoolName li.active").html();
                 var seacherResultname = $('.schoolInfo .seacherResult li.active').html();
+                var searcherResultid = $('.schoolInfo .seacherResult li.active').attr('data-id');
                 var writeSchoolName = $('.writeSchoolName').val();
+                if (typeof province == 'undefined'){province = '';}
+                if (typeof city == 'undefined'){city = '';}
+                if (typeof county == 'undefined'){county = '';}
                 if (typeof writeSchoolName == 'undefined'){writeSchoolName = '';}
                 if (typeof seacherResultname == 'undefined'){seacherResultname = '';}
                 if (typeof schoolname == 'undefined'){schoolname = '';}
                 if (typeof city == 'undefined'){city = '';}
                 var fullname = province + city + county + schoolname + seacherResultname + writeSchoolName;
+                if(searcherResultid){
+                    school_id = searcherResultid;
+                }
                 // 判断是否是重设学校
                 if(_this.hasClass('resetSchool')){
                     $(".theGenusScholl_n").add("undis");
@@ -124,7 +131,7 @@ define(function(require, exports) {
 				}
                 $('.school').hide();
                 $('.seacherResult').fadeIn();
-                $('span.reset').removeClass('undis');
+                $('span.reset').removeClass('undis').show();
             }
         });
         _Form.addRule([{
@@ -254,6 +261,8 @@ define(function(require, exports) {
         });
         //点击学校
         $('.sctype li').live('click', function(){
+            $(".seacherSchoolForm").Validform().resetForm();
+            $('.ValidformInfo').hide();
             $('.schoolInfo,.schoolInfo .hd').show();
             $('.schoolNames').val('');
             $('.schoolInfo .seacherResult,.schoolInfo .reset,.schoolInfo .bd').hide();
