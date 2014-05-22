@@ -257,6 +257,8 @@ define(function(require, exports) {
         });
         //点击学校
         $('.sctype li').live('click', function(){
+            $(".seacherSchoolForm").Validform().resetForm();
+            $('.ValidformInfo').hide();
             $('.schoolInfo,.schoolInfo .hd').show();
             $('.schoolNames').val('');
             $('.schoolInfo .seacherResult,.schoolInfo .reset,.schoolInfo .bd').hide();
