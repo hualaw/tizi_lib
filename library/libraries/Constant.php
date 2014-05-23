@@ -15,6 +15,7 @@ Class CI_Constant {
 	const REG_ORIGEN_WEB_EMAIL = 2;
 	const REG_ORIGEN_WEB_STUID = 3;
 	const REG_ORIGEN_WEB_UNAME = 4;
+	const REG_ORIGEN_WEB_EUNAME = 5;
 	const REG_ORIGEN_AQ_IOS = 21;
 	const REG_ORIGIN_AQ_ANDROID = 31;
 	const REG_ORIGIN_CRM = 41;
@@ -23,8 +24,10 @@ Class CI_Constant {
 	const REG_ORIGIN_QQ_SKIP	= 52;
 	const REG_ORIGIN_WEIBO_PERFECT = 53;
 	const REG_ORIGIN_WEIBO_SKIP = 54;
-	const REG_ORIGEN_EUNAME_EMAIL = 62;
-	const REG_ORIGEN_EUNAME_UNAME = 64;
+	const REG_ORIGEN_CLASS_EMAIL = 62;
+	const REG_ORIGEN_CLASS_UNAME = 64;
+	const REG_ORIGEN_SURVEY_EMAIL= 66;
+	const REG_ORIGEN_SURVEY_UNAME= 68;
 
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
