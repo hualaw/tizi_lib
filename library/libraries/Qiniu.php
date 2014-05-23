@@ -47,12 +47,14 @@ class Qiniu {
     }
  
     //获取下载链接 (私有资源)
-    function qiniu_download_link($key,$name = 'unknow'){
+    function qiniu_download_link($key,$name = 'unknow',$with_name=true){
         $domain = $this->domain;
         $client = new Qiniu_MacHttpClient(null);
         $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
         $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
-        $baseUrl.='?download/'.$name;
+        if($with_name){
+            $baseUrl.='?download/'.$name;
+        }
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
         return $privateUrl;
     }
