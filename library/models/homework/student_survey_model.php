@@ -13,10 +13,13 @@ class Student_Survey_Model extends LI_Model{
 
     public function add($data){
 
-        return $this->db->insert(
+        if($this->db->insert(
             $this->_tb_name,
             $data
-        );
+        )){
+            return $this->db->insert_id();
+        }
+        return false;
     }
 
     public function getData($id){
