@@ -212,13 +212,19 @@ class Tizi_Register extends Tizi_Controller {
 			$reg_data=array_merge(array('register_grade'=>$mygrade,'register_origin'=>Constant::REG_ORIGEN_WEB_EUNAME),$reg_data);
 			if($euname_check['utype']==Constant::LOGIN_TYPE_EMAIL)
 			{
-				if(isset($reg_data['origin_type'][Constant::LOGIN_TYPE_EMAIL])) $reg_data['register_origin']=$reg_data['origin_type'][Constant::LOGIN_TYPE_EMAIL];
+				if(isset($reg_data['origin_type'][Constant::LOGIN_TYPE_EMAIL])) 
+				{
+					$reg_data['register_origin']=$reg_data['origin_type'][Constant::LOGIN_TYPE_EMAIL];
+				}
 				unset($reg_data['origin_type']);
 				$register=$this->register_by_email($euname,$password,$rname,$user_type,$reg_data,$auto_login);
 			}
 			else
 			{
-				if(isset($reg_data['origin_type'][Constant::LOGIN_TYPE_UNAME])) $reg_data['register_origin']=$reg_data['origin_type'][Constant::LOGIN_TYPE_UNAME];
+				if(isset($reg_data['origin_type'][Constant::LOGIN_TYPE_UNAME])) 
+				{
+					$reg_data['register_origin']=$reg_data['origin_type'][Constant::LOGIN_TYPE_UNAME];
+				}
 				unset($reg_data['origin_type']);
 				$register=$this->register_by_uname($euname,$password,$rname,$user_type,$reg_data,$auto_login);
 			}
@@ -258,7 +264,10 @@ class Tizi_Register extends Tizi_Controller {
 					Constant::LOGIN_TYPE_UNAME=>Constant::REG_ORIGEN_CLASS_UNAME
 				)
 			);
-			if($class_check['class_grade']) $mygrade=$class_check['class_grade'];
+			if($class_check['class_grade']) 
+			{
+				$mygrade=$class_check['class_grade'];
+			}
 			$submit=$this->register_euname($euname,$rname,$password,$password1,$mygrade,$redirect,$reg_data);
 
 			if($submit['errorcode'])
