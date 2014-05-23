@@ -38,8 +38,9 @@ if (!function_exists('qiniu_download')) {
     function qiniu_download($key,$name='unknown',$ttl=3600,$with_name=true) {
         $ci =& get_instance();
         $ci->load->model('redis/redis_model');
+        $redis_key = $key.$name.intval($with_name);
         if($ci->redis_model->connect('qiniu_file')){ //连得上redis，取的到值就直接返回值
-            $path = $ci->cache->redis->get($key);
+            $path = $ci->cache->redis->get($redis_key);
             if($path !== false){ //取的到值就直接返回值
                 return $path ;
             }
@@ -49,7 +50,7 @@ if (!function_exists('qiniu_download')) {
 
         $path = $ci->qiniu->qiniu_download_link($key,$name,$with_name);
         if($path){
-            $ci->cache->redis->save($key,$path,$ttl);
+            $ci->cache->redis->save($redis_key,$path,$ttl);
             return $path;
         }
         return false;
