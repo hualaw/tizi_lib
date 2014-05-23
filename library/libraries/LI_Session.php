@@ -309,7 +309,7 @@ class LI_Session extends CI_Session {
 		// Does the User Agent Match?
 		if ($this->sess_match_useragent == TRUE AND trim($session['user_agent']) != trim(substr($this->CI->input->user_agent(), 0, 120)))
 		{
-			log_message('trace_tizi','session_destroy_ip_address');
+			log_message('trace_tizi','session_destroy_user_agent');
 			$this->sess_destroy();
 			return FALSE;
 		}
