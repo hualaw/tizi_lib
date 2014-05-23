@@ -35,7 +35,7 @@ if (!function_exists('qiniu_img')) {
 
 /*七牛下载链接*/
 if (!function_exists('qiniu_download')) {
-    function qiniu_download($key,$name='unknown',$ttl=3600) {
+    function qiniu_download($key,$name='unknown',$ttl=3600,$with_name=true) {
         $ci =& get_instance();
         $ci->load->model('redis/redis_model');
         if($ci->redis_model->connect('qiniu_file')){ //连得上redis，取的到值就直接返回值
@@ -46,7 +46,8 @@ if (!function_exists('qiniu_download')) {
         }
         //连不上redis或者redis中没有相应的值,就去七牛上获取，然后存入redis
         $ci->load->library('qiniu');
-        $path = $ci->qiniu->qiniu_download_link($key,$name);
+
+        $path = $ci->qiniu->qiniu_download_link($key,$name,$with_name);
         if($path){
             $ci->cache->redis->save($key,$path,$ttl);
             return $path;
