@@ -123,6 +123,23 @@ class LI_Input extends CI_Input {
 		return $is_ajax_request;
 	}
 
+	function user_agent()
+	{
+		if ($this->user_agent !== FALSE)
+		{
+			return $this->user_agent;
+		}
+
+		$this->user_agent = ( ! isset($_SERVER['HTTP_USER_AGENT'])) ? FALSE : $_SERVER['HTTP_USER_AGENT'];
+		
+		if(stripos($this->user_agent,'2345Explorer')!==false)
+		{
+			$this->user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko';
+		}
+
+		return $this->user_agent;
+	}
+
 }
 
 /* End of file MY_Input.php */
