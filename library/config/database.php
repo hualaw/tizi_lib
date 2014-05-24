@@ -80,5 +80,21 @@ $db['jxt']['swap_pre'] = '';
 $db['jxt']['autoinit'] = TRUE;
 $db['jxt']['stricton'] = FALSE;
 
+$db['tiku']['hostname'] = 'rdsnuyizmnuyizm.mysql.rds.aliyuncs.com';
+$db['tiku']['username'] = 'mobile_tiku';
+$db['tiku']['password'] = 'JgEC23SpyQcYc';
+$db['tiku']['database'] = 'tiku';
+$db['tiku']['dbdriver'] = 'mysqli';
+$db['tiku']['dbprefix'] = '';
+$db['tiku']['pconnect'] = FALSE;
+$db['tiku']['db_debug'] = FALSE;
+$db['tiku']['cache_on'] = FALSE;
+$db['tiku']['cachedir'] = '';
+$db['tiku']['char_set'] = 'utf8';
+$db['tiku']['dbcollat'] = 'utf8_general_ci';
+$db['tiku']['swap_pre'] = '';
+$db['tiku']['autoinit'] = TRUE;
+$db['tiku']['stricton'] = FALSE;
+
 /* End of file database.php */
 /* Location: ./application/config/database.php */
