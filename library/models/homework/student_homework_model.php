@@ -174,10 +174,17 @@ class Student_Homework_Model extends LI_Model{
      * @param uid int
      */
     public function get_homework($uid, $s_h_id){
-            $result = $this->db
-                ->query("select d.`content` as comment_content,a.`start_time`,a.`end_time`,a.`assignment_id`,a.`student_id`,a.`correct_num`,a.`is_download`,b.`online_count`,b.`count`,b.`student_num`,a.`id`,b.`paper_id`,b.`online`,b.`start_time` as w_start_time,b.`deadline` as w_end_time,c.`subject_id`,c.`user_id` as teacher_id,b.`name` as title,b.`description` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` left join `homework_paper` as c on b.`paper_id` = c.`id` left join `student_exercise_plan_comment` as d on a.`assignment_id` = d.`assignment_id` and d.`student_id` = {$uid} and d.`is_del` = 0 where a.`student_id` = {$uid}  and a.`id` = ({$s_h_id}) order by b.`assign_time` desc,b.`paper_id` desc, b.`online` desc ")
-                ->row_array();    
-            return $result;
+
+        $result = $this->db
+            ->query("select d.`content` as comment_content,a.`start_time`,a.`end_time`,a.`assignment_id`,a.`student_id`,a.`correct_num`,a.`is_download`,b.`online_count`,b.`count`,b.`student_num`,a.`id`,b.`paper_id`,b.`online`,b.`start_time` as w_start_time,b.`deadline` as w_end_time,c.`subject_id`,c.`user_id` as teacher_id,b.`name` as title,b.`description` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` left join `homework_paper` as c on b.`paper_id` = c.`id` left join `student_exercise_plan_comment` as d on a.`assignment_id` = d.`assignment_id` and d.`student_id` = {$uid} and d.`is_del` = 0 where a.`student_id` = {$uid}  and a.`id` = ({$s_h_id}) order by b.`assign_time` desc,b.`paper_id` desc, b.`online` desc ")
+            ->row_array();    
+        if(isset($result['assignment_id'])){
+            $stats = $this->get_homework_stats($result['assignment_id']);
+            $result['student_num'] = $stats['student_num'];
+            $result['total_correct_num'] = $stats['total_correct_num'];
+        }
+        return $result;
+
     }
     
 
@@ -240,8 +247,34 @@ class Student_Homework_Model extends LI_Model{
         return false;
     }
     public function get_student_homework($uid,$aid){
-        return $this->db->query("select a.*,a.`id` as s_work_id,b.`name`,b.`paper_id`,b.`start_time` as begin_time,b.`deadline`,b.`get_answer_way`,b.`description`,b.`online`,b.`correct_rate`,b.`student_num`,b.`online_count`,b.`offline_count` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` where a.`student_id` = $uid and a.`assignment_id`= $aid")->row();
+        return $this->db->query("select a.*,a.`id` as s_work_id,b.`name`,b.`paper_id`,b.`start_time` as begin_time,b.`deadline`,b.`get_answer_way`,b.`description`,b.`online`,b.`correct_rate`,b.`student_num`,b.`online_count`,b.`offline_count`,b.`count`,b.`is_shuffled` from `student_homework` as a left join `homework_assign` as b on a.`assignment_id` = b.`id` where a.`student_id` = $uid and a.`assignment_id`= $aid")->row();
+
     }
+
+    //获取班级学生数量， 答题总正确数
+    public function get_homework_stats($aid){
+        
+        $result = $this->db->query("select count(*) as student_num from `student_homework` where `assignment_id` = {$aid}")
+            ->row_array();
+        if(isset($result['student_num'])){
+            $student_num = $result['student_num'];
+        }else{
+            $student_num = 0;
+        }
+        $result = $this->db->query("select sum(`correct_num`) as total_correct_num from `student_homework` where `assignment_id` = {$aid}")
+            ->row_array();
+        if(isset($result['total_correct_num'])){
+            $total_correct_num = $result['total_correct_num'];
+        }else{
+            $total_correct_num = 0;
+        }
+        return array(
+            'student_num'=>$student_num,
+            'total_correct_num'=>$total_correct_num   
+        );
+        
+    }
+
     /**
      * @info 统计未完成题的数量
      * @param assignment_id int 作业id

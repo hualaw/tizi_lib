@@ -109,9 +109,14 @@ class Classes extends LI_Model{
 	/**
 	 * 更新班级名称
 	 */
-	public function update_clsname($class_id, $classname, $teacher_id){
-		$this->db->query("update classes set classname=? where id=? and 
-			creator_id=?", array($classname, $class_id, $teacher_id));
+	public function update_clsname($class_id, $classname, $teacher_id, $class_grade = false){
+		if ($class_grade > 0){
+			$this->db->query("update classes set classname=?,class_grade=? where id=? and 
+				creator_id=?", array($classname, $class_grade, $class_id, $teacher_id));
+		} else {
+			$this->db->query("update classes set classname=? where id=? and 
+				creator_id=?", array($classname, $class_id, $teacher_id));
+		}
 		return $this->db->affected_rows();
 	}
 	
@@ -188,5 +193,12 @@ class Classes extends LI_Model{
 			$data["student_total"] += $this->classes_student_create->ulog_total($value["class_id"]);
 		}
 		return $data;
+	}
+	
+	//获取一个老师的最新的一个班级信息
+	public function last_info($user_id, $fields = "*"){
+		$res = $this->db->query("select {$fields} from classes where creator_id=? and class_status=0 
+			order by id desc limit 0,1", array($user_id))->row_array();
+		return $res;
 	}
 }

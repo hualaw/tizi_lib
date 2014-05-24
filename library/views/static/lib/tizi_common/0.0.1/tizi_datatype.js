@@ -105,9 +105,9 @@ define(function(require, exports) {
                 errormsg:"长度1-12个字符"
             },
             Classnum:{
-                datatype:"*6-8",
+                datatype:"n6-8",
                 nullmsg:"请输入班级编号",
-                errormsg:"长度6-8个字符"
+                errormsg:"长度6-8个数字"
             },
             radioValid:{
                 datatype:"*"
