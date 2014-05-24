@@ -80,6 +80,19 @@ class Qiniu {
         return $privateUrl;
     }
 
+    /*视频截图*/
+    function qiniu_vframe($key,$offset=1,$w=400,$h=225,$ttl=36000){
+        $domain = $this->domain;
+        $client = new Qiniu_MacHttpClient(null);
+        $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
+        $getPolicy->Expires = $ttl;
+        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+        $baseUrl .= "?vframe/jpg/offset/$offset/w/$w/h/$h";
+        $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
+        $privateUrl = ($privateUrl);
+        return $privateUrl;
+    }
+
     //访问预处理后的非mp4资源  如果没转换好，访问链接得到 not found 
     function qiniu_media_afterfop($key,$ext='mp4',$ttl=10800){
         $domain = $this->domain;
