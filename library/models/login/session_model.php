@@ -10,10 +10,11 @@ class Session_Model extends LI_Model {
 	function __construct()
 	{
       	parent::__construct();
-		$this->load->model("redis/redis_model");
 		$this->load->helper("cookie");
 		$this->load->library('encrypt');
 
+		$this->load->model("redis/redis_model");
+		$this->load->model("login/register_model");
 		$this->load->model("question/question_subject_model");
 		$this->load->model("user_data/student_data_model");
 		$this->load->model("user_data/researcher_data_model");
@@ -22,7 +23,7 @@ class Session_Model extends LI_Model {
 	/*desc:generate session after login*/
 	/*input:arg($user_id)*/
 	/*output:session,return(errorcode(1-success,0-failed))*/
-	function generate_session($user_id,$switch_id=false,$dbsave=true)
+	function generate_session($user_id,$dbsave=true)
 	{
 		$session_id=$this->session->userdata("session_id");
 		$data=$this->bind_session($session_id,$user_id);
@@ -34,12 +35,15 @@ class Session_Model extends LI_Model {
 				'urname'=>$data['name'],
 				'user_type'=>$data['user_type'],
 				'uname'=>$data['uname'],
+				'email'=>$data['email'],
 				'student_id'=>$data['student_id'],
 				'avatar'=>$register_data->avatar?$register_data->avatar:0,
 				'certification'=>$register_data->certification?$register_data->certification:0,
-				'register_subject'=>$this->question_subject_model->check_subject($register_data->register_subject,'binding')?$register_data->register_subject:0,
-				'register_grade'=>$this->student_data_model->check_grade($register_data->register_grade)?$register_data->register_grade:0,
+				'register_subject'=>$register_data->register_subject,
+				'register_grade'=>$register_data->register_grade,
 				'register_domain'=>$register_data->register_domain,
+				'email_verified'=>$register_data->email_verified,
+				'phone_verified'=>$register_data->phone_verified,
 				'login_time'=>time()
 			);
 			
@@ -52,8 +56,11 @@ class Session_Model extends LI_Model {
 			$this->db->set('last_login',date('Y-m-d H:i:s'));
 			$this->db->update($this->_user_table);
 
-			if($switch_id) $data['switch_id']=$switch_id;
-			if($dbsave) $this->db->insert($this->_table,$data);
+			if($dbsave) 
+			{
+				$data['uid']=$this->input->cookie('uid');
+				$this->db->insert($this->_table,$data);
+			}
 			
 			if ($data["user_type"] == Constant::USER_TYPE_TEACHER){
 				$this->load->library("credit");
@@ -113,17 +120,43 @@ class Session_Model extends LI_Model {
 				'user_agent'=>user_agent(),
 				'generate_time'=>date("Y-m-d H:i:s"),
 				'expire_time'=>'',
-				'user_data'=>json_encode(
-					array(
-						'register_subject'=>$user->register_subject,
-						'register_grade'=>$user->register_grade,
-						'register_domain'=>$register_domain,
-						'avatar'=>$user->avatar,
-						'certification'=>$user->certification
-					)
+				'user_data'=>array(
+					'email'=>$user->email,
+					'register_subject'=>$user->register_subject,
+					'register_grade'=>$user->register_grade,
+					'register_domain'=>$register_domain,
+					'avatar'=>$user->avatar,
+					'certification'=>$user->certification,
+					'email_verified'=>$user->email_verified,
+					'phone_verified'=>$user->phone_verified
 				)
 			);
-		}	
+
+			switch ($user->user_type)
+			{
+				case Constant::USER_TYPE_STUDENT:
+					if(!$user->register_grade||!$this->student_data_model->check_grade($user->register_grade))
+					{
+						$this->register_model->update_mygrade($user_id,Constant::DEFAULT_SUBJECT_ID,true);
+						$data['user_data']['register_grade']=Constant::DEFAULT_GRADE_ID;
+					}
+					break;
+	            case Constant::USER_TYPE_TEACHER:
+	            	if(!$user->register_subject||!$this->question_subject_model->check_subject($user->register_subject,'binding'))
+					{
+						$this->register_model->update_mysubject($user_id,Constant::DEFAULT_SUBJECT_ID,true);
+						$data['user_data']['register_subject']=Constant::DEFAULT_SUBJECT_ID;
+					}
+					break;
+	            case Constant::USER_TYPE_PARENT:	
+	            case Constant::USER_TYPE_RESEARCHER:
+	            default:
+	            	break;
+			}
+
+			$data['user_data']=json_encode($data['user_data']);
+		}
+
 		return $data;
 	}
 

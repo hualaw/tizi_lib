@@ -67,6 +67,19 @@ class class_model extends LI_Model {
 			if ($this->db->trans_status() === false){
 				return -1;
 			}
+			
+			//add notice join_class_succ(teacher)
+			$this->load->library("notice");
+			$this->load->model("class/classes");
+			$this->load->model("constant/grade_model");
+			$class_info = $this->classes->get($class_id, "classname,class_grade");
+			$arr_grade = $this->grade_model->arr_grade();
+			$class_grade = $class_info["class_grade"];
+			$grade_name = isset($arr_grade[$class_grade]) ? $arr_grade[$class_grade]["name"]: "";
+			$data = array("classname" => $grade_name.$class_info["classname"]);
+			$this->notice->add($teacher_id, "join_class_succ", $data);
+		} else {
+			return -2;
 		}
 		return 1;
 	}

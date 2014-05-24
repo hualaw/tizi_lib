@@ -65,6 +65,14 @@ if ( ! function_exists('xue_url'))
 	}
 }
 
+if ( ! function_exists('survey_url'))
+{
+	function survey_url($uri = '')
+	{
+		return site_url($uri,'survey');
+	}
+}
+
 if ( ! function_exists('static_url'))
 {
 	function static_url($site = '')

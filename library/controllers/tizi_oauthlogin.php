@@ -1,17 +1,16 @@
-<?php
-if(!defined('BASEPATH'))exit('No direct script access allowed');
+<?php  if(!defined('BASEPATH'))exit('No direct script access allowed');
+require_once("tizi_controller.php");
 
-class Tizi_Oauthlogin extends MY_Controller{
+class Tizi_Oauthlogin extends Tizi_Controller {
 
     function __construct()
     {
         parent::__construct();
-
         $this->load->model("login/login_model");
         $this->load->model("login/session_model");
     }
 
-    public function index()
+    public function oauth()
     {
         /*platform*/
         $platform = 'qq';
@@ -28,7 +27,6 @@ class Tizi_Oauthlogin extends MY_Controller{
             //exit($e->getMessage());
             show_error($e->getMessage());
         }
-
     }
 
     public function callback($platform)
@@ -47,7 +45,7 @@ class Tizi_Oauthlogin extends MY_Controller{
             $db_data=array(
                 'open_id'=>$data['open_id'],
                 'platform'=>$platform,
-                'access_token'=>$data['access_token'],
+                'access_token'=>$data['access_token']
             );
 
             $oauth_redirect='';
@@ -55,22 +53,36 @@ class Tizi_Oauthlogin extends MY_Controller{
                 $user_auth_data = $this->oauth_model->save($db_data);
                 $this->oauth_model->save($db_data['open_id'], $platform, $db_data);
 
+                $oauth_redirect=$this->session->userdata('oauth_redirect');
                 if(empty($user_auth_data['user_id'])){//未绑定用户
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
-    				//redirect(login_url("login/perfect/role"));
-                    $oauth_redirect=login_url("login/perfect/role");
+    				$this->session->set_userdata("oauth_nickname", $data["nickname"]);
+    				$this->session->set_userdata("oauth_platform", $platform);
+
+                    if(stripos($oauth_redirect,'http://')!==false)
+                    {
+                        $this->session->set_userdata('perfect_redirect',$oauth_redirect);
+                    }
+
+                    $oauth_redirect=login_url("oauth/firstlogin?platform={$platform}");
                 }else{//绑定用户
-                    $oauth_redirect=$this->session->userdata('oauth_redirect');
     				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
                     $this->session_model->generate_cookie($db_data['open_id'],$user_auth_data["user_id"]);
     				$this->session_model->clear_mscookie();
                     //redirect(redirect_url($session['user_data']['user_type'],'login'));
-                    if(!$oauth_redirect) $oauth_redirect=redirect_url($session['user_data']['user_type'],'login');
+                    //if(!$oauth_redirect) $oauth_redirect=redirect_url($session['user_data']['user_type'],'login');
+                    $oauth_redirect=$this->get_redirect($session['user_data']['user_type'],$session['user_data'],'login',$oauth_redirect);
                 }
             }
-            $this->smarty->assign('oauth_redirect',$oauth_redirect);
-            $this->smarty->display('file:[lib]header/tizi_oauth.html');
-
+            if($this->tizi_mobile)
+            {
+                redirect($oauth_redirect);
+            }
+            else
+            {
+                $this->smarty->assign('oauth_redirect',$oauth_redirect);
+                $this->smarty->display('file:[lib]header/tizi_oauth.html');
+            }
         }catch(OauthException $e){
             //exit($e->getMessage());
             show_error($e->getMessage());

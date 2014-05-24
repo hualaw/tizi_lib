@@ -1,4 +1,5 @@
 <?php
+require_once('data_model.php');
 /**
  * Created by JetBrains PhpStorm.
  * User: 91waijiao
@@ -6,21 +7,28 @@
  * Time: 上午11:27
  * To change this template use File | Settings | File Templates.
  */
-class user_data_model extends LI_Model{
+class User_Data_Model extends Data_Model{
 
+	protected $_table='user_data';
 	private $user_data_table = 'user_data';
 	private $study_pets_table = 'study_pets';
 
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 	}
+
+	public function get_user_data($user_id)
+    {
+        return parent::get_data(intval($user_id));
+    }
 
 	/**
 	 * @info 获取用户资料
 	 */
-	public function get_user_data($uid){
-		return $this->db->query("select * from `{$this->user_data_table}` where `user_id` = " . intval($uid))->row();
-	}
+	//public function get_user_data($uid){
+	//	return $this->db->query("select * from `{$this->user_data_table}` where `user_id` = " . intval($uid))->row();
+	//}
 	/** 获得用户和宠物的信息
 	 * @param $uid
 	 * @return mixed
@@ -60,6 +68,24 @@ class user_data_model extends LI_Model{
 			return false;
 		}
 		return true;
+	}
+
+	/** 获得宠物的状态
+	 * @param $brush_times 刷题次数
+	 * @param $last_success_time 最近刷题成功的时间
+	 * @return mixed
+	 */
+	public function get_pet_status($brush_times, $last_success_time){
+		//没有刷过题
+		if ($brush_times == 0) return Constant::pet_status(1);
+
+		$status_id = 1;
+		if ($last_success_time < strtotime(date('Y-m-d', strtotime('-4 days')))) {
+			$status_id = 3;
+		} elseif ($last_success_time < strtotime(date('Y-m-d', strtotime('-1 days')))) {
+			$status_id = 2;
+		}
+		return Constant::pet_status($status_id);
 	}
 
 	/** 用户经验得到相应的等级
@@ -104,7 +130,7 @@ class user_data_model extends LI_Model{
 		return ($level - 1) * ($level - 1) + 4 * ($level - 1);
 	}
 
-	/** 根据用户当前的经验等级 算出前台等级进度条的width
+	/** 根据用户当前的经验等级 算出前台等级进度条width百分比
 	 * @param $level
 	 * @param $exp
 	 * @param $width
@@ -115,7 +141,7 @@ class user_data_model extends LI_Model{
 		$level_exp_low = ($level == 1) ? 0 : ($this->level_to_exp($level));
 		$level_exp_up = $this->level_to_exp($level + 1);
 
-		return intval((($exp - $level_exp_low) / ($level_exp_up - $level_exp_low)) * 100) . '%' ;
+		return round((($exp - $level_exp_low) / ($level_exp_up - $level_exp_low)) * 100, 2) . '%' ;
 	}
 
 	/** 更新用户使用过的应用的值
@@ -129,6 +155,9 @@ class user_data_model extends LI_Model{
 		$original_bit = base_convert($user_data->user_apps, 10, 2);
 		$bit_res = $original_bit | $app_bit;//按位或
 		$result  = base_convert($bit_res, 2, 10);
+
+		if ($user_data->user_apps == $result) return true;
+
 		$param = array('user_apps' => $result);
 		return $this->update_user_data($user_id, $param);
 	}

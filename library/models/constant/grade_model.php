@@ -31,5 +31,17 @@ class Grade_model extends LI_Model{
 
     	return $result;
     }
+    
+    public function arr_grade(){
+		$this->db->where("online", 1);
+        $this->db->order_by("listorder,id", "asc");
+    	$query = $this->db->get($this->_table);
+    	$res = $query->result_array();
+    	$grades = array();
+    	foreach ($res as $value){
+			$grades[$value["id"]] = $value;
+		}
+		return $grades;
+	}
 
 }

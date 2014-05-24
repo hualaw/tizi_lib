@@ -18,7 +18,13 @@ Class CI_Constant {
 	const REG_ORIGEN_AQ_IOS = 21;
 	const REG_ORIGIN_AQ_ANDROID = 31;
 	const REG_ORIGIN_CRM = 41;
-	const REG_ORIGIN_CRM_STUID= 43;
+	const REG_ORIGIN_CRM_STUID	= 43;
+	const REG_ORIGIN_QQ_PERFECT	= 51;
+	const REG_ORIGIN_QQ_SKIP	= 52;
+	const REG_ORIGIN_WEIBO_PERFECT = 53;
+	const REG_ORIGIN_WEIBO_SKIP = 54;
+	const REG_ORIGEN_EUNAME_EMAIL = 62;
+	const REG_ORIGEN_EUNAME_UNAME = 64;
 
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
@@ -30,6 +36,7 @@ Class CI_Constant {
 	const PAGE_TOKEN_LIFE_CIRCLE = 604800;/*Page Token 过期时间 单位(秒)*/
 	const NO_PASSWORD_EXPIRE_TIME = 1800;//用户登录后，免输入密码验证的过期时间,30分钟
 	const COOKIE_MYDIR_EXPIRE_TIME = 0;//MYDIR随浏览器
+	const COOKIE_TZSUPPLY_EXPIRE_TIME = 31536000;//skip information supply
 
 	const COOKIE_TZUSERNAME = "TZU";//自动登录cookie name
 	const COOKIE_TZMYSUBJECT = "_ms";//mysubject cookie name
@@ -41,6 +48,7 @@ Class CI_Constant {
 	const COOKIE_INVITE = "invite";//invite cookie name
 	const COOKIE_CURRENT_CLOUD_DIR = "_mdir";//cloud cookie name
 	const COOKIE_TZMOBILE = "_mobile";//cloud cookie name
+	const COOKIE_TZSUPPLY = "_sis";//skip information supply
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
@@ -132,7 +140,7 @@ Class CI_Constant {
 		$redirect_url = array(
 			'login' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
-			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
+			    self::USER_TYPE_TEACHER => tizi_url("teacher/cloud"),
 			    self::USER_TYPE_PARENT => jia_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
@@ -142,65 +150,31 @@ Class CI_Constant {
 			    self::USER_TYPE_PARENT => jia_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => tizi_url()
 			),
+			'register' => array(
+				self::USER_TYPE_STUDENT => tizi_url("student/home"),
+			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
+			    self::USER_TYPE_PARENT => jia_url("parent/home"),
+			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
+			),
 			'tizi' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 			    self::USER_TYPE_TEACHER => tizi_url(),
 			    self::USER_TYPE_PARENT => jia_url("parent/home"),
 			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
 			),
-			'perfect' => array(
-				self::USER_TYPE_STUDENT => login_url("student/user/perfect"),
-			    self::USER_TYPE_TEACHER => login_url("teacher/user/perfect"),
-			    self::USER_TYPE_PARENT => login_url("parent/user/perfect"),
-			    self::USER_TYPE_RESEARCHER => login_url("researcher/user/perfect"),
+			'supply' => array(
+				self::USER_TYPE_STUDENT => login_url("student/user/supply"),
+			    self::USER_TYPE_TEACHER => login_url("teacher/user/supply"),
+			    self::USER_TYPE_PARENT => login_url("parent/user/supply"),
+			    self::USER_TYPE_RESEARCHER => login_url("researcher/user/supply"),
 			)
 		);
 
-		$redirect_url['register']=$redirect_url['login'];
+		//$redirect_url['register']=$redirect_url['login'];
 		$redirect_url['edu']=$redirect_url['tizi'];
 		if(!isset($redirect_url[$redirect_type])) $redirect_url[$redirect_type] = $redirect_url['login'];
 
 		return isset($redirect_url[$redirect_type][$user_type])?$redirect_url[$redirect_type][$user_type]:site_url();
-	}
-
-	/** 宠物id得到相应目录
-	 * @static
-	 * @param $pet_id
-	 * @return mixed
-	 */
-	public static function pet_path($pet_id) {
-		$arr = array(
-			1 => 'myPet/cat',
-			2 => 'myPet/cat'
-		);
-		return isset($arr[$pet_id]) ? $arr[$pet_id] : $arr[1];
-	}
-
-	/** 宠物状态
-	 * @static
-	 * @param $status_id
-	 * @return mixed
-	 */
-	public static function pet_status($status_id) {
-		$arr = array(
-			1 => 'happy',
-			2 => 'hungry',
-			3 => 'cold'
-		);
-		return isset($arr[$status_id]) ? $arr[$status_id] : $arr[1];
-	}
-
-	/** 宠物闯关成功失败状态
-	 * @static
-	 * @param $status_id
-	 * @return mixed
-	 */
-	public static function pet_through_status($status_id){
-		$arr = array(
-			1 =>'success',
-			2 => 'fail'
-		);
-		return isset($arr[$status_id]) ? $arr[$status_id] : $arr[1];
 	}
 
 	/** 用户使用的应用对应的值s
@@ -221,22 +195,25 @@ Class CI_Constant {
 			1 => "公立小学",
 			2 => "公立中学",
 			3 => "公立九年一贯制",
-			4 => "民办小学",
-			5 => "民办中学",
-			6 => "民办九年一贯制",
-			7 => "培训学校"
+			8 => "公立十二年一贯制",
+			4 => "私立小学",
+			5 => "私立中学",
+			6 => "私立九年一贯制",
+			9 => "私立十二年一贯制",
+			7 => "培训机构"
 		);
 		return $define;
 	}
-	
-	public function sctype(){
-		$define = array(
-			array("id"=>1,"name"=>"小学"),
-			array("id"=>2,"name"=>"中学"),
-			array("id"=>3,"name"=>"九年一贯制")
+
+	public static function relation($id=false){
+		$relation = array(
+			1 => '爸爸',
+			2 => '妈妈',
+			3 => '其他'
 		);
-		return $define;
+		return isset($relation[$id])?$relation[$id]:$relation;
 	}
+
 }
 /* End of file Constant.php */
 /* Location: ./application/libraries/Constant.php */

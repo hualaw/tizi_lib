@@ -19,7 +19,7 @@ class Cert_Model extends MY_Model {
                 }
             }
         }
-        if(!$data['real_name'] or !$data['gender'] or !($data['school_id'] or $data['school_define_id']) or !$data['grade_subject'] or !$data['title']  or !$data['certification_pic']){
+        if(!$data['real_name'] or !$data['gender'] or !($data['school_id'] or $data['school_define_id']) or !$data['grade_subject'] or !$data['title'] ){
             return array('code'=>false,'msg'=>'缺少参数');
         }
         $res = $this->db->insert($this->_table, $data);
@@ -40,6 +40,9 @@ class Cert_Model extends MY_Model {
     function edit_apply_status($_data){
         $data['apply_status'] = $_data['apply_status'];
         $data['verify_time'] = time();
+        $data['reject_msg'] = $_data['reject_msg'];
+        $data['cert_type'] = $_data['cert_type'];
+        $data['cert_num'] = $_data['cert_num'];
         $this->db->trans_start();
         $this->db->where('id',$_data['id']);
         $res = $this->db->update($this->_table, $data); 
@@ -93,5 +96,13 @@ class Cert_Model extends MY_Model {
 
         $query=$this->db->get($_table);   
         return $query->row(0)->num;
+    }
+
+    //按照条件搜索
+    function search($data){
+        $this->db->select("count(*) as num ");
+        $this->db->where($data);
+        $query = $this->db->get($this->_table)->row(0)->num;
+        return $query;
     }
 }

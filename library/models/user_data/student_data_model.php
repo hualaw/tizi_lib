@@ -1,22 +1,57 @@
 <?php
-/**
- * @author saeed
- * @description 学生资料
- */
+require_once('data_model.php');
 
-class Student_Data_Model extends LI_Model {
+class Student_Data_Model extends Data_Model {
+
+    protected $_table='student_data';
+    protected $_user_id='uid';
 
     function __construct()
     {
         parent::__construct();
     }
 
+    public function get_student_data($user_id)
+    {
+        return parent::get_data($user_id);
+    }
+
+    public function update_student_gender($user_id,$gender)
+    {
+        if(!$gender) return false;
+        return $this->update_data($user_id,$gender,'sex');
+    }
+
+    public function update_student_qq($user_id,$qq)
+    {
+        if(!$qq) return false;
+        return $this->update_data($user_id,$qq,'qq');
+    }
+
+    public function update_student_parent_phone($user_id,$parent_phone)
+    {
+        if(!$parent_phone) return false;
+        return $this->update_data($user_id,$parent_phone,'parent_phone');
+    }
+
+    public function update_student_school_id($user_id,$school_id)
+    {
+        if(!$school_id) return false;
+        return $this->update_data($user_id,$school_id,'school_id');
+    }
+
+    public function update_student_detail($user_id,$gender,$qq)
+    {
+        if(!$gender||!$qq) return false;
+        return $this->update_data_array($user_id,array('sex'=>$gender,'qq'=>$qq));
+    }
+
     /**
      * @info 获取学生资料
      */
-    public function get_student_data($uid){
-        return $this->db->query("select * from `student_data` where `uid` = $uid")->row();
-    }
+    //public function get_student_data($uid){
+    //    return $this->db->query("select * from `student_data` where `uid` = $uid")->row();
+    //}
 
     // 保存学生信息
     public function save_student_data($uid,$data){
@@ -74,6 +109,22 @@ class Student_Data_Model extends LI_Model {
         }
         return false;
     }
+
+    public function update_parent_phone($uid,$parent_phone){
+        if(!$parent_phone) return false;
+        $result = $this->db->query("select * from `student_data` where `uid` = {$uid}")->row();
+        if(empty($result)){
+            if($this->db->query("insert `student_data` (`uid`,`parent_phone`)values($uid,$parent_phone)")){
+                return true;
+            }
+        }else{
+             if($this->db->query("update `student_data` set `parent_phone` = $qq where `uid` = $uid")){
+                return true;
+            }           
+        }
+        return false;
+    }
+
    //获取学生地区信息
     public function get_student_area($uid){
         if(empty($uid)) return array();
@@ -95,7 +146,7 @@ class Student_Data_Model extends LI_Model {
     function check_grade($grade_id)
     {
         $check_grade = false;
-        if($grade_id>0 && $grade_id <= 12) $check_grade=true;
+        if($grade_id>0 && $grade_id <= 14) $check_grade=true;
         return $check_grade;
     }
 

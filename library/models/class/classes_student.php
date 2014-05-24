@@ -5,6 +5,7 @@ class Classes_student extends LI_Model{
 	const JOIN_METHOD_TCREATE	= 2;				//通过教师生成账号直接加入班级 
 	const JOIN_METHOD_INVITESITE= 3;				//通过tizi.com/invite/xxx
 	const JOIN_METHOD_TLET		= 4;				//通过老师输入用户名，学号等方式加入
+	const JOIN_METHOD_REGCLASS	= 5;				//通过班级编号注册直接加入
 	
 	public function __construct(){
         parent::__construct();
@@ -36,6 +37,34 @@ class Classes_student extends LI_Model{
 		if ($this->db->trans_status() === false){
 			return false;
 		}
+		
+		//add notice join_class_succ(student)
+		$this->load->library("notice");
+		$this->load->model("class/classes");
+		$this->load->model("constant/grade_model");
+		$class_info = $this->classes->get($class_id, "classname,class_grade");
+		$arr_grade = $this->grade_model->arr_grade();
+		$class_grade = $class_info["class_grade"];
+		$grade_name = isset($arr_grade[$class_grade]) ? $arr_grade[$class_grade]["name"]: "";
+		$data = array("classname" => $grade_name.$class_info["classname"]);
+		$this->notice->add($user_id, "join_class_succ", $data);
+		//add notice kid_join_class(parent)
+		$this->load->model("login/parent_model");
+		$parent_ids = $this->parent_model->get_parents_id($user_id);
+		if (isset($parent_ids[0])){
+			$this->load->model("login/register_model");
+			$user_info = $this->register_model->get_user_info($user_id);
+			if (isset($user_info["user"]->name) && $user_info["user"]->name){
+				$s_name = $user_info["user"]->name;
+			} else {
+				$s_name = "";
+			}
+			$data = array("s_name" => $s_name, "classname" => $grade_name.$class_info["classname"]);
+			foreach ($parent_ids as $pid){
+				$this->notice->add($pid, "kid_join_class", $data);
+			}
+		}
+		
 		// 2014-01-09 给新进来的学生布置未截止的作业
 		$this->load->model('homework/homework_assign_model','ham');
 		$this->ham->get_hw_to_new_stu($user_id,$class_id);

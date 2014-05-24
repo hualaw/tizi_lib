@@ -1,6 +1,18 @@
 define(function(require, exports) {
     exports.dataType = function() {
         var _type = {
+            dataType:{
+                "*":/[\w\W]+/,
+                "*6-16":/^[\w\W]{6,16}$/,
+                "n":/^\d+$/,
+                "n6-16":/^\d{6,16}$/,
+                "s":/^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]+$/,
+                "s6-18":/^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]{6,18}$/,
+                "p":/^[0-9]{6}$/,
+                "m":/^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|18[0-9]{9}$/,
+                "e":/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+                "url":/^(\w+:\/\/)?\w+(\.\w+)+.*$/
+            },
             //用户真实姓名
             URname:{
                 datatype:"*2-20",
@@ -13,6 +25,12 @@ define(function(require, exports) {
                 nullmsg:"请输入用户名",
                 errormsg:"以英文字母开头，6-18个英文或数字"
             },
+            //邮箱或用户名
+            EUname:{
+                datatype:"/^[a-zA-Z]{1}\\w{5,17}$/ | e",
+                nullmsg:"请输入用户名或邮箱地址",
+                errormsg:"用户名（字母开头，6-18个字符）或邮箱"
+            },
             //学号
             Stuid:{
                 datatype:"/^\\d{8,10}$/",
@@ -23,6 +41,7 @@ define(function(require, exports) {
             Username:{
                 datatype:"e | *6-20",
                 nullmsg:"请输入邮箱/手机号/用户名/学号",
+                nullmsg_nostuid:"请输入邮箱/手机号/用户名",
                 errormsg:"长度6-20个字符"
             },
             //email
@@ -86,9 +105,9 @@ define(function(require, exports) {
                 errormsg:"长度1-12个字符"
             },
             Classnum:{
-                datatype:"*6-8",
+                datatype:"n6-8",
                 nullmsg:"请输入班级编号",
-                errormsg:"长度6-8个字符"
+                errormsg:"长度6-8个数字"
             },
             radioValid:{
                 datatype:"*"

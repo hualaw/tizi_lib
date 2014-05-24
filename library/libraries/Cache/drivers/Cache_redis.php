@@ -236,7 +236,7 @@ class CI_Cache_redis extends CI_Driver
 		*/
 	}
 
-	protected function _redis_connect($redis_type='default')
+	protected function _redis_config($redis_type='default')
 	{
 		$config = array();
 		$CI =& get_instance();
@@ -248,7 +248,14 @@ class CI_Cache_redis extends CI_Driver
 		}
 
 		$config = array_merge(self::$_default_config, $config);
-		
+
+		return $config;
+	}
+
+	protected function _redis_connect($redis_type='default')
+	{
+		$config = $this->_redis_config($redis_type);
+
 		$redis = new Redis();
 		
 		try
@@ -415,6 +422,12 @@ class CI_Cache_redis extends CI_Driver
         }       
     }
 
+    public function hincrby($key,$field,$value){
+    	if($this->_redis){
+            return $this->_redis->hincrby($key,$field,$value);       
+        }
+    }
+
     public function hgetall($key){
 
         if ($this->_slave)
@@ -482,6 +495,23 @@ class CI_Cache_redis extends CI_Driver
         if ($this->_slave)
         {
             return $this->_slave->smembers($key);
+        }       
+    }
+
+    public function srandmember($key,$count=0){
+        if ($this->_slave)
+        {
+        	if($count > 0)
+            	return $this->_slave->srandmember($key,$count);
+        	else
+        		return $this->_slave->srandmember($key);
+        }       
+    }
+
+    public function scard($key){
+        if ($this->_slave)
+        {
+            return $this->_slave->scard($key);
         }       
     }
 

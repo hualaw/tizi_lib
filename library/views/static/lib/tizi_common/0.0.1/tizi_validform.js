@@ -33,11 +33,39 @@ define(function(require, exports) {
     };
     // 加载验证码
     exports.changeCaptcha = function(captcha_name){
-        if(captcha_name == undefined) captcha_name = basePageName;
+        //if(captcha_name == undefined) captcha_name = basePageName;
+        if(captcha_name == undefined) return false;
         var img = $('.'+captcha_name).siblings("img");
         var now = (new Date).valueOf();
-        var url =  baseUrlName + "captcha?captcha_name="+captcha_name+"&ver=" + now;
-        img.attr('src',url);
+        var type = 'base64';
+        if($.browser.msie && $.browser.version == '6.0'){
+            type = 'normal';
+        }
+        $.tizi_ajax({
+            url:baseUrlName + "captcha",
+            type:'get',
+            dataType:"json",
+            data:{'captcha_name':captcha_name,'captcha_type':type,ver:(new Date).valueOf()},
+            success:function (data) {
+                if(data.errorcode){
+                    img.attr('src',data.image);
+                    if(data.word) {
+                        $('.'+captcha_name).parent().addClass('undis');
+                        $('.'+captcha_name+'Word').val(data.word);
+                    }else{
+                        $('.'+captcha_name).parent().removeClass('undis');
+                    }
+                }else{
+                    require.async('tiziDialog',function(){
+                        $.tiziDialog({
+                            icon:'error',
+                            content:data.error,
+                            time:3
+                        })
+                    });
+                }
+            }
+        });
     };
     //更换验证码
     exports.bindChangeVerify = function(captcha_name){
@@ -70,17 +98,17 @@ define(function(require, exports) {
                     if(show_dialog) {
                         require.async('tiziDialog',function(){
                             $.tiziDialog({
+                                icon:'error',
                                 content:data.error,
                                 time:3
                             })
                         });
                     };
                     $(".commonCaptcha .Validform_checktip").text(data.error).attr('class','Validform_checktip Validform_wrong');
-                    //require.async("tizi_validform",function(ex){
-                        // 提交注册结果
-                        //ex.changeCaptcha(captcha_name);
-                    //});
-                    //$('.textCaptcha').siblings('.Validform_checktip').text(data.error).attr('class','Validform_checktip Validform_wrong');
+                    if($('.'+captcha_name).parent().hasClass('undis')){
+                        $('.'+captcha_name+'Word').val('');
+                        exports.changeCaptcha(captcha_name);
+                    }
                     check = false;
                 }
             }

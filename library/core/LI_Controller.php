@@ -6,7 +6,6 @@ class LI_Controller extends CI_Controller{
 
 	protected $tizi_uid=0;
 	protected $tizi_utype=0;
-	protected $tizi_uname='';
 	protected $tizi_urname='';
 	protected $tizi_stuid=0;
 
@@ -18,9 +17,12 @@ class LI_Controller extends CI_Controller{
 	protected $tizi_redirect='';
 
 	protected $tizi_ajax=false;
+	protected $tizi_mobile=false;
 	protected $tizi_debug=false;
 	protected $need_password=false;
 	protected $user_constant=array();
+
+	protected $reg_role='';
 
 	protected $_segmenttype=array('n','an','r','ar');
 	protected $_segment=array('n'=>'','an'=>'','r'=>'','ar'=>'');
@@ -59,7 +61,6 @@ class LI_Controller extends CI_Controller{
 	{
 		$this->tizi_uid=$this->session->userdata("user_id");
         $this->tizi_utype=$this->session->userdata("user_type");
-        $this->tizi_uname=$this->session->userdata("uname");
 		$this->tizi_urname=$this->session->userdata('urname');
 		$this->tizi_stuid=$this->session->userdata("student_id");
 		
@@ -68,7 +69,11 @@ class LI_Controller extends CI_Controller{
         $this->tizi_urdomain=$this->session->userdata("register_domain");
 		$this->tizi_avatar=$this->session->userdata("avatar");
 		$this->tizi_cert=$this->session->userdata("certification");
-		
+
+		$this->load->library('user_agent');
+		$this->tizi_mobile=(($this->agent->is_mobile()&&$this->input->cookie(Constant::COOKIE_TZMOBILE) !== '0')
+			|| $this->input->cookie(Constant::COOKIE_TZMOBILE))?1:0;
+
 		$this->_segment['n']=$this->uri->uri_string();
 		$segment=$this->uri->segment_array();
         $this->_segment['an']=isset($segment[1])?$segment[1]:'';
@@ -115,6 +120,7 @@ class LI_Controller extends CI_Controller{
         $zl_url=zl_url();
         $jia_url=jia_url();
         $xue_url=xue_url();
+        $survey_url=survey_url();
         $static_url=static_url($this->site);
         $static_base_url=static_url('base');
 
@@ -131,10 +137,12 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('zl_url', $zl_url);
         $this->smarty->assign('jia_url', $jia_url);
         $this->smarty->assign('xue_url', $xue_url);
+        $this->smarty->assign('survey_url', $survey_url);
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
         $this->smarty->assign('tzu', Constant::COOKIE_TZUSERNAME);
+        $this->smarty->assign('is_mobile', $this->tizi_mobile);
         
         $this->smarty->assign('static_url', $static_url);
         $this->smarty->assign('static_base_url', $static_base_url);
@@ -183,6 +191,8 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('user_type',$this->tizi_utype);
         $this->smarty->assign('user_stuid',$this->tizi_stuid);
         $this->smarty->assign('user_cert',$this->tizi_cert);
+
+        $this->smarty->assign('reg_role',$this->reg_role);
 
 		//generate global errormsg
         if(!$this->_errormsg) $this->_errormsg="";
@@ -260,52 +270,33 @@ class LI_Controller extends CI_Controller{
 
 		$token=$this->input->post('token');
 		$captcha=$this->input->post('captcha_word');
-
-		//post 检测captcha
-		if($this->_check_captcha)
-		{
-			$check_captcha=0;
-			foreach($this->_segmenttype as $st)
-			{
-				if(!empty($this->_segment[$st])&&isset($this->_captchalist[$st])&&!empty($this->_captchalist[$st])&&in_array($this->_segment[$st],$this->_captchalist[$st]))
-				{
-					$check_captcha++;
-				}
-			}
-			if($check_captcha)
-			{
-				$check_captcha=$this->captcha->validateCaptcha($captcha,$this->_captcha_name);
-				if(!$check_captcha)
-				{
-					$_POST=array();
-					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
-				}
-			}
-		}
 		
 		//post 检测token
-		if($this->_page_name&&$this->_check_token)
-	    {
-			$check_token=$this->page_token->check_csrf_token($this->_page_name,$token);
-			if(!$check_token)
-			{
-				if($this->tizi_ajax)
+		if($this->_check_token)
+		{
+			if($this->_page_name)
+		    {
+				$check_token=$this->page_token->check_csrf_token($this->_page_name,$token);
+				if(!$check_token)
 				{
-					log_message('trace_tizi','Token check failed',array('user_id'=>$this->tizi_uid,'page_name'=>$this->_page_name));
-					echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_token'),'token'=>false,'code'=>1));
-					exit();
-				}
-				else
-				{
-					$_POST=array();
-					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+					if($this->tizi_ajax)
+					{
+						log_message('trace_tizi','Token check failed',array('user_id'=>$this->tizi_uid,'page_name'=>$this->_page_name));
+						echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_token'),'token'=>false,'code'=>1));
+						exit();
+					}
+					else
+					{
+						$_POST=array();
+						if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+					}
 				}
 			}
-		}
-		else
-		{
-			$_POST=array();
-			if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+			else
+			{
+				$_POST=array();
+				if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+			}
 		}
 
 		//检测未登录
@@ -332,15 +323,19 @@ class LI_Controller extends CI_Controller{
 			    {
 			    	if($this->tizi_ajax)
 					{
+						$this->load->config('version');
+						$this->smarty->assign('static_url', static_url($this->site));
+				        $this->smarty->assign('static_version',$this->config->item('static_version')
+				        	.($this->config->item('static_version')?'/':''));
 						$login_redirect=$this->input->get_post('redirect',true,false,'reload');
 						$reg_redirect=$this->input->get_post('reg_redirect',true);
-						$reg_role=$this->input->get_post('reg_role',true);
+						$reg_role=$this->input->get_post('reg_role',true,true,$this->reg_role);
 						$this->smarty->assign('login_url',login_url());
 						$this->smarty->assign('login_redirect',$login_redirect);
 						$this->smarty->assign('reg_redirect',$reg_redirect);
 						$this->smarty->assign('reg_role',$reg_role);
 						$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
-				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'html'=>$html,'token'=>false,'code'=>1));
+				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'html'=>$html,'redirect'=>$login_redirect,'token'=>false,'code'=>1));
 					    exit();
 					}
 					else
@@ -374,6 +369,28 @@ class LI_Controller extends CI_Controller{
 		            }
 		        }
 		    }
+		}
+
+		//post 检测captcha
+		if($this->_check_captcha)
+		{
+			$check_captcha=0;
+			foreach($this->_segmenttype as $st)
+			{
+				if(!empty($this->_segment[$st])&&isset($this->_captchalist[$st])&&!empty($this->_captchalist[$st])&&in_array($this->_segment[$st],$this->_captchalist[$st]))
+				{
+					$check_captcha++;
+				}
+			}
+			if($check_captcha)
+			{
+				$check_captcha=$this->captcha->validateCaptcha($captcha,$this->_captcha_name);
+				if(!$check_captcha)
+				{
+					$_POST=array();
+					if($this->_callback_name) $_POST['callback_name']=$this->_callback_name;
+				}
+			}
 		}
 	}
 

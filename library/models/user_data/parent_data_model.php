@@ -1,8 +1,9 @@
 <?php
+require_once('data_model.php');
 
-class Parent_Data_Model extends LI_Model {
+class Parent_Data_Model extends Data_Model {
 
-    private $_table='user_parent_data';
+    protected $_table='user_parent_data';
 
     function __construct()
     {
@@ -11,49 +12,43 @@ class Parent_Data_Model extends LI_Model {
 
     public function get_parent_data($user_id)
     {
-        $this->db->where('user_id',$user_id);
-        $query=$this->db->get($this->_table);
-        return $query->row();
+        return parent::get_data($user_id);
     }
 
     public function update_parent_gender($user_id,$gender)
     {
         if(!$gender) return false;
-        return $this->update_parent_data($user_id,$gender,'gender');
+        return $this->update_data($user_id,$gender,'gender');
     }
 
     public function update_parent_age($user_id,$age)
     {
         if($age < 0) return false;
-        return $this->update_parent_data($user_id,$age,'age');
+        return $this->update_data($user_id,$age,'age');
     }
 
     public function update_parent_birthday($user_id,$birthday)
     {
         if(!$birthday) return false;
-        return $this->update_parent_data($user_id,$birthday,'birthday');
+        return $this->update_data($user_id,$birthday,'birthday');
     }
 
-    private function update_parent_data($user_id,$data_value,$data_name)
+    public function update_parent_bind_phone($user_id,$phone)
     {
-        if(empty($data_name)) return false;
+        if(!$phone) return false;
+        return $this->update_data($user_id,$phone,'bind_phone');
+    }
 
-        $parent_data=$this->get_parent_data($user_id);
+    public function update_parent_detail($user_id,$gender,$birthday)
+    {
+        if(!$gender||!$birthday) return false;
+        return $this->update_data_array($user_id,array('gender'=>$gender,'birthday'=>$birthday));
+    }
 
-        if(empty($parent_data))
-        {
-            $this->db->insert($this->_table,array('user_id'=>$user_id,$data_name=>$data_value));
-            if($this->db->affected_rows()) return $this->db->insert_id();
-        }
-        else
-        {
-            if($parent_data->{$data_name}===$data_value) return true;
-            
-            $this->db->where('user_id',$user_id);
-            $this->db->update($this->_table,array($data_name=>$data_value));
-            if($this->db->affected_rows()) return true;
-        }
-        return false;
+    public function update_parent_child_school($user_id,$school_id,$grade_id)
+    {
+        if(!$school_id||!$grade_id) return false;
+        return $this->update_data_array($user_id,array('child_school'=>$school_id,'child_grade'=>$grade_id));
     }
 
 }

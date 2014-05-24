@@ -39,6 +39,9 @@ $config['jia_static_url'] = 'http://tizi-static.tizi.com/';
 
 $config['xue_url'] = 'http://xue.tizi.com/';
 $config['xue_static_url'] = 'http://xue-static.tizi.com/';
+
+$config['survey_url'] = 'http://diaocha.tizi.com/';
+$config['survey_static_url'] = 'http://survey-static.tizi.com/';
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -272,9 +275,9 @@ $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= TRUE;
 $config['sess_encrypt_cookie']	= FALSE;
 $config['sess_use_database']	= TRUE;
-$config['sess_table_name']		= 'ci_sessions';
+$config['sess_table_name']		= 'session_tizi';
 $config['sess_match_ip']		= FALSE;
-$config['sess_match_useragent']	= TRUE;
+$config['sess_match_useragent']	= FALSE;
 $config['sess_time_to_update']	= 7200;
 
 /*
