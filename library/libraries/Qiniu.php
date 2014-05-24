@@ -80,6 +80,19 @@ class Qiniu {
         return $privateUrl;
     }
 
+    /*视频截图*/
+    function qiniu_vframe($key,$offset=1,$w=400,$h=225,$ttl=36000){
+        $domain = $this->domain;
+        $client = new Qiniu_MacHttpClient(null);
+        $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
+        $getPolicy->Expires = $ttl;
+        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+        $baseUrl .= "?vframe/jpg/offset/$offset/w/$w/h/$h";
+        $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
+        $privateUrl = ($privateUrl);
+        return $privateUrl;
+    }
+
     //访问预处理后的非mp4资源  如果没转换好，访问链接得到 not found 
     function qiniu_media_afterfop($key,$ext='mp4',$ttl=10800){
         $domain = $this->domain;
@@ -142,31 +155,31 @@ class Qiniu {
     }
 
     /* $name 是上传字段的name*/
-    // function qiniu_upload($name='uploadfile'){
-    //     if(!strlen($name)) {return false;}
-    //     $filesize = $_FILES[$name]["size"];
-    //     // file_put_contents('test_speed.txt', 'size:'.$filesize.',start time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
-    //     $bucket = $this->bucket;
-    //     if (!isset($_FILES[$name]["error"]) || $_FILES[$name]["error"] != 0){
-    //         return false;
-    //     }
+    function qiniu_upload($name='uploadfile'){
+        if(!strlen($name)) {return false;}
+        $filesize = $_FILES[$name]["size"];
+        // file_put_contents('test_speed.txt', 'size:'.$filesize.',start time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
+        $bucket = $this->bucket;
+        if (!isset($_FILES[$name]["error"]) || $_FILES[$name]["error"] != 0){
+            return false;
+        }
         
-    //     $pathinfo = pathinfo($_FILES[$name]["name"]);
-    //     $ext = isset($pathinfo["extension"])?$pathinfo["extension"]:"";
-    //     $md5 = md5(uniqid());
-    //     $filename = alpha_id(mt_rand(1000000, 9999999)) . "." . $ext;
+        $pathinfo = pathinfo($_FILES[$name]["name"]);
+        $ext = isset($pathinfo["extension"])?$pathinfo["extension"]:"";
+        $md5 = md5(uniqid());
+        $filename = alpha_id(mt_rand(1000000, 9999999)) . "." . $ext;
 
-    //     $key = date("Ymd") . "/" . substr($md5, 3, 2) . "/" . substr($md5, 7,26).$filename; //不能是slash开头，不然下载会报：bad oauth request
+        $key = date("Ymd") . "/" . substr($md5, 3, 2) . "/" . substr($md5, 7,26).$filename; //不能是slash开头，不然下载会报：bad oauth request
 
-    //     $_file_content = $_FILES[$name]["tmp_name"];
-    //     $putPolicy = new Qiniu_RS_PutPolicy($bucket);
-    //     $upToken = $putPolicy->Token(null);
-    //     $putExtra = new Qiniu_PutExtra();
-    //     $putExtra->Crc32 = 1;
-    //     list($ret, $err) = Qiniu_PutFile($upToken, $key, $_file_content, $putExtra);
-    //     // file_put_contents('test_speed.txt', 'over time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
-    //     return $this->qiniu_result($err,$ret);
-    // }
+        $_file_content = $_FILES[$name]["tmp_name"];
+        $putPolicy = new Qiniu_RS_PutPolicy($bucket);
+        $upToken = $putPolicy->Token(null);
+        $putExtra = new Qiniu_PutExtra();
+        $putExtra->Crc32 = 1;
+        list($ret, $err) = Qiniu_PutFile($upToken, $key, $_file_content, $putExtra);
+        // file_put_contents('test_speed.txt', 'over time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
+        return $this->qiniu_result($err,$ret);
+    }
     
     //按要求获取视频资源，second是切片时间长度，preset是预设集
     // function qiniu_get_video($key,$second=10,$preset="video_16x9_440k"){

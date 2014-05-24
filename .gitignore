@@ -1,3 +1,5 @@
 .DS_*
 log
 library/config/development/config.php
+/nbproject/private/
+/nbproject
