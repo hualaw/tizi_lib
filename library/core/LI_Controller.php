@@ -173,7 +173,6 @@ class LI_Controller extends CI_Controller{
    		}
    		else
    		{
-        	$this->smarty->assign('version','');
    			$this->smarty->assign('home_zl', zl_url());
    			$this->smarty->assign('home_parent', jia_url());
    		}

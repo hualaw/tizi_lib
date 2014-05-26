@@ -47,10 +47,11 @@ class Qiniu {
     }
  
     //获取下载链接 (私有资源)
-    function qiniu_download_link($key,$name = 'unknow',$with_name=true){
+    function qiniu_download_link($key,$name = 'unknow',$with_name=true,$ttl=3600){
         $domain = $this->domain;
         $client = new Qiniu_MacHttpClient(null);
         $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
+        $getPolicy->Expires = $ttl;
         $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
         if($with_name){
             $baseUrl.='?download/'.$name;

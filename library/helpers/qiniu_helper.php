@@ -48,7 +48,7 @@ if (!function_exists('qiniu_download')) {
         //连不上redis或者redis中没有相应的值,就去七牛上获取，然后存入redis
         $ci->load->library('qiniu');
 
-        $path = $ci->qiniu->qiniu_download_link($key,$name,$with_name);
+        $path = $ci->qiniu->qiniu_download_link($key,$name,$with_name,$ttl);
         if($path){
             $ci->cache->redis->save($redis_key,$path,$ttl);
             return $path;

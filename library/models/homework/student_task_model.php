@@ -117,15 +117,38 @@ class Student_Task_Model extends LI_Model{
         if(is_array($uids)){
             $this->db->trans_start();
             foreach($uids as $uid){
-                $this->db
-                    ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$id},5,{$uid},{$date})");
+
+                $query = $this->db->query("select `id` from `student_task` where `uid` = {$uid} and `index_value` = {$id} and `task_type` = 5");
+                if(!($query->num_rows)){
+                    if( $this->db
+                    ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$id},5,{$uid},{$date})") ){
+                        $this->db->insert(
+                            'student_survey_info',
+                            array(
+                                'student_survey_id'=>$id,
+                                'uid'=>$uid,
+                            )
+                        );
+                    }
+                }
             }
             $this->db->trans_complete();
             return $this->db->trans_status();      
         }else{
-            return $this->db
-                ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$id},5,{$uids},{$date})");
-        
+
+            $query = $this->db->query("select `id` from `student_task` where `uid` = {$uids} and `index_value` = {$id} and `task_type` = 5");
+            if($query->num_rows){
+                if($this->db
+                    ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$id},5,{$uids},{$date})")){
+                        return $this->db->insert(
+                            'student_survey_info',
+                            array(
+                                'student_survey_id'=>$id,
+                                'uid'=>$uid,
+                            )
+                        );
+                }
+            }
         }
        
     }
@@ -211,7 +234,7 @@ class Student_Task_Model extends LI_Model{
                 $article['task_type'] = 4;
                 $tasks[] = $article;
             }elseif($val['task_type'] == 5){
-                $survey = $this->ssm->getData($val['index_value']);
+                $survey = $this->ssm->getData($val['index_value'], $this->uid);
                 if(!empty($survey)){
                     $survey['task_type'] =  5;
                     $tasks[] = $survey;
