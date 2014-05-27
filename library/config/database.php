@@ -82,7 +82,7 @@ $db['jxt']['stricton'] = FALSE;
 
 $db['survey']['hostname'] = 'rdsnuyizmnuyizm.mysql.rds.aliyuncs.com';
 $db['survey']['username'] = 'survey';
-$db['survey']['password'] = 'survey';
+$db['survey']['password'] = '5EUusL7nIKsxs';
 $db['survey']['database'] = 'survey';
 $db['survey']['dbdriver'] = 'mysql';
 $db['survey']['dbprefix'] = '';
