@@ -53,6 +53,11 @@ class Cert_Model extends MY_Model {
 				$this->load->library("credit");
 				$this->credit->exec($_data['user_id'], "certificate_teacher");
 				
+				//任务系统_通过教师认证
+				$this->load->library("task");
+				$this->task->exec($_data['user_id'], "self_cert");
+				
+				
 				//给邀请人发积分
 				$this->load->model("login/register_model");
 				$user_info = $this->register_model->get_user_info($_data["user_id"]);
