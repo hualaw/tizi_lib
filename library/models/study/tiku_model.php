@@ -36,7 +36,7 @@ Class Tiku_model extends LI_Model
 	 */
 	public function searchComrade($search)
 	{
-            $isEmail = strpos($search, '@');
+            $isEmail = preg_email($search);
             if($isEmail) {
                 #根据邮箱搜索战友
                 $sql = "SELECT u.id AS user_id, u.name AS nick_name, sd.pet_id, sd.subject_type, sd.location_id
