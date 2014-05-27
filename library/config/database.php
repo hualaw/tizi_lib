@@ -80,6 +80,22 @@ $db['jxt']['swap_pre'] = '';
 $db['jxt']['autoinit'] = TRUE;
 $db['jxt']['stricton'] = FALSE;
 
+$db['survey']['hostname'] = 'rdsnuyizmnuyizm.mysql.rds.aliyuncs.com';
+$db['survey']['username'] = 'survey';
+$db['survey']['password'] = 'survey';
+$db['survey']['database'] = 'survey';
+$db['survey']['dbdriver'] = 'mysql';
+$db['survey']['dbprefix'] = '';
+$db['survey']['pconnect'] = TRUE;
+$db['survey']['db_debug'] = FALSE;
+$db['survey']['cache_on'] = FALSE;
+$db['survey']['cachedir'] = '';
+$db['survey']['char_set'] = 'utf8';
+$db['survey']['dbcollat'] = 'utf8_general_ci';
+$db['survey']['swap_pre'] = '';
+$db['survey']['autoinit'] = TRUE;
+$db['survey']['stricton'] = FALSE;
+
 $db['tiku']['hostname'] = 'rdsnuyizmnuyizm.mysql.rds.aliyuncs.com';
 $db['tiku']['username'] = 'mobile_tiku';
 $db['tiku']['password'] = 'JgEC23SpyQcYc';
