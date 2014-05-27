@@ -146,7 +146,7 @@ class LI_Controller extends CI_Controller{
         
         $this->smarty->assign('static_url', $static_url);
         $this->smarty->assign('static_base_url', $static_base_url);
-        $this->smarty->assign('version','?v='.$this->config->item('version'));
+		$this->smarty->assign('version','?v='.$this->config->item('version'));
         $this->smarty->assign('swfversion','?v='.$this->config->item('swfversion'));
         $this->smarty->assign('static_version',$this->config->item('static_version')
         	.($this->config->item('static_version')?'/':''));
