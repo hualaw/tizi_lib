@@ -472,6 +472,7 @@ class Tizi_Register extends Tizi_Controller {
 				$invite['errorcode']=true;
 				$invite['register_invite']=$register_invite;
 				$invite['invite_type']=$invite_type;
+				$invite['invite_name']=$invite_user['user']->name;
 				$invite['error']='';
 			}
 		}
