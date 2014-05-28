@@ -36,9 +36,17 @@ Class Tiku_model extends LI_Model
 	 */
 	public function searchComrade($search)
 	{
-		$result = $this->db->query("select u.id as user_id,u.name as nick_name,sd.pet_id,sd.subject_type,sd.location_id from user_data sd
-				left join user u on u.id=sd.user_id where u.name like '".$search."%'")->result_array();
-		return $result;
+            $isEmail = strpos($search, '@');
+            if($isEmail) {
+                #根据邮箱搜索战友
+                $sql = "SELECT u.id AS user_id, u.name AS nick_name, sd.pet_id, sd.subject_type, sd.location_id
+                        FROM user_data sd LEFT JOIN user u ON sd.user_id=u.id WHERE u.email='{$search}'";
+            } else {
+                $sql = "SELECT u.id AS user_id,u.name AS nick_name,sd.pet_id,sd.subject_type,sd.location_id FROM user_data sd
+                        LEFT JOIN user u ON u.id=sd.user_id WHERE u.name LIKE '".$search."%'";
+            }
+            $result = $this->db->query($sql)->result_array();
+            return $result;
 	}
 	
 
