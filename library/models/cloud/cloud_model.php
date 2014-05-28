@@ -575,6 +575,10 @@ class cloud_model extends MY_Model{
             $sql = "update $this->_share_table set download_count=download_count+1 where id=$share_id ";
             $this->db->query($sql);
         }
+        /*充话费活动，记录学生下载情况*/
+        $this->load->model('resource/download_share_model');
+        $this->download_share_model->add($share_id,$uid);
+        /*活动结束*/
         $share = $this->get_file_by_share_id($share_id);
         if (isset($share[0]["user_id"])){
 			$this->load->library("credit");
