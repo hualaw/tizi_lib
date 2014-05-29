@@ -52,9 +52,8 @@ class Session_Model extends LI_Model {
 
 			$this->session->set_userdata($user_data);
 
-			$this->db->where('id',$user_id);
-			$this->db->set('last_login',date('Y-m-d H:i:s'));
-			$this->db->update($this->_user_table);
+			$this->db->query("update `user` set last_login=?,update_time=update_time where 
+				id=?", array(date("Y-m-d H:i:s"), $user_id));
 
 			if($dbsave) 
 			{
