@@ -648,14 +648,6 @@ class Student_Homework_Model extends LI_Model{
         return $result;
     }
 
-    //删除作业
-    public function deleteHomework($assign_id){
-        
-        return $this->db->query("UPDATE  `student_task` INNER JOIN `student_homework` ON `student_task`.index_value = `student_homework`.id 
-             SET    `student_task`.is_delete = '1'    WHERE  `student_homework`.assignment_id = {$assign_id} and student_task.`task_type` = 1");
-
-    }
-
     //获取问题所属章节
     public function get_question_course($question_ids){
     
