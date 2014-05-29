@@ -73,6 +73,14 @@ if ( ! function_exists('survey_url'))
 	}
 }
 
+if ( ! function_exists('bbs_url'))
+{
+	function bbs_url($uri = '')
+	{
+		return site_url($uri,'bbs');
+	}
+}
+
 if ( ! function_exists('static_url'))
 {
 	function static_url($site = '')

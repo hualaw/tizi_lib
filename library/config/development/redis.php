@@ -22,6 +22,7 @@ $config['redis_db']['medal'] 		= 18;//勋章medal
 $config['redis_db']['cloud_statistics'] = 19;//网盘统计
 $config['redis_db']['qiniu_file'] = 20 ; //七牛上的文件的地址
 $config['redis_db']['study_statistics'] = 21;//梯子学堂统计
+$config['redis_db']['space']		= 22;//教师空间基本信息缓存
 
 // Default connection group
 $config['redis_default']['host'] = '192.168.11.12';	// IP address or host
