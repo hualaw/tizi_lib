@@ -111,6 +111,21 @@ class Question_Model extends MY_Model {
 		}
     }
 
+    public function get_exam_question_by_ids($question_id_list)
+    {
+        if(is_array($question_id_list)&&!empty($question_id_list))
+        {
+            $this->db->where_in('id',$question_id_list);
+            $this->db->where("(online=1 OR online=100)");
+            $query=$this->db->get($this->table);
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     /*get question list*/
     public function get_question_by_ids_with_text($question_id_list)
     {
