@@ -293,7 +293,23 @@ class Student_Task_Model extends LI_Model{
         }
         return true;
     }
+
+    //删除调查
+    public function deleteSurveyFromTask($survey_id){
+        
+        return $this->db->query("UPDATE  `student_task` inner join `student_survey` ON `student_task`.index_value = `student_survey`.id 
+            SET    `student_task`.is_delete = '1' where  `student_survey`.survey_id = {$survey_id} and student_task.`task_type` = 5");
+
+    }
     
+    //删除作业
+    public function deleteHomework($assign_id){
+        
+        return $this->db->query("UPDATE  `student_task` INNER JOIN `student_homework` ON `student_task`.index_value = `student_homework`.id 
+             SET    `student_task`.is_delete = '1'    WHERE  `student_homework`.assignment_id = {$assign_id} and student_task.`task_type` = 1");
+    }
+
+
 
 
 }
