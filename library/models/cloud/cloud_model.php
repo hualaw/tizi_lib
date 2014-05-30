@@ -100,6 +100,10 @@ class cloud_model extends MY_Model{
         if ($id > 0 && isset($param["user_id"])){
 			$this->load->library("credit");
 			$this->credit->exec($param["user_id"], "cloud_first_uploaded");
+			
+			//任务系统_用户在教学网盘中任意上传一个文件
+			$this->load->library("task");
+			$this->task->exec($param["user_id"], "use_educloud");
 		}
         return $id;
     }
@@ -267,7 +271,7 @@ class cloud_model extends MY_Model{
         $return =  $this->build_dir_tree_with_html($res);
         $html="<ul>
             <!-- 第一级 -->
-            <li class=''><div class='tree-title' dir-id='0'><a href='javascript:void(0)' class='icon icon-plus'></a><a href='javascript:void(0)' class='shareItem fold unfold'>其他文件（原网盘）</a></div>";
+            <li class=''><div class='tree-title' dir-id='0'><a href='javascript:void(0)' class='icon icon-add'></a><a href='javascript:void(0)' class='shareItem fold unfold'>其他文件（原网盘）</a></div>";
         $html.=$return."</li></ul>";
         return $html;
     }
