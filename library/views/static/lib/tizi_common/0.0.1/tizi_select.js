@@ -265,12 +265,6 @@ define(function(require,exports){
 					}
 					//结束
 					$ul.append(oLi);
-					// 如果select上有optgroup=“1”,就说明当前select需要optgroup
-					if(_opt == '1'){
-						$ul.find('li.one a').hover(function(){
-							$(this).addClass('cancelHover');
-						});
-					}
 				});
 				
 				/* Add click handler to the a */
