@@ -248,21 +248,15 @@ define(function(require,exports){
 				$wrapper.prepend('<div><span></span><a href="#" class="jqTransformSelectOpen"></a></div><ul></ul>');
 				var $ul = $('ul', $wrapper).css('width',$select.width()).hide();
 				/* Now we add the options */
-				$('option', this).each(function(i){
+				$('option,optgroup', this).each(function(i){
 					// 添加optgroup
-					var _opt = $(this).parent().attr("optgroup");
-					// 如果select上有optgroup=“1”,就说明当前select需要optgroup
-					if(_opt == '1'){
-						var _class=$(this).attr('class');
-						if (typeof _class == 'undefined'){_class = '';}
-						var oLi = $('<li'+" class=" + _class + '><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
-						// optgroup的标题,如果标题不需要点击
-						if(_class =="one"){
-							var oLi = $('<li'+" class=" + _class + '>'+ $(this).html() +'</li>');
-						};
-					}else{
-						var oLi = $('<li'+'><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
-					}
+					var _class=$(this).attr('class');
+					if (typeof _class == 'undefined'){_class = '';}
+					var oLi = $('<li'+" class=" + _class + '><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
+					// optgroup的标题,如果标题不需要点击
+					if(_class =="optLv1"){
+						var oLi = $('<li'+" class=" + _class + '>'+ $(this).html() +'</li>');
+					};
 					//结束
 					$ul.append(oLi);
 				});
