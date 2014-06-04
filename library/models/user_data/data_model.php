@@ -56,8 +56,9 @@ class Data_Model extends LI_Model {
             $check=0;
             foreach($data as $k=>$v)
             {
-                if($parent_data->{$k}!==$v) $check++;
+                if($parent_data->{$k}!==(string)$v) $check++;
             }
+
             if($check==0) return true;
 
             $this->db->where($this->_user_id,$user_id);
