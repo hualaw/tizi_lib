@@ -290,8 +290,10 @@ a.jqTransformChecked { background-position: center bottom;}
 	padding: 0px;
 	height: 150px;
 	overflow: auto;
-	overflow-y: auto;
+	overflow-y:auto;
 	z-index:10;
+	_overflow-x:hidden;
+	_overflow-y: scroll !important;
 }
 
 .jqTransformSelectWrapper ul a {
