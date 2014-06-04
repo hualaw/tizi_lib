@@ -248,7 +248,11 @@ define(function(require,exports){
 				$wrapper.prepend('<div><span></span><a href="#" class="jqTransformSelectOpen"></a></div><ul></ul>');
 				var $ul = $('ul', $wrapper).css('width',$select.width()).hide();
 				/* Now we add the options */
+				// 得到当前选择的optgroup的个数
+				var _optgroupLength = $select.find('optgroup').length;
 				$('option,optgroup', this).each(function(i){
+					// 重置i的个数，减去optgroup个数
+					i=i-_optgroupLength;
 					// 添加optgroup
 					var _class=$(this).attr('class');
 					if (typeof _class == 'undefined'){_class = '';}
