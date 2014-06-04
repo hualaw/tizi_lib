@@ -256,6 +256,10 @@ define(function(require,exports){
 						var _class=$(this).attr('class');
 						if (typeof _class == 'undefined'){_class = '';}
 						var oLi = $('<li'+" class=" + _class + '><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
+						// optgroup的标题,如果标题不需要点击
+						if(_class =="one"){
+							var oLi = $('<li'+" class=" + _class + '>'+ $(this).html() +'</li>');
+						};
 					}else{
 						var oLi = $('<li'+'><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
 					}
