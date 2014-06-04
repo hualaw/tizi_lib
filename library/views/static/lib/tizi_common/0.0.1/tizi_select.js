@@ -250,17 +250,20 @@ define(function(require,exports){
 				/* Now we add the options */
 				// 得到当前选择的optgroup的个数
 				var _optgroupLength = $select.find('optgroup').length;
-				$('option,optgroup', this).each(function(i){
-					// 重置i的个数，减去optgroup个数
-					i=i-_optgroupLength;
+				var i = 0;
+				$('option,optgroup', this).each(function(){
 					// 添加optgroup
 					var _class=$(this).attr('class');
 					if (typeof _class == 'undefined'){_class = '';}
-					var oLi = $('<li'+" class=" + _class + '><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
+
 					// optgroup的标题,如果标题不需要点击
 					if(_class =="optLv1"){
 						var oLi = $('<li'+" class=" + _class + '>'+ $(this).html() +'</li>');
-					};
+					}else{
+						var oLi = $('<li'+" class=" + _class + '><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
+						i++;
+					}
+					
 					//结束
 					$ul.append(oLi);
 				});
@@ -268,7 +271,8 @@ define(function(require,exports){
 				/* Add click handler to the a */
 				$ul.find('a').click(function(){
 					$('a.selected', $wrapper).removeClass('selected');
-					$(this).addClass('selected');	
+					$(this).addClass('selected');
+					alert($(this).attr('index'));
 					/* Fire the onchange event */
 					if ($select[0].selectedIndex != $(this).attr('index') && $select[0].onchange) { $select[0].selectedIndex = $(this).attr('index'); $select[0].onchange(); }
 					$select[0].selectedIndex = $(this).attr('index');
