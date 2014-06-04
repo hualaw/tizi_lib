@@ -272,7 +272,6 @@ define(function(require,exports){
 				$ul.find('a').click(function(){
 					$('a.selected', $wrapper).removeClass('selected');
 					$(this).addClass('selected');
-					alert($(this).attr('index'));
 					/* Fire the onchange event */
 					if ($select[0].selectedIndex != $(this).attr('index') && $select[0].onchange) { $select[0].selectedIndex = $(this).attr('index'); $select[0].onchange(); }
 					$select[0].selectedIndex = $(this).attr('index');
