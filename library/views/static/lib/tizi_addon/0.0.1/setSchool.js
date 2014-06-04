@@ -11,8 +11,21 @@ define(function(require, exports) {
                 for (var i = 0; i < json.length; ++i){
                     listr += '<li data-id="'+json[i].id+'" ismunicipality="'+json[i].ismunicipality+'">'+json[i].name+'</li>';
                 };
-                $('.province').html(listr);
-                $('.province').fadeIn();
+                $('.resetSchoolPopCon .province').html(listr);
+                $('.resetSchoolPopCon .province').fadeIn();
+                // 判断如果需要配置的话添加自定义属性set=1
+                if(_this.attr('set') == '1'){
+                    // 获取默认省份id
+                    var _province = _this.attr('province');
+                    // 获取默认城市id
+                    var _city = _this.attr('city');
+                    // 默认省份
+                    exports.normalData({
+                        province:_province,
+                        city:_city
+                    });
+                }
+                //判断如果需要配置的话添加自定义属性set
             }
         });
         $.tiziDialog({
@@ -317,6 +330,118 @@ define(function(require, exports) {
             $('.schoolInfo .bd').hide();
             $('.schoolInfo .hd').fadeIn();
             $('.school').fadeIn();
+        });
+    }
+
+    //当前默认值
+    exports.normalData = function(_json){
+        $('.resetSchoolPopCon .province li').each(function(){
+            if($(this).attr('data-id')  == _json.province){
+                $(this).addClass('active');
+                var _cityName = 
+                    // 北京
+                    $(this).attr('data-id') == 2 || 
+                    // 上海
+                    $(this).attr('data-id') == 25 || 
+                    // 天津
+                    $(this).attr('data-id') == 27 || 
+                    // 重庆
+                    $(this).attr('data-id') == 32 || 
+                    // 香港
+                    $(this).attr('data-id') == 33 || 
+                    // 澳门
+                    $(this).attr('data-id') == 34 || 
+                    // 台湾
+                    $(this).attr('data-id') == 35;
+                if(_cityName){
+                    $('.city,.sctype,.schoolInfo').hide();
+                }else{
+                    $('.county,.schoolInfo').hide();
+                };
+                // if($(this).attr('class') !== 'active'){
+                    // var id = $(this).attr('data-id');
+                    var ismunicipality = $(this).attr('ismunicipality');
+                    $.ajax({
+                        'url' : baseUrlName + 'class/area?id='+_json.province,
+                        'type' : 'GET',
+                        'dataType' : 'json',
+                        success : function(json, status){
+                            var listr = '';
+                            for (var i = 0; i < json.length; ++i){
+                                listr += '<li data-id="'+json[i].id+'">'+json[i].name+'</li>';
+                            }
+                            if (ismunicipality == 1){
+                                $('.county').html(listr);
+                                $('.county').fadeIn();
+                            } else {
+                                $('.city').html(listr);
+                                // 加载城市数据开始
+                                $('.resetSchoolPopCon .city li').each(function(){
+                                    if($(this).attr('data-id')  == _json.city){
+                                        $(this).addClass('active');
+                                        // 展开默认城市开始
+                                        $('.sctype,.schoolInfo').hide();
+                                        // if($(this).attr('class') !== 'active'){
+                                            var id = $(this).attr('data-id');
+                                            $.ajax({
+                                                'url' : baseUrlName + 'class/area?id='+_json.city,
+                                                'type' : 'GET',
+                                                'dataType' : 'json',
+                                                success : function(json, status){
+                                                    var listr = '';
+                                                    for (var i = 0; i < json.length; ++i){
+                                                        listr += '<li data-id="'+json[i].id+'">'+json[i].name+'</li>';
+                                                    }
+                                                    $('.county').html(listr);
+                                                    $('.resetSchoolPopCon .county li').each(function(){
+                                                        if($(this).attr('data-id')  == _json.city){
+                                                            $(this).addClass('active');
+                                                            $('.sctype,.schoolInfo').hide();
+                                                            $.ajax({
+                                                                'url' : baseUrlName + 'class/area/sctype',
+                                                                'type' : 'GET',
+                                                                'dataType' : 'json',
+                                                                success : function(json, status){
+                                                                    var listr = '';
+                                                                    for (var i = 0; i < json.length; ++i){
+                                                                        listr += '<li data-id="'+json[i].id+'">'+json[i].name+'</li>';
+                                                                    }
+                                                                    $('.sctype').html(listr);
+                                                                    $('.sctype').fadeIn();
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                    
+
+                                                    $('.county').show();
+                                                }
+                                            });
+                                        // };
+                                        // 展开默认城市结束
+                                    };
+                                    // 去除城市的默认值以外li的点击事件
+                                    if(!$(this).hasClass('class')){
+                                        $(this).addClass('default');
+                                        $(this).removeAttr('data-id').click(function(){
+                                            return false;
+                                        })
+                                    };
+                                });
+                                // 加载城市数据结束
+                                $('.city').fadeIn();
+                            }
+                        }
+                    });
+                // }
+            };
+            // 去除省份的默认值以外li的点击事件
+            if(!$(this).hasClass('class')){
+                $(this).addClass('default');
+                $(this).removeAttr('data-id').click(function(){
+                    return false;
+                })
+            };
         });
     }
 });
