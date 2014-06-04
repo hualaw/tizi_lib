@@ -249,20 +249,34 @@ define(function(require,exports){
 				var $ul = $('ul', $wrapper).css('width',$select.width()).hide();
 				/* Now we add the options */
 				$('option', this).each(function(i){
-					var oLi = $('<li><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
+					// 添加optgroup
+					var _opt = $(this).parent().attr("optgroup");
+					// 如果select上有optgroup=“1”,就说明当前select需要optgroup
+					if(_opt == '1'){
+						var _class=$(this).attr('class');
+						if (typeof _class == 'undefined'){_class = '';}
+						var oLi = $('<li'+" class=" + _class + '><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
+						// optgroup的标题,如果标题不需要点击
+						if(_class =="one"){
+							var oLi = $('<li'+" class=" + _class + '>'+ $(this).html() +'</li>');
+						};
+					}else{
+						var oLi = $('<li'+'><a href="#" index="'+ i +'">'+ $(this).html() +'</a></li>');
+					}
+					//结束
 					$ul.append(oLi);
 				});
 				
 				/* Add click handler to the a */
 				$ul.find('a').click(function(){
-						$('a.selected', $wrapper).removeClass('selected');
-						$(this).addClass('selected');	
-						/* Fire the onchange event */
-						if ($select[0].selectedIndex != $(this).attr('index') && $select[0].onchange) { $select[0].selectedIndex = $(this).attr('index'); $select[0].onchange(); }
-						$select[0].selectedIndex = $(this).attr('index');
-						$('span:eq(0)', $wrapper).html($(this).html());
-						$ul.hide();
-						return false;
+					$('a.selected', $wrapper).removeClass('selected');
+					$(this).addClass('selected');	
+					/* Fire the onchange event */
+					if ($select[0].selectedIndex != $(this).attr('index') && $select[0].onchange) { $select[0].selectedIndex = $(this).attr('index'); $select[0].onchange(); }
+					$select[0].selectedIndex = $(this).attr('index');
+					$('span:eq(0)', $wrapper).html($(this).html());
+					$ul.hide();
+					return false;
 				});
 				/* Set the default */
 				$('a:eq('+ this.selectedIndex +')', $ul).click();

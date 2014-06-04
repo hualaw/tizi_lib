@@ -43,6 +43,11 @@ define(function(require, exports) {
                 if (typeof seacherResultname == 'undefined'){seacherResultname = '';}
                 if (typeof schoolname == 'undefined'){schoolname = '';}
                 if (typeof city == 'undefined'){city = '';}
+                // 判断学校名称为空的时候返回
+                if(schoolname == '' && seacherResultname == ''){
+                    this.close();
+                    return false;
+                }
                 var fullname = province + city + county + schoolname + seacherResultname + writeSchoolName;
                 if(searcherResultid){
                     school_id = searcherResultid;
