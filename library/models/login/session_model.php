@@ -213,6 +213,7 @@ class Session_Model extends LI_Model {
 
 	public function generate_api_session($user_id,$api_type=Constant::API_TYPE_TIZI)
 	{
+		$this->db=$this->load->database('',true);
 		$session_id=sha1(md5($user_id).uniqid().mt_rand(1000000,5555555));
 		$data=$this->bind_session($session_id,$user_id);
 		$data['api_type']=$api_type;
@@ -232,6 +233,7 @@ class Session_Model extends LI_Model {
 	
 	public function get_api_session($session_id,$api_type=Constant::API_TYPE_TIZI,$select='')
 	{
+		$this->db=$this->load->database('',true);
 		if($select) $this->db->select($select);
 		$this->db->where('session_id',$session_id);
 		$this->db->where('api_type',$api_type);

@@ -47,12 +47,15 @@ class Qiniu {
     }
  
     //获取下载链接 (私有资源)
-    function qiniu_download_link($key,$name = 'unknow'){
+    function qiniu_download_link($key,$name = 'unknow',$with_name=true,$ttl=3600){
         $domain = $this->domain;
         $client = new Qiniu_MacHttpClient(null);
         $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
+        $getPolicy->Expires = $ttl;
         $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
-        $baseUrl.='?download/'.$name;
+        if($with_name){
+            $baseUrl.='?download/'.$name;
+        }
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
         return $privateUrl;
     }
@@ -73,6 +76,19 @@ class Qiniu {
         if($get_ext != $ext){
             $baseUrl .= "?avthumb/{$ext}";
         }
+        $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
+        $privateUrl = ($privateUrl);
+        return $privateUrl;
+    }
+
+    /*视频截图*/
+    function qiniu_vframe($key,$offset=1,$w=400,$h=225,$ttl=36000){
+        $domain = $this->domain;
+        $client = new Qiniu_MacHttpClient(null);
+        $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
+        $getPolicy->Expires = $ttl;
+        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+        $baseUrl .= "?vframe/jpg/offset/$offset/w/$w/h/$h";
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
         $privateUrl = ($privateUrl);
         return $privateUrl;

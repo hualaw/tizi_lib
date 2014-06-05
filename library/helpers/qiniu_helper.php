@@ -35,20 +35,22 @@ if (!function_exists('qiniu_img')) {
 
 /*七牛下载链接*/
 if (!function_exists('qiniu_download')) {
-    function qiniu_download($key,$name='unknown',$ttl=3600) {
+    function qiniu_download($key,$name='unknown',$ttl=3600,$with_name=true) {
         $ci =& get_instance();
         $ci->load->model('redis/redis_model');
+        $redis_key = $key.$name.intval($with_name);
         if($ci->redis_model->connect('qiniu_file')){ //连得上redis，取的到值就直接返回值
-            $path = $ci->cache->redis->get($key);
+            $path = $ci->cache->redis->get($redis_key);
             if($path !== false){ //取的到值就直接返回值
                 return $path ;
             }
         }
         //连不上redis或者redis中没有相应的值,就去七牛上获取，然后存入redis
         $ci->load->library('qiniu');
-        $path = $ci->qiniu->qiniu_download_link($key,$name);
+
+        $path = $ci->qiniu->qiniu_download_link($key,$name,$with_name,$ttl);
         if($path){
-            $ci->cache->redis->save($key,$path,$ttl);
+            $ci->cache->redis->save($redis_key,$path,$ttl);
             return $path;
         }
         return false;
@@ -81,3 +83,28 @@ if (!function_exists('qiniu_vi_au')) {
         return false;
     }
 }
+
+/*七牛 视频截图 */
+if (!function_exists('qiniui_get_vframe')) {
+    function qiniui_get_vframe($key,$offset=2,$w=400,$h=225,$ttl=36000){
+        $ci =& get_instance();
+        $ci->load->model('redis/redis_model');
+        $redis_key = $key."_vframe".$offset.$w.$h;
+        if($ci->redis_model->connect('qiniu_file')){ //连得上redis，取的到值就直接返回值
+            $path = $ci->cache->redis->get($redis_key);
+            if($path !== false){ //取的到值就直接返回值
+                return $path ;
+            }
+        }
+        //连不上redis或者redis中没有相应的值,就去七牛上获取，然后存入redis
+        $ci->load->library('qiniu');
+        $path = $ci->qiniu->qiniu_vframe($key,$offset,$w,$h,$ttl);
+         
+        if($path){
+            $ci->cache->redis->save($redis_key,$path,$ttl);
+            return $path;
+        }
+        return false;
+    }
+}
+
