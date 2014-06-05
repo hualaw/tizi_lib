@@ -56,7 +56,7 @@ class Data_Model extends LI_Model {
             $check=0;
             foreach($data as $k=>$v)
             {
-                if($parent_data->{$k}!==(string)$v) $check++;
+                if($parent_data->{$k}!=$v) $check++;
             }
 
             if($check==0) return true;
