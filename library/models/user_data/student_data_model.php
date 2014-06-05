@@ -48,7 +48,7 @@ class Student_Data_Model extends Data_Model {
 
     public function update_student_detail($user_id,$gender,$qq)
     {
-        if(!$gender||!$qq) return false;
+        if(!$gender) return false;
         return $this->update_data_array($user_id,array('sex'=>$gender,'qq'=>$qq));
     }
 
