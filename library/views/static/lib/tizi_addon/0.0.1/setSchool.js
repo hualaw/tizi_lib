@@ -56,8 +56,8 @@ define(function(require, exports) {
                 if (typeof seacherResultname == 'undefined'){seacherResultname = '';}
                 if (typeof schoolname == 'undefined'){schoolname = '';}
                 if (typeof city == 'undefined'){city = '';}
-                // 判断学校名称为空的时候返回
-                if(schoolname == '' && seacherResultname == ''){
+                // 判断学校名称\搜索结果的学校名称\没有我的学校未填写，这三者同时为空的时候返回
+                if(schoolname == '' && seacherResultname == '' && writeSchoolName == '' ){
                     this.close();
                     return false;
                 }
