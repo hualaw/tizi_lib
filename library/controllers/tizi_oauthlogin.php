@@ -1,5 +1,5 @@
 <?php  if(!defined('BASEPATH'))exit('No direct script access allowed');
-require_once("tizi_controller.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."tizi_controller.php");
 
 class Tizi_Oauthlogin extends Tizi_Controller {
 
@@ -89,6 +89,19 @@ class Tizi_Oauthlogin extends Tizi_Controller {
         }
 
     }
+
+    public function wx_callback(){
+        
+        $this->load->library('Oauth/wxConnect/wx_auth');
+        $auth_data = $this->wx_auth->auth_data();
+
+        $user_detail = $this->wx_auth->user_detail();
+
+        
+    }
+
+
+
 
 }
 /*Endoffilelogin.php*/
