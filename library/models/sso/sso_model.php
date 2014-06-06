@@ -60,4 +60,9 @@ class sso_model extends MY_Model {
 		}
 		return $this->get_sso_by_id($sso_id);
 	}
+	
+	public function by_token($access_token){
+		$this->db->where("access_token", $access_token);
+		return $this->db->get($this->_table)->row_array();
+	}
 }
