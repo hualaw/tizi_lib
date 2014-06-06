@@ -5,9 +5,12 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
     function __construct()
     {
+
         parent::__construct();
         $this->load->model("login/login_model");
         $this->load->model("login/session_model");
+        $this->load->model('oauth/oauth_model');
+
     }
 
     public function oauth()
@@ -36,7 +39,6 @@ class Tizi_Oauthlogin extends Tizi_Controller {
             $this->oauth->init($platform);
             $data = $this->oauth->callback();//data = array('open_id'=>'','access_token'=>'');
 
-            $this->load->model('oauth/oauth_model');
             if($platform == 'qq'){
                 $platform = 1;
             }elseif($platform == 'weibo'){
@@ -100,6 +102,8 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
         if($auth_data['open_id']){
 
+            echo "get open_id success"."<br/>";
+
             $session_oauth_data=array(
                 'open_id'=>$auth_data['open_id'],
                 'platform'=>$platform,
@@ -108,6 +112,8 @@ class Tizi_Oauthlogin extends Tizi_Controller {
             $user_auth_data = $this->oauth_model->save($session_oauth_data);
             $oauth_redirect=$this->session->userdata('oauth_redirect');
             if(empty($user_auth_data['user_id'])){//未绑定用户
+
+                echo "bind user"."<br/>";
 
                 $user_detail = $this->wx_auth->user_detail();//获取详细资料
 
