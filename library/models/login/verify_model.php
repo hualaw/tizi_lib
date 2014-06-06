@@ -240,7 +240,7 @@ class Verify_Model extends LI_Model {
 		if($lang && $link)
 		{	
 			//$authcode=site_url().$link."?code=".$authcode;
-			$authcode=site_url().$link."/code/".$authcode;
+			$authcode=login_url().$link."/code/".$authcode;
 			$subject=$this->lang->line('mail_subject_'.$lang);
 			$msg_body=str_replace('{email}',$email,$this->lang->line('mail_body_'.$lang));
 			
