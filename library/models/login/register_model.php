@@ -830,6 +830,21 @@ class Register_Model extends LI_Model {
 		$this->db->query("update user set student_id=? where id=?", array($student_id, $user_id));
 		return $this->db->affected_rows();
 	}
+	
+	public function unbind_phone($user_id){
+		$this->db->query("update user set phone_verified=0,phone_mask=NULL where id=?", array($user_id));
+		return $this->db->affected_rows();
+	}
+	
+	public function unbind_email($user_id){
+		$this->db->query("update user set email_verified=0,email=NULL where id=?", array($user_id));
+		return $this->db->affected_rows();
+	}
+	
+	public function lock_user($user_id){
+		$this->db->query("update user set is_lock=1 where id=?", array($user_id));
+		return $this->db->affected_rows();
+	}
 }
 /* End of file register_model.php */
 /* Location: ./application/models/login/register_model.php */
