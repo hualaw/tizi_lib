@@ -51,7 +51,6 @@ class Tizi_Oauthlogin extends Tizi_Controller {
             $oauth_redirect='';
             if($db_data['open_id']){
                 $user_auth_data = $this->oauth_model->save($db_data);
-                $this->oauth_model->save($db_data['open_id'], $platform, $db_data);
 
                 $oauth_redirect=$this->session->userdata('oauth_redirect');
                 if(empty($user_auth_data['user_id'])){//未绑定用户
@@ -90,14 +89,56 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
     }
 
+    //weixin
     public function wx_callback(){
         
         $this->load->library('Oauth/wxConnect/wx_auth');
         $auth_data = $this->wx_auth->auth_data();
-
-        $user_detail = $this->wx_auth->user_detail();
-
         
+        $platform = 3;
+        $oauth_redirect='';
+
+        if($auth_data['open_id']){
+
+            $session_oauth_data=array(
+                'open_id'=>$auth_data['open_id'],
+                'platform'=>$platform,
+                'access_token'=>$auth_data['access_token']
+            );
+            $user_auth_data = $this->oauth_model->save($session_oauth_data);
+            $oauth_redirect=$this->session->userdata('oauth_redirect');
+            if(empty($user_auth_data['user_id'])){//未绑定用户
+
+                $user_detail = $this->wx_auth->user_detail();//获取详细资料
+
+                $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
+                $this->session->set_userdata("oauth_nickname", $user_detail["nickname"]);
+                $this->session->set_userdata("oauth_platform", $platform);
+
+                if(stripos($oauth_redirect,'http://')!==false)
+                {
+                    $this->session->set_userdata('perfect_redirect',$oauth_redirect);
+                }
+
+                $oauth_redirect=login_url("oauth/firstlogin?platform={$platform}");
+
+            }else{//绑定用户
+                
+                exit('您已绑定梯子网账户');
+                
+            }
+
+            if($this->tizi_mobile)
+            {
+                redirect($oauth_redirect);
+            }
+            else
+            {
+                $this->smarty->assign('oauth_redirect',$oauth_redirect);
+                $this->smarty->display('file:[lib]header/tizi_oauth.html');
+            }
+
+        }
     }
 
 
