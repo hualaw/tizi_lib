@@ -15,6 +15,12 @@ class Parent_Data_Model extends Data_Model {
         return parent::get_data($user_id);
     }
 
+    public function update_parent_data($user_id,$data)
+    {
+        if(!is_array($data)||empty($data)) return false;
+        return $this->update_data_array($user_id,$data);
+    }
+
     public function update_parent_gender($user_id,$gender)
     {
         if(!$gender) return false;
@@ -49,6 +55,12 @@ class Parent_Data_Model extends Data_Model {
     {
         if(!$school_id||!$grade_id) return false;
         return $this->update_data_array($user_id,array('child_school'=>$school_id,'child_grade'=>$grade_id));
+    }
+
+    public function update_parent_survey($user_id,$gender,$child_school,$child_grade)
+    {
+        if(!$gender||!$child_school||!$child_grade) return false;
+        return $this->update_data_array($user_id,array('gender'=>$gender,'child_school'=>$child_school,'child_grade'=>$child_grade));
     }
 
 }
