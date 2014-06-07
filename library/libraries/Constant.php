@@ -28,6 +28,7 @@ Class CI_Constant {
 	const REG_ORIGEN_CLASS_UNAME = 64;
 	const REG_ORIGEN_SURVEY_EMAIL= 66;
 	const REG_ORIGEN_SURVEY_UNAME= 68;
+	const REG_ORIGIN_SSO		 = 70;
 
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
@@ -137,39 +138,34 @@ Class CI_Constant {
 	
 	}
 
-	public static function redirect_url($user_type, $redirect_type='login', $redirect_url='')
+	public static function redirect_url($user_type, $redirect_type='login', $redirect='')
 	{
 		if(!$redirect_type) $redirect_type='login';
 		$redirect_url = array(
 			'login' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 			    self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
-			    self::USER_TYPE_PARENT => jia_url("parent/home"),
-			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
+			    self::USER_TYPE_PARENT => jia_url("parent/home")
 			),
 			'logout' => array(
 				self::USER_TYPE_STUDENT => tizi_url(),
 			    self::USER_TYPE_TEACHER => tizi_url(),
-			    self::USER_TYPE_PARENT => jia_url("parent/home"),
-			    self::USER_TYPE_RESEARCHER => tizi_url()
+			    self::USER_TYPE_PARENT => jia_url("parent/home")
 			),
 			'register' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
-			    self::USER_TYPE_PARENT => jia_url("parent/home"),
-			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
+			    self::USER_TYPE_PARENT => jia_url("parent/home")
 			),
 			'tizi' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 			    self::USER_TYPE_TEACHER => tizi_url(),
-			    self::USER_TYPE_PARENT => jia_url("parent/home"),
-			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
+			    self::USER_TYPE_PARENT => jia_url("parent/home")
 			),
 			'supply' => array(
 				self::USER_TYPE_STUDENT => login_url("student/user/supply"),
 			    self::USER_TYPE_TEACHER => login_url("teacher/user/supply"),
-			    self::USER_TYPE_PARENT => login_url("parent/user/supply"),
-			    self::USER_TYPE_RESEARCHER => login_url("researcher/user/supply"),
+			    self::USER_TYPE_PARENT => login_url("parent/user/supply")
 			)
 		);
 

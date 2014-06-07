@@ -427,6 +427,8 @@ define(function(require, exports) {
                                             return false;
                                         })
                                     };
+                                    // 隐藏没有我的学校功能
+                                    $('.noMySchollBtn').hide();
                                 });
                                 // 加载城市数据结束
                                 $('.city').fadeIn();
