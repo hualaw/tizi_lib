@@ -34,19 +34,27 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
     public function callback($platform)
     {
-        $this->load->library('Oauth');
         try{
-            $this->oauth->init($platform);
-            $data = $this->oauth->callback();//data = array('open_id'=>'','access_token'=>'');
 
-            if($platform == 'qq'){
-                $platform = 1;
-            }elseif($platform == 'weibo'){
-                $platform = 2;
+            $platform_code = Constant::oauth_platform($platform);
+
+            if($platform_code == 1 || $platform_code == 2){
+
+                $this->load->library('Oauth');
+                $this->oauth->init($platform);
+                $data = $this->oauth->callback();//data = array('open_id'=>'','access_token'=>'');
+
+            }elseif($platform_code == 3){
+
+                $this->load->library('Oauth/wxConnect/wx_auth');
+                $auth_data = $this->wx_auth->auth_data();
+                $data = $this->wx_auth->user_detail($auth_data);//获取详细资料
+
             }
+
             $db_data=array(
                 'open_id'=>$data['open_id'],
-                'platform'=>$platform,
+                'platform'=>$platform_code,
                 'access_token'=>$data['access_token']
             );
 
@@ -58,14 +66,14 @@ class Tizi_Oauthlogin extends Tizi_Controller {
                 if(empty($user_auth_data['user_id'])){//未绑定用户
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
     				$this->session->set_userdata("oauth_nickname", $data["nickname"]);
-    				$this->session->set_userdata("oauth_platform", $platform);
+    				$this->session->set_userdata("oauth_platform", $platform_code);
 
                     if(stripos($oauth_redirect,'http://')!==false)
                     {
                         $this->session->set_userdata('perfect_redirect',$oauth_redirect);
                     }
 
-                    $oauth_redirect=login_url("oauth/firstlogin?platform={$platform}");
+                    $oauth_redirect=login_url("oauth/firstlogin?platform={$platform_code}");
                 }else{//绑定用户
     				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
                     $this->session_model->generate_cookie($db_data['open_id'],$user_auth_data["user_id"]);
