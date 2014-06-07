@@ -43,6 +43,9 @@ $config['xue_static_url'] = 'http://xue-static.tizi.com/';
 $config['survey_url'] = 'http://diaocha.tizi.com/';
 $config['survey_static_url'] = 'http://survey-static.tizi.com/';
 
+$config['space_url'] = 'http://space.tizi.com/';
+$config['space_static_url'] = 'http://space-static.tizi.com/';//'application/views/static/';
+
 $config['bbs_url'] = 'http://bbs.tizi.com/';
 $config['bbs_static_url'] = '';
 /*
