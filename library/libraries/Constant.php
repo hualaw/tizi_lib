@@ -217,6 +217,19 @@ Class CI_Constant {
 		return isset($relation[$id])?$relation[$id]:$relation;
 	}
 
+    public static function oauth_platform($platform){
+        
+        $platforms = array(
+            1 => 'qq',
+            2 => 'weibo',
+            3 => 'weixin',
+        );
+
+        return array_search($platform, $platforms);
+        
+    }
+
+
 }
 /* End of file Constant.php */
 /* Location: ./application/libraries/Constant.php */
