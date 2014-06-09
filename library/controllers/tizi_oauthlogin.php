@@ -5,9 +5,12 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
     function __construct()
     {
+
         parent::__construct();
         $this->load->model("login/login_model");
         $this->load->model("login/session_model");
+        $this->load->model('oauth/oauth_model');
+
     }
 
     public function oauth()
@@ -31,20 +34,27 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
     public function callback($platform)
     {
-        $this->load->library('Oauth');
         try{
-            $this->oauth->init($platform);
-            $data = $this->oauth->callback();//data = array('open_id'=>'','access_token'=>'');
 
-            $this->load->model('oauth/oauth_model');
-            if($platform == 'qq'){
-                $platform = 1;
-            }elseif($platform == 'weibo'){
-                $platform = 2;
+            $platform_code = Constant::oauth_platform($platform);
+
+            if($platform_code == 1 || $platform_code == 2){
+
+                $this->load->library('Oauth');
+                $this->oauth->init($platform);
+                $data = $this->oauth->callback();//data = array('open_id'=>'','access_token'=>'');
+
+            }elseif($platform_code == 3){
+
+                $this->load->library('Oauth/wxConnect/wx_auth');
+                $auth_data = $this->wx_auth->auth_data();
+                $data = $this->wx_auth->user_detail($auth_data);//获取详细资料
+
             }
+
             $db_data=array(
                 'open_id'=>$data['open_id'],
-                'platform'=>$platform,
+                'platform'=>$platform_code,
                 'access_token'=>$data['access_token']
             );
 
@@ -56,14 +66,14 @@ class Tizi_Oauthlogin extends Tizi_Controller {
                 if(empty($user_auth_data['user_id'])){//未绑定用户
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
     				$this->session->set_userdata("oauth_nickname", $data["nickname"]);
-    				$this->session->set_userdata("oauth_platform", $platform);
+    				$this->session->set_userdata("oauth_platform", $platform_code);
 
                     if(stripos($oauth_redirect,'http://')!==false)
                     {
                         $this->session->set_userdata('perfect_redirect',$oauth_redirect);
                     }
 
-                    $oauth_redirect=login_url("oauth/firstlogin?platform={$platform}");
+                    $oauth_redirect=login_url("oauth/firstlogin?platform={$platform_code}");
                 }else{//绑定用户
     				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
                     $this->session_model->generate_cookie($db_data['open_id'],$user_auth_data["user_id"]);
@@ -94,51 +104,11 @@ class Tizi_Oauthlogin extends Tizi_Controller {
         
         $this->load->library('Oauth/wxConnect/wx_auth');
         $auth_data = $this->wx_auth->auth_data();
-        
-        $platform = 3;
-        $oauth_redirect='';
+        print_r($auth_data);
+        $user_detail = $this->wx_auth->user_detail($auth_data);//获取详细资料
+        print_r($user_detail);
+        exit;
 
-        if($auth_data['open_id']){
-
-            $session_oauth_data=array(
-                'open_id'=>$auth_data['open_id'],
-                'platform'=>$platform,
-                'access_token'=>$auth_data['access_token']
-            );
-            $user_auth_data = $this->oauth_model->save($session_oauth_data);
-            $oauth_redirect=$this->session->userdata('oauth_redirect');
-            if(empty($user_auth_data['user_id'])){//未绑定用户
-
-                $user_detail = $this->wx_auth->user_detail();//获取详细资料
-
-                $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
-                $this->session->set_userdata("oauth_nickname", $user_detail["nickname"]);
-                $this->session->set_userdata("oauth_platform", $platform);
-
-                if(stripos($oauth_redirect,'http://')!==false)
-                {
-                    $this->session->set_userdata('perfect_redirect',$oauth_redirect);
-                }
-
-                $oauth_redirect=login_url("oauth/firstlogin?platform={$platform}");
-
-            }else{//绑定用户
-                
-                exit('您已绑定梯子网账户');
-                
-            }
-
-            if($this->tizi_mobile)
-            {
-                redirect($oauth_redirect);
-            }
-            else
-            {
-                $this->smarty->assign('oauth_redirect',$oauth_redirect);
-                $this->smarty->display('file:[lib]header/tizi_oauth.html');
-            }
-
-        }
     }
 
 
