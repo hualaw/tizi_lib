@@ -63,4 +63,10 @@ class sso_model extends MY_Model {
 		$this->db->where("access_token", $access_token);
 		return $this->db->get($this->_table)->row_array();
 	}
+	
+	public function openid_token($open_id, $access_token){
+		$this->db->where("open_id", $open_id);
+		$this->db->where("access_token", $access_token);
+		return $this->db->get($this->_table)->row_array();
+	}
 }
