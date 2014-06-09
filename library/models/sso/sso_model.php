@@ -40,7 +40,7 @@ class sso_model extends MY_Model {
 		if ($this->db->trans_status() === false) {
 			return false;
 		}
-		return $this->get_sso_by_id($sso_id);
+		return true;
 	}
 	/**
 	 * @param $sso_id
@@ -56,7 +56,7 @@ class sso_model extends MY_Model {
 		if ($this->db->trans_status() === false) {
 			return false;
 		}
-		return $this->get_sso_by_id($sso_id);
+		return true;
 	}
 	
 	public function by_token($access_token){
