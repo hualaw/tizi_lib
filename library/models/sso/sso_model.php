@@ -8,15 +8,13 @@ class sso_model extends MY_Model {
 		parent::__construct();
 	}
 
-	/** 根据 openid，userid 获得一行第三方登录的信息
+	/** 根据 openid 获得一行第三方登录的信息
 	 * @param $open_id
-	 * @param $user_id
+	 * @param $phone
 	 * @return mixed
 	 */
-	public function get_sso_by_open_user_id($open_id, $user_id) {
+	public function get_sso_by_open_id($open_id) {
 		$this->db->where('open_id', $open_id);
-		$this->db->where('user_id', $user_id);
-
 		return $this->db->get($this->_table)->row();
 	}
 
@@ -42,7 +40,7 @@ class sso_model extends MY_Model {
 		if ($this->db->trans_status() === false) {
 			return false;
 		}
-		return $this->get_sso_by_id($sso_id);
+		return true;
 	}
 	/**
 	 * @param $sso_id
@@ -58,6 +56,17 @@ class sso_model extends MY_Model {
 		if ($this->db->trans_status() === false) {
 			return false;
 		}
-		return $this->get_sso_by_id($sso_id);
+		return true;
+	}
+	
+	public function by_token($access_token){
+		$this->db->where("access_token", $access_token);
+		return $this->db->get($this->_table)->row_array();
+	}
+	
+	public function openid_token($open_id, $access_token){
+		$this->db->where("open_id", $open_id);
+		$this->db->where("access_token", $access_token);
+		return $this->db->get($this->_table)->row_array();
 	}
 }

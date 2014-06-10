@@ -90,18 +90,15 @@ class LI_Controller extends CI_Controller{
    			'user_type_student'=>Constant::USER_TYPE_STUDENT,
    			'user_type_teacher'=>Constant::USER_TYPE_TEACHER,
    			'user_type_parent'=>Constant::USER_TYPE_PARENT,
-   			'user_type_researcher'=>Constant::USER_TYPE_RESEARCHER,
    			'user_type'=>array(
 				Constant::USER_TYPE_STUDENT=>'student',
 				Constant::USER_TYPE_TEACHER=>'teacher',
-				Constant::USER_TYPE_PARENT=>'parent',
-				Constant::USER_TYPE_RESEARCHER=>'researcher'
+				Constant::USER_TYPE_PARENT=>'parent'
 			),
 			'role_name'=>array(
 				Constant::USER_TYPE_STUDENT=>'学生',
 				Constant::USER_TYPE_TEACHER=>'老师',
-				Constant::USER_TYPE_PARENT=>'家长',
-				Constant::USER_TYPE_RESEARCHER=>'教研员'
+				Constant::USER_TYPE_PARENT=>'家长'
 			)
    		);
    		$this->tizi_role=isset($this->user_constant['user_type'][$this->tizi_utype])?
@@ -115,12 +112,12 @@ class LI_Controller extends CI_Controller{
         $site_url=site_url();
         $tizi_url=tizi_url();
         $login_url=login_url();
-        $edu_url=edu_url();
         $jxt_url=jxt_url();
         $zl_url=zl_url();
         $jia_url=jia_url();
         $xue_url=xue_url();
         $survey_url=survey_url();
+        $space_url=space_url();
         $static_url=static_url($this->site);
         $static_base_url=static_url('base');
 
@@ -132,12 +129,12 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('site_url', $site_url);
         $this->smarty->assign('tizi_url', $tizi_url);
         $this->smarty->assign('login_url', $login_url);
-        $this->smarty->assign('edu_url', $edu_url);
         $this->smarty->assign('jxt_url', $jxt_url);
         $this->smarty->assign('zl_url', $zl_url);
         $this->smarty->assign('jia_url', $jia_url);
         $this->smarty->assign('xue_url', $xue_url);
         $this->smarty->assign('survey_url', $survey_url);
+        $this->smarty->assign('space_url', $space_url);
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
@@ -154,7 +151,6 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('base_student', redirect_url(Constant::USER_TYPE_STUDENT,$this->site));
     	$this->smarty->assign('base_teacher', redirect_url(Constant::USER_TYPE_TEACHER,$this->site));
    		$this->smarty->assign('base_parent', redirect_url(Constant::USER_TYPE_PARENT,$this->site));
-   		$this->smarty->assign('base_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,$this->site));
 
    		//$this->smarty->assign('login_student', redirect_url(Constant::USER_TYPE_STUDENT,'login'));
     	$this->smarty->assign('login_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'login'));
@@ -164,7 +160,6 @@ class LI_Controller extends CI_Controller{
    		$this->smarty->assign('home_student', redirect_url(Constant::USER_TYPE_STUDENT,'tizi'));
     	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
    		//$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
-   		$this->smarty->assign('home_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,'tizi'));
 
    		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')
    		{
