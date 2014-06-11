@@ -25,22 +25,6 @@ if ( ! function_exists('tizi_url'))
 	}
 }
 
-if ( ! function_exists('edu_url'))
-{
-	function edu_url($uri = '')
-	{
-		return site_url($uri,'edu');
-	}
-}
-
-if ( ! function_exists('jxt_url'))
-{
-	function jxt_url($uri = '')
-	{
-		return site_url($uri,'jxt');
-	}
-}
-
 if ( ! function_exists('zl_url'))
 {
 	function zl_url($uri = '')
@@ -81,11 +65,11 @@ if ( ! function_exists('space_url'))
 	}
 }
 
-if ( ! function_exists('bbs_url'))
+if ( ! function_exists('waijiao_url'))
 {
-	function bbs_url($uri = '')
+	function waijiao_url($uri = '')
 	{
-		return site_url($uri,'bbs');
+		return site_url($uri,'waijiao');
 	}
 }
 
