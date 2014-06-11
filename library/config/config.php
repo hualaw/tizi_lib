@@ -26,7 +26,7 @@ $config['tizi_url'] = 'http://www.tizi.com/';
 $config['tizi_static_url'] = 'http://tizi-static.tizi.com/';
 
 $config['zl_url'] = 'http://ziliao.tizi.com/';
-$config['zl_static_url'] = 'http://tizi-static.tizi.com/';
+$config['zl_static_url'] = 'http://ziliao-static.tizi.com/';
 
 $config['jia_url'] = 'http://jia.tizi.com/';
 $config['jia_static_url'] = 'http://tizi-static.tizi.com/';
