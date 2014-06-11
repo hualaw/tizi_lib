@@ -9,7 +9,7 @@ define(function(require,exports){
 		});
 		// 请求播放插件
 		require('swfObject');
-		var so = new SWFObject(staticPath + "lib/tizi_static/image/common/audioplayer.swf","player","200","24","9","#ffffff");
+		var so = new SWFObject(staticPath + "lib/miniFlashMp3player/0.0.1/audioplayer.swf","player","200","24","9","#ffffff");
 		so.addParam("allowfullscreen","true");
 		so.addParam("allowscriptaccess","always");
 		so.addParam("wmode","opaque");
