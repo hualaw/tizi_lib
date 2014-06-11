@@ -73,6 +73,14 @@ if ( ! function_exists('waijiao_url'))
 	}
 }
 
+if ( ! function_exists('edu_url'))
+{
+	function edu_url($uri = '')
+	{
+		return site_url($uri,'tizi');
+	}
+}
+
 if ( ! function_exists('static_url'))
 {
 	function static_url($site = '')
