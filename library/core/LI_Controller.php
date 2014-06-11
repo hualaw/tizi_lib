@@ -125,7 +125,7 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
 
         $this->smarty->assign('bbs_url', site_url('','bbs'));
-        $this->smarty->assign('jxt_url', site_url('','jxt'));
+        $this->smarty->assign('api_url', site_url('','api'));
         $this->smarty->assign('nahao_url', site_url('','nahao'));
         $this->smarty->assign('91waijiao_url', site_url('','91waijiao'));
 
@@ -154,12 +154,10 @@ class LI_Controller extends CI_Controller{
 
    		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')
    		{
-   			$this->smarty->assign('home_zl', zl_url('zl/home'));
    			$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
    		}
    		else
    		{
-   			$this->smarty->assign('home_zl', zl_url());
    			$this->smarty->assign('home_parent', jia_url());
    		}
 
