@@ -108,41 +108,33 @@ class LI_Controller extends CI_Controller{
 
 	protected function load_smarty()
 	{
-        $base_url=base_url();
-        $site_url=site_url();
-        $tizi_url=tizi_url();
-        $login_url=login_url();
-        $jxt_url=jxt_url();
-        $zl_url=zl_url();
-        $jia_url=jia_url();
-        $xue_url=xue_url();
-        $survey_url=survey_url();
-        $space_url=space_url();
-        $static_url=static_url($this->site);
-        $static_base_url=static_url('base');
-
         $this->load->helper("img_helper");
         $avatar_url=$this->tizi_avatar?path2avatar($this->tizi_uid):'';
 
         $this->load->config('version');
-        $this->smarty->assign('base_url', $base_url);
-        $this->smarty->assign('site_url', $site_url);
-        $this->smarty->assign('tizi_url', $tizi_url);
-        $this->smarty->assign('login_url', $login_url);
-        $this->smarty->assign('jxt_url', $jxt_url);
-        $this->smarty->assign('zl_url', $zl_url);
-        $this->smarty->assign('jia_url', $jia_url);
-        $this->smarty->assign('xue_url', $xue_url);
-        $this->smarty->assign('survey_url', $survey_url);
-        $this->smarty->assign('space_url', $space_url);
+        $this->smarty->assign('base_url', base_url());
+        $this->smarty->assign('site_url', site_url());
+        $this->smarty->assign('tizi_url', tizi_url());
+        $this->smarty->assign('login_url', login_url());
+        $this->smarty->assign('zl_url', zl_url());
+        $this->smarty->assign('jia_url', jia_url());
+        $this->smarty->assign('xue_url', xue_url());
+        $this->smarty->assign('survey_url', survey_url());
+        $this->smarty->assign('space_url', space_url());
+        $this->smarty->assign('waijiao_url', waijiao_url());
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
+
+        $this->smarty->assign('bbs_url', site_url('','bbs'));
+        $this->smarty->assign('api_url', site_url('','api'));
+        $this->smarty->assign('nahao_url', site_url('','nahao'));
+        $this->smarty->assign('91waijiao_url', site_url('','91waijiao'));
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
         $this->smarty->assign('tzu', Constant::COOKIE_TZUSERNAME);
         $this->smarty->assign('is_mobile', $this->tizi_mobile);
         
-        $this->smarty->assign('static_url', $static_url);
-        $this->smarty->assign('static_base_url', $static_base_url);
+        $this->smarty->assign('static_url', static_url($this->site));
+        $this->smarty->assign('static_base_url', static_url('base'));
 		$this->smarty->assign('version','?v='.$this->config->item('version'));
         $this->smarty->assign('swfversion','?v='.$this->config->item('swfversion'));
         $this->smarty->assign('static_version',$this->config->item('static_version')
@@ -152,10 +144,9 @@ class LI_Controller extends CI_Controller{
     	$this->smarty->assign('base_teacher', redirect_url(Constant::USER_TYPE_TEACHER,$this->site));
    		$this->smarty->assign('base_parent', redirect_url(Constant::USER_TYPE_PARENT,$this->site));
 
-   		//$this->smarty->assign('login_student', redirect_url(Constant::USER_TYPE_STUDENT,'login'));
+   		$this->smarty->assign('login_student', redirect_url(Constant::USER_TYPE_STUDENT,'login'));
     	$this->smarty->assign('login_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'login'));
-   		//$this->smarty->assign('login_parent', redirect_url(Constant::USER_TYPE_PARENT,'login'));
-   		//$this->smarty->assign('login_researcher', redirect_url(Constant::USER_TYPE_RESEARCHER,'login'));
+   		$this->smarty->assign('login_parent', redirect_url(Constant::USER_TYPE_PARENT,'login'));
 
    		$this->smarty->assign('home_student', redirect_url(Constant::USER_TYPE_STUDENT,'tizi'));
     	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
@@ -163,12 +154,10 @@ class LI_Controller extends CI_Controller{
 
    		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')
    		{
-   			$this->smarty->assign('home_zl', zl_url('zl/home'));
    			$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
    		}
    		else
    		{
-   			$this->smarty->assign('home_zl', zl_url());
    			$this->smarty->assign('home_parent', jia_url());
    		}
 
