@@ -1,6 +1,6 @@
 <div class="nav">
 	<div class="layout">
-		<ul>
+		<ul class="fl">
 			<li>
 				<a href="{$home_parent}" class="navHome">首页</a>
 			</li>
@@ -33,6 +33,34 @@
 			<li>
 				<a href="{$jia_url}parent/child" class="navChild">孩子专区</a>
 			</li>
-		</ul>
+		</ul> 
+		
+		<!-- 切换地区 -->
+		<div class="fr bgBox">
+			<input type="button" id="changeCity" value="全国">
+			<div class="cityList" style="display: none;">
+				<ul>
+					<li>
+						<a href="#">全国</a>
+					</li>
+
+					<li>
+						<span>A</span>
+						<a href="#">安徽</a>
+					</li>
+
+					<li>
+						<span>B</span>
+						<a href="#">北京</a>
+					</li>
+
+					<li>
+						<span>G</span>
+						<a href="#">广东</a>
+						<a href="#">广西</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </div>
