@@ -503,6 +503,18 @@ class Tizi_Register extends Tizi_Controller {
 		return $class;
    	}
 
+   	protected function school_check($school_id)
+   	{
+		$school=array('errorcode'=>false,'error'=>$this->lang->line('error_invalid_school'));
+
+		if($school_id)
+   		{
+			$school['errorcode']=true;
+		}
+
+		return $school;
+   	}
+
 }
 /* End of file register.php */
 /* Location: ./application/controllers/login/register.php */

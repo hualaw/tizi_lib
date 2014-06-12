@@ -32,6 +32,10 @@ class Invite_Model extends LI_Model {
         }else{
             return false;
         }
+        //任务系统_有一个试卷/作业存档
+		$this->load->library("task");
+		$this->task->exec($data["reg_invite"], "use_invite");
+		
         return $this->db->insert($this->_succ_reg_table,$data);   
     }
 

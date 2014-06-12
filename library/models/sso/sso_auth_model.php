@@ -12,8 +12,8 @@ class sso_auth_model extends MY_Model {
 	 * @param $open_id
 	 * @return mixed
 	 */
-	public function get_sso_auth_by_open_id($open_id) {
-		$this->db->where('open_id', $open_id);
+	public function get_sso_auth_by_open_id($auth_id) {
+		$this->db->where('auth_id', $auth_id);
 		$this->db->where('is_online', 1);
 		return $this->db->get($this->_table)->row();
 	}
