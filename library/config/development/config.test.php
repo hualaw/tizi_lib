@@ -31,7 +31,7 @@ $config['space_static_url'] = 'application/views/static/';
 $config['zl_url'] = 'http://192.168.11.12:8689/';
 $config['zl_static_url'] = 'application/views/static/';
 
-$config['jia_url'] = 'http://192.168.11.12:8080/';
+$config['jia_url'] = 'http://192.168.11.12:8091/';
 $config['jxt_static_url'] = 'application/views/static/';
 
 $config['xue_url'] = 'http://192.168.11.12:8083/';
