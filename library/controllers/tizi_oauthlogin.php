@@ -59,11 +59,23 @@ class Tizi_Oauthlogin extends Tizi_Controller {
             );
 
             $oauth_redirect='';
+            //log
+            if($platform_code == 3){
+                if(!isset($db_data['open_id']) || !$db_data['open_id']){
+                    print_r($db_data);
+                    echo "open_id is null";
+                    exit();
+                }
+            }
+            //log end
             if($db_data['open_id']){
                 $user_auth_data = $this->oauth_model->save($db_data);
 
                 $oauth_redirect=$this->session->userdata('oauth_redirect');
                 if(empty($user_auth_data['user_id'])){//未绑定用户
+                    if($platform_code == 3){
+                        echo "unbind";
+                    }
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
     				$this->session->set_userdata("oauth_nickname", $data["nickname"]);
     				$this->session->set_userdata("oauth_platform", $platform_code);
@@ -75,12 +87,23 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
                     $oauth_redirect=login_url("oauth/firstlogin?platform={$platform_code}");
                 }else{//绑定用户
-    				$session=$this->session_model->generate_session($user_auth_data["user_id"]);
+                    if($platform_code == 3){
+                        echo "bind";
+                    }
+                    $session=$this->session_model->generate_session($user_auth_data["user_id"]);
                     $this->session_model->generate_cookie($db_data['open_id'],$user_auth_data["user_id"]);
     				$this->session_model->clear_mscookie();
                     //redirect(redirect_url($session['user_data']['user_type'],'login'));
                     //if(!$oauth_redirect) $oauth_redirect=redirect_url($session['user_data']['user_type'],'login');
                     $oauth_redirect=$this->get_redirect($session['user_data']['user_type'],$session['user_data'],'login',$oauth_redirect);
+                }
+                if($platform_code == 3){
+                    echo $oauth_redirect;exit;
+                }
+            }else{
+                if($platform_code == 3){
+                    print_r($data);
+                    print_r($db_data);exit;
                 }
             }
             if($this->tizi_mobile)
