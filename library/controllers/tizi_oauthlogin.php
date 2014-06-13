@@ -91,7 +91,7 @@ class Tizi_Oauthlogin extends Tizi_Controller {
             if($this->tizi_mobile)
             {
                 echo $oauth_redirect;
-                echo "<a href='".$oauth_redirect."'>跳转</a>"
+                echo "<a href='".$oauth_redirect."'>跳转</a>";
                 exit;
                 redirect($oauth_redirect);
             }
