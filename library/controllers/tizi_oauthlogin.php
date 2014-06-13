@@ -85,15 +85,23 @@ class Tizi_Oauthlogin extends Tizi_Controller {
                     //if(!$oauth_redirect) $oauth_redirect=redirect_url($session['user_data']['user_type'],'login');
                     $oauth_redirect=$this->get_redirect($session['user_data']['user_type'],$session['user_data'],'login',$oauth_redirect);
                 }
-                
+
             }
 
             if($this->tizi_mobile)
             {
+                if($platform_code == 3){
+                    print_r($user_auth_data);
+                    echo $oauth_redirect;exit;   
+                }
                 redirect($oauth_redirect);
             }
             else
             {
+                if($platform_code == 3){
+                    echo "computer";
+                    exit;
+                }
                 $this->smarty->assign('oauth_redirect',$oauth_redirect);
                 $this->smarty->display('file:[lib]header/tizi_oauth.html');
             }
