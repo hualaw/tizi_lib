@@ -25,6 +25,7 @@ $lang['error_reg_user_type']="未知的用户类型";
 $lang['error_reg_exist_email']="邮箱已存在，无法注册";
 $lang['error_reg_exist_phone']="手机已存在，无法注册";
 $lang['error_reg_exist_uname']="用户名已存在，无法注册";
+$lang['error_reg_exist_euname']="用户名或邮箱已存在，无法注册";
 
 /*zujuan sms errormsg*/
 $lang['error_sms_invalid_phone']="无效的手机号码";
@@ -79,8 +80,11 @@ $lang['error_invalid_mysubject']="无效的注册学科";
 $lang['error_invalid_mygrade']="无效的注册年级";
 $lang['error_invalid_password']="无效的登录密码";
 $lang['error_invalid_uname']="无效的用户名";
+$lang['error_invalid_euname']="无效的用户名或邮箱";
 $lang['error_invalid_student_id']="无效的学生号码";
+$lang['error_invalid_invite']="无效的老师邀请码";
 $lang['error_invalid_class']="无效的班级编号";
+$lang['error_invalid_school']="无效的学校地址";
 $lang['error_invalid_confirm_password']=$lang['error_reg_confirm_password'];
 
 /*zujuan reset password errormsg*/

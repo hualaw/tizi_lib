@@ -236,7 +236,7 @@ class CI_Cache_redis extends CI_Driver
 		*/
 	}
 
-	protected function _redis_connect($redis_type='default')
+	protected function _redis_config($redis_type='default')
 	{
 		$config = array();
 		$CI =& get_instance();
@@ -248,7 +248,14 @@ class CI_Cache_redis extends CI_Driver
 		}
 
 		$config = array_merge(self::$_default_config, $config);
-		
+
+		return $config;
+	}
+
+	protected function _redis_connect($redis_type='default')
+	{
+		$config = $this->_redis_config($redis_type);
+
 		$redis = new Redis();
 		
 		try

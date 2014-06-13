@@ -110,6 +110,49 @@ class Student_Task_Model extends LI_Model{
         return $this->db->trans_status();
     }
 
+    //发布调查问卷
+    public function pushTaskOnSurvey($uids, $id){
+ 
+        $date = time();
+        if(is_array($uids)){
+            $this->db->trans_start();
+            foreach($uids as $uid){
+
+                $query = $this->db->query("select `id` from `student_task` where `uid` = {$uid} and `index_value` = {$id} and `task_type` = 5");
+                if(!($query->num_rows)){
+                    if( $this->db
+                    ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$id},5,{$uid},{$date})") ){
+                        $this->db->insert(
+                            'student_survey_info',
+                            array(
+                                'student_survey_id'=>$id,
+                                'uid'=>$uid,
+                            )
+                        );
+                    }
+                }
+            }
+            $this->db->trans_complete();
+            return $this->db->trans_status();      
+        }else{
+
+            $query = $this->db->query("select `id` from `student_task` where `uid` = {$uids} and `index_value` = {$id} and `task_type` = 5");
+            if($query->num_rows){
+                if($this->db
+                    ->query("insert into `student_task` (`index_value`,`task_type`,`uid`,`date`)value({$id},5,{$uids},{$date})")){
+                        return $this->db->insert(
+                            'student_survey_info',
+                            array(
+                                'student_survey_id'=>$id,
+                                'uid'=>$uid,
+                            )
+                        );
+                }
+            }
+        }
+       
+    }
+
     //学生刚加入班级的时候，获取班级以前的分享
     public function pushShareFirstAboard($uid,$class_id){
         $this->load->model('cloud/cloud_model');
@@ -147,6 +190,7 @@ class Student_Task_Model extends LI_Model{
      */
     public function getTaskByPageNum($page_num){
         
+        $this->load->model('homework/student_survey_model','ssm');
         $tasks = array();   
         $this->per_page_num = Constant::STU_HOMEWORK_PER_PAGE;
         $offset = $this->per_page_num * ($page_num-1);
@@ -189,6 +233,12 @@ class Student_Task_Model extends LI_Model{
                 $article['content'] = sub_str(filter_var($article['content'], FILTER_SANITIZE_STRING), 0, 220); 
                 $article['task_type'] = 4;
                 $tasks[] = $article;
+            }elseif($val['task_type'] == 5){
+                $survey = $this->ssm->getData($val['index_value'], $this->uid);
+                if(!empty($survey)){
+                    $survey['task_type'] =  5;
+                    $tasks[] = $survey;
+                }
             }
         }
         return $tasks;
@@ -243,7 +293,23 @@ class Student_Task_Model extends LI_Model{
         }
         return true;
     }
+
+    //删除调查
+    public function deleteSurveyFromTask($survey_id){
+        
+        return $this->db->query("UPDATE  `student_task` inner join `student_survey` ON `student_task`.index_value = `student_survey`.id 
+            SET    `student_task`.is_delete = '1' where  `student_survey`.survey_id = {$survey_id} and student_task.`task_type` = 5");
+
+    }
     
+    //删除作业
+    public function deleteHomework($assign_id){
+        
+        return $this->db->query("UPDATE  `student_task` INNER JOIN `student_homework` ON `student_task`.index_value = `student_homework`.id 
+             SET    `student_task`.is_delete = '1'    WHERE  `student_homework`.assignment_id = {$assign_id} and student_task.`task_type` = 1");
+    }
+
+
 
 
 }

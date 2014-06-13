@@ -80,5 +80,37 @@ $db['jxt']['swap_pre'] = '';
 $db['jxt']['autoinit'] = TRUE;
 $db['jxt']['stricton'] = FALSE;
 
+$db['survey']['hostname'] = 'rdsnuyizmnuyizm.mysql.rds.aliyuncs.com';
+$db['survey']['username'] = 'survey';
+$db['survey']['password'] = '5EUusL7nIKsxs';
+$db['survey']['database'] = 'survey';
+$db['survey']['dbdriver'] = 'mysql';
+$db['survey']['dbprefix'] = '';
+$db['survey']['pconnect'] = TRUE;
+$db['survey']['db_debug'] = FALSE;
+$db['survey']['cache_on'] = FALSE;
+$db['survey']['cachedir'] = '';
+$db['survey']['char_set'] = 'utf8';
+$db['survey']['dbcollat'] = 'utf8_general_ci';
+$db['survey']['swap_pre'] = '';
+$db['survey']['autoinit'] = TRUE;
+$db['survey']['stricton'] = FALSE;
+
+$db['tiku']['hostname'] = 'rdsnuyizmnuyizm.mysql.rds.aliyuncs.com';
+$db['tiku']['username'] = 'mobile_tiku';
+$db['tiku']['password'] = 'JgEC23SpyQcYc';
+$db['tiku']['database'] = 'tiku';
+$db['tiku']['dbdriver'] = 'mysqli';
+$db['tiku']['dbprefix'] = '';
+$db['tiku']['pconnect'] = FALSE;
+$db['tiku']['db_debug'] = FALSE;
+$db['tiku']['cache_on'] = FALSE;
+$db['tiku']['cachedir'] = '';
+$db['tiku']['char_set'] = 'utf8';
+$db['tiku']['dbcollat'] = 'utf8_general_ci';
+$db['tiku']['swap_pre'] = '';
+$db['tiku']['autoinit'] = TRUE;
+$db['tiku']['stricton'] = FALSE;
+
 /* End of file database.php */
 /* Location: ./application/config/database.php */

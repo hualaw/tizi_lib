@@ -15,6 +15,7 @@ Class CI_Constant {
 	const REG_ORIGEN_WEB_EMAIL = 2;
 	const REG_ORIGEN_WEB_STUID = 3;
 	const REG_ORIGEN_WEB_UNAME = 4;
+	const REG_ORIGEN_WEB_EUNAME = 5;
 	const REG_ORIGEN_AQ_IOS = 21;
 	const REG_ORIGIN_AQ_ANDROID = 31;
 	const REG_ORIGIN_CRM = 41;
@@ -23,6 +24,11 @@ Class CI_Constant {
 	const REG_ORIGIN_QQ_SKIP	= 52;
 	const REG_ORIGIN_WEIBO_PERFECT = 53;
 	const REG_ORIGIN_WEIBO_SKIP = 54;
+	const REG_ORIGEN_CLASS_EMAIL = 62;
+	const REG_ORIGEN_CLASS_UNAME = 64;
+	const REG_ORIGEN_SURVEY_EMAIL= 66;
+	const REG_ORIGEN_SURVEY_UNAME= 68;
+	const REG_ORIGIN_SSO		 = 70;
 
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
@@ -34,6 +40,7 @@ Class CI_Constant {
 	const PAGE_TOKEN_LIFE_CIRCLE = 604800;/*Page Token 过期时间 单位(秒)*/
 	const NO_PASSWORD_EXPIRE_TIME = 1800;//用户登录后，免输入密码验证的过期时间,30分钟
 	const COOKIE_MYDIR_EXPIRE_TIME = 0;//MYDIR随浏览器
+	const COOKIE_TZSUPPLY_EXPIRE_TIME = 31536000;//skip information supply
 
 	const COOKIE_TZUSERNAME = "TZU";//自动登录cookie name
 	const COOKIE_TZMYSUBJECT = "_ms";//mysubject cookie name
@@ -45,6 +52,7 @@ Class CI_Constant {
 	const COOKIE_INVITE = "invite";//invite cookie name
 	const COOKIE_CURRENT_CLOUD_DIR = "_mdir";//cloud cookie name
 	const COOKIE_TZMOBILE = "_mobile";//cloud cookie name
+	const COOKIE_TZSUPPLY = "_sis";//skip information supply
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
@@ -130,37 +138,38 @@ Class CI_Constant {
 	
 	}
 
-	public static function redirect_url($user_type, $redirect_type='login', $redirect_url='')
+	public static function redirect_url($user_type, $redirect_type='login', $redirect='')
 	{
 		if(!$redirect_type) $redirect_type='login';
 		$redirect_url = array(
 			'login' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
-			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
-			    self::USER_TYPE_PARENT => jia_url("parent/home"),
-			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
+			    self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
+			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'logout' => array(
 				self::USER_TYPE_STUDENT => tizi_url(),
 			    self::USER_TYPE_TEACHER => tizi_url(),
-			    self::USER_TYPE_PARENT => jia_url("parent/home"),
-			    self::USER_TYPE_RESEARCHER => tizi_url()
+			    self::USER_TYPE_PARENT => jia_url()
+			),
+			'register' => array(
+				self::USER_TYPE_STUDENT => tizi_url("student/home"),
+			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
+			    self::USER_TYPE_PARENT => jia_url("parent/home")
 			),
 			'tizi' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/home"),
 			    self::USER_TYPE_TEACHER => tizi_url(),
-			    self::USER_TYPE_PARENT => jia_url("parent/home"),
-			    self::USER_TYPE_RESEARCHER => edu_url($redirect_url)
+			    self::USER_TYPE_PARENT => jia_url()
 			),
-			'perfect' => array(
-				self::USER_TYPE_STUDENT => login_url("student/user/perfect"),
-			    self::USER_TYPE_TEACHER => login_url("teacher/user/perfect"),
-			    self::USER_TYPE_PARENT => login_url("parent/user/perfect"),
-			    self::USER_TYPE_RESEARCHER => login_url("researcher/user/perfect"),
+			'supply' => array(
+				self::USER_TYPE_STUDENT => login_url("student/user/supply"),
+			    self::USER_TYPE_TEACHER => login_url("teacher/user/supply"),
+			    self::USER_TYPE_PARENT => login_url("parent/user/supply")
 			)
 		);
 
-		$redirect_url['register']=$redirect_url['login'];
+		//$redirect_url['register']=$redirect_url['login'];
 		$redirect_url['edu']=$redirect_url['tizi'];
 		if(!isset($redirect_url[$redirect_type])) $redirect_url[$redirect_type] = $redirect_url['login'];
 
@@ -203,6 +212,19 @@ Class CI_Constant {
 		);
 		return isset($relation[$id])?$relation[$id]:$relation;
 	}
+
+    public static function oauth_platform($platform){
+        
+        $platforms = array(
+            1 => 'qq',
+            2 => 'weibo',
+            3 => 'weixin',
+        );
+
+        return array_search($platform, $platforms);
+        
+    }
+
 
 }
 /* End of file Constant.php */

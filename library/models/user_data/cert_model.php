@@ -19,7 +19,7 @@ class Cert_Model extends MY_Model {
                 }
             }
         }
-        if(!$data['real_name'] or !$data['gender'] or !($data['school_id'] or $data['school_define_id']) or !$data['grade_subject'] or !$data['title']  or !$data['certification_pic']){
+        if(!$data['real_name'] or !$data['gender'] or !($data['school_id'] or $data['school_define_id']) or !$data['grade_subject'] or !$data['title'] ){
             return array('code'=>false,'msg'=>'缺少参数');
         }
         $res = $this->db->insert($this->_table, $data);
@@ -52,6 +52,11 @@ class Cert_Model extends MY_Model {
             if ($this->db->affected_rows() === 1){
 				$this->load->library("credit");
 				$this->credit->exec($_data['user_id'], "certificate_teacher");
+				
+				//任务系统_通过教师认证
+				$this->load->library("task");
+				$this->task->exec($_data['user_id'], "self_cert");
+				
 				
 				//给邀请人发积分
 				$this->load->model("login/register_model");

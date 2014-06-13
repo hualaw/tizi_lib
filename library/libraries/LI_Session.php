@@ -309,7 +309,7 @@ class LI_Session extends CI_Session {
 		// Does the User Agent Match?
 		if ($this->sess_match_useragent == TRUE AND trim($session['user_agent']) != trim(substr($this->CI->input->user_agent(), 0, 120)))
 		{
-			log_message('trace_tizi','session_destroy_ip_address');
+			log_message('trace_tizi','session_destroy_user_agent');
 			$this->sess_destroy();
 			return FALSE;
 		}
@@ -374,8 +374,11 @@ class LI_Session extends CI_Session {
 		// _set_cookie() function. Normally that function will store $this->userdata, but
 		// in this case that array contains custom data, which we do not want in the cookie.
 		
-		//tizi 更新数据不再更新cookie
-		//$this->_set_cookie($cookie_userdata);
+		//tizi 更新数据不再更新cookie，如果过期不随浏览器，需要更新cookie
+		if($this->sess_expire_on_close !== TRUE)
+		{
+			$this->_set_cookie($cookie_userdata);
+		}
 	}
 
 	function sess_create()

@@ -8,9 +8,9 @@ class Redis_Model extends LI_Model {
 		//delete_cookie(Constant::COOKIE_NOREDIS);
      }
 	 
-	function connect($type=null)
+	function connect($type=null, $adapter='redis')
 	{
-	    $this->load->driver('cache',array('adapter'=>'redis'));
+	    $this->load->driver('cache',array('adapter'=>$adapter));
 	    $this->config->load('redis',true,true);
 		$redis_config=$this->config->item('redis');
 		$db=$type&&isset($redis_config['redis_db'][$type])?$redis_config['redis_db'][$type]:0;

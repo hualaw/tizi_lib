@@ -98,5 +98,22 @@ $db['survey']['swap_pre'] = '';
 $db['survey']['autoinit'] = TRUE;
 $db['survey']['stricton'] = FALSE;
 
+//移动题库
+$db['tiku']['hostname'] = '168.63.214.100';
+$db['tiku']['username'] = 'mobile_tiku';
+$db['tiku']['password'] = 'ti_tiku_zi';
+$db['tiku']['database'] = 'tiku';
+$db['tiku']['dbdriver'] = 'mysqli';
+$db['tiku']['dbprefix'] = '';
+$db['tiku']['pconnect'] = FALSE;
+$db['tiku']['db_debug'] = true;
+$db['tiku']['cache_on'] = FALSE;
+$db['tiku']['cachedir'] = '';
+$db['tiku']['char_set'] = 'utf8';
+$db['tiku']['dbcollat'] = 'utf8_general_ci';
+$db['tiku']['swap_pre'] = '';
+$db['tiku']['autoinit'] = TRUE;
+$db['tiku']['stricton'] = FALSE;
+
 /* End of file database.php */
 /* Location: ./application/config/database.php */

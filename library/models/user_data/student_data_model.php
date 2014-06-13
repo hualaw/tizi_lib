@@ -1,22 +1,69 @@
 <?php
-/**
- * @author saeed
- * @description 学生资料
- */
+require_once('data_model.php');
 
-class Student_Data_Model extends LI_Model {
+class Student_Data_Model extends Data_Model {
+
+    protected $_table='student_data';
+    protected $_user_id='uid';
 
     function __construct()
     {
         parent::__construct();
     }
 
+    public function get_student_data($user_id)
+    {
+        return parent::get_data($user_id);
+    }
+
+    public function update_student_data($user_id,$data)
+    {
+        if(!is_array($data)||empty($data)) return false;
+        return $this->update_data_array($user_id,$data);
+    }
+
+    public function update_student_gender($user_id,$gender)
+    {
+        if(!$gender) return false;
+        return $this->update_data($user_id,$gender,'sex');
+    }
+
+    public function update_student_qq($user_id,$qq)
+    {
+        if(!$qq) return false;
+        return $this->update_data($user_id,$qq,'qq');
+    }
+
+    public function update_student_parent_phone($user_id,$parent_phone)
+    {
+        if(!$parent_phone) return false;
+        return $this->update_data($user_id,$parent_phone,'parent_phone');
+    }
+
+    public function update_student_school_id($user_id,$school_id)
+    {
+        if(!$school_id) return false;
+        return $this->update_data($user_id,$school_id,'school_id');
+    }
+
+    public function update_student_detail($user_id,$gender,$qq)
+    {
+        if(!$gender) return false;
+        return $this->update_data_array($user_id,array('sex'=>$gender,'qq'=>$qq));
+    }
+
+    public function update_student_survey($user_id,$gender,$school_id)
+    {
+        if(!$gender||!$school_id) return false;
+        return $this->update_data_array($user_id,array('sex'=>$gender,'school_id'=>$school_id));
+    }
+
     /**
      * @info 获取学生资料
      */
-    public function get_student_data($uid){
-        return $this->db->query("select * from `student_data` where `uid` = $uid")->row();
-    }
+    //public function get_student_data($uid){
+    //    return $this->db->query("select * from `student_data` where `uid` = $uid")->row();
+    //}
 
     // 保存学生信息
     public function save_student_data($uid,$data){
