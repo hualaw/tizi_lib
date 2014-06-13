@@ -90,7 +90,14 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
             if($this->tizi_mobile)
             {
-                redirect($oauth_redirect);
+                if(!empty($oauth_redirect)) 
+                {
+                    redirect($oauth_redirect);
+                }
+                else
+                {
+                    show_error('error');
+                }
             }
             else
             {
