@@ -154,7 +154,8 @@ class Tizi_Login extends Tizi_Controller {
 	function logout($site='')
 	{
 		$redirect=$this->input->get('redirect',true);
-		
+		if($redirect&&urldecode($redirect)) $redirect=urldecode($redirect);
+
         if($this->tizi_uid>0)
         {
         	$this->session_model->clear_session();
