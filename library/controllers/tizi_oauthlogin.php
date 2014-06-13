@@ -90,18 +90,10 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
             if($this->tizi_mobile)
             {
-                if($platform_code == 3){
-                    print_r($user_auth_data);
-                    echo $oauth_redirect;exit;   
-                }
                 redirect($oauth_redirect);
             }
             else
             {
-                if($platform_code == 3){
-                    echo "computer";
-                    exit;
-                }
                 $this->smarty->assign('oauth_redirect',$oauth_redirect);
                 $this->smarty->display('file:[lib]header/tizi_oauth.html');
             }
