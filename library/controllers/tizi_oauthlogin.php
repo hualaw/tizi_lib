@@ -60,7 +60,7 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
             $oauth_redirect='';
             
-            if(empty($db_data['open_id'])){
+            if(!empty($db_data['open_id'])){
 
                 $user_auth_data = $this->oauth_model->save($db_data);
                 $oauth_redirect=$this->session->userdata('oauth_redirect');
