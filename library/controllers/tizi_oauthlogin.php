@@ -73,12 +73,16 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
                 $oauth_redirect=$this->session->userdata('oauth_redirect');
                 if(empty($user_auth_data['user_id'])){//未绑定用户
-                    if($platform_code == 3){
-                        echo "unbind";
-                    }
+                    
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
     				$this->session->set_userdata("oauth_nickname", $data["nickname"]);
     				$this->session->set_userdata("oauth_platform", $platform_code);
+                    if($platform_code == 3){
+                        echo "unbind";
+                        print_r($user_auth_data);
+                        echo "session_oauth_id:";
+                        print_r($this->session->userdata('oauth_id'));
+                    }
 
                     if(stripos($oauth_redirect,'http://')!==false)
                     {
