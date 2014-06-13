@@ -75,6 +75,7 @@ class Tizi_Oauthlogin extends Tizi_Controller {
                 if(empty($user_auth_data['user_id'])){//未绑定用户
                     if($platform_code == 3){
                         echo "unbind";
+                        print_r($user_auth_data);
                     }
                     $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
     				$this->session->set_userdata("oauth_nickname", $data["nickname"]);
