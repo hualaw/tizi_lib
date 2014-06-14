@@ -25,7 +25,7 @@ $config['tizi_static_url'] = 'application/views/static/';
 $config['login_url'] = 'http://192.168.11.12:8282/';
 $config['login_static_url'] = 'application/views/static/';
 
-$config['space_url'] = 'http://192.168.11.12:8383/';
+$config['space_url'] = 'http://192.168.11.12:8688/';
 $config['space_static_url'] = 'application/views/static/';
 
 $config['zl_url'] = 'http://192.168.11.12:8689/';
