@@ -1,6 +1,33 @@
 <div class="nav">
 	<div class="layout">
-		<ul>
+		<ul class="fl">
+			<li>
+				<a href="#" class="navHome">首页</a>
+			</li>
+			{if $user_type eq $constant.user_type_parent}
+			<li>
+				<a href="#" class="navMemberCenter">幼升小</a>
+			</li>
+			{/if}
+			<li>
+				<a href="#" class="navParClass">小升初</a>
+			</li>
+			<li>
+				<a href="#" class="navPolicy">中考</a>
+			</li>
+			<li>
+				<a href="#" class="navParMethod">高考</a>
+			</li>
+			<li>
+				<a href="#" class="navCupGuide">杯赛导航</a>
+			</li>
+			<li>
+				<a href="#" class="navChild">孩子专区</a>
+			</li>
+		</ul> 
+		
+		<!-- 原导航栏备份 -->
+		<!-- <ul class="fl">
 			<li>
 				<a href="{$home_parent}" class="navHome">首页</a>
 			</li>
@@ -12,9 +39,9 @@
 			<li>
 				<a href="{$jia_url}parent/class" class="navParClass">家长课堂</a>
 			</li>
-			<li>
+			<!-- <li>
 				<a href="{$jia_url}parent/policy" class="navPolicy">政策解读</a>
-			</li>
+			</li> -->
 			<li>
 				<a href="{$jia_url}parent/method" class="navParMethod">学习方法</a>
 			</li>
@@ -33,6 +60,110 @@
 			<li>
 				<a href="{$jia_url}parent/child" class="navChild">孩子专区</a>
 			</li>
-		</ul>
+		</ul>  -->
+		
+
+		<!-- 切换地区 -->
+		<div class="fr bgBox">
+			<a href="javascript:;" id="changeCity" class="toDown" value="全国">全国</a>
+			<div class="cityList" style="display: none;">
+				<ul>
+					<li>
+						<a href="#">全国</a>
+					</li>
+
+					<li>
+						<span>A</span>
+						<a href="#">安徽</a>
+					</li>
+
+					<li>
+						<span>B</span>
+						<a href="#">北京市</a>
+					</li>
+
+					<li>
+						<span>C</span>
+						<a href="#">重庆市</a>
+					</li>
+
+					<li>
+						<span>F</span>
+						<a href="#">福建</a>
+					</li>
+
+					<li>
+						<span>G</span>
+						<a href="#">甘肃</a>
+						<a href="#">广东</a>
+						<a href="#">广西</a>
+						<a href="#">贵州</a>
+					</li>
+					
+					<li>
+						<span>H</span>
+						<a href="#">海南</a>
+						<a href="#">河北</a>
+						<a href="#">黑龙江</a>
+						<a href="#">河南</a>
+						<a href="#">湖北</a>
+						<a href="#">湖南</a>
+					</li>
+
+					<li>
+						<span>J</span>
+						<a href="#">江苏</a>
+						<a href="#">江西</a>
+						<a href="#">吉林</a>
+					</li>
+
+					<li>
+						<span>L</span>
+						<a href="#">辽宁</a>
+					</li>
+
+					<li>
+						<span>N</span>
+						<a href="#">内蒙古</a>
+						<a href="#">宁夏</a>
+					</li>
+
+					<li>
+						<span>Q</span>
+						<a href="#">青海</a>
+					</li>
+
+					<li>
+						<span>S</span>
+						<a href="#">陕西</a>
+						<a href="#">山东</a>
+						<a href="#">上海市</a>
+						<a href="#">山西</a>
+						<a href="#">四川</a>
+					</li>
+
+					<li>
+						<span>T</span>
+						<a href="#">天津市</a>
+					</li>
+
+					<li>
+						<span>X</span>
+						<a href="#">新疆</a>
+						<a href="#">西藏</a>
+					</li>
+
+					<li>
+						<span>Y</span>
+						<a href="#">云南</a>
+					</li>
+
+					<li>
+						<span>Z</span>
+						<a href="#">浙江</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </div>
