@@ -37,18 +37,16 @@ class Tizi_Oauthlogin extends Tizi_Controller {
         try{
 
             $platform_code = Constant::oauth_platform($platform);
+            $this->load->library('Oauth');
+            $this->oauth->init($platform);
 
             if($platform_code == 1 || $platform_code == 2){
 
-                $this->load->library('Oauth');
-                $this->oauth->init($platform);
                 $data = $this->oauth->callback();//data = array('open_id'=>'','access_token'=>'');
 
             }elseif($platform_code == 3){
 
-                $this->load->library('Oauth/wxConnect/wx_auth');
-                $auth_data = $this->wx_auth->auth_data();
-                $data = $this->wx_auth->user_detail($auth_data);//获取详细资料
+                $data = $this->oauth->wx_user_detail();//微信
 
             }
 
@@ -103,17 +101,6 @@ class Tizi_Oauthlogin extends Tizi_Controller {
 
     }
 
-    //weixin
-    public function wx_callback(){
-        
-        $this->load->library('Oauth/wxConnect/wx_auth');
-        $auth_data = $this->wx_auth->auth_data();
-        print_r($auth_data);
-        $user_detail = $this->wx_auth->user_detail($auth_data);//获取详细资料
-        print_r($user_detail);
-        exit;
-
-    }
 
 
 
