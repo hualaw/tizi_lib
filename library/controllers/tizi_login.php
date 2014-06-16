@@ -153,10 +153,21 @@ class Tizi_Login extends Tizi_Controller {
 
 	function logout($site='')
 	{
-		$this->session_model->clear_session();
-		$this->session_model->clear_cookie();
-		$this->session_model->clear_current_dir_cookie();
-		redirect(site_url('',$site));
+		$redirect=$this->input->get('redirect',true);
+		if($redirect&&urldecode($redirect)) $redirect=urldecode($redirect);
+
+        if($this->tizi_uid>0)
+        {
+        	$this->session_model->clear_session();
+			$this->session_model->clear_cookie();
+			$this->session_model->clear_current_dir_cookie();
+        	if(strpos($redirect,'http://')===false && $site) $redirect=site_url('',$site);
+			redirect($redirect);
+		}
+		else
+		{
+			redirect(site_url('',$site));
+		}
 	}
 	
 	function check_code()
