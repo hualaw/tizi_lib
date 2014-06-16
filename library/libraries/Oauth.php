@@ -9,6 +9,7 @@ class Oauth{
     private $platforms = array(
         'qq'=>'qqConnect.qqConnect',   
         'weibo'=>'weiboConnect.weiboConnect',
+        'weixin'=>'wxConnect.wx_auth',
     );
 
     private $connect;
@@ -37,6 +38,15 @@ class Oauth{
         }
 
     }
+
+	public function wx_user_detail(){
+	
+		$auth_data = $this->connect->auth_data();
+		$data = $this->connect->user_detail($auth_data);//获取详细资料
+
+		return $data;
+	
+	}
 
     public function login(){
 
