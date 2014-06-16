@@ -2,13 +2,16 @@
 	<div class="layout">
 		<ul class="fl">
 			<li>
-				<a href="#" class="navHome">首页</a>
+				<a href="{$home_parent}" class="navHome">首页</a>
 			</li>
 			{if $user_type eq $constant.user_type_parent}
 			<li>
-				<a href="#" class="navMemberCenter">幼升小</a>
+				<a href="{$login_url}parent/user/center" class="navMemberCenter">个人中心</a>
 			</li>
 			{/if}
+			<li>
+				<a href="#" class="navMemberCenter">幼升小</a>
+			</li>
 			<li>
 				<a href="#" class="navParClass">小升初</a>
 			</li>
@@ -18,30 +21,13 @@
 			<li>
 				<a href="#" class="navParMethod">高考</a>
 			</li>
-			<li>
-				<a href="#" class="navCupGuide">杯赛导航</a>
-			</li>
-			<li>
-				<a href="#" class="navChild">孩子专区</a>
-			</li>
-		</ul> 
-		
-		<!-- 原导航栏备份 -->
-		<!-- <ul class="fl">
-			<li>
-				<a href="{$home_parent}" class="navHome">首页</a>
-			</li>
-			{if $user_type eq $constant.user_type_parent}
-			<li>
-				<a href="{$login_url}parent/user/center" class="navMemberCenter">个人中心</a>
-			</li>
-			{/if}
+			<!--
 			<li>
 				<a href="{$jia_url}parent/class" class="navParClass">家长课堂</a>
 			</li>
-			<!-- <li>
+			<li>
 				<a href="{$jia_url}parent/policy" class="navPolicy">政策解读</a>
-			</li> -->
+			</li>
 			<li>
 				<a href="{$jia_url}parent/method" class="navParMethod">学习方法</a>
 			</li>
@@ -54,16 +40,19 @@
 			<li>
 				<a href="{$jia_url}parent/select" class="navParSelect">择校指导</a>
 			</li>
+			-->
 			<li>
 				<a href="{$jia_url}parent/cup" class="navCupGuide">杯赛导航</a>
 			</li>
 			<li>
 				<a href="{$jia_url}parent/child" class="navChild">孩子专区</a>
 			</li>
-		</ul>  -->
+			<li>
+				<a href="{$bbs_url}" target="_blank">论坛</a><em class="new"></em>
+			</li>
+		</ul>
 		
-
-		<!-- 切换地区 -->
+		<!--
 		<div class="fr bgBox">
 			<a href="javascript:;" id="changeCity" class="toDown" value="全国">全国</a>
 			<div class="cityList" style="display: none;">
@@ -165,5 +154,6 @@
 				</ul>
 			</div>
 		</div>
+		-->
 	</div>
 </div>
