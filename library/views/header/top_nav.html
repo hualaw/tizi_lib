@@ -3,12 +3,12 @@
     <span>
         您好，<em class="MyURName">{sub_str($user_name,0,12)}</em>！
     </span>
-    {if !isset($hide_logout) || !$hide_logout}
     {if isset($top_label) and $top_label}
     {$top_label}
     {else}
     <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
     {/if}
+    {if !isset($hide_logout) || !$hide_logout}
     <span class="l">|</span>
     <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($logout_redirect) && $logout_redirect}{$logout_redirect}{else}reload{/if}">退出</a>
     {/if}
