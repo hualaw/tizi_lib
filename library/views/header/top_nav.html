@@ -1,18 +1,18 @@
 <p class="info fr">
     {if $user_type}
-    <span>
-        您好，<em class="MyURName">{sub_str($user_name,0,12)}</em>！
-    </span>
-    {if isset($top_label) && $top_label}
-        {$top_label}
-    {else}
-        <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
-    {/if}
-    {if !isset($hide_logout) || !$hide_logout}
-        <span class="l">|</span>
-        <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($logout_redirect) && $logout_redirect}{$logout_redirect}{else}reload{/if}">退出</a>
-        {/if}
+        <span>
+            您好，<em class="MyURName">{sub_str($user_name,0,12)}</em>！
+        </span>
+        {if isset($top_label) && $top_label}
+            {$top_label}
         {else}
+            <a href="{$login_url}{$constant.user_type[$user_type]}/user/notice" id="notification" class="normalMassage">我的消息</a>
+        {/if}
+        {if !isset($hide_logout) || !$hide_logout}
+            <span class="l">|</span>
+            <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($logout_redirect) && $logout_redirect}{$logout_redirect}{else}reload{/if}">退出</a>
+        {/if}
+    {else}
         <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($login_redirect) && $login_redirect}{$login_redirect}{else}reload{/if}" role="{if isset($reg_role)}{$reg_role}{/if}">登录</a>
         {$reg_url=$login_url|cat:"register"}
         {if isset($reg_redirect) && $reg_redirect}
