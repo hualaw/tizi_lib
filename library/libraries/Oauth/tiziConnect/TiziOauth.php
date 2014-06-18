@@ -3,15 +3,18 @@
 class TiziOauth {
 
 
-	Const AUTORIZE_URL = "http://oauth_c.tizi.com/oauth/oauth/index";
-	Const ACCESSTOKEN_URL = "http://oauth_c.tizi.com/oauth/oauth/access_token";
-	Const USER_INFO_URL = "http://oauth_c.tizi.com/oauth/oauth_user/get_user_info";
+	Const AUTORIZE_URL = "http://oauth_c.tizi.com/oauth/show";
+	Const ACCESSTOKEN_URL = "http://oauth_c.tizi.com/oauth/access_token";
+	Const USER_INFO_URL = "http://oauth_c.tizi.com/oauth/user/get_user_info";
+	Const GET_OPENID_URL = "http://oauth_c.tizi.com/oauth/get_openid";
 
 	public $client_id;
 
 	public $client_secret;
 
 	public $access_token;
+
+	public $openid;
 
 	public $redirect_uri;
 
@@ -76,19 +79,39 @@ class TiziOauth {
 
 	}
 
+	public function getOpenId(){
+		
+		$params = array(
+			"access_token" => $this->access_token
+		);
+
+		$openid_url = $this->combineURL(self::GET_OPENID_URL, $params);
+		$response = $this->_get($openid_url);
+
+		$result = json_decode($response, true);
+		if (isset($result['openid'])) {
+		
+			$this->openid = $result['openid'];
+			return $result['openid'];
+
+		}
+		return false;
+		
+	}
+
 	public function get_user_info(){
 		
 		$params = array();
-		$params['client_id'] = $this->client_id;
+		$params['openid'] = $this->openid;
 		$params['access_token'] = $this->access_token;
 		$user_info_url = $this->combineURL(self::USER_INFO_URL, $params);
 		$result = json_decode($this->_get($user_info_url), true);
-		print_r($result);
-		exit;
+		return $result;
 
 	}
 
     private function combineURL($baseURL,$keysArr){
+
         $combined = $baseURL."?";
         $valueArr = array();
 

@@ -25,11 +25,20 @@ class tiziConnect extends Connect{
 
     public function callback(){
 		
+		$data = array();
 		$access_token = $this->connect->getAccessToken();
 		if ($access_token) {
-
-			$user_info = $this->connect->get_user_info();
-
+			
+			$openId = $this->connect->getOpenId();
+			if($openId){
+			
+				$result = $this->connect->get_user_info();
+				print_r($result);
+				exit;
+				$data['nickname'] = $result['result']['nick'];
+				
+			}
+			
 		}else{
 
 			echo "faild";
