@@ -1,1 +1,3949 @@
-if(typeof jwplayer=="undefined"){jwplayer=function(a){if(jwplayer.api){return jwplayer.api.selectPlayer(a)}};TiZiplayer=jwplayer;jwplayer.version="6.7.";jwplayer.vid=document.createElement("video");jwplayer.audio=document.createElement("audio");jwplayer.source=document.createElement("source");(function(g){var c=document,q=window,n=navigator,r="undefined",h="string",f="object",d=true,j=false;var p=g.utils=function(){};p.exists=function(s){switch(typeof(s)){case h:return(s.length>0);break;case f:return(s!==null);case r:return j}return d};p.styleDimension=function(s){return s+(s.toString().indexOf("%")>0?"":"px")};p.getAbsolutePath=function(y,x){if(!p.exists(x)){x=c.location.href}if(!p.exists(y)){return undefined}if(i(y)){return y}var z=x.substring(0,x.indexOf("://")+3);var w=x.substring(z.length,x.indexOf("/",z.length+1));var t;if(y.indexOf("/")===0){t=y.split("/")}else{var u=x.split("?")[0];u=u.substring(z.length+w.length+1,u.lastIndexOf("/"));t=u.split("/").concat(y.split("/"))}var s=[];for(var v=0;v<t.length;v++){if(!t[v]||!p.exists(t[v])||t[v]=="."){continue}else{if(t[v]==".."){s.pop()}else{s.push(t[v])}}}return z+w+"/"+s.join("/")};function i(t){if(!p.exists(t)){return}var u=t.indexOf("://");var s=t.indexOf("?");return(u>0&&(s<0||(s>u)))}p.extend=function(){var s=p.extend["arguments"];if(s.length>1){for(var t=1;t<s.length;t++){p.foreach(s[t],function(v,u){try{if(p.exists(u)){s[0][v]=u}}catch(w){}})}return s[0]}return null};p.log=function(t,s){if(typeof console!=r&&typeof console.log!=r){if(s){console.log(t,s)}else{console.log(t)}}};var k=p.userAgentMatch=function(t){var s=n.userAgent.toLowerCase();return(s.match(t)!==null)};function l(s){return function(){return k(s)}}p.isIE=l(/msie/i);p.isIE678=function(){return(k(/msie 6.0/i)||k(/msie 7.0/i)||k(/msie 8.0/i))};p.isFF=l(/firefox/i);p.isChrome=l(/chrome/i);p.isIPod=l(/iP(hone|od)/i);p.isIPad=l(/iPad/i);p.isSafari602=l(/Macintosh.*Mac OS X 10_8.*6\.0\.\d* Safari/i);p.isSafari=function(){return(k(/safari/i)&&!k(/chrome/i)&&!k(/chromium/i)&&!k(/android/i))};p.isIOS=function(s){if(s){return k(new RegExp("iP(hone|ad|od).+\\sOS\\s"+s,"i"))}else{return k(/iP(hone|ad|od)/i)}};p.isAndroid=function(s,u){var t=u?!k(/chrome\/[23456789]/i):d;if(s){return t&&k(new RegExp("android.*"+s,"i"))}else{return t&&k(/android/i)}};p.isMobile=function(){return p.isIOS()||p.isAndroid()};p.saveCookie=function(s,t){c.cookie="jwplayer."+s+"="+t+"; path=/"};p.getCookies=function(){var v={};var u=c.cookie.split("; ");for(var t=0;t<u.length;t++){var s=u[t].split("=");if(s[0].indexOf("jwplayer.")==0){v[s[0].substring(9,s[0].length)]=s[1]}}return v};p.typeOf=function(t){var s=typeof t;if(s==="object"){if(!t){return"null"}return(t instanceof Array)?"array":s}else{return s}};p.translateEventResponse=function(u,s){var v=p.extend({},s);if(u==g.events.JWPLAYER_FULLSCREEN&&!v.fullscreen){v.fullscreen=v.message=="true"?d:j;delete v.message}else{if(typeof v.data==f){v=p.extend(v,v.data);delete v.data}else{if(typeof v.metadata==f){p.deepReplaceKeyName(v.metadata,["__dot__","__spc__","__dsh__","__default__"],["."," ","-","default"])}}}var t=["position","duration","offset"];p.foreach(t,function(w,x){if(v[x]){v[x]=Math.round(v[x]*1000)/1000}});return v};p.flashVersion=function(){if(p.isAndroid()){return 0}var s=n.plugins,t;try{if(s!==r){t=s["Shockwave Flash"];if(t){return parseInt(t.description.replace(/\D+(\d+)\..*/,"$1"))}}}catch(v){}if(typeof q.ActiveXObject!=r){try{t=new ActiveXObject("ShockwaveFlash.ShockwaveFlash");if(t){return parseInt(t.GetVariable("$version").split(" ")[1].split(",")[0])}}catch(u){}}return 0};p.getScriptPath=function(u){var s=c.getElementsByTagName("script");for(var t=0;t<s.length;t++){var v=s[t].src;if(v&&v.indexOf(u)>=0){return v.substr(0,v.indexOf(u))}}return""};p.deepReplaceKeyName=function(v,t,s){switch(g.utils.typeOf(v)){case"array":for(var u=0;u<v.length;u++){v[u]=g.utils.deepReplaceKeyName(v[u],t,s)}break;case f:p.foreach(v,function(y,B){var A,z;if(t instanceof Array&&s instanceof Array){if(t.length!=s.length){return}else{A=t;z=s}}else{A=[t];z=[s]}var w=y;for(var x=0;x<A.length;x++){w=w.replace(new RegExp(t[x],"g"),s[x])}v[w]=g.utils.deepReplaceKeyName(B,t,s);if(y!=w){delete v[y]}});break}return v};var b=p.pluginPathType={ABSOLUTE:0,RELATIVE:1,CDN:2};p.getPluginPathType=function(t){if(typeof t!=h){return}t=t.split("?")[0];var u=t.indexOf("://");if(u>0){return b.ABSOLUTE}var s=t.indexOf("/");var v=p.extension(t);if(u<0&&s<0&&(!v||!isNaN(v))){return b.CDN}return b.RELATIVE};p.getPluginName=function(s){return s.replace(/^(.*\/)?([^-]*)-?.*\.(swf|js)$/,"$2")};p.getPluginVersion=function(s){return s.replace(/[^-]*-?([^\.]*).*$/,"$1")};p.isYouTube=function(s){return/^(http|\/\/).*(youtube\.com|youtu\.be)\/.+/.test(s)};p.youTubeID=function(t){try{return(/v[=\/]([^?&]*)|youtu\.be\/([^?]*)|^([\w-]*)$/i).exec(t).slice(1).join("").replace("?","")}catch(s){return""}};p.isRtmp=function(s,t){return(s.indexOf("rtmp")==0||t=="rtmp")};p.foreach=function(t,s){var u,v;for(u in t){if(p.typeOf(t.hasOwnProperty)=="function"){if(t.hasOwnProperty(u)){v=t[u];s(u,v)}}else{v=t[u];s(u,v)}}};p.isHTTPS=function(){return(q.location.href.indexOf("https")==0)};p.repo=function(){var s="http://www.tizi.com/";try{if(p.isHTTPS()){s=s.replace("http://","https://ssl.")}}catch(t){}return s};p.ajax=function(w,v,s){var u;if(w.indexOf("#")>0){w=w.replace(/#.*$/,"")}if(m(w)&&p.exists(q.XDomainRequest)){u=new XDomainRequest();u.onload=o(u,w,v,s);u.onerror=e(s,w,u);u.ontimeout=function(){};u.onprogress=function(){};u.timeout=5000}else{if(p.exists(q.XMLHttpRequest)){u=new XMLHttpRequest();u.onreadystatechange=a(u,w,v,s);u.onerror=e(s,w)}else{if(s){s()}}}try{u.open("GET",w,d);u.send(null)}catch(t){if(s){s(w)}}return u};function m(s){if(s&&s.indexOf("://")>=0){if(s.split("/")[2]!=q.location.href.split("/")[2]){return d}}return j}function e(s,u,t){return function(){s("Error loading file")}}function a(t,v,u,s){return function(){if(t.readyState===4){switch(t.status){case 200:o(t,v,u,s)();break;case 404:s("File not found")}}}}function o(t,v,u,s){return function(){try{var w=t.responseXML;if(w&&w.firstChild){return u(t)}}catch(y){}var x=p.parseXML(t.responseText);if(x&&x.firstChild){t=p.extend({},t,{responseXML:x})}else{if(s){s(t.responseText?"Invalid XML":v)}return}u(t)}}p.parseXML=function(s){try{var t;if(q.DOMParser){t=(new DOMParser()).parseFromString(s,"text/xml");try{if(t.childNodes[0].firstChild.nodeName=="parsererror"){return}}catch(u){}}else{t=new ActiveXObject("Microsoft.XMLDOM");t.async="false";t.loadXML(s)}return t}catch(u){return}};p.filterPlaylist=function(y,s){var v=[];for(var u=0;u<y.length;u++){var w=p.extend({},y[u]);w.sources=p.filterSources(w.sources);if(w.sources.length>0){for(var t=0;t<w.sources.length;t++){if(w.sources[t].domain){w.sources[t].file=p.domainMap(w.sources[t].file,w.sources[t].domain)}var x=w.sources[t];if(!x.label){x.label=t.toString()}}v.push(w)}}if(s&&v.length==0){for(u=0;u<y.length;u++){w=p.extend({},y[u]);w.sources=p.filterSources(w.sources,d);if(w.sources.length>0){for(t=0;t<w.sources.length;t++){x=w.sources[t];if(!x.label){x.label=t.toString()}}v.push(w)}}}return v};p.filterSources=function(t,y){var x,z,s=p.extensionmap;if(t){z=[];for(var v=0;v<t.length;v++){var w=t[v].type,u=t[v].file;if(u){u=p.trim(u)}if(!w){w=s.extType(p.extension(u));t[v].type=w}if(y){if(g.embed.flashCanPlay(u,w)){if(!x){x=w}if(w==x){z.push(p.extend({},t[v]))}}}else{if(p.canPlayHTML5(w)){if(!x){x=w}if(w==x){z.push(p.extend({},t[v]))}}}}}return z};p.canPlayHTML5=function(s){if(p.isAndroid()&&(s=="hls"||s=="m3u"||s=="m3u8")){return j}var t=p.extensionmap.types[s];return(!!t&&!!g.vid.canPlayType&&g.vid.canPlayType(t))};p.seconds=function(u){u=u.replace(",",".");var s=u.split(":");var t=0;if(u.substr(-1)=="s"){t=Number(u.substr(0,u.length-1))}else{if(u.substr(-1)=="m"){t=Number(u.substr(0,u.length-1))*60}else{if(u.substr(-1)=="h"){t=Number(u.substr(0,u.length-1))*3600}else{if(s.length>1){t=Number(s[s.length-1]);t+=Number(s[s.length-2])*60;if(s.length==3){t+=Number(s[s.length-3])*3600}}else{t=Number(u)}}}}return t};p.serialize=function(s){if(s==null){return null}else{if(s.toString().toLowerCase()=="true"){return d}else{if(s.toString().toLowerCase()=="false"){return j}else{if(isNaN(Number(s))||s.length>5||s.length==0){return s}else{return Number(s)}}}}};p.domainMap=function(s,t){switch(t){case"tizi-oss":return"http://tizi-kouyu-video.oss.aliyuncs.com/"+s;break}return s}})(jwplayer);(function(o){var e="video/",i="audio/",g="image",j="mp4",c="webm",n="ogg",b="aac",k="mp3",l="vorbis",d=o.foreach,m={mp4:e+j,vorbis:i+n,ogg:e+n,webm:e+c,aac:i+j,mp3:i+"mpeg",hls:"application/vnd.apple.mpegurl"},h={mp4:m[j],f4v:m[j],m4v:m[j],mov:m[j],m4a:m[b],f4a:m[b],aac:m[b],mp3:m[k],ogv:m[n],ogg:m[l],oga:m[l],webm:m[c],m3u8:m.hls,hls:m.hls},e="video",f={flv:e,f4v:e,mov:e,m4a:e,m4v:e,mp4:e,aac:e,f4a:e,mp3:"sound",smil:"rtmp",m3u8:"hls",hls:"hls"};var a=o.extensionmap={};d(h,function(p,q){a[p]={html5:q}});d(f,function(p,q){if(!a[p]){a[p]={}}a[p].flash=q});a.types=m;a.mimeType=function(q){var p;d(m,function(r,s){if(!p&&s==q){p=r}});return p};a.extType=function(p){return a.mimeType(h[p])}})(jwplayer.utils);(function(b){var a=b.loaderstatus={NEW:0,LOADING:1,ERROR:2,COMPLETE:3},c=document;b.scriptloader=function(e){var f=a.NEW,h=jwplayer.events,d=new h.eventdispatcher();b.extend(this,d);this.load=function(){var k=b.scriptloader.loaders[e];if(k&&(k.getStatus()==a.NEW||k.getStatus()==a.LOADING)){k.addEventListener(h.ERROR,g);k.addEventListener(h.COMPLETE,i);return}b.scriptloader.loaders[e]=this;if(f==a.NEW){f=a.LOADING;var j=c.createElement("script");if(j.addEventListener){j.onload=i;j.onerror=g}else{if(j.readyState){j.onreadystatechange=function(){if(j.readyState=="loaded"||j.readyState=="complete"){i()}}}}c.getElementsByTagName("head")[0].appendChild(j);j.src=e}};function g(j){f=a.ERROR;d.sendEvent(h.ERROR)}function i(j){f=a.COMPLETE;d.sendEvent(h.COMPLETE)}this.getStatus=function(){return f}};b.scriptloader.loaders={}})(jwplayer.utils);(function(a){a.trim=function(b){return b.replace(/^\s*/,"").replace(/\s*$/,"")};a.pad=function(d,c,b){if(!b){b="0"}while(d.length<c){d=b+d}return d};a.xmlAttribute=function(b,c){for(var d=0;d<b.attributes.length;d++){if(b.attributes[d].name&&b.attributes[d].name.toLowerCase()==c.toLowerCase()){return b.attributes[d].value.toString()}}return""};a.extension=function(b){if(!b||b.substr(0,4)=="rtmp"){return""}b=b.substring(b.lastIndexOf("/")+1,b.length).split("?")[0].split("#")[0];if(b.lastIndexOf(".")>-1){return b.substr(b.lastIndexOf(".")+1,b.length).toLowerCase()}};a.stringToColor=function(b){b=b.replace(/(#|0x)?([0-9A-F]{3,6})$/gi,"$2");if(b.length==3){b=b.charAt(0)+b.charAt(0)+b.charAt(1)+b.charAt(1)+b.charAt(2)+b.charAt(2)}return parseInt(b,16)}})(jwplayer.utils);(function(b){var c="touchmove",d="touchstart",a="touchend",e="touchcancel";b.touch=function(f){var q=f,k=false,g={},i=null,l=false,j=b.touchEvents;document.addEventListener(c,h);document.addEventListener(a,n);document.addEventListener(e,h);f.addEventListener(d,h);f.addEventListener(a,h);function n(r){if(k){if(l){o(j.DRAG_END,r)}}l=false;k=false;i=null}function h(r){if(r.type==d){k=true;i=p(j.DRAG_START,r)}else{if(r.type==c){if(k){if(l){o(j.DRAG,r)}else{o(j.DRAG_START,r,i);l=true;o(j.DRAG,r)}}}else{if(k){if(l){o(j.DRAG_END,r)}else{r.cancelBubble=true;o(j.TAP,r)}}l=false;k=false;i=null}}}function o(s,t,u){if(g[s]){m(t);var r=u?u:p(s,t);if(r){g[s](r)}}}function p(s,u){var v=null;if(u.touches&&u.touches.length){v=u.touches[0]}else{if(u.changedTouches&&u.changedTouches.length){v=u.changedTouches[0]}}if(!v){return null}var t=q.getBoundingClientRect();var r={type:s,target:q,x:((v.pageX-window.pageXOffset)-t.left),y:v.pageY,deltaX:0,deltaY:0};if(s!=j.TAP&&i){r.deltaX=r.x-i.x;r.deltaY=r.y-i.y}return r}function m(r){if(r.preventManipulation){r.preventManipulation()}if(r.preventDefault){r.preventDefault()}}this.addEventListener=function(s,r){g[s]=r};this.removeEventListener=function(r){delete g[r]};return this}})(jwplayer.utils);(function(a){a.touchEvents={DRAG:"jwplayerDrag",DRAG_START:"jwplayerDragStart",DRAG_END:"jwplayerDragEnd",TAP:"jwplayerTap"}})(jwplayer.utils);(function(a){a.events={COMPLETE:"COMPLETE",ERROR:"ERROR",API_READY:"jwplayerAPIReady",JWPLAYER_READY:"jwplayerReady",JWPLAYER_FULLSCREEN:"jwplayerFullscreen",JWPLAYER_RESIZE:"jwplayerResize",JWPLAYER_ERROR:"jwplayerError",JWPLAYER_SETUP_ERROR:"jwplayerSetupError",JWPLAYER_MEDIA_BEFOREPLAY:"jwplayerMediaBeforePlay",JWPLAYER_MEDIA_BEFORECOMPLETE:"jwplayerMediaBeforeComplete",JWPLAYER_COMPONENT_SHOW:"jwplayerComponentShow",JWPLAYER_COMPONENT_HIDE:"jwplayerComponentHide",JWPLAYER_MEDIA_BUFFER:"jwplayerMediaBuffer",JWPLAYER_MEDIA_BUFFER_FULL:"jwplayerMediaBufferFull",JWPLAYER_MEDIA_ERROR:"jwplayerMediaError",JWPLAYER_MEDIA_LOADED:"jwplayerMediaLoaded",JWPLAYER_MEDIA_COMPLETE:"jwplayerMediaComplete",JWPLAYER_MEDIA_SEEK:"jwplayerMediaSeek",JWPLAYER_MEDIA_TIME:"jwplayerMediaTime",JWPLAYER_MEDIA_VOLUME:"jwplayerMediaVolume",JWPLAYER_MEDIA_META:"jwplayerMediaMeta",JWPLAYER_MEDIA_MUTE:"jwplayerMediaMute",JWPLAYER_MEDIA_LEVELS:"jwplayerMediaLevels",JWPLAYER_MEDIA_LEVEL_CHANGED:"jwplayerMediaLevelChanged",JWPLAYER_CAPTIONS_CHANGED:"jwplayerCaptionsChanged",JWPLAYER_CAPTIONS_LIST:"jwplayerCaptionsList",JWPLAYER_PLAYER_STATE:"jwplayerPlayerState",state:{BUFFERING:"BUFFERING",IDLE:"IDLE",PAUSED:"PAUSED",PLAYING:"PLAYING"},JWPLAYER_PLAYLIST_LOADED:"jwplayerPlaylistLoaded",JWPLAYER_PLAYLIST_ITEM:"jwplayerPlaylistItem",JWPLAYER_PLAYLIST_COMPLETE:"jwplayerPlaylistComplete",JWPLAYER_DISPLAY_CLICK:"jwplayerViewClick",JWPLAYER_CONTROLS:"jwplayerViewControls",JWPLAYER_USER_ACTION:"jwplayerUserAction",JWPLAYER_INSTREAM_CLICK:"jwplayerInstreamClicked",JWPLAYER_INSTREAM_DESTROYED:"jwplayerInstreamDestroyed",JWPLAYER_AD_TIME:"jwplayerAdTime",JWPLAYER_AD_ERROR:"jwplayerAdError",JWPLAYER_AD_CLICK:"jwplayerAdClicked",JWPLAYER_AD_COMPLETE:"jwplayerAdComplete",JWPLAYER_AD_IMPRESSION:"jwplayerAdImpression",JWPLAYER_AD_COMPANIONS:"jwplayerAdCompanions",JWPLAYER_AD_SKIPPED:"jwplayerAdSkipped"}})(jwplayer);(function(a){var b=jwplayer.utils;a.eventdispatcher=function(h,c){var e=h,g=c,f,d;this.resetEventListeners=function(){f={};d=[]};this.resetEventListeners();this.addEventListener=function(i,l,k){try{if(!b.exists(f[i])){f[i]=[]}if(b.typeOf(l)=="string"){l=(new Function("return "+l))()}f[i].push({listener:l,count:k})}catch(j){b.log("error",j)}return false};this.removeEventListener=function(j,l){if(!f[j]){return}try{for(var i=0;i<f[j].length;i++){if(f[j][i].listener.toString()==l.toString()){f[j].splice(i,1);break}}}catch(k){b.log("error",k)}return false};this.addGlobalListener=function(k,j){try{if(b.typeOf(k)=="string"){k=(new Function("return "+k))()}d.push({listener:k,count:j})}catch(i){b.log("error",i)}return false};this.removeGlobalListener=function(k){if(!k){return}try{for(var i=0;i<d.length;i++){if(d[i].listener.toString()==k.toString()){d.splice(i,1);break}}}catch(j){b.log("error",j)}return false};this.sendEvent=function(k,m){if(!b.exists(m)){m={}}b.extend(m,{id:e,version:jwplayer.version,type:k});if(g){b.log(k,m)}if(b.typeOf(f[k])!="undefined"){for(var j=0;j<f[k].length;j++){try{f[k][j].listener(m)}catch(l){b.log("There was an error while handling a listener: "+l.toString(),f[k][j].listener)}if(f[k][j]){if(f[k][j].count===1){delete f[k][j]}else{if(f[k][j].count>0){f[k][j].count=f[k][j].count-1}}}}}var i;for(i=0;i<d.length;i++){try{d[i].listener(m)}catch(l){b.log("There was an error while handling a listener: "+l.toString(),d[i].listener)}if(d[i]){if(d[i].count===1){delete d[i]}else{if(d[i].count>0){d[i].count=d[i].count-1}}}}}}})(jwplayer.events);(function(a){var c={},b={};a.plugins=function(){};a.plugins.loadPlugins=function(e,d){b[e]=new a.plugins.pluginloader(new a.plugins.model(c),d);return b[e]};a.plugins.registerPlugin=function(h,g,f,e){var d=a.utils.getPluginName(h);if(!c[d]){c[d]=new a.plugins.plugin(h)}c[d].registerPlugin(h,g,f,e)}})(jwplayer);(function(a){a.plugins.model=function(b){this.addPlugin=function(c){var d=a.utils.getPluginName(c);if(!b[d]){b[d]=new a.plugins.plugin(c)}return b[d]};this.getPlugins=function(){return b}}})(jwplayer);(function(b){var a=jwplayer.utils,c=jwplayer.events,d="undefined";b.pluginmodes={FLASH:0,JAVASCRIPT:1,HYBRID:2};b.plugin=function(e){var l=a.loaderstatus.NEW,m,k,f,n;var g=new c.eventdispatcher();a.extend(this,g);function h(){switch(a.getPluginPathType(e)){case a.pluginPathType.ABSOLUTE:return e;case a.pluginPathType.RELATIVE:return a.getAbsolutePath(e,window.location.href)}}function j(o){n=setTimeout(function(){l=a.loaderstatus.COMPLETE;g.sendEvent(c.COMPLETE)},1000)}function i(o){l=a.loaderstatus.ERROR;g.sendEvent(c.ERROR)}this.load=function(){if(l==a.loaderstatus.NEW){if(e.lastIndexOf(".swf")>0){m=e;l=a.loaderstatus.COMPLETE;g.sendEvent(c.COMPLETE);return}else{if(a.getPluginPathType(e)==a.pluginPathType.CDN){l=a.loaderstatus.COMPLETE;g.sendEvent(c.COMPLETE);return}}l=a.loaderstatus.LOADING;var o=new a.scriptloader(h());o.addEventListener(c.COMPLETE,j);o.addEventListener(c.ERROR,i);o.load()}};this.registerPlugin=function(r,q,p,o){if(n){clearTimeout(n);n=undefined}f=q;if(p&&o){m=o;k=p}else{if(typeof p=="string"){m=p}else{if(typeof p=="function"){k=p}else{if(!p&&!o){m=r}}}}l=a.loaderstatus.COMPLETE;g.sendEvent(c.COMPLETE)};this.getStatus=function(){return l};this.getPluginName=function(){return a.getPluginName(e)};this.getFlashPath=function(){if(m){switch(a.getPluginPathType(m)){case a.pluginPathType.ABSOLUTE:return m;case a.pluginPathType.RELATIVE:if(e.lastIndexOf(".swf")>0){return a.getAbsolutePath(m,window.location.href)}return a.getAbsolutePath(m,h())}}return null};this.getJS=function(){return k};this.getTarget=function(){return f};this.getPluginmode=function(){if(typeof m!=d&&typeof k!=d){return b.pluginmodes.HYBRID}else{if(typeof m!=d){return b.pluginmodes.FLASH}else{if(typeof k!=d){return b.pluginmodes.JAVASCRIPT}}}};this.getNewInstance=function(p,o,q){return new k(p,o,q)};this.getURL=function(){return e}}})(jwplayer.plugins);(function(b){var a=b.utils,c=b.events,d=a.foreach;b.plugins.pluginloader=function(j,i){var p=a.loaderstatus.NEW,h=false,e=false,l=false,m,n=i,f=new c.eventdispatcher();a.extend(this,f);function g(){if(l){f.sendEvent(c.ERROR,{message:m})}else{if(!e){e=true;p=a.loaderstatus.COMPLETE;f.sendEvent(c.COMPLETE)}}}function o(){if(!n){g()}if(!e&&!l){var r=0,q=j.getPlugins();a.foreach(n,function(t,x){var u=a.getPluginName(t),y=q[u],w=y.getJS(),v=y.getTarget(),s=y.getStatus();if(s==a.loaderstatus.LOADING||s==a.loaderstatus.NEW){r++}else{if(w&&(!v||parseFloat(v)>parseFloat(b.version))){l=true;m="Incompatible player version";g()}}});if(r==0){g()}}}this.setupPlugins=function(t,r,v){var s={length:0,plugins:{}},u={length:0,plugins:{}},q=j.getPlugins();d(r.plugins,function(z,B){var A=a.getPluginName(z),C=q[A],D=C.getFlashPath(),E=C.getJS(),w=C.getURL();if(D){s.plugins[D]=a.extend({},B);s.plugins[D].pluginmode=C.getPluginmode();s.length++}try{if(E&&r.plugins&&r.plugins[w]){var x=document.createElement("div");x.id=t.id+"_"+A;x.style.position="absolute";x.style.top=0;x.style.zIndex=u.length+10;u.plugins[A]=C.getNewInstance(t,a.extend({},r.plugins[w]),x);u.length++;t.onReady(v(u.plugins[A],x,true));t.onResize(v(u.plugins[A],x))}}catch(y){a.log("ERROR: Failed to load "+A+".")}});t.plugins=u.plugins;return s};this.load=function(){if(a.exists(i)&&a.typeOf(i)!="object"){o();return}p=a.loaderstatus.LOADING;h=true;d(i,function(r,s){if(a.exists(r)){var t=j.addPlugin(r);t.addEventListener(c.COMPLETE,o);t.addEventListener(c.ERROR,k)}});var q=j.getPlugins();d(q,function(r,s){s.load()});h=false;o()};var k=this.pluginFailed=function(q){if(!l){l=true;m="File not found";g()}};this.getStatus=function(){return p}}})(jwplayer);(function(a){jwplayer.parsers={localName:function(b){if(!b){return""}else{if(b.localName){return b.localName}else{if(b.baseName){return b.baseName}else{return""}}}},textContent:function(b){if(!b){return""}else{if(b.textContent){return jwplayer.utils.trim(b.textContent)}else{if(b.text){return jwplayer.utils.trim(b.text)}else{return""}}}},getChildNode:function(c,b){return c.childNodes[b]},numChildren:function(b){if(b.childNodes){return b.childNodes.length}else{return 0}}}})(jwplayer);(function(b){var a=b.parsers;var d=a.jwparser=function(){};var c="jwplayer";d.parseEntry=function(l,p){var e=[],n=[],m=b.utils.xmlAttribute,f="default",q="label",j="file",o="type";for(var k=0;k<l.childNodes.length;k++){var h=l.childNodes[k];if(h.prefix==c){var g=a.localName(h);if(g=="source"){delete p.sources;e.push({file:m(h,j),"default":m(h,f),label:m(h,q),type:m(h,o)})}else{if(g=="track"){delete p.tracks;n.push({file:m(h,j),"default":m(h,f),kind:m(h,"kind"),label:m(h,q)})}else{p[g]=b.utils.serialize(a.textContent(h));if(g=="file"&&p.sources){delete p.sources}}}}if(!p[j]){p[j]=p.link}}if(e.length){p.sources=[];for(k=0;k<e.length;k++){if(e[k].file.length>0){e[k][f]=(e[k][f]=="true")?true:false;if(!e[k].label.length){delete e[k].label}p.sources.push(e[k])}}}if(n.length){p.tracks=[];for(k=0;k<n.length;k++){if(n[k].file.length>0){n[k][f]=(n[k][f]=="true")?true:false;n[k].kind=(!n[k].kind.length)?"captions":n[k].kind;if(!n[k].label.length){delete n[k].label}p.tracks.push(n[k])}}}return p}})(jwplayer);(function(e){var b=jwplayer.utils,h=b.xmlAttribute,c=e.localName,a=e.textContent,d=e.numChildren;var g=e.mediaparser=function(){};var f="media";g.parseGroup=function(m,q){var k,n,p="tracks",o=[];function l(i){var s={zh:"Chinese",nl:"Dutch",en:"English",fr:"French",de:"German",it:"Italian",ja:"Japanese",pt:"Portuguese",ru:"Russian",es:"Spanish"};if(s[i]){return s[i]}return i}for(n=0;n<d(m);n++){k=m.childNodes[n];if(k.prefix==f){if(!c(k)){continue}switch(c(k).toLowerCase()){case"content":if(h(k,"duration")){q.duration=b.seconds(h(k,"duration"))}if(d(k)>0){q=g.parseGroup(k,q)}if(h(k,"url")){if(!q.sources){q.sources=[]}q.sources.push({file:h(k,"url"),type:h(k,"type"),width:h(k,"width"),label:h(k,"label")})}break;case"title":q.title=a(k);break;case"description":q.description=a(k);break;case"guid":q.mediaid=a(k);break;case"thumbnail":if(!q.image){q.image=h(k,"url")}break;case"player":var j=k.url;break;case"group":g.parseGroup(k,q);break;case"subtitle":var r={};r.file=h(k,"url");r.kind="captions";if(h(k,"lang").length>0){r.label=l(h(k,"lang"))}o.push(r)}}}if(!q.hasOwnProperty(p)){q[p]=[]}for(n=0;n<o.length;n++){q[p].push(o[n])}return q}})(jwplayer.parsers);(function(g){var b=jwplayer.utils,a=g.textContent,e=g.getChildNode,f=g.numChildren,d=g.localName;g.rssparser={};g.rssparser.parse=function(o){var h=[];for(var m=0;m<f(o);m++){var n=e(o,m),k=d(n).toLowerCase();if(k=="channel"){for(var l=0;l<f(n);l++){var p=e(n,l);if(d(p).toLowerCase()=="item"){h.push(c(p))}}}}return h};function c(l){var m={};for(var j=0;j<l.childNodes.length;j++){var k=l.childNodes[j];var h=d(k);if(!h){continue}switch(h.toLowerCase()){case"enclosure":m.file=b.xmlAttribute(k,"url");break;case"title":m.title=a(k);break;case"guid":m.mediaid=a(k);break;case"pubdate":m.date=a(k);break;case"description":m.description=a(k);break;case"link":m.link=a(k);break;case"category":if(m.tags){m.tags+=a(k)}else{m.tags=a(k)}break}}m=g.mediaparser.parseGroup(l,m);m=g.jwparser.parseEntry(l,m);return new jwplayer.playlist.item(m)}})(jwplayer.parsers);(function(a){a.playlist=function(c){var d=[];if(a.utils.typeOf(c)=="array"){for(var b=0;b<c.length;b++){d.push(new a.playlist.item(c[b]))}}else{d.push(new a.playlist.item(c))}return d}})(jwplayer);(function(b){var a=b.item=function(f){var c=jwplayer.utils,e=c.extend({},a.defaults,f);e.tracks=(f&&c.exists(f.tracks))?f.tracks:[];if(e.sources.length==0){e.sources=[new b.source(e)]}for(var g=0;g<e.sources.length;g++){var h=e.sources[g]["default"];if(h){e.sources[g]["default"]=(h.toString()=="true")}else{e.sources[g]["default"]=false}e.sources[g]=new b.source(e.sources[g])}if(e.captions&&!c.exists(f.tracks)){for(var d=0;d<e.captions.length;d++){e.tracks.push(e.captions[d])}delete e.captions}for(var g=0;g<e.tracks.length;g++){e.tracks[g]=new b.track(e.tracks[g])}return e};a.defaults={description:"",image:"",mediaid:"",title:"",sources:[],tracks:[]}})(jwplayer.playlist);(function(e){var d=jwplayer,a=d.utils,c=d.events,b=d.parsers;e.loader=function(){var h=new c.eventdispatcher();a.extend(this,h);this.load=function(j){a.ajax(j,i,g)};function i(l){try{var n=l.responseXML.childNodes;var o="";for(var j=0;j<n.length;j++){o=n[j];if(o.nodeType!=8){break}}if(b.localName(o)=="xml"){o=o.nextSibling}if(b.localName(o)!="rss"){f("Not a valid RSS feed");return}var k=new e(b.rssparser.parse(o));h.sendEvent(c.JWPLAYER_PLAYLIST_LOADED,{playlist:k})}catch(m){f()}}function g(j){f(j.match(/invalid/i)?"Not a valid RSS feed":"")}function f(j){h.sendEvent(c.JWPLAYER_ERROR,{message:j?j:"Error loading file"})}}})(jwplayer.playlist);(function(d){var b=undefined,a=jwplayer.utils,c={file:b,label:b,type:b,domain:b,"default":b};d.source=function(f){var e=a.extend({},c);a.foreach(c,function(h,g){if(a.exists(f[h])){e[h]=f[h];delete f[h]}});if(e.type&&e.type.indexOf("/")>0){e.type=a.extensionmap.mimeType(e.type)}if(e.type=="m3u8"){e.type="hls"}if(e.type=="smil"){e.type="rtmp"}return e}})(jwplayer.playlist);(function(d){var b=undefined,a=jwplayer.utils,c={file:b,label:b,kind:"captions","default":false};d.track=function(e){var f=a.extend({},c);if(!e){e={}}a.foreach(c,function(h,g){if(a.exists(e[h])){f[h]=e[h];delete e[h]}});return f}})(jwplayer.playlist);(function(c){var b=c.utils,e=c.events,d=true,f=false,g=document;var h=c.embed=function(s){var m=new h.config(s.config),n,u,A,k=m.width,B=m.height,j="Error loading player: ",C=c.plugins.loadPlugins(s.id,m.plugins),q=f,y=f,t=null,v=this;if(m.fallbackDiv){A=m.fallbackDiv;delete m.fallbackDiv}m.id=s.id;u=g.getElementById(s.id);if(m.aspectratio){s.config.aspectratio=m.aspectratio}else{delete s.config.aspectratio}n=g.createElement("div");n.id=u.id;n.style.width=k.toString().indexOf("%")>0?k:(k+"px");n.style.height=B.toString().indexOf("%")>0?B:(B+"px");u.parentNode.replaceChild(n,u);function w(E,D){b.foreach(D,function(F,G){if(typeof E[F]=="function"){(E[F]).call(E,G)}})}v.embed=function(){if(y){return}C.addEventListener(e.COMPLETE,p);C.addEventListener(e.ERROR,o);C.load()};function p(){if(y){return}if(b.typeOf(m.playlist)=="array"&&m.playlist.length<2){if(m.playlist.length==0||!m.playlist[0].sources||m.playlist[0].sources.length==0){r();return}}if(q){return}if(b.typeOf(m.playlist)=="string"){var E=new c.playlist.loader();E.addEventListener(e.JWPLAYER_PLAYLIST_LOADED,function(I){m.playlist=I.playlist;q=f;p()});E.addEventListener(e.JWPLAYER_ERROR,function(I){q=f;r(I)});q=d;E.load(m.playlist);return}if(C.getStatus()==b.loaderstatus.COMPLETE){for(var H=0;H<m.modes.length;H++){if(m.modes[H].type&&h[m.modes[H].type]){var D=b.extend({},m),F=new h[m.modes[H].type](n,m.modes[H],D,C,s);if(F.supportsConfig()){F.addEventListener(e.ERROR,i);F.embed();w(s,D.events);return s}}}if(m.fallback){var G="No suitable players found and fallback enabled";t=setTimeout(function(I){l(G,d)},10);b.log(G);new h.download(n,m,r)}else{var G="No suitable players found and fallback disabled";l(G,f);b.log(G);x()}}}function x(){n.parentNode.replaceChild(A,n)}function i(D){z(j+D.message)}function o(D){z("Could not load plugins: "+D.message)}function r(D){if(D&&D.message){z("Error loading playlist: "+D.message)}else{z(j+"No playable sources found")}}function l(D,E){if(t){clearTimeout(t);t=null}s.dispatchEvent(e.JWPLAYER_SETUP_ERROR,{message:D,fallback:E})}function z(D){if(y){return}if(!m.fallback){l(D,f);return}y=d;a(n,D,m);l(D,d)}v.errorScreen=z;return v};function a(i,l,j){var k=i.style;k.backgroundColor="#000";k.color="#FFF";k.width=b.styleDimension(j.width);k.height=b.styleDimension(j.height);k.display="table";k.opacity=1;var n=document.createElement("p"),m=n.style;m.verticalAlign="middle";m.textAlign="center";m.display="table-cell";m.font="15px/20px Arial, Helvetica, sans-serif";n.innerHTML=l.replace(":",":<br>");i.innerHTML="";i.appendChild(n)}c.embed.errorScreen=a})(jwplayer);(function(e){var i=e.utils,h=e.embed,j=e.playlist.item,g=undefined;var a=h.config=function(l){var n={fallback:true,height:461,width:820,primary:"flash",displaytitle:false,base:l.base?l.base:i.getScriptPath("TiZiplayer.js"),aspectratio:"",noflash:false},m=i.extend(n,e.defaults,l),k={html5:{type:"html5",src:m.base+"TiZiplayer.html5.js"},flash:{type:"flash",src:m.base+"TiZiplayer.flash.swf"}};m.modes=(m.primary=="flash")?[k.flash,k.html5]:[k.html5,k.flash];if(m.listbar){m.playlistsize=m.listbar.size;m.playlistposition=m.listbar.position;m.playlistlayout=m.listbar.layout}if(m.flashplayer){k.flash.src=m.flashplayer}if(m.html5player){k.html5.src=m.html5player}d(m);f(m);return m};function f(l){var k=l.aspectratio,m=b(k);if(l.width.toString().indexOf("%")==-1){delete l.aspectratio}else{if(!m){delete l.aspectratio}else{l.aspectratio=m}}}function b(l){if(typeof l!="string"||!i.exists(l)){return 0}var m=l.indexOf(":");if(m==-1){return 0}var k=parseFloat(l.substr(0,m)),n=parseFloat(l.substr(m+1));if(k<=0||n<=0){return 0}return(n/k*100)+"%"}a.addConfig=function(k,l){d(l);return i.extend(k,l)};function d(l){if(!l.playlist){var n={};i.foreach(j.defaults,function(o,p){c(l,n,o)});if(!n.sources){if(l.levels){n.sources=l.levels;delete l.levels}else{var k={};c(l,k,"file");c(l,k,"type");n.sources=k.file?[k]:[]}}l.playlist=[new j(n)]}else{for(var m=0;m<l.playlist.length;m++){l.playlist[m]=new j(l.playlist[m])}}}function c(m,k,l){if(i.exists(m[l])){k[l]=m[l];delete m[l]}}})(jwplayer);(function(e){var g=e.embed,j=e.utils,i=document,h="pointer",c="none",a="block",f="100%",d="relative",b="absolute";g.download=function(n,y,l){var q=j.extend({},y),u,o=q.width?q.width:480,r=q.height?q.height:320,z,s,k=y.logo?y.logo:{prefix:"http://www.tizi.com/application/views/static/image/common/",file:"player_logo.png",margin:4};function x(){var E,F,D,G,C=q.playlist,J,B,G,H=["mp4","aac","mp3"];if(C&&C.length){J=C[0];B=J.sources;for(G=0;G<B.length;G++){var A=B[G],I=A.type?A.type:j.extensionmap.extType(j.extension(A.file));if(A.file){j.foreach(H,function(K,L){if(I==H[K]){E=A.file;F=J.image}else{if(j.isYouTube(A.file)){D=A.file}}});if(E||D){continue}}}}else{return}if(E){z=E;s=F;t();p()}else{if(D){m(D)}else{l()}}}function t(){if(n){u=v("a","display",n);v("div","icon",u);v("div","logo",u);if(z){}}}function w(A,C){var D=i.querySelectorAll(A);for(var B=0;B<D.length;B++){j.foreach(C,function(F,E){D[B].style[F]=E})}}function p(){var A="#"+n.id+" .jwdownload";n.style.width="";n.style.height="";w(A+"display",{width:j.styleDimension(Math.max(320,o)),height:j.styleDimension(Math.max(180,r)),background:"black center no-repeat "+(s?"url("+s+")":""),backgroundSize:"contain",position:d,border:c,display:a});w(A+"display div",{position:b,width:f,height:f})}function v(A,D,C){var B=i.createElement(A);if(D){B.className="jwdownload"+D}if(C){C.appendChild(B)}return B}function m(A){var B=v("embed","",n);B.src="http://www.youtube.com/v/"+j.youTubeID(A);B.type="application/x-shockwave-flash";B.width=o;B.height=r}x()}})(jwplayer);(function(c){var b=c.utils,d=c.events,a={};var f=c.embed.flash=function(l,m,p,k,n){var h=new c.events.eventdispatcher(),i=b.flashVersion();b.extend(this,h);if(n.config.noflash&&b.isIE678()&&b.flashVersion()<10){if(typeof $.tiziDialog==="function"){$.tiziDialog({content:"您的Flash版本过低",ok:false,button:[{name:"下载最新版本",className:"aui_state_highlight",href:"http://get.adobe.com/cn/flashplayer/",target:"_blank"}]})}else{alert("您的Flash版本过低")}}function q(s,r,t){var u=document.createElement("param");u.setAttribute("name",r);u.setAttribute("value",t);s.appendChild(u)}function o(s,t,r){return function(u){try{if(r){document.getElementById(n.id+"_wrapper").appendChild(t)}var w=document.getElementById(n.id).getPluginConfig("display");if(typeof s.resize=="function"){s.resize(w.width,w.height)}t.style.left=w.x;t.style.top=w.h}catch(v){}}}function j(r){if(!r){return{}}var s={};b.foreach(r,function(u,t){b.foreach(t,function(w,v){s[u+"."+w]=v})});return s}function g(r){if(!r){return{}}var t={},s=[];b.foreach(r,function(u,w){var v=b.getPluginName(u);s.push(u);b.foreach(w,function(y,x){t[v+"."+y]=x})});t.plugins=s.join(",");return t}this.embed=function(){p.id=n.id;if(i<10){h.sendEvent(d.ERROR,{message:"您的Flash版本过低"});return false}var E,C,u=n.config.listbar;var x=b.extend({},p);if(l.id+"_wrapper"==l.parentNode.id){E=document.getElementById(l.id+"_wrapper")}else{E=document.createElement("div");C=document.createElement("div");C.style.display="none";C.id=l.id+"_aspect";E.id=l.id+"_wrapper";E.style.position="relative";E.style.display="block";E.style.width=b.styleDimension(x.width);E.style.height=b.styleDimension(x.height);if(n.config.aspectratio){var v=parseFloat(n.config.aspectratio);C.style.display="block";C.style.marginTop=n.config.aspectratio;E.style.height="auto";E.style.display="inline-block";if(u){if(u.position=="bottom"){C.style.paddingBottom=u.size+"px"}else{if(u.position=="right"){C.style.marginBottom=(-1*u.size*(v/100))+"px"}}}}l.parentNode.replaceChild(E,l);E.appendChild(l);E.appendChild(C)}var s=k.setupPlugins(n,x,o);if(s.length>0){b.extend(x,g(s.plugins))}else{delete x.plugins}if(typeof x["dock.position"]!="undefined"){if(x["dock.position"].toString().toLowerCase()=="false"){x.dock=x["dock.position"];delete x["dock.position"]}}var F="#000000",A,t=x.wmode?x.wmode:(x.height&&x.height<=40?"transparent":"opaque"),w=["height","width","modes","events","primary","base","fallback","volume"];for(var z=0;z<w.length;z++){delete x[w[z]]}var D=b.getCookies();b.foreach(D,function(G,H){if(typeof(x[G])=="undefined"){x[G]=H}});var r=window.location.href.split("/");r.splice(r.length-1,1);r=r.join("/");x.base=r+"/";a[l.id]=x;if(b.isIE()){var B='<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" " width="100%" height="100%"id="'+l.id+'" name="'+l.id+'" tabindex=0"">';B+='<param name="movie" value="'+m.src+'">';B+='<param name="allowfullscreen" value="true">';B+='<param name="allowscriptaccess" value="always">';B+='<param name="seamlesstabbing" value="true">';B+='<param name="wmode" value="'+t+'">';B+='<param name="bgcolor" value="'+F+'">';B+="</object>";l.outerHTML=B;A=document.getElementById(l.id)}else{var y=document.createElement("object");y.setAttribute("type","application/x-shockwave-flash");y.setAttribute("data",m.src);y.setAttribute("width","100%");y.setAttribute("height","100%");y.setAttribute("bgcolor",F);y.setAttribute("id",l.id);y.setAttribute("name",l.id);y.setAttribute("tabindex",0);q(y,"allowfullscreen","true");q(y,"allowscriptaccess","always");q(y,"seamlesstabbing","true");q(y,"wmode",t);l.parentNode.replaceChild(y,l);A=y}if(n.config.aspectratio){A.style.position="absolute"}n.container=A;n.setPlayer(A,"flash")};this.supportsConfig=function(){if(i){if(p){if(b.typeOf(p.playlist)=="string"){return true}try{var t=p.playlist[0],r=t.sources;if(typeof r=="undefined"){return true}else{for(var s=0;s<r.length;s++){if(r[s].file&&e(r[s].file,r[s].type)){return true}}}}catch(u){return false}}else{return true}}return false}};f.getVars=function(g){return a[g]};var e=c.embed.flashCanPlay=function(g,h){if(b.isYouTube(g)){return true}if(b.isRtmp(g,h)){return true}if(h=="hls"){return true}var i=b.extensionmap[h?h:b.extension(g)];if(!i){return false}return !!(i.flash)}})(jwplayer);(function(c){var a=c.utils,b=a.extensionmap,d=c.events;c.embed.html5=function(g,h,o,f,k){var j=this,e=new d.eventdispatcher();a.extend(j,e);function l(q,r,p){return function(s){try{var t=document.querySelector("#"+g.id+" .jwmain");if(p){t.appendChild(r)}if(typeof q.resize=="function"){q.resize(t.clientWidth,t.clientHeight);setTimeout(function(){q.resize(t.clientWidth,t.clientHeight)},400)}r.left=t.style.left;r.top=t.style.top}catch(u){}}}j.embed=function(){if(c.html5){f.setupPlugins(k,o,l);g.innerHTML="";var p=c.utils.extend({},o);delete p.volume;var q=new c.html5.player(p);k.container=document.getElementById(k.id);k.setPlayer(q,"html5")}else{var r=new a.scriptloader(h.src);r.addEventListener(d.ERROR,i);r.addEventListener(d.COMPLETE,j.embed);r.load()}};function i(p){j.sendEvent(p.type,{message:"HTML5 player not found"})}j.supportsConfig=function(){if(!!c.vid.canPlayType){try{if(a.typeOf(o.playlist)=="string"){return true}else{var p=o.playlist[0].sources;for(var r=0;r<p.length;r++){var q=p[r].file,s=p[r].type;if(n(q,s)){return true}}}}catch(t){return false}}return false};function n(p,q){if(navigator.userAgent.match(/BlackBerry/i)!==null){return false}if(a.isAndroid()&&(a.extension(p)=="m3u"||a.extension(p)=="m3u8")){return false}if(a.isRtmp(p,q)){return false}var r=b[q?q:a.extension(p)];if(!r){return false}if(r.flash&&!r.html5){return false}return m(r.html5)}function m(p){var q=c.vid;if(!p){return true}try{if(q.canPlayType(p)){return true}else{return false}}catch(r){return false}}}})(jwplayer);(function(d){var c=[],a=d.utils,e=d.events,b=e.state,g=document;var f=d.api=function(t){var x=this,h={},l={},A={},o=[],i=undefined,D=false,p=[],y=undefined,s={},n={};x.container=t;x.id=t.id;x.getBuffer=function(){return w("jwGetBuffer")};x.getContainer=function(){return x.container};x.addButton=function(H,F,G,K){try{n[K]=G;var J="jwplayer('"+x.id+"').callback('"+K+"')";w("jwDockAddButton",H,F,J,K)}catch(I){a.log("Could not add dock button"+I.message)}};x.removeButton=function(F){w("jwDockRemoveButton",F)},x.callback=function(F){if(n[F]){n[F]()}};x.forceState=function(F){w("jwForceState",F);return x};x.releaseState=function(){return w("jwReleaseState")};x.getDuration=function(){return w("jwGetDuration")};x.getFullscreen=function(){return w("jwGetFullscreen")};x.getHeight=function(){return w("jwGetHeight")};x.getLockState=function(){return w("jwGetLockState")};x.getMeta=function(){return x.getItemMeta()};x.getMute=function(){return w("jwGetMute")};x.getPlaylist=function(){var F=w("jwGetPlaylist");if(x.renderingMode=="flash"){a.deepReplaceKeyName(F,["__dot__","__spc__","__dsh__","__default__"],["."," ","-","default"])}return F};x.getPlaylistItem=function(F){if(!a.exists(F)){F=x.getPlaylistIndex()}return x.getPlaylist()[F]};x.getPlaylistIndex=function(){return w("jwGetPlaylistIndex")};x.getPosition=function(){return w("jwGetPosition")};x.getRenderingMode=function(){return x.renderingMode};x.getState=function(){return w("jwGetState")};x.getVolume=function(){return w("jwGetVolume")};x.getWidth=function(){return w("jwGetWidth")};x.setFullscreen=function(F){if(!a.exists(F)){w("jwSetFullscreen",!w("jwGetFullscreen"))}else{w("jwSetFullscreen",F)}return x};x.setMute=function(F){if(!a.exists(F)){w("jwSetMute",!w("jwGetMute"))}else{w("jwSetMute",F)}return x};x.lock=function(){return x};x.unlock=function(){return x};x.load=function(F){w("jwLoad",F);return x};x.playlistItem=function(F){w("jwPlaylistItem",parseInt(F));return x};x.playlistPrev=function(){w("jwPlaylistPrev");return x};x.playlistNext=function(){w("jwPlaylistNext");return x};x.resize=function(I,F){if(x.renderingMode!="flash"){var H=document.getElementById(x.id);H.className=H.className.replace(/\s+aspectMode/,"");H.style.display="block";w("jwResize",I,F)}else{var J=g.getElementById(x.id+"_wrapper"),G=g.getElementById(x.id+"_aspect");if(G){G.style.display="none"}if(J){J.style.display="block";J.style.width=a.styleDimension(I);J.style.height=a.styleDimension(F)}}return x};x.play=function(F){if(typeof F=="undefined"){F=x.getState();if(F==b.PLAYING||F==b.BUFFERING){w("jwPause")}else{w("jwPlay")}}else{w("jwPlay",F)}return x};x.pause=function(F){if(typeof F=="undefined"){F=x.getState();if(F==b.PLAYING||F==b.BUFFERING){w("jwPause")}else{w("jwPlay")}}else{w("jwPause",F)}return x};x.stop=function(){w("jwStop");return x};x.seek=function(F){w("jwSeek",F);return x};x.setVolume=function(F){w("jwSetVolume",F);return x};x.loadInstream=function(G,F){y=new f.instream(this,i,G,F);return y};x.getQualityLevels=function(){return w("jwGetQualityLevels")};x.getCurrentQuality=function(){return w("jwGetCurrentQuality")};x.setCurrentQuality=function(F){w("jwSetCurrentQuality",F)};x.getCaptionsList=function(){return w("jwGetCaptionsList")};x.getCurrentCaptions=function(){return w("jwGetCurrentCaptions")};x.setCurrentCaptions=function(F){w("jwSetCurrentCaptions",F)};x.getControls=function(){return w("jwGetControls")};x.getSafeRegion=function(){return w("jwGetSafeRegion")};x.setControls=function(F){w("jwSetControls",F)};x.destroyPlayer=function(){w("jwPlayerDestroy")};x.playAd=function(G){var F=d(x.id).plugins;if(F.vast){F.vast.jwPlayAd(G)}};x.pauseAd=function(){var F=d(x.id).plugins;if(F.vast){F.vast.jwPauseAd()}else{w("jwPauseAd")}};var r={onBufferChange:e.JWPLAYER_MEDIA_BUFFER,onBufferFull:e.JWPLAYER_MEDIA_BUFFER_FULL,onError:e.JWPLAYER_ERROR,onSetupError:e.JWPLAYER_SETUP_ERROR,onFullscreen:e.JWPLAYER_FULLSCREEN,onMeta:e.JWPLAYER_MEDIA_META,onMute:e.JWPLAYER_MEDIA_MUTE,onPlaylist:e.JWPLAYER_PLAYLIST_LOADED,onPlaylistItem:e.JWPLAYER_PLAYLIST_ITEM,onPlaylistComplete:e.JWPLAYER_PLAYLIST_COMPLETE,onReady:e.API_READY,onResize:e.JWPLAYER_RESIZE,onComplete:e.JWPLAYER_MEDIA_COMPLETE,onSeek:e.JWPLAYER_MEDIA_SEEK,onTime:e.JWPLAYER_MEDIA_TIME,onVolume:e.JWPLAYER_MEDIA_VOLUME,onBeforePlay:e.JWPLAYER_MEDIA_BEFOREPLAY,onBeforeComplete:e.JWPLAYER_MEDIA_BEFORECOMPLETE,onDisplayClick:e.JWPLAYER_DISPLAY_CLICK,onControls:e.JWPLAYER_CONTROLS,onQualityLevels:e.JWPLAYER_MEDIA_LEVELS,onQualityChange:e.JWPLAYER_MEDIA_LEVEL_CHANGED,onCaptionsList:e.JWPLAYER_CAPTIONS_LIST,onCaptionsChange:e.JWPLAYER_CAPTIONS_CHANGED,onAdError:e.JWPLAYER_AD_ERROR,onAdClick:e.JWPLAYER_AD_CLICK,onAdImpression:e.JWPLAYER_AD_IMPRESSION,onAdTime:e.JWPLAYER_AD_TIME,onAdComplete:e.JWPLAYER_AD_COMPLETE,onAdCompanions:e.JWPLAYER_AD_COMPANIONS,onAdSkipped:e.JWPLAYER_AD_SKIPPED};a.foreach(r,function(F){x[F]=C(r[F],z)});var v={onBuffer:b.BUFFERING,onPause:b.PAUSED,onPlay:b.PLAYING,onIdle:b.IDLE};a.foreach(v,function(F){x[F]=C(v[F],q)});function C(F,G){return function(H){return G(F,H)}}x.remove=function(){if(!D){throw"Cannot call remove() before player is ready"}m(this)};function m(F){p=[];f.destroyPlayer(F.id)}x.setup=function(G){if(d.embed){var H=g.getElementById(x.id);if(H){G.fallbackDiv=H}m(x);var I=d(x.id);I.config=G;var F=new d.embed(I);F.embed()}return x};x.registerPlugin=function(I,H,G,F){d.plugins.registerPlugin(I,H,G,F)};x.setPlayer=function(F,G){i=F;x.renderingMode=G};x.detachMedia=function(){if(x.renderingMode=="html5"){return w("jwDetachMedia")}};x.attachMedia=function(F){if(x.renderingMode=="html5"){return w("jwAttachMedia",F)}};function q(F,G){if(!l[F]){l[F]=[];z(e.JWPLAYER_PLAYER_STATE,E(F))}l[F].push(G);return x}function E(F){return function(H){var G=H.newstate,J=H.oldstate;if(G==F){var I=l[G];if(I){for(var K=0;K<I.length;K++){if(typeof I[K]=="function"){I[K].call(this,{oldstate:J,newstate:G})}}}}}}function B(F,G,H){if(!A[F]){A[F]={}}if(!A[F][G]){A[F][G]=[];z(G,k(F,G))}A[F][G].push(H);return x}function k(F,G){return function(I){if(F==I.component){var H=A[F][G];if(H){for(var J=0;J<H.length;J++){if(typeof H[J]=="function"){H[J].call(this,I)}}}}}}function j(F,G){try{F.jwAddEventListener(G,'function(dat) { jwplayer("'+x.id+'").dispatchEvent("'+G+'", dat); }')}catch(H){a.log("Could not add internal listener")}}function z(F,G){if(!h[F]){h[F]=[];if(i&&D){j(i,F)}}h[F].push(G);return x}x.dispatchEvent=function(H){if(h[H]){var G=a.translateEventResponse(H,arguments[1]);for(var F=0;F<h[H].length;F++){if(typeof h[H][F]=="function"){try{if(H==e.JWPLAYER_PLAYLIST_LOADED){a.deepReplaceKeyName(G.playlist,["__dot__","__spc__","__dsh__","__default__"],["."," ","-","default"])}h[H][F].call(this,G)}catch(I){a.log("There was an error calling back an event handler")}}}}};x.dispatchInstreamEvent=function(F){if(y){y.dispatchEvent(F,arguments)}};function w(){if(D){var H=arguments[0],F=[];for(var G=1;G<arguments.length;G++){F.push(arguments[G])}if(typeof i!="undefined"&&typeof i[H]=="function"){switch(F.length){case 5:return(i[H])(F[0],F[1],F[2],F[3],F[4]);case 4:return(i[H])(F[0],F[1],F[2],F[3]);case 3:return(i[H])(F[0],F[1],F[2]);case 2:return(i[H])(F[0],F[1]);case 1:return(i[H])(F[0]);default:return(i[H])()}}return null}else{p.push(arguments)}}x.callInternal=w;x.playerReady=function(F){D=true;if(!i){x.setPlayer(g.getElementById(F.id))}x.container=g.getElementById(x.id);a.foreach(h,function(G){j(i,G)});z(e.JWPLAYER_PLAYLIST_ITEM,function(G){s={}});z(e.JWPLAYER_MEDIA_META,function(G){a.extend(s,G.metadata)});x.dispatchEvent(e.API_READY);while(p.length>0){w.apply(this,p.shift())}};x.getItemMeta=function(){return s};x.isBeforePlay=function(){return w("jwIsBeforePlay")};x.isBeforeComplete=function(){return w("jwIsBeforeComplete")};function u(H,J,I){var F=[];if(!J){J=0}if(!I){I=H.length-1}for(var G=J;G<=I;G++){F.push(H[G])}return F}return x};f.selectPlayer=function(i){var h;if(!a.exists(i)){i=0}if(i.nodeType){h=i}else{if(typeof i=="string"){h=g.getElementById(i)}}if(h){var j=f.playerById(h.id);if(j){return j}else{return f.addPlayer(new f(h))}}else{if(typeof i=="number"){return c[i]}}return null};f.playerById=function(i){for(var h=0;h<c.length;h++){if(c[h].id==i){return c[h]}}return null};f.addPlayer=function(h){for(var i=0;i<c.length;i++){if(c[i]==h){return h}}c.push(h);return h};f.destroyPlayer=function(j){var i=-1,k;for(var m=0;m<c.length;m++){if(c[m].id==j){i=m;k=c[m];continue}}if(i>=0){var n=k.id,h=g.getElementById(n+(k.renderingMode=="flash"?"_wrapper":""));if(a.clearCss){a.clearCss("#"+n)}if(h){if(k.renderingMode=="html5"){k.destroyPlayer()}var l=g.createElement("div");l.id=n;h.parentNode.replaceChild(l,h)}c.splice(i,1)}return null};d.playerReady=function(i){var h=d.api.playerById(i.id);if(h){h.playerReady(i)}else{d.api.selectPlayer(i.id).playerReady(i)}}})(jwplayer);(function(c){var d=c.events,a=c.utils,b=d.state;c.api.instream=function(g,m,q,t){var l=g,e=m,k=q,n=t||{},i={},s={},f=this;function j(){f.type="instream";f.tracker=n.tracker;l.callInternal("jwLoadInstream",q,n)}function p(u,v){e.jwInstreamAddEventListener(v,'function(dat) { jwplayer("'+l.id+'").dispatchInstreamEvent("'+v+'", dat); }')}function h(u,v){if(!i[u]){i[u]=[];p(e,u)}i[u].push(v);return this}function r(u,v){if(!s[u]){s[u]=[];h(d.JWPLAYER_PLAYER_STATE,o(u))}s[u].push(v);return this}function o(u){return function(w){var v=w.newstate,y=w.oldstate;if(v==u){var x=s[v];if(x){for(var z=0;z<x.length;z++){if(typeof x[z]=="function"){x[z].call(this,{oldstate:y,newstate:v,type:w.type})}}}}}}f.dispatchEvent=function(x,w){if(i[x]){var v=a.translateEventResponse(x,w[1]);for(var u=0;u<i[x].length;u++){if(typeof i[x][u]=="function"){i[x][u].call(this,v)}}}};f.onError=function(u){return h(d.JWPLAYER_ERROR,u)};f.onMediaError=function(u){return h(d.JWPLAYER_MEDIA_ERROR,u)};f.onFullscreen=function(u){return h(d.JWPLAYER_FULLSCREEN,u)};f.onMeta=function(u){return h(d.JWPLAYER_MEDIA_META,u)};f.onMute=function(u){return h(d.JWPLAYER_MEDIA_MUTE,u)};f.onComplete=function(u){return h(d.JWPLAYER_MEDIA_COMPLETE,u)};f.onTime=function(u){return h(d.JWPLAYER_MEDIA_TIME,u)};f.onBuffer=function(u){return r(b.BUFFERING,u)};f.onPause=function(u){return r(b.PAUSED,u)};f.onPlay=function(u){return r(b.PLAYING,u)};f.onIdle=function(u){return r(b.IDLE,u)};f.onClick=function(u){return h(d.JWPLAYER_INSTREAM_CLICK,u)};f.onInstreamDestroyed=function(u){return h(d.JWPLAYER_INSTREAM_DESTROYED,u)};f.play=function(u){e.jwInstreamPlay(u)};f.pause=function(u){e.jwInstreamPause(u)};f.destroy=function(){e.jwInstreamDestroy()};f.setText=function(u){e.jwInstreamSetText(u?u:"")};f.updateSkipTime=function(v,u){e.jwInstreamUpdateSkipTime(v,u)};f.getState=function(){return e.jwInstreamState()};f.setClick=function(u){e.jwInstreamClick(u)};j()}})(jwplayer)};
+/**
+ * JW Player Source start cap
+ * 
+ * This will appear at the top of the JW Player source
+ * 
+ * @version 6.0
+ */
+
+ if (typeof jwplayer == "undefined") {/**
+ * JW Player namespace definition
+ * @version 6.0
+ */
+jwplayer = function(container) {
+	if (jwplayer.api) {
+		return jwplayer.api.selectPlayer(container);
+	}
+};
+
+TiZiplayer = jwplayer;
+
+jwplayer.version = '6.7.';
+
+// "Shiv" method for older IE browsers; required for parsing media tags
+jwplayer.vid = document.createElement("video");
+jwplayer.audio = document.createElement("audio");
+jwplayer.source = document.createElement("source");/**
+ * Utility methods for the JW Player.
+ * 
+ * @author pablo
+ * @version 6.0
+ */
+(function(jwplayer) {
+	var DOCUMENT = document, 
+		WINDOW = window, 
+		NAVIGATOR = navigator, 
+		UNDEFINED = "undefined", 
+		STRING = "string", 
+		OBJECT = "object",
+		TRUE = true, 
+		FALSE = false;
+	
+	//Declare namespace
+	var utils = jwplayer.utils = function() {};
+
+	/**
+	 * Returns true if the value of the object is null, undefined or the empty
+	 * string
+	 * 
+	 * @param a The variable to inspect
+	 */
+	utils.exists = function(item) {
+		switch (typeof (item)) {
+		case STRING:
+			return (item.length > 0);
+			break;
+		case OBJECT:
+			return (item !== null);
+		case UNDEFINED:
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+	/** Used for styling dimensions in CSS -- return the string unchanged if it's a percentage width; add 'px' otherwise **/ 
+	utils.styleDimension = function(dimension) {
+		return dimension + (dimension.toString().indexOf("%") > 0 ? "" : "px");
+	}
+
+	
+	/** Gets an absolute file path based on a relative filepath * */
+	utils.getAbsolutePath = function(path, base) {
+		if (!utils.exists(base)) {
+			base = DOCUMENT.location.href;
+		}
+		if (!utils.exists(path)) {
+			return undefined;
+		}
+		if (isAbsolutePath(path)) {
+			return path;
+		}
+		var protocol = base.substring(0, base.indexOf("://") + 3);
+		var domain = base.substring(protocol.length, base.indexOf('/', protocol.length + 1));
+		var patharray;
+		if (path.indexOf("/") === 0) {
+			patharray = path.split("/");
+		} else {
+			var basepath = base.split("?")[0];
+			basepath = basepath.substring(protocol.length + domain.length + 1, basepath.lastIndexOf('/'));
+			patharray = basepath.split("/").concat(path.split("/"));
+		}
+		var result = [];
+		for ( var i = 0; i < patharray.length; i++) {
+			if (!patharray[i] || !utils.exists(patharray[i]) || patharray[i] == ".") {
+				continue;
+			} else if (patharray[i] == "..") {
+				result.pop();
+			} else {
+				result.push(patharray[i]);
+			}
+		}
+		return protocol + domain + "/" + result.join("/");
+	};
+
+	function isAbsolutePath(path) {
+		if (!utils.exists(path)) {
+			return;
+		}
+		var protocol = path.indexOf("://");
+		var queryparams = path.indexOf("?");
+		return (protocol > 0 && (queryparams < 0 || (queryparams > protocol)));
+	}
+
+	/** Merges a list of objects **/
+	utils.extend = function() {
+		var args = utils.extend['arguments'];
+		if (args.length > 1) {
+			for ( var i = 1; i < args.length; i++) {
+				utils.foreach(args[i], function(element, arg) {
+					try {
+						if (utils.exists(arg)) {
+							args[0][element] = arg;
+						}
+					} catch(e) {}
+				});
+			}
+			return args[0];
+		}
+		return null;
+	};
+
+	/** Logger * */
+	utils.log = function(msg, obj) {
+		if (typeof console != UNDEFINED && typeof console.log != UNDEFINED) {
+			if (obj) {
+				console.log(msg, obj);
+			} else {
+				console.log(msg);
+			}
+		}
+	};
+
+	var _userAgentMatch = utils.userAgentMatch = function(regex) {
+		var agent = NAVIGATOR.userAgent.toLowerCase();
+		return (agent.match(regex) !== null);
+	};
+	
+	function _browserCheck(regex) {
+		return function() {
+			return _userAgentMatch(regex);
+		}
+	}
+
+
+	utils.isIE = _browserCheck(/msie/i);
+
+	/*tizi 检测IE678版本*/
+	utils.isIE678 = function(){
+		return (_userAgentMatch(/msie 6.0/i) || _userAgentMatch(/msie 7.0/i) || _userAgentMatch(/msie 8.0/i));
+	}
+
+	utils.isFF = _browserCheck(/firefox/i);
+	utils.isChrome = _browserCheck(/chrome/i);
+	utils.isIPod = _browserCheck(/iP(hone|od)/i);
+	utils.isIPad = _browserCheck(/iPad/i);
+	utils.isSafari602 = _browserCheck(/Macintosh.*Mac OS X 10_8.*6\.0\.\d* Safari/i);
+
+	utils.isSafari = function() {
+		return (_userAgentMatch(/safari/i) && !_userAgentMatch(/chrome/i) && !_userAgentMatch(/chromium/i) && !_userAgentMatch(/android/i));
+	}
+
+	/** Matches iOS devices **/
+	utils.isIOS = function(version) {
+		if (version) {
+			return _userAgentMatch(new RegExp("iP(hone|ad|od).+\\sOS\\s"+version, "i"));
+		} else {
+			return _userAgentMatch(/iP(hone|ad|od)/i);
+		}
+	};
+
+	/** Matches Android devices **/	
+	utils.isAndroid = function(version, excludeChrome) {
+		//Android Browser appears to include a user-agent string for Chrome/18
+		var androidBrowser = excludeChrome ? !_userAgentMatch(/chrome\/[23456789]/i) : TRUE;
+		if (version) {
+			return androidBrowser && _userAgentMatch(new RegExp("android.*"+version, "i"));
+		} else {
+			return androidBrowser && _userAgentMatch(/android/i);
+		}
+	}
+
+	/** Matches iOS and Android devices **/	
+	utils.isMobile = function() {
+		return utils.isIOS() || utils.isAndroid();
+	}
+	
+	/** Save a setting **/
+	utils.saveCookie = function(name, value) {
+		DOCUMENT.cookie = "jwplayer." + name + "=" + value + "; path=/";
+	}
+
+	/** Retrieve saved  player settings **/
+	utils.getCookies = function() {
+		var jwCookies = {};
+		var cookies = DOCUMENT.cookie.split('; ');
+		for (var i=0; i<cookies.length; i++) {
+			var split = cookies[i].split('=');
+			if (split[0].indexOf("jwplayer.") == 0) {
+				jwCookies[split[0].substring(9, split[0].length)] = split[1];
+			}
+		}
+		return jwCookies;
+	}
+	
+
+	/** Returns the true type of an object * */
+	utils.typeOf = function(value) {
+		var typeofString = typeof value;
+		if (typeofString === 'object') {
+			if (!value) return "null";
+			return (value instanceof Array) ? 'array' : typeofString;
+		} else {
+			return typeofString;
+		}
+	};
+
+	/* Normalizes differences between Flash and HTML5 internal players' event responses. */
+	utils.translateEventResponse = function(type, eventProperties) {
+		var translated = utils.extend({}, eventProperties);
+		if (type == jwplayer.events.JWPLAYER_FULLSCREEN && !translated.fullscreen) {
+			translated.fullscreen = translated.message == "true" ? TRUE : FALSE;
+			delete translated.message;
+		} else if (typeof translated.data == OBJECT) {
+			// Takes ViewEvent "data" block and moves it up a level
+			translated = utils.extend(translated, translated.data);
+			delete translated.data;
+		} else if (typeof translated.metadata == OBJECT) {
+			utils.deepReplaceKeyName(translated.metadata, ["__dot__","__spc__","__dsh__","__default__"], ["."," ","-","default"]);
+		}
+		
+		var rounders = ["position", "duration", "offset"];
+		utils.foreach(rounders, function(rounder, val) {
+			if (translated[val]) {
+				translated[val] = Math.round(translated[val] * 1000) / 1000;
+			}
+		});
+		
+		return translated;
+	}
+
+	/**
+	 * If the browser has flash capabilities, return the flash version 
+	 */
+	utils.flashVersion = function() {
+		if (utils.isAndroid()) return 0;
+		
+		var plugins = NAVIGATOR.plugins, flash;
+		
+		try {
+			if (plugins !== UNDEFINED) {
+				flash = plugins['Shockwave Flash'];
+				if (flash) {
+					return parseInt(flash.description.replace(/\D+(\d+)\..*/, "$1"));
+				}
+			}
+		} catch(e) {
+			// The above evaluation (plugins != undefined) messes up IE7
+		}
+		
+		if (typeof WINDOW.ActiveXObject != UNDEFINED) {
+			try {
+				flash = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
+				if (flash) {
+					return parseInt(flash.GetVariable("$version").split(" ")[1].split(",")[0]);
+				}
+			} catch (err) {
+			}
+		}
+		return 0;
+	};
+
+
+	/** Finds the location of jwplayer.js and returns the path **/
+	utils.getScriptPath = function(scriptName) {
+		var scripts = DOCUMENT.getElementsByTagName("script");
+		for (var i=0; i<scripts.length; i++) {
+			var src = scripts[i].src;
+			if (src && src.indexOf(scriptName) >= 0) {
+				return src.substr(0, src.indexOf(scriptName));
+			}
+		}
+		return "";
+	}
+
+	/**
+	 * Recursively traverses nested object, replacing key names containing a
+	 * search string with a replacement string.
+	 * 
+	 * @param searchString
+	 *            The string to search for in the object's key names
+	 * @param replaceString
+	 *            The string to replace in the object's key names
+	 * @returns The modified object.
+	 */
+	utils.deepReplaceKeyName = function(obj, searchString, replaceString) {
+		switch (jwplayer.utils.typeOf(obj)) {
+		case "array":
+			for ( var i = 0; i < obj.length; i++) {
+				obj[i] = jwplayer.utils.deepReplaceKeyName(obj[i],
+						searchString, replaceString);
+			}
+			break;
+		case OBJECT:
+			utils.foreach(obj, function(key, val) {
+				var searches, replacements;
+				if (searchString instanceof Array && replaceString instanceof Array) {
+					if (searchString.length != replaceString.length)
+						return;
+					else {
+						searches = searchString;
+						replacements = replaceString;
+					}
+				} else {
+					searches = [searchString];
+					replacements = [replaceString];
+				}
+				var newkey = key;
+				for (var i=0; i < searches.length; i++) {
+					newkey = newkey.replace(new RegExp(searchString[i], "g"), replaceString[i]);
+				}
+				obj[newkey] = jwplayer.utils.deepReplaceKeyName(val, searchString, replaceString);
+				if (key != newkey) {
+					delete obj[key];
+				}
+			});
+			break;
+		}
+		return obj;
+	};
+	
+	
+	/**
+	 * Types of plugin paths
+	 */
+	var _pluginPathType = utils.pluginPathType = {
+		ABSOLUTE : 0,
+		RELATIVE : 1,
+		CDN : 2
+	}
+
+	/*
+	 * Test cases getPathType('hd') getPathType('hd-1') getPathType('hd-1.4')
+	 * 
+	 * getPathType('http://plugins.longtailvideo.com/5/hd/hd.swf')
+	 * getPathType('http://plugins.longtailvideo.com/5/hd/hd-1.swf')
+	 * getPathType('http://plugins.longtailvideo.com/5/hd/hd-1.4.swf')
+	 * 
+	 * getPathType('./hd.swf') getPathType('./hd-1.swf')
+	 * getPathType('./hd-1.4.swf')
+	 */
+	utils.getPluginPathType = function(path) {
+		if (typeof path != STRING) {
+			return;
+		}
+		path = path.split("?")[0];
+		var protocol = path.indexOf("://");
+		if (protocol > 0) {
+			return _pluginPathType.ABSOLUTE;
+		}
+		var folder = path.indexOf("/");
+		var extension = utils.extension(path);
+		if (protocol < 0 && folder < 0 && (!extension || !isNaN(extension))) {
+			return _pluginPathType.CDN;
+		}
+		return _pluginPathType.RELATIVE;
+	};
+
+	
+	/**
+	 * Extracts a plugin name from a string
+	 */
+	utils.getPluginName = function(pluginName) {
+		/** Regex locates the characters after the last slash, until it encounters a dash. **/
+		return pluginName.replace(/^(.*\/)?([^-]*)-?.*\.(swf|js)$/, "$2")
+	};
+
+	/**
+	 * Extracts a plugin version from a string
+	 */
+	utils.getPluginVersion = function(pluginName) {
+		return pluginName.replace(/[^-]*-?([^\.]*).*$/, "$1");
+	};
+
+	/**
+	 * Determines if a URL is a YouTube link
+	 */
+	utils.isYouTube = function(path) {
+		return /^(http|\/\/).*(youtube\.com|youtu\.be)\/.+/.test(path);
+	};
+	
+	/** 
+	 * Returns a YouTube ID from a number of YouTube URL formats:
+	 * 
+	 * Matches the following YouTube URL types:
+	 *  - http://www.youtube.com/watch?v=YE7VzlLtp-4
+	 *  - http://www.youtube.com/watch?v=YE7VzlLtp-4&extra_param=123
+	 *  - http://www.youtube.com/watch#!v=YE7VzlLtp-4
+	 *  - http://www.youtube.com/watch#!v=YE7VzlLtp-4?extra_param=123&another_param=456
+	 *  - http://www.youtube.com/v/YE7VzlLtp-4
+	 *  - http://www.youtube.com/v/YE7VzlLtp-4?extra_param=123&another_param=456
+	 *  - http://youtu.be/YE7VzlLtp-4
+	 *  - http://youtu.be/YE7VzlLtp-4?extra_param=123&another_param=456
+	 *  - YE7VzlLtp-4
+	 **/
+	utils.youTubeID = function(path) {
+		try {
+			// Left as a dense regular expression for brevity.  
+			return (/v[=\/]([^?&]*)|youtu\.be\/([^?]*)|^([\w-]*)$/i).exec(path).slice(1).join('').replace("?", "");		
+		} catch (e) {
+			return "";
+		}
+	}
+
+	/**
+	 * Determines if a URL is an RTMP link
+	 */
+	utils.isRtmp = function(file,type) {
+		return (file.indexOf("rtmp") == 0 || type == 'rtmp');
+	};
+
+	/**
+	 * Iterates over an object and executes a callback function for each property (if it exists)
+	 * This is a safe way to iterate over objects if another script has modified the object prototype
+	 */
+	utils.foreach = function(aData, fnEach) {
+		var key, val;
+		for (key in aData) {
+			if (utils.typeOf(aData.hasOwnProperty) == "function") {
+				if (aData.hasOwnProperty(key)) {
+					val = aData[key];
+					fnEach(key, val);
+				}
+			} else {
+				// IE8 has a problem looping through XML nodes
+				val = aData[key];
+				fnEach(key, val);
+			}
+		}
+	}
+
+	/** Determines if the current page is HTTPS **/
+	utils.isHTTPS = function() {
+		return (WINDOW.location.href.indexOf("https") == 0);	
+	}
+	
+	/** Gets the repository location **/
+	utils.repo = function() {
+		//var repo = "http://p.jwpcdn.com/" + jwplayer.version.split(/\W/).splice(0, 2).join("/") + "/";
+		var repo = "http://www.tizi.com/";//tizi
+		try {
+			if (utils.isHTTPS()) {
+				repo = repo.replace("http://", "https://ssl.");
+			}
+		} catch(e) {}
+		
+		return repo;
+	}
+
+	
+	/** Loads an XML file into a DOM object * */
+	utils.ajax = function(xmldocpath, completecallback, errorcallback) {
+		var xmlhttp;
+		// Hash tags should be removed from the URL since they can't be loaded in IE
+		if (xmldocpath.indexOf("#") > 0) xmldocpath = xmldocpath.replace(/#.*$/, "");
+
+		if (_isCrossdomain(xmldocpath) && utils.exists(WINDOW.XDomainRequest)) {
+			// IE8 / 9
+			xmlhttp = new XDomainRequest();
+			xmlhttp.onload = _ajaxComplete(xmlhttp, xmldocpath, completecallback, errorcallback);
+			xmlhttp.onerror = _ajaxError(errorcallback, xmldocpath, xmlhttp);
+			xmlhttp.ontimeout = function() {};
+			xmlhttp.onprogress = function() {};
+			xmlhttp.timeout = 5000;
+		} else if (utils.exists(WINDOW.XMLHttpRequest)) {
+			// Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = _readyStateChangeHandler(xmlhttp, xmldocpath, completecallback, errorcallback);
+			xmlhttp.onerror = _ajaxError(errorcallback, xmldocpath);
+		} else {
+			if (errorcallback) errorcallback();
+		}
+		 
+		try {
+			xmlhttp.open("GET", xmldocpath, TRUE);
+			xmlhttp.send(null);
+		} catch (error) {
+			if (errorcallback) errorcallback(xmldocpath);
+		}
+		return xmlhttp;
+	};
+	
+	function _isCrossdomain(path) {
+		if (path && path.indexOf("://") >= 0) {
+			if (path.split("/")[2] != WINDOW.location.href.split("/")[2])
+				return TRUE;
+		} 
+		return FALSE;	
+	}
+	
+	function _ajaxError(errorcallback, xmldocpath, xmlhttp) {
+		return function() {
+			errorcallback("Error loading file");
+		}
+ 	}
+	
+	function _readyStateChangeHandler(xmlhttp, xmldocpath, completecallback, errorcallback) {
+		return function() {
+			if (xmlhttp.readyState === 4) {
+				switch (xmlhttp.status) {
+				case 200:
+					_ajaxComplete(xmlhttp, xmldocpath, completecallback, errorcallback)();
+					break;
+				case 404:
+					errorcallback("File not found");
+				}
+			}
+		}
+	}
+	
+	function _ajaxComplete(xmlhttp, xmldocpath, completecallback, errorcallback) {
+		return function() {
+			// Handle the case where an XML document was returned with an incorrect MIME type.
+			try {
+				// This will throw an error on Windows Mobile 7.5.  We want to trigger the error so that we can move 
+				// down to the next section
+				var xml = xmlhttp.responseXML;
+				if (xml && xml.firstChild) return completecallback(xmlhttp);
+			} catch (e) {}
+			var parsedXML = utils.parseXML(xmlhttp.responseText);
+			if (parsedXML && parsedXML.firstChild) {
+				xmlhttp = utils.extend({}, xmlhttp, {responseXML:parsedXML});
+			} else {
+				if (errorcallback) errorcallback(xmlhttp.responseText ? "Invalid XML" : xmldocpath);
+				return;
+			}
+			completecallback(xmlhttp);
+		}
+	}
+	
+	/** Takes an XML string and returns an XML object **/
+	utils.parseXML = function(input) {
+		try {
+			var parsedXML;
+			// Parse XML in FF/Chrome/Safari/Opera
+			if (WINDOW.DOMParser) {
+				parsedXML = (new DOMParser()).parseFromString(input,"text/xml");
+				try {
+					if (parsedXML.childNodes[0].firstChild.nodeName == "parsererror")
+						return;
+				} catch(e) {}
+			} else { 
+				// Internet Explorer
+				parsedXML = new ActiveXObject("Microsoft.XMLDOM");
+				parsedXML.async="false";
+				parsedXML.loadXML(input);
+			}
+			return parsedXML;
+		} catch(e) {
+			return;
+		}
+	}	
+	
+	/** Go through the playlist and choose a single playable type to play; remove sources of a different type **/
+	utils.filterPlaylist = function(playlist, checkFlash) {
+		var pl = [];
+		for (var i=0; i < playlist.length; i++) {
+			var item = utils.extend({}, playlist[i]);
+			item.sources = utils.filterSources(item.sources);
+			if (item.sources.length > 0) {
+				for (var j = 0; j < item.sources.length; j++) {
+					//tizi domain
+					if(item.sources[j].domain) {
+						item.sources[j].file = utils.domainMap(item.sources[j].file, item.sources[j].domain);
+					}
+					var source = item.sources[j];
+					if (!source.label) source.label = j.toString();
+				}
+				pl.push(item);
+			}
+		}
+		
+		// HTML5 filtering failed; try for Flash sources
+		if (checkFlash && pl.length == 0) {
+			for (i=0; i < playlist.length; i++) {
+				item = utils.extend({}, playlist[i]);
+				item.sources = utils.filterSources(item.sources, TRUE);
+				if (item.sources.length > 0) {
+					for (j = 0; j < item.sources.length; j++) {
+						source = item.sources[j];
+						if (!source.label) source.label = j.toString();
+					}
+					pl.push(item);
+				}
+			}
+		}
+		return pl;
+	}
+	
+
+	/** Filters the sources by taking the first playable type and eliminating sources of a different type **/
+	utils.filterSources = function(sources, filterFlash) {
+		var selectedType, newSources, extensionmap = utils.extensionmap;
+		if (sources) {
+			newSources = [];
+			for (var i=0; i<sources.length; i++) {
+				var type = sources[i].type,
+					file = sources[i].file;
+				
+				if (file) file = utils.trim(file);
+				
+				if (!type) {
+					type = extensionmap.extType(utils.extension(file));
+					sources[i].type = type;
+				}
+
+				if (filterFlash) {
+					if (jwplayer.embed.flashCanPlay(file, type)) {
+						if (!selectedType) {
+							selectedType = type;
+						}
+						if (type == selectedType) {
+							newSources.push(utils.extend({}, sources[i]));
+						}
+					}
+				} else {
+					if (utils.canPlayHTML5(type)) {
+						if (!selectedType) {
+							selectedType = type;
+						}
+						if (type == selectedType) {
+							newSources.push(utils.extend({}, sources[i]));
+						}
+					}
+				}
+			}
+		}
+		return newSources;
+	}
+	
+	/** Returns true if the type is playable in HTML5 **/
+	utils.canPlayHTML5 = function(type) {
+		if (utils.isAndroid() && (type == "hls" || type == "m3u" || type == "m3u8")) return FALSE;
+		var mime = utils.extensionmap.types[type];
+		return (!!mime && !!jwplayer.vid.canPlayType && jwplayer.vid.canPlayType(mime));
+	}
+
+	/**
+	 * Convert a time-representing string to a number.
+	 *
+	 * @param {String}	The input string. Supported are 00:03:00.1 / 03:00.1 / 180.1s / 3.2m / 3.2h
+	 * @return {Number}	The number of seconds.
+	 */
+	utils.seconds = function(str) {
+		str = str.replace(',', '.');
+		var arr = str.split(':');
+		var sec = 0;
+		if (str.substr(-1) == 's') {
+			sec = Number(str.substr(0, str.length - 1));
+		} else if (str.substr(-1) == 'm') {
+			sec = Number(str.substr(0, str.length - 1)) * 60;
+		} else if (str.substr(-1) == 'h') {
+			sec = Number(str.substr(0, str.length - 1)) * 3600;
+		} else if (arr.length > 1) {
+			sec = Number(arr[arr.length - 1]);
+			sec += Number(arr[arr.length - 2]) * 60;
+			if (arr.length == 3) {
+				sec += Number(arr[arr.length - 3]) * 3600;
+			}
+		} else {
+			sec = Number(str);
+		}
+		return sec;
+	}
+	
+	/**
+	 * Basic serialization: string representations of booleans and numbers are
+	 * returned typed
+	 * 
+	 * @param {String}
+	 *            val String value to serialize.
+	 * @return {Object} The original value in the correct primitive type.
+	 */
+	utils.serialize = function(val) {
+		if (val == null) {
+			return null;
+		} else if (val.toString().toLowerCase() == 'true') {
+			return TRUE;
+		} else if (val.toString().toLowerCase() == 'false') {
+			return FALSE;
+		} else if (isNaN(Number(val)) || val.length > 5 || val.length == 0) {
+			return val;
+		} else {
+			return Number(val);
+		}
+	}
+	
+	//tizi domain
+	utils.domainMap = function(file, domain) {
+		switch (domain) {
+			case "tizi-oss":
+				return "http://tizi-kouyu-video.oss.aliyuncs.com/" + file;
+				break;
+			case "oss-tizi":
+				return "http://tizi.oss.aliyuncs.com/" + file;
+				break;
+			default:
+				break;
+		}
+		return file;
+	}
+
+})(jwplayer);/**
+ * JW Player Media Extension to Mime Type mapping
+ * 
+ * @author zach
+ * @modified pablo
+ * @version 6.0
+ */
+(function(utils) {
+	var video = "video/", 
+		audio = "audio/",
+		image = "image",
+		mp4 = "mp4",
+		webm = "webm",
+		ogg = "ogg",
+		aac = "aac",
+		mp3 = "mp3",
+		vorbis = "vorbis",
+		_foreach = utils.foreach,
+		
+		mimeMap = {
+			mp4: video+mp4,
+			vorbis: audio+ogg,
+			ogg: video+ogg,
+			webm: video+webm,
+			aac: audio+mp4,
+			mp3: audio+"mpeg",
+			hls: "application/vnd.apple.mpegurl"
+		},
+		
+		html5Extensions = {
+			"mp4": mimeMap[mp4],
+			"f4v": mimeMap[mp4],
+			"m4v": mimeMap[mp4],
+			"mov": mimeMap[mp4],
+			"m4a": mimeMap[aac],
+			"f4a": mimeMap[aac],
+			"aac": mimeMap[aac],
+			"mp3": mimeMap[mp3],
+			"ogv": mimeMap[ogg],
+			"ogg": mimeMap[vorbis],
+			"oga": mimeMap[vorbis],
+			"webm": mimeMap[webm],
+			"m3u8": mimeMap.hls,
+			"hls": mimeMap.hls
+		}, 
+		video = "video", 
+		flashExtensions = {
+			"flv": video,
+			"f4v": video,
+			"mov": video,
+			"m4a": video,
+			"m4v": video,
+			"mp4": video,
+			"aac": video,
+			"f4a": video,
+			"mp3": "sound",
+			"smil": "rtmp",
+			"m3u8": "hls",
+			"hls": "hls"
+		};
+	
+	var _extensionmap = utils.extensionmap = {};
+	_foreach(html5Extensions, function(ext, val) {
+		_extensionmap[ext] = { html5: val };
+	});
+
+	_foreach(flashExtensions, function(ext, val) {
+		if (!_extensionmap[ext]) _extensionmap[ext] = {};
+		_extensionmap[ext].flash = val;
+	});
+	
+	_extensionmap.types = mimeMap; 
+
+	_extensionmap.mimeType = function(mime) {
+		var returnType;
+		_foreach(mimeMap, function(type, val) {
+			if (!returnType && val == mime) returnType = type;
+		});
+		return returnType;
+	}
+
+	_extensionmap.extType = function(extension) {
+		return _extensionmap.mimeType(html5Extensions[extension]);
+	}
+
+})(jwplayer.utils);
+/**
+ * Loads a <script> tag
+ * @author zach
+ * @modified pablo
+ * @version 6.0
+ */
+(function(utils) {
+
+	var _loaderstatus = utils.loaderstatus = {
+			NEW: 0,
+			LOADING: 1,
+			ERROR: 2,
+			COMPLETE: 3
+		},
+		DOCUMENT = document;
+	
+	
+	utils.scriptloader = function(url) {
+		var _status = _loaderstatus.NEW,
+			_events = jwplayer.events,
+			_eventDispatcher = new _events.eventdispatcher();
+		
+		utils.extend(this, _eventDispatcher);
+		
+		this.load = function() {
+			var sameLoader = utils.scriptloader.loaders[url];
+			if (sameLoader && (sameLoader.getStatus() == _loaderstatus.NEW || sameLoader.getStatus() == _loaderstatus.LOADING)) {
+				// If we already have a scriptloader loading the same script, don't create a new one;
+				sameLoader.addEventListener(_events.ERROR, _sendError);
+				sameLoader.addEventListener(_events.COMPLETE, _sendComplete);
+				return;
+			}
+			
+			utils.scriptloader.loaders[url] = this;
+			
+			if (_status == _loaderstatus.NEW) {
+				_status = _loaderstatus.LOADING;
+				var scriptTag = DOCUMENT.createElement("script");
+				// Most browsers
+				if (scriptTag.addEventListener) {
+					scriptTag.onload = _sendComplete;
+					scriptTag.onerror = _sendError;
+				}
+				else if (scriptTag.readyState) {
+					// IE
+					scriptTag.onreadystatechange = function() {
+						if (scriptTag.readyState == 'loaded' || scriptTag.readyState == 'complete') {
+							_sendComplete();
+						}
+						// Error?
+					}
+				}
+				DOCUMENT.getElementsByTagName("head")[0].appendChild(scriptTag);
+				scriptTag.src = url;
+			}
+			
+		};
+		
+		function _sendError(evt) {
+			_status = _loaderstatus.ERROR;
+			_eventDispatcher.sendEvent(_events.ERROR);
+		}
+		
+		function _sendComplete(evt) {
+			_status = _loaderstatus.COMPLETE;
+			_eventDispatcher.sendEvent(_events.COMPLETE);
+		}
+
+		
+		this.getStatus = function() {
+			return _status;
+		}
+	}
+	
+	utils.scriptloader.loaders = {};
+})(jwplayer.utils);
+/**
+ * String utilities for the JW Player.
+ *
+ * @version 6.0
+ */
+(function(utils) {
+	/** Removes whitespace from the beginning and end of a string **/
+	utils.trim = function(inputString) {
+		return inputString.replace(/^\s*/, "").replace(/\s*$/, "");
+	};
+	
+	/**
+	 * Pads a string
+	 * @param {String} string
+	 * @param {Number} length
+	 * @param {String} padder
+	 */
+	utils.pad = function (str, length, padder) {
+		if (!padder){
+			padder = "0";
+		}
+		while (str.length < length) {
+			str = padder + str;
+		}
+		return str;
+	}
+	
+	/**
+	 * Get the value of a case-insensitive attribute in an XML node
+	 * @param {XML} xml
+	 * @param {String} attribute
+	 * @return {String} Value
+	 */
+	utils.xmlAttribute = function(xml, attribute) {
+		for (var attrib = 0; attrib < xml.attributes.length; attrib++) {
+			if (xml.attributes[attrib].name && xml.attributes[attrib].name.toLowerCase() == attribute.toLowerCase()) 
+				return xml.attributes[attrib].value.toString();
+		}
+		return "";
+	}
+	
+	/** Returns the extension of a file name * */
+	utils.extension = function(path) {
+		if (!path || path.substr(0,4) == 'rtmp') { return ""; }
+		path = path.substring(path.lastIndexOf("/") + 1, path.length).split("?")[0].split("#")[0];
+		if (path.lastIndexOf('.') > -1) {
+			return path.substr(path.lastIndexOf('.') + 1, path.length).toLowerCase();
+		}
+	};
+	
+	/** Convert a string representation of a string to an integer **/
+	utils.stringToColor = function(value) {
+		value = value.replace(/(#|0x)?([0-9A-F]{3,6})$/gi, "$2");
+		if (value.length == 3) {
+			value = value.charAt(0) + value.charAt(0) + value.charAt(1) + value.charAt(1) + value.charAt(2) + value.charAt(2);
+		}
+		return parseInt(value, 16);
+	}
+
+
+})(jwplayer.utils);
+/**
+ * JW Player Touch Framework
+ *
+ * @author sanil
+ * @version 6.6
+ */
+
+(function(utils) {
+
+    var TOUCH_MOVE = "touchmove",
+        TOUCH_START = "touchstart",
+        TOUCH_END = "touchend",
+        TOUCH_CANCEL = "touchcancel";
+
+    utils.touch = function(elem) {
+        var _elem = elem,
+            _isListening = false,
+            _handlers = {},
+            _startEvent = null,
+            _gotMove = false, 
+            _events = utils.touchEvents;
+
+        document.addEventListener(TOUCH_MOVE, touchHandler);
+        document.addEventListener(TOUCH_END, documentEndHandler);
+        document.addEventListener(TOUCH_CANCEL, touchHandler);
+        elem.addEventListener(TOUCH_START, touchHandler);
+        elem.addEventListener(TOUCH_END, touchHandler);
+
+        function documentEndHandler(evt) {
+            if(_isListening) {
+                if(_gotMove) {
+                    triggerEvent(_events.DRAG_END, evt);
+                }
+            }
+            _gotMove = false;
+            _isListening = false;
+            _startEvent = null; 
+        }
+
+        function touchHandler(evt) {
+            if(evt.type == TOUCH_START) {
+                _isListening = true;
+                _startEvent = createEvent(_events.DRAG_START, evt);
+            }
+            else if(evt.type == TOUCH_MOVE) {
+                if(_isListening) {
+                    if(_gotMove) {
+                        triggerEvent(_events.DRAG, evt);
+                    }
+                    else {
+                        triggerEvent(_events.DRAG_START, evt, _startEvent);
+                        _gotMove = true;
+                        triggerEvent(_events.DRAG, evt);
+                    }
+                }
+            }
+            else {
+                if(_isListening) {
+                    if(_gotMove) {
+                        triggerEvent(_events.DRAG_END, evt);
+                    }
+                    else {
+                        // This allows the controlbar/dock/logo tap events not to be forwarded to the view
+                        evt.cancelBubble = true;
+                        triggerEvent(_events.TAP, evt);
+                    }
+                }
+                _gotMove = false;
+                _isListening = false;
+                _startEvent = null;
+            }
+        }
+
+        function triggerEvent(type, srcEvent, finalEvt) {
+            if(_handlers[type]) {
+                preventDefault(srcEvent);
+                var evt = finalEvt ? finalEvt : createEvent(type, srcEvent);
+                if (evt) {
+                    _handlers[type](evt);
+                }
+            }
+        }
+
+        function createEvent(type, srcEvent) {
+            var touch = null;
+            if(srcEvent.touches && srcEvent.touches.length) {
+                touch = srcEvent.touches[0];
+            }
+            else if(srcEvent.changedTouches && srcEvent.changedTouches.length) {
+                touch = srcEvent.changedTouches[0];   
+            }
+            if(!touch) {
+                return null;
+            }
+            var rect = _elem.getBoundingClientRect();
+            var evt = {
+                type: type,
+                target: _elem,
+                x: ((touch.pageX - window.pageXOffset) - rect.left),
+                y: touch.pageY,
+                deltaX: 0,
+                deltaY: 0
+            };
+            if(type != _events.TAP && _startEvent) {
+                evt.deltaX = evt.x - _startEvent.x;
+                evt.deltaY = evt.y - _startEvent.y;
+            }
+            return evt;
+        }
+        
+        function preventDefault(evt) {
+             if(evt.preventManipulation) {
+                evt.preventManipulation();
+            }
+            if(evt.preventDefault) {
+                evt.preventDefault();
+            }
+        }
+
+        this.addEventListener = function(type, handler) {
+            _handlers[type] = handler;
+        };
+
+        this.removeEventListener = function(type) {
+            delete _handlers[type];
+        };
+
+        return this;
+    };
+
+})(jwplayer.utils);/**
+ * Event namespace defintion for the JW Player
+ * 
+ * @author pablo
+ * @version 6.0
+ */
+(function(utils) {
+	utils.touchEvents = {
+		DRAG: "jwplayerDrag",
+        DRAG_START: "jwplayerDragStart",
+        DRAG_END: "jwplayerDragEnd",
+        TAP: "jwplayerTap"
+	};
+
+})(jwplayer.utils);
+/**
+ * Event namespace defintion for the JW Player
+ * 
+ * @author pablo
+ * @version 6.0
+ */
+(function(jwplayer) {
+	jwplayer.events = {
+		// General Events
+		COMPLETE : 'COMPLETE',
+		ERROR : 'ERROR',
+
+		// API Events
+		API_READY : 'jwplayerAPIReady',
+		JWPLAYER_READY : 'jwplayerReady',
+		JWPLAYER_FULLSCREEN : 'jwplayerFullscreen',
+		JWPLAYER_RESIZE : 'jwplayerResize',
+		JWPLAYER_ERROR : 'jwplayerError',
+		JWPLAYER_SETUP_ERROR : 'jwplayerSetupError',
+
+		// Media Events
+		JWPLAYER_MEDIA_BEFOREPLAY : 'jwplayerMediaBeforePlay',
+		JWPLAYER_MEDIA_BEFORECOMPLETE : 'jwplayerMediaBeforeComplete',
+		JWPLAYER_COMPONENT_SHOW : 'jwplayerComponentShow',
+		JWPLAYER_COMPONENT_HIDE : 'jwplayerComponentHide',
+		JWPLAYER_MEDIA_BUFFER : 'jwplayerMediaBuffer',
+		JWPLAYER_MEDIA_BUFFER_FULL : 'jwplayerMediaBufferFull',
+		JWPLAYER_MEDIA_ERROR : 'jwplayerMediaError',
+		JWPLAYER_MEDIA_LOADED : 'jwplayerMediaLoaded',
+		JWPLAYER_MEDIA_COMPLETE : 'jwplayerMediaComplete',
+		JWPLAYER_MEDIA_SEEK : 'jwplayerMediaSeek',
+		JWPLAYER_MEDIA_TIME : 'jwplayerMediaTime',
+		JWPLAYER_MEDIA_VOLUME : 'jwplayerMediaVolume',
+		JWPLAYER_MEDIA_META : 'jwplayerMediaMeta',
+		JWPLAYER_MEDIA_MUTE : 'jwplayerMediaMute',
+		JWPLAYER_MEDIA_LEVELS: 'jwplayerMediaLevels',
+		JWPLAYER_MEDIA_LEVEL_CHANGED: 'jwplayerMediaLevelChanged',
+		JWPLAYER_CAPTIONS_CHANGED: 'jwplayerCaptionsChanged',
+		JWPLAYER_CAPTIONS_LIST: 'jwplayerCaptionsList',
+
+		// State events
+		JWPLAYER_PLAYER_STATE : 'jwplayerPlayerState',
+		state : {
+			BUFFERING : 'BUFFERING',
+			IDLE : 'IDLE',
+			PAUSED : 'PAUSED',
+			PLAYING : 'PLAYING'
+		},
+
+		// Playlist Events
+		JWPLAYER_PLAYLIST_LOADED : 'jwplayerPlaylistLoaded',
+		JWPLAYER_PLAYLIST_ITEM : 'jwplayerPlaylistItem',
+		JWPLAYER_PLAYLIST_COMPLETE : 'jwplayerPlaylistComplete',
+
+		// Display CLick
+		JWPLAYER_DISPLAY_CLICK : 'jwplayerViewClick',
+
+		// Controls show/hide 
+	 	JWPLAYER_CONTROLS : 'jwplayerViewControls', 
+	 	JWPLAYER_USER_ACTION : 'jwplayerUserAction', 
+
+		// Instream events
+		JWPLAYER_INSTREAM_CLICK : 'jwplayerInstreamClicked',
+		JWPLAYER_INSTREAM_DESTROYED : 'jwplayerInstreamDestroyed',
+
+		// Ad events
+		JWPLAYER_AD_TIME: "jwplayerAdTime",
+		JWPLAYER_AD_ERROR: "jwplayerAdError",
+		JWPLAYER_AD_CLICK: "jwplayerAdClicked",
+		JWPLAYER_AD_COMPLETE: "jwplayerAdComplete",
+		JWPLAYER_AD_IMPRESSION: "jwplayerAdImpression",
+		JWPLAYER_AD_COMPANIONS: "jwplayerAdCompanions",
+		JWPLAYER_AD_SKIPPED: "jwplayerAdSkipped"
+	};
+
+})(jwplayer);
+/**
+ * Event dispatcher for the JW Player
+ *
+ * @author zach
+ * @modified pablo
+ * @version 6.0
+ */
+(function(events) {
+	var _utils = jwplayer.utils; 
+	
+	events.eventdispatcher = function(id, debug) {
+		var _id = id,
+			_debug = debug,
+			_listeners, _globallisteners;
+		
+		/** Clears all event listeners **/
+		this.resetEventListeners = function() {
+			_listeners = {};
+			_globallisteners = [];
+		};
+		
+		this.resetEventListeners();
+		
+		/** Add an event listener for a specific type of event. **/
+		this.addEventListener = function(type, listener, count) {
+			try {
+				if (!_utils.exists(_listeners[type])) {
+					_listeners[type] = [];
+				}
+				
+				if (_utils.typeOf(listener) == "string") {
+					listener = ( new Function( 'return ' + listener ) )();
+				}
+				_listeners[type].push({
+					listener: listener,
+					count: count
+				});
+			} catch (err) {
+				_utils.log("error", err);
+			}
+			return false;
+		};
+		
+		/** Remove an event listener for a specific type of event. **/
+		this.removeEventListener = function(type, listener) {
+			if (!_listeners[type]) {
+				return;
+			}
+			try {
+				for (var listenerIndex = 0; listenerIndex < _listeners[type].length; listenerIndex++) {
+					if (_listeners[type][listenerIndex].listener.toString() == listener.toString()) {
+						_listeners[type].splice(listenerIndex, 1);
+						break;
+					}
+				}
+			} catch (err) {
+				_utils.log("error", err);
+			}
+			return false;
+		};
+		
+		/** Add an event listener for all events. **/
+		this.addGlobalListener = function(listener, count) {
+			try {
+				if (_utils.typeOf(listener) == "string") {
+					listener = ( new Function( 'return ' + listener ) )();
+				}
+				_globallisteners.push({
+					listener: listener,
+					count: count
+				});
+			} catch (err) {
+				_utils.log("error", err);
+			}
+			return false;
+		};
+		
+		/** Add an event listener for all events. **/
+		this.removeGlobalListener = function(listener) {
+			if (!listener) {
+				return;
+			}
+			try {
+				for (var globalListenerIndex = 0; globalListenerIndex < _globallisteners.length; globalListenerIndex++) {
+					if (_globallisteners[globalListenerIndex].listener.toString() == listener.toString()) {
+						_globallisteners.splice(globalListenerIndex, 1);
+						break;
+					}
+				}
+			} catch (err) {
+				_utils.log("error", err);
+			}
+			return false;
+		};
+		
+		
+		/** Send an event **/
+		this.sendEvent = function(type, data) {
+			if (!_utils.exists(data)) {
+				data = {};
+			}
+			_utils.extend(data, {
+				id: _id,
+				version: jwplayer.version,
+				type: type
+			});
+			if (_debug) {
+				_utils.log(type, data);
+			}
+			if (_utils.typeOf(_listeners[type]) != "undefined") {
+				for (var listenerIndex = 0; listenerIndex < _listeners[type].length; listenerIndex++) {
+					try {
+						_listeners[type][listenerIndex].listener(data);
+					} catch (err) {
+						_utils.log("There was an error while handling a listener: " + err.toString(), _listeners[type][listenerIndex].listener);
+					}
+					if (_listeners[type][listenerIndex]) {
+						if (_listeners[type][listenerIndex].count === 1) {
+							delete _listeners[type][listenerIndex];
+						} else if (_listeners[type][listenerIndex].count > 0) {
+							_listeners[type][listenerIndex].count = _listeners[type][listenerIndex].count - 1;
+						}
+					}
+				}
+			}
+			var globalListenerIndex;
+			for (globalListenerIndex = 0; globalListenerIndex < _globallisteners.length; globalListenerIndex++) {
+				try {
+					_globallisteners[globalListenerIndex].listener(data);
+				} catch (err) {
+					_utils.log("There was an error while handling a listener: " + err.toString(), _globallisteners[globalListenerIndex].listener);
+				}
+				if (_globallisteners[globalListenerIndex]) {
+					if (_globallisteners[globalListenerIndex].count === 1) {
+						delete _globallisteners[globalListenerIndex];
+					} else if (_globallisteners[globalListenerIndex].count > 0) {
+						_globallisteners[globalListenerIndex].count = _globallisteners[globalListenerIndex].count - 1;
+					}
+				}
+			}
+		};
+	};
+})(jwplayer.events);
+/**
+ * Plugin package definition
+ * @author zach
+ * @version 5.5
+ */
+(function(jwplayer) {
+	var _plugins = {},	
+		_pluginLoaders = {};
+	
+	jwplayer.plugins = function() {
+	}
+	
+	jwplayer.plugins.loadPlugins = function(id, config) {
+		_pluginLoaders[id] = new jwplayer.plugins.pluginloader(new jwplayer.plugins.model(_plugins), config);
+		return _pluginLoaders[id];
+	}
+	
+	jwplayer.plugins.registerPlugin = function(id, target, arg1, arg2) {
+		var pluginId = jwplayer.utils.getPluginName(id);
+		if (!_plugins[pluginId]) {
+			_plugins[pluginId] = new jwplayer.plugins.plugin(id);
+		}
+		_plugins[pluginId].registerPlugin(id, target, arg1, arg2);
+	}
+})(jwplayer);
+/**
+ * Model that manages all plugins
+ * @author zach
+ * @version 5.5
+ */
+(function(jwplayer) {		
+	jwplayer.plugins.model = function(plugins) {
+		this.addPlugin = function(url) {
+			var pluginName = jwplayer.utils.getPluginName(url);
+			if (!plugins[pluginName]) {
+				plugins[pluginName] = new jwplayer.plugins.plugin(url);
+			}
+			return plugins[pluginName];
+		}
+		this.getPlugins = function() {
+			return plugins;
+		}
+	}
+})(jwplayer);
+/**
+ * Internal plugin model
+ * @author zach
+ * @version 5.8
+ */
+(function(plugins) {
+	var utils = jwplayer.utils, events = jwplayer.events, UNDEFINED = "undefined";
+	
+	plugins.pluginmodes = {
+		FLASH: 0,
+		JAVASCRIPT: 1,
+		HYBRID: 2
+	}
+	
+	plugins.plugin = function(url) {
+		var _status = utils.loaderstatus.NEW,
+			_flashPath,
+			_js,
+			_target,
+			_completeTimeout;
+		
+		var _eventDispatcher = new events.eventdispatcher();
+		utils.extend(this, _eventDispatcher);
+		
+		function getJSPath() {
+			switch (utils.getPluginPathType(url)) {
+				case utils.pluginPathType.ABSOLUTE:
+					return url;
+				case utils.pluginPathType.RELATIVE:
+					return utils.getAbsolutePath(url, window.location.href);
+			}
+		}
+		
+		function completeHandler(evt) {
+			_completeTimeout = setTimeout(function(){
+				_status = utils.loaderstatus.COMPLETE;
+				_eventDispatcher.sendEvent(events.COMPLETE);		
+			}, 1000);
+		}
+		
+		function errorHandler(evt) {
+			_status = utils.loaderstatus.ERROR;
+			_eventDispatcher.sendEvent(events.ERROR);
+		}
+		
+		this.load = function() {
+			if (_status == utils.loaderstatus.NEW) {
+				if (url.lastIndexOf(".swf") > 0) {
+					_flashPath = url;
+					_status = utils.loaderstatus.COMPLETE;
+					_eventDispatcher.sendEvent(events.COMPLETE);
+					return;
+				} else if (utils.getPluginPathType(url) == utils.pluginPathType.CDN) {
+					_status = utils.loaderstatus.COMPLETE;
+					_eventDispatcher.sendEvent(events.COMPLETE);
+					return;
+				}
+				_status = utils.loaderstatus.LOADING;
+				var _loader = new utils.scriptloader(getJSPath());
+				// Complete doesn't matter - we're waiting for registerPlugin 
+				_loader.addEventListener(events.COMPLETE, completeHandler);
+				_loader.addEventListener(events.ERROR, errorHandler);
+				_loader.load();
+			}
+		}
+		
+		this.registerPlugin = function(id, target, arg1, arg2) {
+			if (_completeTimeout){
+				clearTimeout(_completeTimeout);
+				_completeTimeout = undefined;
+			}
+			_target = target;
+			if (arg1 && arg2) {
+				_flashPath = arg2;
+				_js = arg1;
+			} else if (typeof arg1 == "string") {
+				_flashPath = arg1;
+			} else if (typeof arg1 == "function") {
+				_js = arg1;
+			} else if (!arg1 && !arg2) {
+				_flashPath = id;
+			}
+			_status = utils.loaderstatus.COMPLETE;
+			_eventDispatcher.sendEvent(events.COMPLETE);
+		}
+		
+		this.getStatus = function() {
+			return _status;
+		}
+		
+		this.getPluginName = function() {
+			return utils.getPluginName(url);
+		}
+		
+		this.getFlashPath = function() {
+			if (_flashPath) {
+				switch (utils.getPluginPathType(_flashPath)) {
+					case utils.pluginPathType.ABSOLUTE:
+						return _flashPath;
+					case utils.pluginPathType.RELATIVE:
+						if (url.lastIndexOf(".swf") > 0) {
+							return utils.getAbsolutePath(_flashPath, window.location.href);
+						}
+						return utils.getAbsolutePath(_flashPath, getJSPath());
+//					case utils.pluginPathType.CDN:
+//						if (_flashPath.indexOf("-") > -1){
+//							return _flashPath+"h";
+//						}
+//						return _flashPath+"-h";
+				}
+			}
+			return null;
+		}
+		
+		this.getJS = function() {
+			return _js;
+		}
+		
+		this.getTarget = function() {
+			return _target;
+		}
+
+		this.getPluginmode = function() {
+			if (typeof _flashPath != UNDEFINED
+			 && typeof _js != UNDEFINED) {
+			 	return plugins.pluginmodes.HYBRID;
+			 } else if (typeof _flashPath != UNDEFINED) {
+			 	return plugins.pluginmodes.FLASH;
+			 } else if (typeof _js != UNDEFINED) {
+			 	return plugins.pluginmodes.JAVASCRIPT;
+			 }
+		}
+		
+		this.getNewInstance = function(api, config, div) {
+			return new _js(api, config, div);
+		}
+		
+		this.getURL = function() {
+			return url;
+		}
+	}
+	
+})(jwplayer.plugins);
+/**
+ * Loads plugins for a player
+ * @author zach
+ * @version 5.6
+ */
+(function(jwplayer) {
+	var utils = jwplayer.utils, 
+		events = jwplayer.events,
+		_foreach = utils.foreach;
+
+	jwplayer.plugins.pluginloader = function(model, config) {
+		var _status = utils.loaderstatus.NEW,
+			_loading = false,
+			_iscomplete = false,
+			_errorState = false,
+			_errorMessage,
+			_config = config,
+			_eventDispatcher = new events.eventdispatcher();
+		
+		
+		utils.extend(this, _eventDispatcher);
+		
+		/*
+		 * Plugins can be loaded by multiple players on the page, but all of them use
+		 * the same plugin model singleton. This creates a race condition because
+		 * multiple players are creating and triggering loads, which could complete
+		 * at any time. We could have some really complicated logic that deals with
+		 * this by checking the status when it's created and / or having the loader
+		 * redispatch its current status on load(). Rather than do this, we just check
+		 * for completion after all of the plugins have been created. If all plugins
+		 * have been loaded by the time checkComplete is called, then the loader is
+		 * done and we fire the complete event. If there are new loads, they will
+		 * arrive later, retriggering the completeness check and triggering a complete
+		 * to fire, if necessary.
+		 */
+		function _complete() {
+			if (_errorState) {
+				_eventDispatcher.sendEvent(events.ERROR, {message: _errorMessage});
+			} else if (!_iscomplete) {
+				_iscomplete = true;
+				_status = utils.loaderstatus.COMPLETE;
+				_eventDispatcher.sendEvent(events.COMPLETE);
+			}
+		}
+		
+		// This is not entirely efficient, but it's simple
+		function _checkComplete() {
+			if (!_config) _complete();
+			if (!_iscomplete && !_errorState) {
+				var incomplete = 0, plugins = model.getPlugins();
+				
+				utils.foreach(_config, function(plugin, val) {
+					var pluginName = utils.getPluginName(plugin),
+						pluginObj = plugins[pluginName],
+						js = pluginObj.getJS(),
+						target = pluginObj.getTarget(),
+						status = pluginObj.getStatus(); 
+
+					if (status == utils.loaderstatus.LOADING || status == utils.loaderstatus.NEW) {
+						incomplete++;
+					} else if (js && (!target || parseFloat(target) > parseFloat(jwplayer.version))) {
+						_errorState = true;
+						_errorMessage = "Incompatible player version";
+						_complete();
+					}
+				});
+				
+				if (incomplete == 0) {
+					_complete();
+				}
+			}
+		}
+		
+		this.setupPlugins = function(api, config, resizer) {
+			var flashPlugins = {
+				length: 0,
+				plugins: {}
+			},
+			jsplugins = {
+				length: 0,
+				plugins: {}
+			},
+
+			plugins = model.getPlugins();
+			
+			_foreach(config.plugins, function(plugin, pluginConfig) {
+				var pluginName = utils.getPluginName(plugin),
+					pluginObj = plugins[pluginName],
+					flashPath = pluginObj.getFlashPath(),
+					jsPlugin = pluginObj.getJS(),
+					pluginURL = pluginObj.getURL();
+				
+
+				if (flashPath) {
+					flashPlugins.plugins[flashPath] = utils.extend({}, pluginConfig);
+					flashPlugins.plugins[flashPath].pluginmode = pluginObj.getPluginmode();
+					flashPlugins.length++;
+				}
+
+				try {
+					if (jsPlugin && config.plugins && config.plugins[pluginURL]) {
+						var div = document.createElement("div");
+						div.id = api.id + "_" + pluginName;
+						div.style.position = "absolute";
+						div.style.top = 0;
+						div.style.zIndex = jsplugins.length + 10;
+						jsplugins.plugins[pluginName] = pluginObj.getNewInstance(api, utils.extend({}, config.plugins[pluginURL]), div);
+						jsplugins.length++;
+						api.onReady(resizer(jsplugins.plugins[pluginName], div, true));
+						api.onResize(resizer(jsplugins.plugins[pluginName], div));
+					}
+				}
+				catch (err) {
+					utils.log ("ERROR: Failed to load " + pluginName + ".");
+				}
+			});
+			
+			api.plugins = jsplugins.plugins;
+			
+			return flashPlugins;
+		};
+		
+		this.load = function() {
+			// Must be a hash map
+			if (utils.exists(config) && utils.typeOf(config) != "object") {
+				_checkComplete();
+				return;
+			}
+			
+			_status = utils.loaderstatus.LOADING;
+			_loading = true;
+			
+			/** First pass to create the plugins and add listeners **/
+			_foreach(config, function(plugin, val) {
+				if (utils.exists(plugin)) {
+					var pluginObj = model.addPlugin(plugin);
+					pluginObj.addEventListener(events.COMPLETE, _checkComplete);
+					pluginObj.addEventListener(events.ERROR, _pluginError);
+				}
+			});
+			
+			var plugins = model.getPlugins();
+			
+			/** Second pass to actually load the plugins **/
+			_foreach(plugins, function(plugin, pluginObj) {
+				// Plugin object ensures that it's only loaded once
+				pluginObj.load();
+			});
+			
+			_loading = false;
+			
+			// Make sure we're not hanging around waiting for plugins that already finished loading
+			_checkComplete();
+		}
+		
+		var _pluginError = this.pluginFailed = function(evt) {
+			if (!_errorState) {
+				_errorState = true;
+				_errorMessage = "File not found";
+				_complete();
+			}
+		}
+		
+		this.getStatus = function() {
+			return _status;
+		}
+		
+	}
+})(jwplayer);
+/**
+ * Parsers namespace declaration
+ * 
+ * @author pablo
+ * @version 6.0
+ */
+(function(html5) {
+	jwplayer.parsers = {
+		localName : function(node) {
+			if (!node) {
+				return "";
+			} else if (node.localName) {
+				return node.localName;
+			} else if (node.baseName) {
+				return node.baseName;
+			} else {
+				return "";
+			}
+		},
+		textContent : function(node) {
+			if (!node) {
+				return "";
+			} else if (node.textContent) {
+				return jwplayer.utils.trim(node.textContent);
+			} else if (node.text) {
+				return jwplayer.utils.trim(node.text);
+			} else {
+				return "";
+			}
+		},
+		getChildNode : function(parent, index) {
+			return parent.childNodes[index];
+		},
+		numChildren : function(parent) {
+			if (parent.childNodes) {
+				return parent.childNodes.length;
+			} else {
+				return 0;
+			}
+		}
+
+	};
+})(jwplayer);
+/**
+ * Parse a feed item for JWPlayer content.
+ * 
+ * @author zach
+ * @modified pablo
+ * @version 6.0
+ */
+(function(jwplayer) {
+	var _parsers = jwplayer.parsers;
+	
+	var jwparser = _parsers.jwparser = function() {
+	};
+
+	var PREFIX = 'jwplayer';
+
+	/**
+	 * Parse a feed entry for JWPlayer content.
+	 * 
+	 * @param {XML}
+	 *            obj The XML object to parse.
+	 * @param {Object}
+	 *            itm The playlistentry to amend the object to.
+	 * @return {Object} The playlistentry, amended with the JWPlayer info.
+	 */
+	jwparser.parseEntry = function(obj, itm) {
+		var sources = [],
+			tracks = [],
+			_xmlAttribute = jwplayer.utils.xmlAttribute,
+			def = "default",
+			label = "label",
+			file = "file",
+			type = "type";
+		for ( var i = 0; i < obj.childNodes.length; i++) {
+			var node = obj.childNodes[i];
+			if (node.prefix == PREFIX) {
+				var _localName = _parsers.localName(node);
+				if (_localName == "source") {
+					delete itm.sources;
+					sources.push({
+						file: _xmlAttribute(node, file),
+						"default": _xmlAttribute(node, def),
+						label: _xmlAttribute(node, label),
+						type: _xmlAttribute(node, type)
+					});
+				}
+				else if (_localName == "track") {
+					delete itm.tracks;
+					tracks.push({
+						file: _xmlAttribute(node, file),
+						"default": _xmlAttribute(node, def),
+						kind: _xmlAttribute(node, "kind"),
+						label: _xmlAttribute(node, label)
+					});
+				}
+				else {
+					itm[_localName] = jwplayer.utils.serialize(_parsers.textContent(node));
+					if (_localName == "file" && itm.sources) {
+						// jwplayer namespace file should override existing source
+						// (probably set in MediaParser)
+						delete itm.sources;
+					}
+				}
+				
+			}
+			if (!itm[file]) {
+				itm[file] = itm['link'];
+			}
+		}
+
+
+		if (sources.length) {
+			itm.sources = [];
+			for (i = 0; i < sources.length; i++) {
+				if (sources[i].file.length > 0) {
+					sources[i][def] = (sources[i][def] == "true") ? true : false;
+					if (!sources[i].label.length) { 
+						delete sources[i].label;
+					}
+					itm.sources.push(sources[i]);
+				}
+			}
+		}
+
+		if (tracks.length) {
+			itm.tracks = [];
+			for (i = 0; i < tracks.length; i++) {
+				if (tracks[i].file.length > 0) {
+					tracks[i][def] = (tracks[i][def] == "true") ? true : false;
+					tracks[i].kind = (!tracks[i].kind.length) ? "captions" : tracks[i].kind;
+					if (!tracks[i].label.length) {
+						delete tracks[i].label;
+					}
+					itm.tracks.push(tracks[i]);
+				}
+			}
+		}
+		return itm;
+	}
+})(jwplayer);/**
+ * Parse a MRSS group into a playlistitem (used in RSS and ATOM).
+ *
+ * author zach
+ * modified pablo
+ * version 6.0
+ */
+(function(parsers) {
+	var utils = jwplayer.utils,
+		_xmlAttribute = utils.xmlAttribute,
+		_localName = parsers.localName,
+		_textContent = parsers.textContent,
+		_numChildren = parsers.numChildren;
+	
+	
+	var mediaparser = parsers.mediaparser = function() {};
+	
+	/** Prefix for the MRSS namespace. **/
+	var PREFIX = 'media';
+	
+	/**
+	 * Parse a feeditem for Yahoo MediaRSS extensions.
+	 * The 'content' and 'group' elements can nest other MediaRSS elements.
+	 * @param	{XML}		obj		The entire MRSS XML object.
+	 * @param	{Object}	itm		The playlistentry to amend the object to.
+	 * @return	{Object}			The playlistentry, amended with the MRSS info.
+	 **/
+	mediaparser.parseGroup = function(obj, itm) {
+		var node, 
+			i,
+			tracks = "tracks",
+			captions = [];
+
+		function getLabel(code) {
+			var LANGS = { 
+				"zh": "Chinese",
+				"nl": "Dutch",
+				"en": "English",
+				"fr": "French",
+				"de": "German",
+				"it": "Italian",
+				"ja": "Japanese",
+				"pt": "Portuguese",
+				"ru": "Russian",
+				"es": "Spanish"
+			};
+			
+			if(LANGS[code]) {
+				return LANGS[code];
+			}
+			return code;
+		}	
+
+		for (i = 0; i < _numChildren(obj); i++) {
+			node = obj.childNodes[i];
+			if (node.prefix == PREFIX) {
+				if (!_localName(node)){
+					continue;
+				}
+				switch (_localName(node).toLowerCase()) {
+					case 'content':
+						//itm['file'] = _xmlAttribute(node, 'url');
+						if (_xmlAttribute(node, 'duration')) {
+							itm['duration'] = utils.seconds(_xmlAttribute(node, 'duration'));
+						}
+						if (_numChildren(node) > 0) {
+							itm = mediaparser.parseGroup(node, itm);
+						}
+						if (_xmlAttribute(node, 'url')) {
+							if (!itm.sources) {
+								itm.sources = [];
+							}
+							itm.sources.push({
+								file: _xmlAttribute(node, 'url'),
+								type: _xmlAttribute(node, 'type'),
+								width: _xmlAttribute(node, 'width'),
+								label: _xmlAttribute(node, 'label')
+							});
+						}
+						break;
+					case 'title':
+						itm['title'] = _textContent(node);
+						break;
+					case 'description':
+						itm['description'] = _textContent(node);
+						break;
+					case 'guid':
+						itm['mediaid'] = _textContent(node);
+						break;
+					case 'thumbnail':
+						if (!itm['image']) {
+							itm['image'] = _xmlAttribute(node, 'url');
+						}
+						break;
+					case 'player':
+						var url = node.url;
+						break;
+					case 'group':
+						mediaparser.parseGroup(node, itm);
+						break;
+					case 'subtitle':
+						var entry = {};
+						entry.file = _xmlAttribute(node, 'url');
+						entry.kind = "captions";
+						if (_xmlAttribute(node, 'lang').length > 0) {
+							entry.label = getLabel(_xmlAttribute(node, 'lang'));
+						}
+						captions.push(entry);
+				}
+			}
+		}
+
+		if (!itm.hasOwnProperty(tracks)) {
+			itm[tracks] = [];
+		}
+
+		for(i = 0; i < captions.length; i++) {
+			itm[tracks].push(captions[i]);
+		}
+
+		return itm;
+	}
+	
+})(jwplayer.parsers);
+/**
+ * Parse an RSS feed and translate it to a playlist.
+ *
+ * @author zach
+ * @modified pablo
+ * @version 6.0
+ */
+(function(parsers) {
+	var utils = jwplayer.utils,
+		_textContent = parsers.textContent,
+		_getChildNode = parsers.getChildNode,
+		_numChildren = parsers.numChildren,
+		_localName = parsers.localName;
+	
+	parsers.rssparser = {};
+	
+	
+	/**
+	 * Parse an RSS playlist for feed items.
+	 *
+	 * @param {XML} dat
+	 * @reuturn {Array} playlistarray
+	 */
+	parsers.rssparser.parse = function(dat) {
+		var arr = [];
+		for (var i = 0; i < _numChildren(dat); i++) {
+			var node = _getChildNode(dat, i),
+				localName = _localName(node).toLowerCase();
+			if (localName == 'channel') {
+				for (var j = 0; j < _numChildren(node); j++) {
+					var subNode = _getChildNode(node, j);
+					if (_localName(subNode).toLowerCase() == 'item') {
+						arr.push(_parseItem(subNode));
+					}
+				}
+			}
+		}
+		return arr;
+	};
+		
+		
+	/** 
+	 * Translate RSS item to playlist item.
+	 *
+	 * @param {XML} obj
+	 * @return {PlaylistItem} PlaylistItem
+	 */
+	function _parseItem(obj) {
+		var itm = {};
+		for (var i = 0; i < obj.childNodes.length; i++) {
+			var node = obj.childNodes[i];
+			var localName = _localName(node);
+			if (!localName){
+				continue;
+			}
+			switch (localName.toLowerCase()) {
+				case 'enclosure':
+					itm['file'] = utils.xmlAttribute(node, 'url');
+					break;
+				case 'title':
+					itm['title'] = _textContent(node);
+					break;
+				case 'guid':
+					itm['mediaid'] = _textContent(node);
+					break;
+				case 'pubdate':
+					itm['date'] = _textContent(node);
+					break;
+				case 'description':
+					itm['description'] = _textContent(node);
+					break;
+				case 'link':
+					itm['link'] = _textContent(node);
+					break;
+				case 'category':
+					if (itm['tags']) {
+						itm['tags'] += _textContent(node);
+					} else {
+						itm['tags'] = _textContent(node);
+					}
+					break;
+			}
+		}
+		itm = parsers.mediaparser.parseGroup(obj, itm);
+		itm = parsers.jwparser.parseEntry(obj, itm);
+
+		return new jwplayer.playlist.item(itm);
+	}
+
+
+	
+	
+})(jwplayer.parsers);
+/**
+ * JW Player playlist model
+ *
+ * @author zach
+ * @modified pablo
+ * @version 6.0
+ */
+(function(jwplayer) {
+	jwplayer.playlist = function(playlist) {
+		var _playlist = [];
+		if (jwplayer.utils.typeOf(playlist) == "array") {
+			for (var i=0; i < playlist.length; i++) {
+				_playlist.push(new jwplayer.playlist.item(playlist[i]));
+			}
+		} else {
+			_playlist.push(new jwplayer.playlist.item(playlist));
+		}
+		return _playlist;
+	};
+	
+})(jwplayer);
+/**
+ * JW Player playlist item model
+ *
+ * @author zach
+ * @modified pablo
+ * @version 6.0
+ */
+(function(playlist) {
+	var _item = playlist.item = function(config) {
+		var utils = jwplayer.utils,
+			_playlistitem = utils.extend({}, _item.defaults, config);
+		_playlistitem.tracks = (config && utils.exists(config.tracks)) ? config.tracks : [];
+
+		if (_playlistitem.sources.length == 0) {
+			_playlistitem.sources = [new playlist.source(_playlistitem)];
+		}
+
+		/** Each source should be a named object **/
+		for (var i=0; i < _playlistitem.sources.length; i++) {
+			var def = _playlistitem.sources[i]["default"];
+			if (def) {
+				_playlistitem.sources[i]["default"] = (def.toString() == "true");
+			}
+			else {
+				_playlistitem.sources[i]["default"] = false;	
+			}
+
+			_playlistitem.sources[i] = new playlist.source(_playlistitem.sources[i]);
+		}
+
+		if (_playlistitem.captions && !utils.exists(config.tracks)) {
+			for (var j = 0; j < _playlistitem.captions.length; j++) {
+				_playlistitem.tracks.push(_playlistitem.captions[j]);
+			}
+			delete _playlistitem.captions;
+		}
+
+		for (var i=0; i < _playlistitem.tracks.length; i++) {
+			_playlistitem.tracks[i] = new playlist.track(_playlistitem.tracks[i]);
+		}
+		return _playlistitem;
+	};
+	
+	_item.defaults = {
+		description: "",
+		image: "",
+		mediaid: "",
+		title: "",
+		sources: [],
+		tracks: []
+	};
+	
+})(jwplayer.playlist);/**
+ * JW Player playlist loader
+ *
+ * @author pablo
+ * @version 6.0
+ */
+(function(playlist) {
+	var _jw = jwplayer, utils = _jw.utils, events = _jw.events, parsers = _jw.parsers;
+
+	playlist.loader = function() {
+		var _eventDispatcher = new events.eventdispatcher();
+		utils.extend(this, _eventDispatcher);
+		
+		this.load = function(playlistfile) {
+			utils.ajax(playlistfile, _playlistLoaded, _playlistLoadError);
+		}
+		
+		function _playlistLoaded(loadedEvent) {
+			try {
+				var childNodes = loadedEvent.responseXML.childNodes;
+				var rss = "";
+				for (var i = 0; i < childNodes.length; i++) {
+					rss = childNodes[i];
+					if (rss.nodeType != 8) { // 8: Node.COMMENT_NODE (IE8 doesn't have the Node.COMMENT_NODE constant)
+						break;
+					}
+				}
+				
+				if (parsers.localName(rss) == "xml") {
+					rss = rss.nextSibling;
+				}
+				
+				if (parsers.localName(rss) != "rss") {
+					_playlistError("Not a valid RSS feed");
+					return;
+				}
+				
+				var pl = new playlist(parsers.rssparser.parse(rss));
+				_eventDispatcher.sendEvent(events.JWPLAYER_PLAYLIST_LOADED, {
+					playlist: pl
+				});
+			} catch (e) {
+				_playlistError();
+			}
+		}
+		
+		function _playlistLoadError(err) {
+			_playlistError(err.match(/invalid/i) ? "Not a valid RSS feed" : "");
+		}
+		
+		function _playlistError(msg) {
+			_eventDispatcher.sendEvent(events.JWPLAYER_ERROR, {
+				message: msg ? msg : 'Error loading file'
+			});
+		}
+	}
+})(jwplayer.playlist);/**
+ * JW Player playlist item source
+ *
+ * @author pablo
+ * @version 6.0
+ */
+(function(playlist) {
+	var UNDEF = undefined,
+		utils = jwplayer.utils,
+		defaults = {
+			file: UNDEF,
+			label: UNDEF,
+			type: UNDEF,
+			domain: UNDEF,//tizi
+			"default": UNDEF
+		};
+	
+	playlist.source = function(config) {
+		var _source = utils.extend({}, defaults);
+		
+		utils.foreach(defaults, function(property, value) {
+			if (utils.exists(config[property])) {
+				_source[property] = config[property];
+				// Actively move from config to source
+				delete config[property];
+			}
+		});
+		
+		if (_source.type && _source.type.indexOf("/") > 0) {
+			_source.type = utils.extensionmap.mimeType(_source.type);
+		}
+		if (_source.type == "m3u8") _source.type = "hls";
+		if (_source.type == "smil") _source.type = "rtmp";
+		return _source;
+	};
+	
+})(jwplayer.playlist);
+/**
+ * JW Player playlist item track
+ *
+ * @author sanil
+ * @version 6.3
+ */
+(function(playlist) {
+	var UNDEF = undefined,
+		utils = jwplayer.utils,
+		defaults = {
+			file: UNDEF,
+			label: UNDEF,
+			kind: "captions",
+			"default": false
+		};
+	
+	playlist.track = function(config) {
+		var _track = utils.extend({}, defaults);
+		if (!config) config = {};
+		
+		utils.foreach(defaults, function(property, value) {
+			if (utils.exists(config[property])) {
+				_track[property] = config[property];
+				// Actively move from config to track
+				delete config[property];
+			}
+		});
+		
+		return _track;
+	};
+	
+})(jwplayer.playlist);
+/**
+ * Embedder for the JW Player
+ * @author Zach
+ * @modified Pablo
+ * @version 6.0
+ */
+(function(jwplayer) {
+	var utils = jwplayer.utils,
+		events = jwplayer.events,
+		
+		TRUE = true,
+		FALSE = false,
+		DOCUMENT = document;
+	
+	var embed = jwplayer.embed = function(playerApi) {
+//		var mediaConfig = utils.mediaparser.parseMedia(playerApi.container);
+		var _config = new embed.config(playerApi.config),
+			_container, _oldContainer, _fallbackDiv,
+			_width = _config.width,
+			_height = _config.height,
+			_errorText = "Error loading player: ",
+			_pluginloader = jwplayer.plugins.loadPlugins(playerApi.id, _config.plugins),
+			_playlistLoading = FALSE,
+			_errorOccurred = FALSE,
+			_setupErrorTimer = null,
+			_this = this;
+
+		if (_config.fallbackDiv) {
+			_fallbackDiv = _config.fallbackDiv;
+			delete _config.fallbackDiv;
+		}
+		_config.id = playerApi.id;
+		_oldContainer = DOCUMENT.getElementById(playerApi.id);
+		if (_config.aspectratio) {
+		 	playerApi.config.aspectratio = _config.aspectratio;
+		}
+		else {
+			delete playerApi.config.aspectratio;
+		}
+		_container = DOCUMENT.createElement("div");
+		_container.id = _oldContainer.id;
+		_container.style.width = _width.toString().indexOf("%") > 0 ? _width : (_width + "px");
+		_container.style.height = _height.toString().indexOf("%") > 0 ? _height : (_height + "px");
+		_oldContainer.parentNode.replaceChild(_container, _oldContainer);
+		
+		function _setupEvents(api, events) {
+			utils.foreach(events, function(evt, val) {
+				if (typeof api[evt] == "function") {
+					(api[evt]).call(api, val);
+				}
+			});
+		}
+		
+		_this.embed = function() {
+			if (_errorOccurred) return;
+
+			_pluginloader.addEventListener(events.COMPLETE, _doEmbed);
+			_pluginloader.addEventListener(events.ERROR, _pluginError);
+			_pluginloader.load();
+		}
+		
+		function _doEmbed() {
+			if (_errorOccurred) return;
+
+			if (utils.typeOf(_config.playlist) == "array" && _config.playlist.length < 2) {
+				if (_config.playlist.length == 0 || !_config.playlist[0].sources || _config.playlist[0].sources.length == 0) {
+					_sourceError();
+					return;
+				}
+			}
+			
+			if (_playlistLoading) return;
+			
+			if (utils.typeOf(_config.playlist) == "string") {
+				var loader = new jwplayer.playlist.loader();
+				loader.addEventListener(events.JWPLAYER_PLAYLIST_LOADED, function(evt) {
+					_config.playlist = evt.playlist;
+					_playlistLoading = FALSE;
+					_doEmbed();
+				});
+				loader.addEventListener(events.JWPLAYER_ERROR, function(evt) {
+					_playlistLoading = FALSE;
+					_sourceError(evt);
+				});
+				_playlistLoading = TRUE;
+				loader.load(_config.playlist);
+				return;
+			}
+
+			if (_pluginloader.getStatus() == utils.loaderstatus.COMPLETE) {
+				for (var mode = 0; mode < _config.modes.length; mode++) {
+					if (_config.modes[mode].type && embed[_config.modes[mode].type]) {
+						var configClone = utils.extend({}, _config),
+							embedder = new embed[_config.modes[mode].type](_container, _config.modes[mode], configClone, _pluginloader, playerApi);
+
+						if (embedder.supportsConfig()) {
+							embedder.addEventListener(events.ERROR, _embedError);
+							embedder.embed();
+							_setupEvents(playerApi, configClone.events);
+							return playerApi;
+						}
+					}
+				}
+				
+				if (_config.fallback) {
+					var message = "No suitable players found and fallback enabled";
+					_setupErrorTimer = setTimeout (function (evt) {
+						_dispatchSetupError(message, TRUE);
+					}, 10);
+					utils.log(message);
+					new embed.download(_container, _config, _sourceError);
+				} else {
+					var message = "No suitable players found and fallback disabled";
+					_dispatchSetupError(message, FALSE);
+					utils.log(message);
+					_replaceContainer();
+				}
+				
+			}
+		};
+		
+		function _replaceContainer() {
+			_container.parentNode.replaceChild(_fallbackDiv, _container);
+		}
+		
+		function _embedError(evt) {
+			_errorScreen(_errorText + evt.message);
+		}
+		
+		function _pluginError(evt) {
+			_errorScreen("Could not load plugins: " + evt.message);
+		}
+		
+		function _sourceError(evt) {
+			if (evt && evt.message) {
+				_errorScreen("Error loading playlist: " + evt.message);
+			} else {
+				_errorScreen(_errorText  + "No playable sources found");
+			}
+		}
+
+		function _dispatchSetupError(message, fallback) {
+			if (_setupErrorTimer) {
+				clearTimeout(_setupErrorTimer);
+				_setupErrorTimer = null;
+			}
+			playerApi.dispatchEvent(events.JWPLAYER_SETUP_ERROR, {message: message, fallback: fallback});
+		}	
+
+		function _errorScreen(message) {
+			if (_errorOccurred) return;
+
+			if (!_config.fallback) {
+				_dispatchSetupError(message, FALSE);
+				return;
+			}
+
+			_errorOccurred = TRUE;
+			_displayError(_container, message, _config)
+			_dispatchSetupError(message, TRUE);
+		}
+		
+		_this.errorScreen = _errorScreen;
+		
+		return _this;
+	};
+
+	function _displayError(container, message, config) {
+		var style = container.style;
+		style.backgroundColor = "#000";
+		style.color = "#FFF";
+		style.width = utils.styleDimension(config.width);
+		style.height = utils.styleDimension(config.height);
+		style.display = "table";
+		style.opacity = 1;
+		
+		var text = document.createElement("p"),
+			textStyle = text.style;	
+		textStyle.verticalAlign = "middle";
+		textStyle.textAlign = "center";
+		textStyle.display = "table-cell";
+		textStyle.font = "15px/20px Arial, Helvetica, sans-serif";
+		text.innerHTML = message.replace(":", ":<br>");
+
+		container.innerHTML = "";
+		container.appendChild(text);
+	}
+
+	// Make this publicly accessible so the HTML5 player can error out on setup using the same code
+	jwplayer.embed.errorScreen = _displayError;
+	
+})(jwplayer);
+/**
+ * Configuration for the JW Player Embedder
+ * @author Zach
+ * @modified Pablo
+ * @version 6.0
+ */
+(function(jwplayer) {
+	var utils = jwplayer.utils,
+		embed = jwplayer.embed,
+		playlistitem = jwplayer.playlist.item,
+		UNDEFINED = undefined;
+
+	var config = embed.config = function(config) {
+		
+		var _defaults = {
+				fallback: true,
+				height: 461,//默认高度				
+				width: 820,//默认宽度
+				primary: "flash",
+				displaytitle:false,
+				base: config.base ? config.base : utils.getScriptPath("TiZiplayer.js"),//默认js入口
+				aspectratio: "",
+				noflash:false//tizi
+			},
+			_config = utils.extend(_defaults, jwplayer.defaults, config),
+			_modes = {
+			    html5: { type: "html5", src: _config.base + "TiZiplayer.html5.js" },//默认html5播放器文件
+				flash: { type: "flash", src: _config.base + "TiZiplayer.flash.swf" }//默认swf播放器文件
+			};
+
+		// No longer allowing user-set modes block as of 6.0
+		_config.modes = (_config.primary == "flash") ? [_modes.flash, _modes.html5] : [_modes.html5, _modes.flash]; 
+		
+		if (_config.listbar) {
+			_config.playlistsize = _config.listbar.size;
+			_config.playlistposition = _config.listbar.position;
+			_config.playlistlayout = _config.listbar.layout;
+		}
+		
+		if (_config.flashplayer) _modes.flash.src = _config.flashplayer;
+		if (_config.html5player) _modes.html5.src = _config.html5player;
+		
+		_normalizePlaylist(_config);
+
+		evaluateAspectRatio(_config);
+
+		return _config;
+	};
+
+	function evaluateAspectRatio(config) {
+		var ar = config.aspectratio,
+			ratio = getRatio(ar);
+		if (config.width.toString().indexOf("%") == -1) {
+			delete config.aspectratio;	
+		}
+		else if (!ratio) {
+			delete config.aspectratio;
+		}
+		else {
+			config.aspectratio = ratio;	
+		}
+	}
+
+	function getRatio(ar) {
+		if (typeof ar != "string" || !utils.exists(ar)) return 0;
+		var index = ar.indexOf(":");
+		if (index == -1) return 0;
+		var w = parseFloat(ar.substr(0,index)),
+			h = parseFloat(ar.substr(index+1));
+		if (w <= 0 || h <= 0) return 0;
+		return (h/w * 100) + "%";
+	}
+
+	/** Appends a new configuration onto an old one; used for mode configuration **/
+	config.addConfig = function(oldConfig, newConfig) {
+		_normalizePlaylist(newConfig);
+		return utils.extend(oldConfig, newConfig);
+	}
+	
+	/** Construct a playlist from base-level config elements **/
+	function _normalizePlaylist(config) {
+		if (!config.playlist) {
+			var singleItem = {};
+			
+			utils.foreach(playlistitem.defaults, function(itemProp, val) {
+				_moveProperty(config, singleItem, itemProp);
+			});
+
+			if (!singleItem.sources) {
+				if (config.levels) {
+					singleItem.sources = config.levels;
+					delete config.levels;
+				} else {
+					var singleSource = {};
+					_moveProperty(config, singleSource, "file");
+					_moveProperty(config, singleSource, "type");
+					singleItem.sources = singleSource.file ? [singleSource] : [];
+				}
+			}
+				
+			config.playlist = [new playlistitem(singleItem)];
+		} else {
+			// Use JW Player playlist items to normalize sources of existing playlist items
+			for (var i=0; i<config.playlist.length; i++) {
+				config.playlist[i] = new playlistitem(config.playlist[i]);
+			}
+		}
+	}
+	
+	function _moveProperty(sourceObj, destObj, property) {
+		if (utils.exists(sourceObj[property])) {
+			destObj[property] = sourceObj[property];
+			delete sourceObj[property];
+		}
+	}
+	
+})(jwplayer);
+/**
+ * Download mode embedder for the JW Player
+ * @author Zach
+ * @version 5.5
+ */
+(function(jwplayer) {
+	var embed = jwplayer.embed,
+		utils = jwplayer.utils,
+
+		DOCUMENT = document,
+		
+		JW_CSS_CURSOR = "pointer",
+		JW_CSS_NONE = "none",
+		JW_CSS_BLOCK = "block",
+		JW_CSS_100PCT = "100%",
+		JW_CSS_RELATIVE = "relative",
+		JW_CSS_ABSOLUTE = "absolute";
+	
+	embed.download = function(_container, _options, _errorCallback) {
+		var params = utils.extend({}, _options),
+			_display,
+			_width = params.width ? params.width : 480,
+			_height = params.height ? params.height : 320,
+			_file, 
+			_image,
+			_logo = _options.logo ? _options.logo : {
+				//prefix: utils.repo(),
+				prefix: 'http://www.tizi.com/application/views/static/image/common/',
+				file: 'player_logo.png',
+				margin: 4
+			};
+
+
+		function _embed() {
+			var file, image, youtube, i, playlist = params.playlist, item, sources, i,
+				types = ["mp4", "aac", "mp3"]; 
+			if (playlist && playlist.length) {
+				item = playlist[0];
+				sources = item.sources;
+				// If no downloadable files, and youtube, display youtube
+				// If nothing, show error message
+				for (i=0; i<sources.length; i++) {
+					var source = sources[i], 
+						type = source.type ? source.type : utils.extensionmap.extType(utils.extension(source.file));
+					if (source.file) {
+						// TODO: shouldn't be using same variable in nested loop...  Clean up at some point
+						utils.foreach(types, function(i, val) {
+							if (type == types[i]) {
+								file = source.file;
+								image = item.image;
+							} else if (utils.isYouTube(source.file)) {
+								youtube = source.file;
+							}
+						});
+
+						if (file || youtube) continue;
+					}
+				}
+			} else {
+				return;
+			}
+			
+			if (file) {
+				_file = file;
+				_image = image;
+				_buildElements();
+				_styleElements();
+			} else if (youtube) {
+				_embedYouTube(youtube);
+			} else {
+				_errorCallback();
+			}
+		}
+		
+		function _buildElements() {
+			if (_container) {
+				_display = _createElement("a", "display", _container);
+				_createElement("div", "icon", _display);
+				_createElement("div", "logo", _display);
+				if (_file) {
+					/*tizi 屏蔽文件下载
+					_display.setAttribute("href", utils.getAbsolutePath(_file));
+					*/
+				}
+			}
+		}
+		
+		function _css(selector, style) {
+			var elements = DOCUMENT.querySelectorAll(selector);
+			for (var i=0; i<elements.length; i++) {
+				utils.foreach(style, function(prop, val) {
+					elements[i].style[prop] = val;
+				});
+			}
+		}
+		
+		function _styleElements() {
+			var _prefix = "#" + _container.id + " .jwdownload";
+
+			_container.style.width = "";
+			_container.style.height = "";
+			
+			_css(_prefix+"display", {
+				width: utils.styleDimension(Math.max(320, _width)),
+				height: utils.styleDimension(Math.max(180, _height)),
+				background: "black center no-repeat " + (_image ? 'url('+_image+')' : ""),
+				backgroundSize: "contain",
+				position: JW_CSS_RELATIVE,
+				border: JW_CSS_NONE,
+				display: JW_CSS_BLOCK
+			});
+
+			_css(_prefix+"display div", {
+				position: JW_CSS_ABSOLUTE,
+				width: JW_CSS_100PCT,
+				height: JW_CSS_100PCT
+			});
+
+			/*tizi 去掉logo显示
+			_css(_prefix+"logo", {
+				top: _logo.margin + "px",
+				right: _logo.margin + "px",
+				background: "top right no-repeat url(" + _logo.prefix + _logo.file + ")"
+			});
+
+			_css(_prefix+"icon", {
+				background: "center no-repeat url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAgNJREFUeNrs28lqwkAYB/CZqNVDDj2r6FN41QeIy8Fe+gj6BL275Q08u9FbT8ZdwVfotSBYEPUkxFOoks4EKiJdaDuTjMn3wWBO0V/+sySR8SNSqVRKIR8qaXHkzlqS9jCfzzWcTCYp9hF5o+59sVjsiRzcegSckFzcjT+ruN80TeSlAjCAAXzdJSGPFXRpAAMYwACGZQkSdhG4WCzehMNhqV6vG6vVSrirKVEw66YoSqDb7cqlUilE8JjHd/y1MQefVzqdDmiaJpfLZWHgXMHn8F6vJ1cqlVAkEsGuAn83J4gAd2RZymQygX6/L1erVQt+9ZPWb+CDwcCC2zXGJaewl/DhcHhK3DVj+KfKZrMWvFarcYNLomAv4aPRSFZVlTlcSPA5fDweW/BoNIqFnKV53JvncjkLns/n/cLdS+92O7RYLLgsKfv9/t8XlDn4eDyiw+HA9Jyz2eyt0+kY2+3WFC5hluej0Ha7zQQq9PPwdDq1Et1sNsx/nFBgCqWJ8oAK1aUptNVqcYWewE4nahfU0YQnk4ntUEfGMIU2m01HoLaCKbTRaDgKtaVLk9tBYaBcE/6Artdr4RZ5TB6/dC+9iIe/WgAMYADDpAUJAxjAAAYwgGFZgoS/AtNNTF7Z2bL0BYPBV3Jw5xFwwWcYxgtBP5OkE8i9G7aWGOOCruvauwADALMLMEbKf4SdAAAAAElFTkSuQmCC)"
+			});	
+			*/
+		}
+		
+		function _createElement(tag, className, parent) {
+			var _element = DOCUMENT.createElement(tag);
+			if (className) _element.className = "jwdownload"+className;
+			if (parent) {
+				parent.appendChild(_element);
+			}
+			return _element;
+		};
+		
+		/** 
+		 * Although this function creates a flash embed, the target is iOS, which interprets the embed code as a YouTube video, 
+		 * and plays it using the browser
+		 */
+		function _embedYouTube(path) {
+			var embed = _createElement("embed", "", _container);
+
+			embed.src = "http://www.youtube.com/v/" + utils.youTubeID(path);
+			embed.type = "application/x-shockwave-flash";
+			embed.width = _width;
+			embed.height = _height;
+		}
+		
+		_embed();
+	};
+
+
+	
+})(jwplayer);
+/**
+ * Flash mode embedder the JW Player
+ * @author Zach
+ * @modified Pablo
+ * @version 6.0
+ */
+(function(jwplayer) {
+	var utils = jwplayer.utils,
+		events = jwplayer.events,
+		storedFlashvars = {};
+
+	var _flash = jwplayer.embed.flash = function(_container, _player, _options, _loader, _api) {
+		var _eventDispatcher = new jwplayer.events.eventdispatcher(),
+			_flashVersion = utils.flashVersion();
+		utils.extend(this, _eventDispatcher);
+		
+		/*tizi ie678下检测flash版本*/
+		if(_api.config.noflash && utils.isIE678() && utils.flashVersion() < 10){
+			if(typeof $.tiziDialog === 'function'){
+				$.tiziDialog({
+					content:"您的Flash版本过低",
+					ok:false,
+					button:[{
+						name:"下载最新版本",
+						className:'aui_state_highlight',
+						href:"http://get.adobe.com/cn/flashplayer/",
+						target:"_blank"
+					}]
+				});
+			}else{
+				alert("您的Flash版本过低");
+			}
+		}
+
+		function appendAttribute(object, name, value) {
+			var param = document.createElement('param');
+			param.setAttribute('name', name);
+			param.setAttribute('value', value);
+			object.appendChild(param);
+		};
+		
+		function _resizePlugin(plugin, div, onready) {
+			return function(evt) {
+				try {
+					if (onready) {
+						document.getElementById(_api.id+"_wrapper").appendChild(div);
+					}
+					var display = document.getElementById(_api.id).getPluginConfig("display");
+					if (typeof plugin.resize == "function") {
+						plugin.resize(display.width, display.height);
+					}
+					div.style.left = display.x;
+					div.style.top = display.h;
+				} catch (e) {}
+			}
+		}
+		
+		
+		function parseComponents(componentBlock) {
+			if (!componentBlock) {
+				return {};
+			}
+			
+			var flat = {};
+			
+			utils.foreach(componentBlock, function(component, componentConfig) {
+				utils.foreach(componentConfig, function(param, val) {
+					flat[component + '.' + param] = val;
+				});
+			});
+			
+			return flat;
+		};
+		
+		function parsePlugins(pluginBlock) {
+			if (!pluginBlock) {
+				return {};
+			}
+			
+			var flat = {}, pluginKeys = [];
+			
+			utils.foreach(pluginBlock, function(plugin, pluginConfig) {
+				var pluginName = utils.getPluginName(plugin);
+				pluginKeys.push(plugin);
+				utils.foreach(pluginConfig, function(param, val) {
+					flat[pluginName + '.' + param] = val;
+				});
+			});
+			flat.plugins = pluginKeys.join(',');
+			return flat;
+		};
+
+		this.embed = function() {		
+			// Make sure we're passing the correct ID into Flash for Linux API support
+			_options.id = _api.id;
+			
+			// If Flash is installed, but the version is too low, display an error.
+			if (_flashVersion < 10) {
+				//_eventDispatcher.sendEvent(events.ERROR, {message:"Flash version must be 10.0 or greater"});
+				_eventDispatcher.sendEvent(events.ERROR, {message:"您的Flash版本过低"});
+				return false;
+			}
+			
+			var _wrapper,
+			 	_aspect,
+				lb = _api.config.listbar;
+			
+			var params = utils.extend({}, _options);
+			
+			// Hack for when adding / removing happens too quickly
+			if (_container.id + "_wrapper" == _container.parentNode.id) {
+				_wrapper = document.getElementById(_container.id + "_wrapper");
+			} else {
+				_wrapper = document.createElement("div");
+				_aspect = document.createElement("div");
+				_aspect.style.display = "none";
+				_aspect.id = _container.id + "_aspect";
+				_wrapper.id = _container.id + "_wrapper";
+				_wrapper.style.position = "relative";
+				_wrapper.style.display = "block";
+				_wrapper.style.width = utils.styleDimension(params.width);
+				_wrapper.style.height= utils.styleDimension(params.height);
+				
+				if (_api.config.aspectratio) {
+					var ar = parseFloat(_api.config.aspectratio);
+					_aspect.style.display = "block";
+					_aspect.style.marginTop = _api.config.aspectratio;
+					_wrapper.style.height = "auto";
+					_wrapper.style.display = "inline-block";
+					if (lb) {
+						if(lb.position == "bottom") {
+							_aspect.style.paddingBottom = lb.size + "px";
+						}
+						else if(lb.position == "right") {
+							_aspect.style.marginBottom = (-1 * lb.size * (ar/100)) + "px";
+						}
+					}
+				}
+				
+				_container.parentNode.replaceChild(_wrapper, _container);
+				_wrapper.appendChild(_container);
+				_wrapper.appendChild(_aspect);
+				
+			}
+			
+			var flashPlugins = _loader.setupPlugins(_api, params, _resizePlugin);
+			
+			if (flashPlugins.length > 0) {
+				utils.extend(params, parsePlugins(flashPlugins.plugins));
+			} else {
+				delete params.plugins;
+			}
+
+			// Hack for the dock
+			if (typeof params["dock.position"] != "undefined"){
+				if (params["dock.position"].toString().toLowerCase() == "false") {
+					params["dock"] = params["dock.position"];
+					delete params["dock.position"];					
+				}
+			}
+			
+			var bgcolor = "#000000",
+				flashPlayer, //flashvars,
+				wmode = params.wmode ? params.wmode : (params.height && params.height <= 40 ? "transparent" : "opaque"),
+				toDelete = ["height", "width", "modes", "events", "primary", "base", "fallback", "volume"];
+			
+			for (var i = 0; i < toDelete.length; i++) {
+				delete params[toDelete[i]];
+			}
+			
+			// If we've set any cookies in HTML5 mode, bring them into flash
+			var cookies = utils.getCookies();
+			utils.foreach(cookies, function(cookie, val) {
+				if (typeof(params[cookie])=="undefined") {
+					params[cookie] = val;
+				}
+			});
+			
+			var base = window.location.href.split("/");
+			base.splice(base.length-1, 1);
+			base = base.join("/");
+			params.base = base + "/";
+			
+			storedFlashvars[_container.id] = params;
+
+			if (utils.isIE()) {
+				var html = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" ' +
+				'" width="100%" height="100%"' +
+				'id="' +
+				_container.id +
+				'" name="' +
+				_container.id +
+				'" tabindex=0"' +
+				'">';
+				html += '<param name="movie" value="' + _player.src + '">';
+				html += '<param name="allowfullscreen" value="true">';
+				html += '<param name="allowscriptaccess" value="always">';
+				html += '<param name="seamlesstabbing" value="true">';
+				html += '<param name="wmode" value="' + wmode + '">';
+				html += '<param name="bgcolor" value="' + bgcolor + '">';
+				html += '</object>';
+
+				_container.outerHTML = html;
+								
+				flashPlayer = document.getElementById(_container.id);
+			} else {
+				var obj = document.createElement('object');
+				obj.setAttribute('type', 'application/x-shockwave-flash');
+				obj.setAttribute('data', _player.src);
+				obj.setAttribute('width', "100%");
+				obj.setAttribute('height', "100%");
+				obj.setAttribute('bgcolor', bgcolor);
+				obj.setAttribute('id', _container.id);
+				obj.setAttribute('name', _container.id);
+				obj.setAttribute('tabindex', 0);
+				appendAttribute(obj, 'allowfullscreen', 'true');
+				appendAttribute(obj, 'allowscriptaccess', 'always');
+				appendAttribute(obj, 'seamlesstabbing', 'true');
+				appendAttribute(obj, 'wmode', wmode);
+				
+				_container.parentNode.replaceChild(obj, _container);
+				flashPlayer = obj;
+			}
+			
+			if (_api.config.aspectratio) {
+				flashPlayer.style.position = "absolute";		
+			}
+			_api.container = flashPlayer;
+			_api.setPlayer(flashPlayer, "flash");
+		}
+		/**
+		 * Detects whether Flash supports this configuration
+		 */
+		this.supportsConfig = function() {
+			if (_flashVersion) {
+				if (_options) {
+					if (utils.typeOf(_options.playlist) == "string") return true;
+
+					try {
+						var item = _options.playlist[0],
+							sources = item.sources;
+						
+						if (typeof sources == "undefined") {
+							return true;
+						} else {
+							for (var i = 0; i < sources.length; i++) {
+								if (sources[i].file && _flashCanPlay(sources[i].file, sources[i].type)) {
+									return true;
+								}
+							}
+						}
+					} catch (e) {
+						return false;
+					}
+				} else {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	
+	_flash.getVars = function(id) {
+		return storedFlashvars[id];		
+	}
+
+	/**
+	 * Determines if a Flash can play a particular file, based on its extension
+	 */
+	var _flashCanPlay = jwplayer.embed.flashCanPlay = function(file, type) {
+		// TODO: Return false if isMobile
+		
+		if (utils.isYouTube(file)) return true;
+		if (utils.isRtmp(file,type)) return true;
+		if (type == "hls") return true;
+
+		var mappedType = utils.extensionmap[type ? type : utils.extension(file)];
+		
+		// If no type or unrecognized type, don't allow to play
+		if (!mappedType) {
+			return false;
+		}
+
+		return !!(mappedType.flash);
+	}
+	
+})(jwplayer);
+/**
+ * HTML5 mode embedder for the JW Player
+ * @author Zach
+ * @modified Pablo
+ * @version 6.0
+ */
+(function(jwplayer) {
+	var utils = jwplayer.utils, extensionmap = utils.extensionmap, events = jwplayer.events;
+
+	jwplayer.embed.html5 = function(_container, _player, _options, _loader, _api) {
+		var _this = this,
+			_eventdispatcher = new events.eventdispatcher();
+		
+		utils.extend(_this, _eventdispatcher);
+		
+		
+		function _resizePlugin (plugin, div, onready) {
+			return function(evt) {
+				try {
+					var displayarea = document.querySelector("#" + _container.id + " .jwmain");
+					if (onready) {
+						displayarea.appendChild(div);
+					}
+					if (typeof plugin.resize == "function") {
+						plugin.resize(displayarea.clientWidth, displayarea.clientHeight);
+						setTimeout(function () {
+							plugin.resize(displayarea.clientWidth, displayarea.clientHeight);
+						}, 400);
+					}
+					div.left = displayarea.style.left;
+					div.top = displayarea.style.top;
+				} catch(e) {}
+			}
+		}
+		
+		_this.embed = function() {
+			if (jwplayer.html5) {
+				_loader.setupPlugins(_api, _options, _resizePlugin);
+				_container.innerHTML = "";
+				var playerOptions = jwplayer.utils.extend({}, _options);
+				
+				// Volume option is tricky to remove, since it needs to be in the HTML5 player model.  So we'll remove it here.
+				delete playerOptions.volume;
+				
+				var html5player = new jwplayer.html5.player(playerOptions);
+				_api.container = document.getElementById(_api.id);
+				_api.setPlayer(html5player, "html5");
+			} else {
+				var scriptLoader = new utils.scriptloader(_player.src);
+				scriptLoader.addEventListener(events.ERROR, _loadError);
+				scriptLoader.addEventListener(events.COMPLETE, _this.embed);
+				scriptLoader.load();
+			}
+
+		}
+				
+		function _loadError(evt) {
+			_this.sendEvent(evt.type, {message: "HTML5 player not found"});
+		}
+		
+		/**
+		 * Detects whether the html5 player supports this configuration.
+		 *
+		 * @return {Boolean}
+		 */
+		_this.supportsConfig = function() {
+			if (!!jwplayer.vid.canPlayType) {
+				try {
+					if (utils.typeOf(_options.playlist) == "string") {
+						return true;
+					} else {
+						var sources = _options.playlist[0].sources;
+						for (var i=0; i<sources.length; i++) {
+							var file = sources[i].file,
+								type = sources[i].type;
+							
+							if (_html5CanPlay(file, type)) {
+								return true;
+							}
+						}
+					}
+				} catch(e) {
+					return false;
+				}
+			}
+			
+			return false;
+		}
+		
+		/**
+		 * Determines if a video element can play a particular file, based on its extension
+		 * @param {Object} file
+		 * @param {Object} type
+		 * @return {Boolean}
+		 */
+		function _html5CanPlay(file, type) {
+			// HTML5 playback is not sufficiently supported on Blackberry devices; should fail over automatically.
+			if(navigator.userAgent.match(/BlackBerry/i) !== null) { return false; }
+
+			// HLS not sufficiently supported on Android devices; should fail over automatically.
+			if (utils.isAndroid() && (utils.extension(file) == "m3u" || utils.extension(file) == "m3u8")) {
+				return false;
+			}
+
+			// Ensure RTMP files are not seen as videos
+			if (utils.isRtmp(file,type)) return false;
+
+			var mappedType = extensionmap[type ? type : utils.extension(file)];
+			
+			// If no type or unrecognized type, don't allow to play
+			if (!mappedType) {
+				return false;
+			}
+			
+			// Extension is recognized as a format Flash can play, but no HTML5 support is listed  
+			if (mappedType.flash && !mappedType.html5) {
+				return false;
+			}
+			
+			// Last, but not least, we ask the browser 
+			// (But only if it's a video with an extension known to work in HTML5)
+			return _browserCanPlay(mappedType.html5);
+		};
+		
+		/**
+		 * 
+		 * @param {DOMMediaElement} video
+		 * @param {String} mimetype
+		 * @return {Boolean}
+		 */
+		function _browserCanPlay(mimetype) {
+			var video = jwplayer.vid;
+
+			// OK to use HTML5 with no extension
+			if (!mimetype) {
+				return true;
+			}
+
+			try {
+				if (video.canPlayType(mimetype)) {
+					return true;
+				} else {
+					return false;
+				}
+			} catch(e) {
+				return false;
+			}
+			
+		}
+	};
+	
+})(jwplayer);
+/**
+ * API for the JW Player
+ * 
+ * @author Pablo
+ * @version 5.8
+ */
+(function(jwplayer) {
+	var _players = [], 
+		utils = jwplayer.utils, 
+		events = jwplayer.events,
+		states = events.state,
+		
+		DOCUMENT = document;
+	
+	var api = jwplayer.api = function(container) {
+		var _this = this,
+			_listeners = {},
+			_stateListeners = {},
+			_componentListeners = {},
+			_readyListeners = [],
+			_player = undefined,
+			_playerReady = false,
+			_queuedCalls = [],
+			_instream = undefined,
+			_itemMeta = {},
+			_callbacks = {};
+		
+		_this.container = container;
+		_this.id = container.id;
+		
+		// Player Getters
+		_this.getBuffer = function() {
+			return _callInternal('jwGetBuffer');
+		};
+		_this.getContainer = function() {
+			return _this.container;
+		};
+				
+		_this.addButton = function(icon, label, handler, id) {
+			try {
+				_callbacks[id] = handler;
+				var handlerString = "jwplayer('" + _this.id + "').callback('" + id + "')";
+				//_player.jwDockAddButton(icon, label, handlerString, id);
+				_callInternal("jwDockAddButton", icon, label, handlerString, id);
+			} catch (e) {
+				utils.log("Could not add dock button" + e.message);
+			}
+		};
+		_this.removeButton = function(id) { _callInternal('jwDockRemoveButton', id); },
+
+		_this.callback = function(id) {
+			if (_callbacks[id]) {
+				_callbacks[id]();
+			}
+		};
+		
+		_this.forceState = function(state) {
+		    _callInternal("jwForceState", state);
+		    return _this;  
+		};
+		
+		_this.releaseState = function() {
+		    
+		    return _callInternal("jwReleaseState");
+		}
+		
+		_this.getDuration = function() {
+			return _callInternal('jwGetDuration');
+		};
+		_this.getFullscreen = function() {
+			return _callInternal('jwGetFullscreen');
+		};
+		_this.getHeight = function() {
+			return _callInternal('jwGetHeight');
+		};
+		_this.getLockState = function() {
+			return _callInternal('jwGetLockState');
+		};
+		_this.getMeta = function() {
+			return _this.getItemMeta();
+		};
+		_this.getMute = function() {
+			return _callInternal('jwGetMute');
+		};
+		_this.getPlaylist = function() {
+			var playlist = _callInternal('jwGetPlaylist');
+			if (_this.renderingMode == "flash") {
+				utils.deepReplaceKeyName(playlist, ["__dot__","__spc__","__dsh__","__default__"], ["."," ","-","default"]);	
+			}
+			return playlist;
+		};
+		_this.getPlaylistItem = function(item) {
+			if (!utils.exists(item)) {
+				item = _this.getPlaylistIndex();
+			}
+			return _this.getPlaylist()[item];
+		};
+		_this.getPlaylistIndex = function() {
+			return _callInternal('jwGetPlaylistIndex');
+		};
+		_this.getPosition = function() {
+			return _callInternal('jwGetPosition');
+		};
+		_this.getRenderingMode = function() {
+			return _this.renderingMode;
+		};
+		_this.getState = function() {
+			return _callInternal('jwGetState');
+		};
+		_this.getVolume = function() {
+			return _callInternal('jwGetVolume');
+		};
+		_this.getWidth = function() {
+			return _callInternal('jwGetWidth');
+		};
+		// Player Public Methods
+		_this.setFullscreen = function(fullscreen) {
+			if (!utils.exists(fullscreen)) {
+				_callInternal("jwSetFullscreen", !_callInternal('jwGetFullscreen'));
+			} else {
+				_callInternal("jwSetFullscreen", fullscreen);
+			}
+			return _this;
+		};
+		_this.setMute = function(mute) {
+			if (!utils.exists(mute)) {
+				_callInternal("jwSetMute", !_callInternal('jwGetMute'));
+			} else {
+				_callInternal("jwSetMute", mute);
+			}
+			return _this;
+		};
+		_this.lock = function() {
+			return _this;
+		};
+		_this.unlock = function() {
+			return _this;
+		};
+		_this.load = function(toLoad) {
+			_callInternal("jwLoad", toLoad);
+			return _this;
+		};
+		_this.playlistItem = function(item) {
+			_callInternal("jwPlaylistItem", parseInt(item));
+			return _this;
+		};
+		_this.playlistPrev = function() {
+			_callInternal("jwPlaylistPrev");
+			return _this;
+		};
+		_this.playlistNext = function() {
+			_callInternal("jwPlaylistNext");
+			return _this;
+		};
+		_this.resize = function(width, height) {
+			if (_this.renderingMode != "flash") {
+				var player = document.getElementById(_this.id);
+				player.className = player.className.replace(/\s+aspectMode/, "");
+				player.style.display = "block";
+				_callInternal("jwResize", width, height);
+			} else {
+				var wrapper = DOCUMENT.getElementById(_this.id + "_wrapper"),
+					aspect = DOCUMENT.getElementById(_this.id + "_aspect");
+				if (aspect) {
+					aspect.style.display = 'none';
+				}
+				if (wrapper) {
+					wrapper.style.display = "block";
+					wrapper.style.width = utils.styleDimension(width);
+					wrapper.style.height = utils.styleDimension(height);
+				}
+			}
+			return _this;
+		};
+		_this.play = function(state) {
+			if (typeof state == "undefined") {
+				state = _this.getState();
+				if (state == states.PLAYING || state == states.BUFFERING) {
+					_callInternal("jwPause");
+				} else {
+					_callInternal("jwPlay");
+				}
+			} else {
+				_callInternal("jwPlay", state);
+			}
+			return _this;
+		};
+		_this.pause = function(state) {
+			if (typeof state == "undefined") {
+				state = _this.getState();
+				if (state == states.PLAYING || state == states.BUFFERING) {
+					_callInternal("jwPause");
+				} else {
+					_callInternal("jwPlay");
+				}
+			} else {
+				_callInternal("jwPause", state);
+			}
+			return _this;
+		};
+		_this.stop = function() {
+			_callInternal("jwStop");
+			return _this;
+		};
+		_this.seek = function(position) {
+			_callInternal("jwSeek", position);
+			return _this;
+		};
+		_this.setVolume = function(volume) {
+			_callInternal("jwSetVolume", volume);
+			return _this;
+		};
+		_this.loadInstream = function(item, instreamOptions) {
+			_instream = new api.instream(this, _player, item, instreamOptions);
+			return _instream;
+		};
+		_this.getQualityLevels = function() {
+			return _callInternal("jwGetQualityLevels");
+		};
+		_this.getCurrentQuality = function() {
+			return _callInternal("jwGetCurrentQuality");
+		};
+		_this.setCurrentQuality = function(level) {
+			_callInternal("jwSetCurrentQuality", level);
+		};
+		_this.getCaptionsList = function() {
+			return _callInternal("jwGetCaptionsList");
+		};
+		_this.getCurrentCaptions = function() {
+			return _callInternal("jwGetCurrentCaptions");
+		};
+		_this.setCurrentCaptions = function(caption) {
+			_callInternal("jwSetCurrentCaptions", caption);
+		};
+		_this.getControls = function() {
+			return _callInternal("jwGetControls");
+		};
+		_this.getSafeRegion = function() {
+			return _callInternal("jwGetSafeRegion");
+		};	
+		_this.setControls = function(state) {
+			_callInternal("jwSetControls", state);
+		};
+		_this.destroyPlayer = function () {
+			_callInternal ("jwPlayerDestroy");
+		}
+		_this.playAd = function(ad) {
+			var plugins = jwplayer(_this.id).plugins;
+			if (plugins.vast) {
+				plugins.vast.jwPlayAd(ad);
+			}
+			// _callInternal("jwPlayAd", ad);
+		}
+		_this.pauseAd = function() {
+			var plugins = jwplayer(_this.id).plugins;
+			if (plugins.vast) {
+				plugins.vast.jwPauseAd();
+			}
+			else {
+				_callInternal("jwPauseAd");
+			}
+		}
+		
+		var _eventMapping = {
+			onBufferChange: events.JWPLAYER_MEDIA_BUFFER,
+			onBufferFull: events.JWPLAYER_MEDIA_BUFFER_FULL,
+			onError: events.JWPLAYER_ERROR,
+			onSetupError: events.JWPLAYER_SETUP_ERROR,
+			onFullscreen: events.JWPLAYER_FULLSCREEN,
+			onMeta: events.JWPLAYER_MEDIA_META,
+			onMute: events.JWPLAYER_MEDIA_MUTE,
+			onPlaylist: events.JWPLAYER_PLAYLIST_LOADED,
+			onPlaylistItem: events.JWPLAYER_PLAYLIST_ITEM,
+			onPlaylistComplete: events.JWPLAYER_PLAYLIST_COMPLETE,
+			onReady: events.API_READY,
+			onResize: events.JWPLAYER_RESIZE,
+			onComplete: events.JWPLAYER_MEDIA_COMPLETE,
+			onSeek: events.JWPLAYER_MEDIA_SEEK,
+			onTime: events.JWPLAYER_MEDIA_TIME,
+			onVolume: events.JWPLAYER_MEDIA_VOLUME,
+			onBeforePlay: events.JWPLAYER_MEDIA_BEFOREPLAY,
+			onBeforeComplete: events.JWPLAYER_MEDIA_BEFORECOMPLETE,
+			onDisplayClick: events.JWPLAYER_DISPLAY_CLICK,
+			onControls: events.JWPLAYER_CONTROLS,
+			onQualityLevels: events.JWPLAYER_MEDIA_LEVELS,
+			onQualityChange: events.JWPLAYER_MEDIA_LEVEL_CHANGED,
+			onCaptionsList: events.JWPLAYER_CAPTIONS_LIST,
+			onCaptionsChange: events.JWPLAYER_CAPTIONS_CHANGED,
+			onAdError: events.JWPLAYER_AD_ERROR,
+			onAdClick: events.JWPLAYER_AD_CLICK,
+			onAdImpression: events.JWPLAYER_AD_IMPRESSION,
+			onAdTime: events.JWPLAYER_AD_TIME,
+			onAdComplete: events.JWPLAYER_AD_COMPLETE,
+			onAdCompanions: events.JWPLAYER_AD_COMPANIONS,
+			onAdSkipped: events.JWPLAYER_AD_SKIPPED
+		};
+		
+		utils.foreach(_eventMapping, function(event) {
+			_this[event] = _eventCallback(_eventMapping[event], _eventListener); 
+		});
+
+		var _stateMapping = {
+			onBuffer: states.BUFFERING,
+			onPause: states.PAUSED,
+			onPlay: states.PLAYING,
+			onIdle: states.IDLE 
+		};
+
+		utils.foreach(_stateMapping, function(state) {
+			_this[state] = _eventCallback(_stateMapping[state], _stateListener); 
+		});
+		
+		function _eventCallback(event, listener) {
+			return function(callback) {
+				return listener(event, callback);
+			};
+		}
+
+		_this.remove = function() {
+			if (!_playerReady) {
+				throw "Cannot call remove() before player is ready";
+			}
+			_remove(this);
+		};
+		
+		function _remove(player) {
+			_queuedCalls = [];
+			api.destroyPlayer(player.id);
+		}
+		
+		_this.setup = function(options) {
+			if (jwplayer.embed) {
+				// Destroy original API on setup() to remove existing listeners
+				var fallbackDiv = DOCUMENT.getElementById(_this.id);
+				if (fallbackDiv) {
+					options["fallbackDiv"] = fallbackDiv;
+				}
+				_remove(_this);
+				var newApi = jwplayer(_this.id);
+				newApi.config = options;
+				var embedder = new jwplayer.embed(newApi);
+				embedder.embed();
+			}
+			return _this;
+		};
+		_this.registerPlugin = function(id, target, arg1, arg2) {
+			jwplayer.plugins.registerPlugin(id, target, arg1, arg2);
+		};
+		
+		/** Use this function to set the internal low-level player.  This is a javascript object which contains the low-level API calls. **/
+		_this.setPlayer = function(player, renderingMode) {
+			_player = player;
+			_this.renderingMode = renderingMode;
+		};
+		
+		_this.detachMedia = function() {
+			if (_this.renderingMode == "html5") {
+				return _callInternal("jwDetachMedia");
+			}
+		}
+
+		_this.attachMedia = function(seekable) {
+			if (_this.renderingMode == "html5") {
+				return _callInternal("jwAttachMedia", seekable);
+			}
+		}
+
+		function _stateListener(state, callback) {
+			if (!_stateListeners[state]) {
+				_stateListeners[state] = [];
+				_eventListener(events.JWPLAYER_PLAYER_STATE, _stateCallback(state));
+			}
+			_stateListeners[state].push(callback);
+			return _this;
+		};
+
+		function _stateCallback(state) {
+			return function(args) {
+				var newstate = args.newstate, oldstate = args.oldstate;
+				if (newstate == state) {
+					var callbacks = _stateListeners[newstate];
+					if (callbacks) {
+						for (var c = 0; c < callbacks.length; c++) {
+							if (typeof callbacks[c] == 'function') {
+								callbacks[c].call(this, {
+									oldstate: oldstate,
+									newstate: newstate
+								});
+							}
+						}
+					}
+				}
+			};
+		}
+		
+		function _componentListener(component, type, callback) {
+			if (!_componentListeners[component]) {
+				_componentListeners[component] = {};
+			}
+			if (!_componentListeners[component][type]) {
+				_componentListeners[component][type] = [];
+				_eventListener(type, _componentCallback(component, type));
+			}
+			_componentListeners[component][type].push(callback);
+			return _this;
+		};
+		
+		function _componentCallback(component, type) {
+			return function(event) {
+				if (component == event.component) {
+					var callbacks = _componentListeners[component][type];
+					if (callbacks) {
+						for (var c = 0; c < callbacks.length; c++) {
+							if (typeof callbacks[c] == 'function') {
+								callbacks[c].call(this, event);
+							}
+						}
+					}
+				}
+			};
+		}		
+		
+		function _addInternalListener(player, type) {
+			try {
+				player.jwAddEventListener(type, 'function(dat) { jwplayer("' + _this.id + '").dispatchEvent("' + type + '", dat); }');
+			} catch(e) {
+				utils.log("Could not add internal listener");
+			}
+		};
+		
+		function _eventListener(type, callback) {
+			if (!_listeners[type]) {
+				_listeners[type] = [];
+				if (_player && _playerReady) {
+					_addInternalListener(_player, type);
+				}
+			}
+			_listeners[type].push(callback);
+			return _this;
+		};
+		
+		_this.dispatchEvent = function(type) {
+			if (_listeners[type]) {
+				var args = utils.translateEventResponse(type, arguments[1]);
+				for (var l = 0; l < _listeners[type].length; l++) {
+					if (typeof _listeners[type][l] == 'function') {
+						try {
+							if (type == events.JWPLAYER_PLAYLIST_LOADED) {
+								utils.deepReplaceKeyName(args.playlist, ["__dot__","__spc__","__dsh__","__default__"], ["."," ","-","default"]);
+							}
+							_listeners[type][l].call(this, args);
+						} catch(e) {
+							utils.log("There was an error calling back an event handler");
+						}
+					}
+				}
+			}
+		};
+
+		_this.dispatchInstreamEvent = function(type) {
+			if (_instream) {
+				_instream.dispatchEvent(type, arguments);
+			}
+		};
+
+		function _callInternal() {
+			if (_playerReady) {
+				var funcName = arguments[0],
+				args = [];
+			
+				for (var argument = 1; argument < arguments.length; argument++) {
+					args.push(arguments[argument]);
+				}
+				
+				if (typeof _player != "undefined" && typeof _player[funcName] == "function") {
+					// Can't use apply here -- Flash's externalinterface doesn't like it.
+					switch(args.length) {
+						case 5:  return (_player[funcName])(args[0], args[1], args[2], args[3], args[4]);
+						case 4:  return (_player[funcName])(args[0], args[1], args[2], args[3]);
+						case 3:  return (_player[funcName])(args[0], args[1], args[2]);
+						case 2:  return (_player[funcName])(args[0], args[1]);
+						case 1:  return (_player[funcName])(args[0]);
+						default: return (_player[funcName])();
+					}
+				}
+				return null;
+			} else {
+				_queuedCalls.push(arguments);
+			}
+		};
+		
+		_this.callInternal = _callInternal;
+		
+		_this.playerReady = function(obj) {
+			_playerReady = true;
+			
+			if (!_player) {
+				_this.setPlayer(DOCUMENT.getElementById(obj.id));
+			}
+			_this.container = DOCUMENT.getElementById(_this.id);
+			
+			utils.foreach(_listeners, function(eventType) {
+				_addInternalListener(_player, eventType);
+			});
+			
+			_eventListener(events.JWPLAYER_PLAYLIST_ITEM, function(data) {
+				_itemMeta = {};
+			});
+			
+			_eventListener(events.JWPLAYER_MEDIA_META, function(data) {
+				utils.extend(_itemMeta, data.metadata);
+			});
+			
+			_this.dispatchEvent(events.API_READY);
+			
+			while (_queuedCalls.length > 0) {
+				_callInternal.apply(this, _queuedCalls.shift());
+			}
+		};
+		
+		_this.getItemMeta = function() {
+			return _itemMeta;
+		};
+
+		_this.isBeforePlay = function () {
+			return _callInternal('jwIsBeforePlay');
+		}
+		_this.isBeforeComplete = function () {
+			return _callInternal('jwIsBeforeComplete');
+		}
+		
+		/** Using this function instead of array.slice since Arguments are not an array **/
+		function slice(list, from, to) {
+			var ret = [];
+			if (!from) {
+				from = 0;
+			}
+			if (!to) {
+				to = list.length - 1;
+			}
+			for (var i = from; i <= to; i++) {
+				ret.push(list[i]);
+			}
+			return ret;
+		}
+		return _this
+	};
+	
+	api.selectPlayer = function(identifier) {
+		var _container;
+		
+		if (!utils.exists(identifier)) {
+			identifier = 0;
+		}
+		
+		if (identifier.nodeType) {
+			// Handle DOM Element
+			_container = identifier;
+		} else if (typeof identifier == 'string') {
+			// Find container by ID
+			_container = DOCUMENT.getElementById(identifier);
+		}
+		
+		if (_container) {
+			var foundPlayer = api.playerById(_container.id);
+			if (foundPlayer) {
+				return foundPlayer;
+			} else {
+				// Todo: register new object
+				return api.addPlayer(new api(_container));
+			}
+		} else if (typeof identifier == "number") {
+			return _players[identifier];
+		}
+		
+		return null;
+	};
+	
+
+	api.playerById = function(id) {
+		for (var p = 0; p < _players.length; p++) {
+			if (_players[p].id == id) {
+				return _players[p];
+			}
+		}
+		return null;
+	};
+	
+	api.addPlayer = function(player) {
+		for (var p = 0; p < _players.length; p++) {
+			if (_players[p] == player) {
+				return player; // Player is already in the list;
+			}
+		}
+		
+		_players.push(player);
+		return player;
+	};
+	
+	api.destroyPlayer = function(playerId) {
+		var index = -1, player;
+		for (var p = 0; p < _players.length; p++) {
+			if (_players[p].id == playerId) {
+				index = p;
+				player = _players[p];
+				continue;
+			}
+		}
+		if (index >= 0) {
+			var id = player.id,
+				toDestroy = DOCUMENT.getElementById(id + (player.renderingMode == "flash" ? "_wrapper" : ""));
+			
+			if (utils.clearCss) {
+				// Clear HTML5 rules
+				utils.clearCss("#"+id);
+			}
+
+//			if (!toDestroy) {
+//				toDestroy = DOCUMENT.getElementById(id);	
+//			}
+			
+			if (toDestroy) {
+				if (player.renderingMode == "html5") {
+					player.destroyPlayer();
+				}
+				var replacement = DOCUMENT.createElement('div');
+				replacement.id = id;
+				toDestroy.parentNode.replaceChild(replacement, toDestroy);
+			}
+			_players.splice(index, 1);
+		}
+		
+		return null;
+	};
+
+
+	jwplayer.playerReady = function(obj) {
+		var api = jwplayer.api.playerById(obj.id);
+
+		if (api) {
+			api.playerReady(obj);
+		} else {
+			jwplayer.api.selectPlayer(obj.id).playerReady(obj);
+		}
+		
+	};
+})(jwplayer);
+
+/**
+ * InStream API 
+ * 
+ * @author Pablo
+ * @version 5.9
+ */
+(function(jwplayer) {
+	var events = jwplayer.events,
+		utils = jwplayer.utils,
+		states = events.state;
+	
+	jwplayer.api.instream = function(api, player, item, options) {
+		
+		var _api = api,
+			_player = player,
+			_item = item,
+			_options = options || {},
+			_listeners = {},
+			_stateListeners = {},
+			_this = this;
+		
+		function _init() {
+			_this.type = "instream";
+			_this.tracker = _options.tracker;
+			
+		   	_api.callInternal("jwLoadInstream", item, _options);
+		}
+
+		
+		
+		function _addInternalListener(player, type) {
+			_player.jwInstreamAddEventListener(type, 'function(dat) { jwplayer("' + _api.id + '").dispatchInstreamEvent("' + type + '", dat); }');
+		};
+
+		function _eventListener(type, callback) {
+			if (!_listeners[type]) {
+				_listeners[type] = [];
+				_addInternalListener(_player, type);
+			}
+			_listeners[type].push(callback);
+			return this;
+		};
+
+		function _stateListener(state, callback) {
+			if (!_stateListeners[state]) {
+				_stateListeners[state] = [];
+				_eventListener(events.JWPLAYER_PLAYER_STATE, _stateCallback(state));
+			}
+			_stateListeners[state].push(callback);
+			return this;
+		};
+
+		function _stateCallback(state) {
+			return function(args) {
+				var newstate = args.newstate, oldstate = args.oldstate;
+				if (newstate == state) {
+					var callbacks = _stateListeners[newstate];
+					if (callbacks) {
+						for (var c = 0; c < callbacks.length; c++) {
+							if (typeof callbacks[c] == 'function') {
+								callbacks[c].call(this, {
+									oldstate: oldstate,
+									newstate: newstate,
+									type: args.type
+								});
+							}
+						}
+					}
+				}
+			};
+		}
+		
+		_this.dispatchEvent = function(type, calledArguments) {
+			if (_listeners[type]) {
+				var args = utils.translateEventResponse(type, calledArguments[1]);
+				for (var l = 0; l < _listeners[type].length; l++) {
+					if (typeof _listeners[type][l] == 'function') {
+						_listeners[type][l].call(this, args);
+					}
+				}
+			}
+		}
+		
+		
+		_this.onError = function(callback) {
+			return _eventListener(events.JWPLAYER_ERROR, callback);
+		};
+		_this.onMediaError = function(callback) {
+			return _eventListener(events.JWPLAYER_MEDIA_ERROR, callback);
+		};
+		_this.onFullscreen = function(callback) {
+			return _eventListener(events.JWPLAYER_FULLSCREEN, callback);
+		};
+		_this.onMeta = function(callback) {
+			return _eventListener(events.JWPLAYER_MEDIA_META, callback);
+		};
+		_this.onMute = function(callback) {
+			return _eventListener(events.JWPLAYER_MEDIA_MUTE, callback);
+		};
+		_this.onComplete = function(callback) {
+			return _eventListener(events.JWPLAYER_MEDIA_COMPLETE, callback);
+		};
+		// _this.onSeek = function(callback) {
+		// 	return _eventListener(events.JWPLAYER_MEDIA_SEEK, callback);
+		// };
+		_this.onTime = function(callback) {
+			return _eventListener(events.JWPLAYER_MEDIA_TIME, callback);
+		};
+		// _this.onVolume = function(callback) {
+		// 	return _eventListener(events.JWPLAYER_MEDIA_VOLUME, callback);
+		// };
+		// State events
+		_this.onBuffer = function(callback) {
+			return _stateListener(states.BUFFERING, callback);
+		};
+		_this.onPause = function(callback) {
+			return _stateListener(states.PAUSED, callback);
+		};
+		_this.onPlay = function(callback) {
+			return _stateListener(states.PLAYING, callback);
+		};
+		_this.onIdle = function(callback) {
+			return _stateListener(states.IDLE, callback);
+		};
+		// // Instream events
+		_this.onClick = function(callback) {
+			return _eventListener(events.JWPLAYER_INSTREAM_CLICK, callback);
+		};
+	    _this.onInstreamDestroyed = function(callback) {
+		 	return _eventListener(events.JWPLAYER_INSTREAM_DESTROYED, callback);
+		 };
+		
+		
+		_this.play = function(state) {
+			_player.jwInstreamPlay(state);
+		};
+		_this.pause = function(state) {
+			_player.jwInstreamPause(state);
+		};
+		_this.destroy = function() {
+			_player.jwInstreamDestroy();
+		};
+		
+		_this.setText = function(text) {
+			_player.jwInstreamSetText(text ? text : "");
+		}
+
+		_this.updateSkipTime = function(pos, tag) {
+			_player.jwInstreamUpdateSkipTime(pos, tag);
+		}
+
+
+		_this.getState = function() {
+			return _player.jwInstreamState();
+		}
+		_this.setClick = function (url) {
+			_player.jwInstreamClick(url);
+		}
+		
+		_init();
+		
+		
+	}
+	
+})(jwplayer);
+
+/**
+ * JW Player Source Endcap
+ * 
+ * This will appear at the end of the JW Player source
+ * 
+ * @version 6.0
+ */
+
+ }
