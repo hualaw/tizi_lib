@@ -18,7 +18,7 @@ class Question_Exam_Model extends MY_Model {
         $this->load->helper('teacher_data_helper');
     }
 
-    public function get_area($return_array=false,$kb=true)
+    public function get_area($return_array=false,$kb=false)
     {
         $this->db->select("id,name");
         $this->db->where("level <=",1);
