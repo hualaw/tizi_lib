@@ -18,13 +18,18 @@ class Question_Exam_Model extends MY_Model {
         $this->load->helper('teacher_data_helper');
     }
 
-    public function get_area($return_array=false)
+    public function get_area($return_array=false,$kb=true)
     {
         $this->db->select("id,name");
         $this->db->where("level <=",1);
         $this->db->where("id <",33);
         $query=$this->db->get($this->_area_table);
         $area=$query->result();
+        if($kb)
+        { 
+            $area[]=(object)array('id'=>'kb1','name'=>"新课标1");
+            $area[]=(object)array('id'=>'kb2','name'=>"新课标2");
+        }
         if($return_array)
         {
             $area_array=array();
@@ -107,7 +112,17 @@ class Question_Exam_Model extends MY_Model {
 
         if($grade) $this->db->where($this->_table.'.grade_id',$grade);
         if($exam_type) $this->db->where($this->_table.'.exam_type_id',$exam_type);
-        if($area) $this->db->where($this->_table.'.province_id',$area);
+        if($area) 
+        {
+            if($area=='kb1'||$area=='kb2')
+            {
+                $this->db->where_in($this->_table.'.province_id',Constant::get_exam_kb($area));
+            }
+            else
+            {
+                $this->db->where($this->_table.'.province_id',$area);
+            }
+        }
 
         $this->db->where($this->_table.'.online',1);
         //$this->db->group_by($this->_table.'.id');
