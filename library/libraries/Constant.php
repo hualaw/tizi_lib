@@ -28,6 +28,8 @@ Class CI_Constant {
 	const REG_ORIGEN_CLASS_UNAME = 64;
 	const REG_ORIGEN_SURVEY_EMAIL= 66;
 	const REG_ORIGEN_SURVEY_UNAME= 68;
+	const REG_ORIGEN_FOOTBALL_EMAIL= 67;
+	const REG_ORIGEN_FOOTBALL_UNAME= 69;
 	const REG_ORIGIN_SSO		 = 70;
 
 	/*zujuan session and cookie expire*/
