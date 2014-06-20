@@ -6,27 +6,40 @@ class LI_Pagination extends CI_Pagination {
 	var $next_pape_num 			= 10;
 	var $next_num_link			= '下10页';
 	var $prev_num_link			= '上10页';
+
 	var $next_num_tag_open		= '';
 	var $prev_num_tag_open		= '';
 	var $next_num_tag_close		= '';
 	var $prev_num_tag_close		= '';
-	var $num_tag_open			= '';
+
+	var $cur_tag_open			= '<a href="javascript:void(0);" class="active">';
+	var $cur_tag_close			= '</a>';
+	var $full_tag_open			= '<div class="pagination fr">';
+	var $full_tag_close			= '</div>';
+
+	var $first_tag_open			= '';
 	var $first_tag_close		= '';
 	var $last_tag_open			= '';
-	var $next_link				= FALSE;
-	var $prev_link				= FALSE;
+	var $last_tag_close			= '';
+	var $next_tag_open			= '';
+	var $next_tag_close			= '';
+	var $prev_tag_open			= '';
+	var $prev_tag_close			= '';
+	var $num_tag_open			= '';
+	var $num_tag_close			= '';
+
 	var $ajax_func              = 'ajax_page';
 	var $common_func			= 'if(typeof Common == "function"){Common.pagination(this);}';
 	
 	var $per_page				= Constant::DEFAULT_PER_PAGE;
 	var $page_limit				= Constant::DEFAULT_PAGE_LIMIT;
 	var $uri_segment			= 4;
-	var $cur_tag_open			= '<a href="javascript:void(0);" class="active">';
-	var $cur_tag_close			= '</a>';
-	var $full_tag_open			= '<div class="pagination fr">';
-	var $full_tag_close			= '</div>';	
+
 	var $first_link				= '首页';
 	var $last_link				= FALSE;
+	var $next_link				= FALSE;
+	var $prev_link				= FALSE;
+
 	var $first_url				= '1';
 	var $use_page_numbers		= TRUE;
 	var $page_query_string		= TRUE;
