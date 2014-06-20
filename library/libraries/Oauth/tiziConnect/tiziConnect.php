@@ -33,10 +33,9 @@ class tiziConnect extends Connect{
 			if($openId){
 			
 				$result = $this->connect->get_user_info();
-				print_r($result);
-				exit;
-				$data['nickname'] = $result['result']['nick'];
-				
+
+				//test
+				print_r($result); exit;
 			}
 			
 		}else{

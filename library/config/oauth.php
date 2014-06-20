@@ -3,7 +3,7 @@
 $config['qq'] = array(
     'appid' => '101069729',
     'appkey' => '26dfe68a08e9ff97a74058788c83acce',
-    'callback' => 'http://user.tizi.com/oauth/callback/qq',
+    'callback' => login_url('oauth/callback/qq'),
     'scope' => 'get_user_info'
 );
 
@@ -21,11 +21,3 @@ $config['wx'] = array(
     'scope'=>'snsapi_base',//snsapi_userinfo
 
 );
-
-$config['tizi'] = array(
-    'appid' => 'I6Lh72kTItE6y29Ig607N74M7i21oyTo',
-    'appkey' => 'dswREHV2YJjF7iL5Zr5ETEFBwGwDQYjQ',
-    'callback' => 'http://192.168.14.132:8090/oauth/callback/tizi',
-    'scope' => 'get_user_info'
-);
-

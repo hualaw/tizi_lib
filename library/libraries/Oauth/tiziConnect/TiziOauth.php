@@ -6,7 +6,7 @@ class TiziOauth {
 	Const AUTORIZE_URL = "http://oauth_c.tizi.com/oauth/show";
 	Const ACCESSTOKEN_URL = "http://oauth_c.tizi.com/oauth/access_token";
 	Const USER_INFO_URL = "http://oauth_c.tizi.com/oauth/user/get_user_info";
-	Const GET_OPENID_URL = "http://oauth_c.tizi.com/oauth/get_openid";
+	Const GET_OPENID_URL = "http://oauth_c.tizi.com/oauth/me";
 
 	public $client_id;
 
@@ -24,13 +24,14 @@ class TiziOauth {
 
 	public function __construct($config) {
 		
-		$this->client_id = $config['appid'];
-		$this->client_secret = $config['appkey'];
-		$this->redirect_uri = $config['callback'];
-		$this->scope = $config['scope'];
+		isset($config['appid']) && $this->client_id = $config['appid'];
+		isset($config['appkey']) && $this->client_secret = $config['appkey'];
+		isset($config['callback']) && $this->redirect_uri = $config['callback'];
+		isset($config['scope']) && $this->scope = $config['scope'];
 			
 		$this->_CI = &get_instance();
 		$this->_CI->load->library('curl');
+
 	}
 
 	public function tizi_login() {
@@ -43,7 +44,7 @@ class TiziOauth {
 		$params['scope'] = $this->scope;
 		$params['state'] = $state;
 
-		$this->_CI->session->set_userdata('tizi_oauth_status', $state);
+		$this->_CI->session->set_userdata('tizi_oauth_state', $state);
 
 		$login_url = $this->combineURL(self::AUTORIZE_URL, $params);
 		redirect($login_url);
@@ -52,7 +53,7 @@ class TiziOauth {
 	
 	public function getAccessToken() {
 		
-		$state = $this->_CI->session->userdata('tizi_oauth_status');
+		$state = $this->_CI->session->userdata('tizi_oauth_state');
 		if (empty($state) || $state != trim($_GET['state'])) {
 		
 			exit('state error');
@@ -67,7 +68,8 @@ class TiziOauth {
 
 		$token_url = self::ACCESSTOKEN_URL;
 
-		$result = $this->_post($token_url, $params);
+		$result = json_decode($this->post($token_url, $params), true);
+		
 		if (!isset($result['error']) && isset($result['access_token'])) {
 
 			$this->access_token = $result['access_token'];
@@ -85,8 +87,7 @@ class TiziOauth {
 			"access_token" => $this->access_token
 		);
 
-		$openid_url = $this->combineURL(self::GET_OPENID_URL, $params);
-		$response = $this->_get($openid_url);
+		$response = $this->get(self::GET_OPENID_URL, $params);
 
 		$result = json_decode($response, true);
 		if (isset($result['openid'])) {
@@ -104,8 +105,7 @@ class TiziOauth {
 		$params = array();
 		$params['openid'] = $this->openid;
 		$params['access_token'] = $this->access_token;
-		$user_info_url = $this->combineURL(self::USER_INFO_URL, $params);
-		$result = json_decode($this->_get($user_info_url), true);
+		$result = json_decode($this->get(self::USER_INFO_URL, $params), true);
 		return $result;
 
 	}
@@ -125,34 +125,50 @@ class TiziOauth {
         return $combined;
     }
 	
-	
-	private function _post($url, $params) {
-	
-		$curl = $this->_CI->curl;
-		$curl->create($url);
-		$curl->post($params);
-		$result = json_decode($curl->execute(), true);
-		return $result;
-	
-	}
+    /**
+     * get
+     */
+    public function get($url, $keysArr){
+        $combined = $this->combineURL($url, $keysArr);
+        return $this->get_contents($combined);
+    }
 
-	private function _get($url) {
+    /**
+     * post
+     */
+    public function post($url, $keysArr, $flag = 0){
 
-		if (ini_get("allow_url_fopen") == "1") {
-			$content = file_get_contents($url);
-		}else{
-			$curl = $this->_CI->curl;
-			$curl->create($url);
-			$content = json_decode($curl->execute(), true);
-		}
+        $ch = curl_init();
+        if(! $flag) curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
+        curl_setopt($ch, CURLOPT_POST, TRUE); 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $keysArr); 
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $ret = curl_exec($ch);
 
-		if(empty($content)){
-			return false;
-		}
+        curl_close($ch);
+        return $ret;
+    }
 
-		return $content;
-		
-	}
+    public function get_contents($url){
+
+        if (ini_get("allow_url_fopen") == "1") {
+            $response = file_get_contents($url);
+        }else{
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            $response =  curl_exec($ch);
+            curl_close($ch);
+        }
+
+        if(empty($response)){
+            $this->error->showError("50001");
+        }
+
+        return $response;
+    }
 
 	
 
