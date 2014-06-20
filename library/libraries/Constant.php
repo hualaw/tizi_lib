@@ -55,6 +55,7 @@ Class CI_Constant {
 	const COOKIE_CURRENT_CLOUD_DIR = "_mdir";//cloud cookie name
 	const COOKIE_TZMOBILE = "_mobile";//cloud cookie name
 	const COOKIE_TZSUPPLY = "_sis";//skip information supply
+	const COOKIE_PARENT_AREA = "_jia";//家长端地区
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
