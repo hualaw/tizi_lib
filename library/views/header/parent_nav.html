@@ -29,9 +29,9 @@
 			</li>
 		</ul>
 		
-		
+		{if isset($type)}
 		<div class="fr bgBox">
-			<a href="javascript:;" id="changeCity" class="toDown" value="全国">全国</a>
+			<a href="javascript:;" id="changeCity" class="toDown" >{$_jia_area}</a>
 			<div class="cityList" style="display: none;">
 				<ul>
 					<li>
@@ -73,7 +73,7 @@
 						<a href="{$home_parent}?province=黑龙江省">黑龙江</a>
 						<a href="{$home_parent}?province=河南省">河南</a>
 						<a href="{$home_parent}?province=湖北省">湖北</a>
-						<a href="{$home_parent}?province=海南省">湖南</a>
+						<a href="{$home_parent}?province=湖南省">湖南</a>
 					</li>
 
 					<li>
@@ -131,6 +131,6 @@
 				</ul>
 			</div>
 		</div>
-
+	{/if}
 	</div>
 </div>
