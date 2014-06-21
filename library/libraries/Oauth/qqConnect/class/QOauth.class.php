@@ -69,6 +69,8 @@ class QOauth{
         //------构造请求access_token的url
         $token_url = $this->urlUtils->combineURL(self::GET_ACCESS_TOKEN_URL, $keysArr);
         $response = $this->urlUtils->get_contents($token_url);
+		print_r($response);
+		exit;
 
         if(strpos($response, "callback") !== false){
 
