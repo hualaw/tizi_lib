@@ -1,5 +1,5 @@
 <?php
 
-$config['version'] = date("YmdHi");
+$config['version'] = date("YmdHis");
 $config['swfversion'] = date("YmdHis");
 $config['static_version'] = 'debug';

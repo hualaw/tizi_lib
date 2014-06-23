@@ -19,29 +19,34 @@ $config['static_url'] = 'http://static.tizi.com/';
 $config['base_url']	= '';
 $config['base_static_url'] = 'application/views/static/';
 
+$config['login_url'] = 'http://user.tizi.com/';
+$config['login_static_url'] = 'http://user-static.tizi.com/';
+
 $config['tizi_url'] = 'http://www.tizi.com/';
 $config['tizi_static_url'] = 'http://tizi-static.tizi.com/';
 
-$config['login_url'] = 'http://user.tizi.com/';
-$config['login_static_url'] = 'http://user-static.tizi.com/';//'application/views/static/';
-
-$config['edu_url'] = 'http://edu.tizi.com/';
-$config['edu_static_url'] = 'http://edu-static.tizi.com/';//'application/views/static/';
-
-$config['jxt_url'] = 'http://jiaxiao.tizi.com/';
-$config['jxt_static_url'] = 'http://jxt-static.tizi.com/';
-
 $config['zl_url'] = 'http://ziliao.tizi.com/';
-$config['zl_static_url'] = 'http://tizi-static.tizi.com/';
+$config['zl_static_url'] = 'http://ziliao-static.tizi.com/';
 
 $config['jia_url'] = 'http://jia.tizi.com/';
-$config['jia_static_url'] = 'http://tizi-static.tizi.com/';
+$config['jia_static_url'] = 'http://jia-static.tizi.com/';
 
 $config['xue_url'] = 'http://xue.tizi.com/';
 $config['xue_static_url'] = 'http://xue-static.tizi.com/';
 
 $config['survey_url'] = 'http://diaocha.tizi.com/';
 $config['survey_static_url'] = 'http://survey-static.tizi.com/';
+
+$config['space_url'] = 'http://space.tizi.com/';
+$config['space_static_url'] = 'http://space-static.tizi.com/';
+
+$config['waijiao_url'] = 'http://waijiao.tizi.com/';
+$config['waijiao_static_url'] = 'http://waijiao-static.tizi.com/';
+
+$config['bbs_url'] = 'http://bbs.tizi.com/';
+$config['api_url'] = 'http://api.tizi.com/';
+$config['nahao_url'] = 'http://www.nahao.com/';
+$config['91_url'] = 'http://www.91waijiao.com/';
 /*
 |--------------------------------------------------------------------------
 | Index File

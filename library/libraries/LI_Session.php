@@ -95,7 +95,7 @@ class LI_Session extends CI_Session {
 			$redis = new Redis();
 			try
 			{
-				$return = $redis->connect($config['host'], $config['port'], $config['timeout']);
+				$return = $redis->pconnect($config['host'], $config['port'], $config['timeout']);
 			}
 			catch (RedisException $e)
 			{
@@ -374,8 +374,11 @@ class LI_Session extends CI_Session {
 		// _set_cookie() function. Normally that function will store $this->userdata, but
 		// in this case that array contains custom data, which we do not want in the cookie.
 		
-		//tizi 更新数据不再更新cookie
-		//$this->_set_cookie($cookie_userdata);
+		//tizi 更新数据不再更新cookie，如果过期不随浏览器，需要更新cookie
+		if($this->sess_expire_on_close !== TRUE)
+		{
+			$this->_set_cookie($cookie_userdata);
+		}
 	}
 
 	function sess_create()

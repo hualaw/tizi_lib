@@ -100,6 +100,10 @@ class cloud_model extends MY_Model{
         if ($id > 0 && isset($param["user_id"])){
 			$this->load->library("credit");
 			$this->credit->exec($param["user_id"], "cloud_first_uploaded");
+			
+			//任务系统_用户在教学网盘中任意上传一个文件
+			$this->load->library("task");
+			$this->task->exec($param["user_id"], "use_educloud");
 		}
         return $id;
     }
@@ -267,7 +271,7 @@ class cloud_model extends MY_Model{
         $return =  $this->build_dir_tree_with_html($res);
         $html="<ul>
             <!-- 第一级 -->
-            <li class=''><div class='tree-title' dir-id='0'><a href='javascript:void(0)' class='icon icon-plus'></a><a href='javascript:void(0)' class='shareItem fold unfold'>其他文件（原网盘）</a></div>";
+            <li class=''><div class='tree-title' dir-id='0'><a href='javascript:void(0)' class='icon icon-add'></a><a href='javascript:void(0)' class='shareItem fold unfold'>其他文件（原网盘）</a></div>";
         $html.=$return."</li></ul>";
         return $html;
     }
@@ -575,6 +579,10 @@ class cloud_model extends MY_Model{
             $sql = "update $this->_share_table set download_count=download_count+1 where id=$share_id ";
             $this->db->query($sql);
         }
+        /*充话费活动，记录学生下载情况*/
+        $this->load->model('resource/download_share_model');
+        $this->download_share_model->add($share_id,$uid);
+        /*活动结束*/
         $share = $this->get_file_by_share_id($share_id);
         if (isset($share[0]["user_id"])){
 			$this->load->library("credit");

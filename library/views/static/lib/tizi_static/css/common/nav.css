@@ -2,3 +2,4 @@
 .nav li{float: left;font-size: 16px;position: relative;*zoom:1;}
 .nav li a{color:#fff;width:94px;text-align: center;display: block;}
 .nav li .new{background: url(../../image/common/new.gif) no-repeat;width:30px;height:19px;display: block;position: absolute;top:-8px;right:-5px;z-index: 10}
+.nav li .hot{background: url(../../image/common/hot.gif) no-repeat;width:30px;height:19px;display: block;position: absolute;top:-8px;right:-5px;z-index: 10}
