@@ -14,8 +14,7 @@ define(function(require,exports){
 							//调用倒计时
 							_this.telWaitTime(phone,code_type);
 							$(".sendTelCaptap .Validform_checktip").removeClass('Validform_wrong').addClass('Validform_right').html(data.error);
-							$(this).addClass('aSendCaptapOk');
-							$('.aSendCaptap').attr("disabled",true);
+							$('.aSendCaptap').addClass('aSendCaptapOk').attr("disabled",true);
 						},function(data){
 							$(".sendTelCaptap .Validform_checktip").removeClass('Validform_right').addClass('Validform_wrong').html(data.error);
 						});
@@ -50,8 +49,7 @@ define(function(require,exports){
 				require.async("tizi_validform",function(ex){
                     ex.sendEmailCode(email,code_type,function(){
 					_this.emailWaitTime(email,code_type);
-					$(this).addClass('aSendCaptapOk');
-					$('.aSendEmail').attr("disabled",true);
+					$('.aSendEmail').addClass('aSendCaptapOk').attr("disabled",true);
 				},function(data){
 					$(".aSendEmailTip").html(data.error).addClass("error").removeClass("undis");
 				});
