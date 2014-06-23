@@ -102,6 +102,7 @@ class Register_Model extends LI_Model {
 				'user_type'=>$user_type,
 				'register_time'=>date("Y-m-d H:i:s"),
 				'register_ip'=>ip2long(get_remote_ip()),
+				'register_uid'=>$this->input->cookie('uid'),
 				'register_origin'=>$origin
 		);
 		if (is_array($user_data))
