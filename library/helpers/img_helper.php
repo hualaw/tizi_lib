@@ -23,6 +23,17 @@ if (!function_exists('path2video')) {
     }
 }
 
+if (!function_exists('path2champion')) {
+	function path2champion($path, $tag = true) {
+    	$src="http://tizi.oss.aliyuncs.com/";
+		if($tag && $path)
+		{
+			$path = $src.ltrim($path,'/');
+		}
+		return $path;
+    }
+}
+
 if (!function_exists('path2avatar')) {
 	function path2avatar($user_id,$type=1) {
 		$ci =& get_instance();

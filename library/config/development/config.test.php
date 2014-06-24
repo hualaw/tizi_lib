@@ -25,14 +25,14 @@ $config['tizi_static_url'] = 'application/views/static/';
 $config['login_url'] = 'http://192.168.11.12:8282/';
 $config['login_static_url'] = 'application/views/static/';
 
-$config['space_url'] = 'http://192.168.11.12:8383/';
+$config['space_url'] = 'http://192.168.11.12:8688/';
 $config['space_static_url'] = 'application/views/static/';
 
 $config['zl_url'] = 'http://192.168.11.12:8689/';
 $config['zl_static_url'] = 'application/views/static/';
 
 $config['jia_url'] = 'http://192.168.11.12:8091/';
-$config['jxt_static_url'] = 'application/views/static/';
+$config['jia_static_url'] = 'application/views/static/';
 
 $config['xue_url'] = 'http://192.168.11.12:8083/';
 $config['xue_static_url'] = 'application/views/static/';

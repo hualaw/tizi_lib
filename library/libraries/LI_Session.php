@@ -95,7 +95,7 @@ class LI_Session extends CI_Session {
 			$redis = new Redis();
 			try
 			{
-				$return = $redis->connect($config['host'], $config['port'], $config['timeout']);
+				$return = $redis->pconnect($config['host'], $config['port'], $config['timeout']);
 			}
 			catch (RedisException $e)
 			{
