@@ -81,14 +81,19 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = LIBPATH.'config/'.ENVIRONMENT.'/config.php'))
+		if ( ! defined('ENVIRONMENT') OR ! file_exists($lib_file_path = LIBPATH.'config/'.ENVIRONMENT.'/config.php'))
 		{
-			$file_path = LIBPATH.'config/config.php';
+			$lib_file_path = LIBPATH.'config/config.php';
 		}
 
-		if (file_exists($file_path))
+		if (file_exists($lib_file_path))
 		{
-			require($file_path);
+			$exist_lib = true;
+			require($lib_file_path);
+		}
+		else
+		{
+			$exist_lib = false;
 		}
 
 		$lib_config = array();
@@ -104,12 +109,14 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Fetch the config file
-		if ( ! file_exists($file_path))
+		if (! file_exists($file_path))
 		{
-			exit('The configuration file does not exist.');
+			if(! $exist_lib) exit('The configuration file does not exist.');
 		}
-
-		require($file_path);
+		else
+		{
+			require($file_path);
+		}
 
 		// Does the $config array exist in the file?
 		if ( ! isset($config) OR ! is_array($config))
