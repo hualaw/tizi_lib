@@ -68,6 +68,8 @@ class Register_Model extends LI_Model {
 		$verified=1;
 		if(Constant::LOGIN_NEED_EMAIL_VERIFY) $verified=0;
 
+		$register_uid=$this->input->cookie('uid');
+
         switch($type)
         {
             case Constant::INSERT_REGISTER_EMAIL:	$email=$username;
@@ -102,6 +104,7 @@ class Register_Model extends LI_Model {
 				'user_type'=>$user_type,
 				'register_time'=>date("Y-m-d H:i:s"),
 				'register_ip'=>ip2long(get_remote_ip()),
+				'register_uid'=>$register_uid?$register_uid:NULL,
 				'register_origin'=>$origin
 		);
 		if (is_array($user_data))
