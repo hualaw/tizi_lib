@@ -30,6 +30,46 @@ function &DB($params = '', $active_record_override = NULL)
 	if (is_string($params) AND strpos($params, '://') === FALSE)
 	{
 		// Is the config file in the environment folder?
+		if ( ! defined('ENVIRONMENT') OR ! file_exists($lib_file_path = LIBPATH.'config/'.ENVIRONMENT.'/database.php'))
+		{
+			$lib_file_path = LIBPATH.'config/database.php';
+		}
+
+		if (file_exists($lib_file_path))
+		{
+			require($lib_file_path);
+		}
+
+		$exist_lib = false;
+		if ( isset($db) AND is_array($db))
+		{
+			$exist_lib = true;
+		}
+
+		// Is the config file in the environment folder?
+		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
+		{
+			$file_path = APPPATH.'config/database.php';
+		}
+
+		// Fetch the config file
+		if (! file_exists($file_path))
+		{
+			if( ! $exist_lib) exit('The db file does not exist.');
+		}
+		else
+		{
+			require($file_path);
+		}
+
+		// Does the $config array exist in the file?
+		if ( ! isset($db) OR ! is_array($db))
+		{
+			exit('Your db file does not appear to be formatted correctly.');
+		}
+
+		// Is the config file in the environment folder?
+		/*
 		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
 		{
 			if ( ! file_exists($file_path = APPPATH.'config/database.php'))
@@ -45,6 +85,7 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 
 		include($file_path);
+		*/
 
 		if ( ! isset($db) OR count($db) == 0)
 		{

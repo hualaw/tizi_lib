@@ -10,127 +10,127 @@
 			</li>
 			{/if}
 			<li>
-				<a href="{$jia_url}parent/youshengxiao" class="navYouShengXiao">幼升小</a>
+				<a href="{$jia_url}ysx" class="navYouShengXiao">幼升小</a>
 			</li>
 			<li>
-				<a href="{$jia_url}parent/xiaoshengchu" class="navXiaoShengChu">小升初</a>
+				<a href="{$jia_url}xsc" class="navXiaoShengChu">小升初</a>
 			</li>
 			<li>
-				<a href="{$jia_url}parent/zhongkao" class="navZhongKao">中考</a>
+				<a href="{$jia_url}zk" class="navZhongKao">中考</a>
 			</li>
 			<li>
-				<a href="{$jia_url}parent/gaokao" class="navGaoKao">高考</a>
+				<a href="{$jia_url}gk" class="navGaoKao">高考</a>
 			</li>
 			<li>
-				<a href="{$jia_url}parent/cup" class="navCupGuide">杯赛导航</a>
+				<a href="{$jia_url}cup" class="navCupGuide">杯赛导航</a>
 			</li>
 			<li>
 				<a href="{$jia_url}parent/child" class="navChild">孩子专区</a>
 			</li>
 		</ul>
 		
-		<!--
+		{if isset($type)}
 		<div class="fr bgBox">
-			<a href="javascript:;" id="changeCity" class="toDown" value="全国">全国</a>
+			<a href="javascript:;" id="changeCity" class="toDown" >{$_jia_area}</a>
 			<div class="cityList" style="display: none;">
 				<ul>
 					<li>
-						<a href="#">全国</a>
+						<a href="{$site_url}?province=全国">全国</a>
 					</li>
 
 					<li>
 						<span>A</span>
-						<a href="#">安徽</a>
+						<a href="{$home_parent}?province=安徽省">安徽</a>
 					</li>
 
 					<li>
 						<span>B</span>
-						<a href="#">北京市</a>
+						<a href="{$home_parent}?province=北京市">北京市</a>
 					</li>
 
 					<li>
 						<span>C</span>
-						<a href="#">重庆市</a>
+						<a href="{$home_parent}?province=重庆市">重庆市</a>
 					</li>
 
 					<li>
 						<span>F</span>
-						<a href="#">福建</a>
+						<a href="{$home_parent}?province=福建省">福建</a>
 					</li>
 
 					<li>
 						<span>G</span>
-						<a href="#">甘肃</a>
-						<a href="#">广东</a>
-						<a href="#">广西</a>
-						<a href="#">贵州</a>
+						<a href="{$home_parent}?province=甘肃省">甘肃</a>
+						<a href="{$home_parent}?province=广东省">广东</a>
+						<a href="{$home_parent}?province=广西">广西</a>
+						<a href="{$home_parent}?province=贵州省">贵州</a>
 					</li>
 					
 					<li>
 						<span>H</span>
-						<a href="#">海南</a>
-						<a href="#">河北</a>
-						<a href="#">黑龙江</a>
-						<a href="#">河南</a>
-						<a href="#">湖北</a>
-						<a href="#">湖南</a>
+						<a href="{$home_parent}?province=海南省">海南</a>
+						<a href="{$home_parent}?province=河北省">河北</a>
+						<a href="{$home_parent}?province=黑龙江省">黑龙江</a>
+						<a href="{$home_parent}?province=河南省">河南</a>
+						<a href="{$home_parent}?province=湖北省">湖北</a>
+						<a href="{$home_parent}?province=湖南省">湖南</a>
 					</li>
 
 					<li>
 						<span>J</span>
-						<a href="#">江苏</a>
-						<a href="#">江西</a>
-						<a href="#">吉林</a>
+						<a href="{$home_parent}?province=江苏省">江苏</a>
+						<a href="{$home_parent}?province=江西省">江西</a>
+						<a href="{$home_parent}?province=吉林省">吉林</a>
 					</li>
 
 					<li>
 						<span>L</span>
-						<a href="#">辽宁</a>
+						<a href="{$home_parent}?province=辽宁省">辽宁</a>
 					</li>
 
 					<li>
 						<span>N</span>
-						<a href="#">内蒙古</a>
-						<a href="#">宁夏</a>
+						<a href="{$home_parent}?province=内蒙古">内蒙古</a>
+						<a href="{$home_parent}?province=宁夏">宁夏</a>
 					</li>
 
 					<li>
 						<span>Q</span>
-						<a href="#">青海</a>
+						<a href="{$home_parent}?province=青海省">青海</a>
 					</li>
 
 					<li>
 						<span>S</span>
-						<a href="#">陕西</a>
-						<a href="#">山东</a>
-						<a href="#">上海市</a>
-						<a href="#">山西</a>
-						<a href="#">四川</a>
+						<a href="{$home_parent}?province=陕西省">陕西</a>
+						<a href="{$home_parent}?province=山东省">山东</a>
+						<a href="{$home_parent}?province=上海市">上海市</a>
+						<a href="{$home_parent}?province=山西省">山西</a>
+						<a href="{$home_parent}?province=四川省">四川</a>
 					</li>
 
 					<li>
 						<span>T</span>
-						<a href="#">天津市</a>
+						<a href="{$home_parent}?province=天津市">天津市</a>
 					</li>
 
 					<li>
 						<span>X</span>
-						<a href="#">新疆</a>
-						<a href="#">西藏</a>
+						<a href="{$home_parent}?province=新疆">新疆</a>
+						<a href="{$home_parent}?province=西藏">西藏</a>
 					</li>
 
 					<li>
 						<span>Y</span>
-						<a href="#">云南</a>
+						<a href="{$home_parent}?province=云南省">云南</a>
 					</li>
 
 					<li>
 						<span>Z</span>
-						<a href="#">浙江</a>
+						<a href="{$home_parent}?province=浙江省">浙江</a>
 					</li>
 				</ul>
 			</div>
 		</div>
-		-->
+	{/if}
 	</div>
 </div>

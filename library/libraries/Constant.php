@@ -18,16 +18,37 @@ Class CI_Constant {
 	const REG_ORIGEN_WEB_EUNAME = 5;
 	const REG_ORIGEN_AQ_IOS = 21;
 	const REG_ORIGIN_AQ_ANDROID = 31;
+
+	const REG_ORIGEN_APP_IOS = 22;
+	const REG_ORIGEN_APP_IOS_QQ = 23;
+	const REG_ORIGEN_APP_IOS_WEIBO = 24;
+	const REG_ORIGEN_IOS_TIKU = 25;
+	const REG_ORIGEN_IOS_TIKU_QQ = 26;
+	const REG_ORIGEN_IOS_TIKU_WEIBO = 27;
+	const REG_ORIGEN_IOS_JXT = 28;
+
+	const REG_ORIGIN_APP_ANDROID = 32;
+	const REG_ORIGIN_APP_ANDROID_QQ = 33;
+	const REG_ORIGIN_APP_ANDROID_WEIBO = 34;
+	const REG_ORIGIN_ANDROID_TIKU = 35;
+	const REG_ORIGIN_ANDROID_TIKU_QQ = 36;
+	const REG_ORIGIN_ANDROID_TIKU_WEIBO = 37;
+	const REG_ORIGIN_ANDROID_JXT = 38;
+
 	const REG_ORIGIN_CRM = 41;
 	const REG_ORIGIN_CRM_STUID	= 43;
 	const REG_ORIGIN_QQ_PERFECT	= 51;
 	const REG_ORIGIN_QQ_SKIP	= 52;
 	const REG_ORIGIN_WEIBO_PERFECT = 53;
 	const REG_ORIGIN_WEIBO_SKIP = 54;
+	const REG_ORIGIN_WEIXIN_PERFECT = 55;
+	const REG_ORIGIN_WEIXIN_SKIP = 56;
 	const REG_ORIGEN_CLASS_EMAIL = 62;
 	const REG_ORIGEN_CLASS_UNAME = 64;
 	const REG_ORIGEN_SURVEY_EMAIL= 66;
 	const REG_ORIGEN_SURVEY_UNAME= 68;
+	const REG_ORIGEN_FOOTBALL_EMAIL= 67;
+	const REG_ORIGEN_FOOTBALL_UNAME= 69;
 	const REG_ORIGIN_SSO		 = 70;
 
 	/*zujuan session and cookie expire*/
@@ -53,6 +74,7 @@ Class CI_Constant {
 	const COOKIE_CURRENT_CLOUD_DIR = "_mdir";//cloud cookie name
 	const COOKIE_TZMOBILE = "_mobile";//cloud cookie name
 	const COOKIE_TZSUPPLY = "_sis";//skip information supply
+	const COOKIE_PARENT_AREA = "_jia";//家长端地区
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;

@@ -33,6 +33,14 @@ if ( ! function_exists('zl_url'))
 	}
 }
 
+if ( ! function_exists('ziyuan_url'))
+{
+	function ziyuan_url($uri = '')
+	{
+		return site_url($uri,'ziyuan');
+	}
+}
+
 if ( ! function_exists('jia_url'))
 {
 	function jia_url($uri = '')
