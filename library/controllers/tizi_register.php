@@ -53,20 +53,17 @@ class Tizi_Register extends Tizi_Controller {
 		$qq=$this->input->post("s_qq",true,true);
 		$parent_phone=$this->input->post("parent_phone",true,true);
 
-		$class_check=$this->class_check($class_code);
-		if($class_check['class_grade']) $mygrade=$class_check['class_grade'];
-
-		$submit=$this->register_student($email,$uname,$rname,$password,$password1,$mygrade,$redirect);
+		if($class_code)
+		{
+			$submit=$this->register_class($email,$uname,$rname,$password,$password1,$mygrade,$redirect,$class_code);
+		}
+		else
+		{
+			$submit=$this->register_student($email,$uname,$rname,$password,$password1,$mygrade,$redirect);
+		}
 
 		if($submit['errorcode'])
-		{
-			//加入班级
-			if($class_check['errorcode'])
-			{
-				$this->load->model('class/classes_student');
-				$this->classes_student->add($class_check['class_id'],$submit['register']['user_id'],time(),Classes_student::JOIN_METHOD_REGCLASS);				
-			}
-			
+		{	
 			//保存家长手机号码
 			if($parent_phone&&preg_phone($parent_phone))
 			{
@@ -196,6 +193,34 @@ class Tizi_Register extends Tizi_Controller {
 				$submit['errorcode']=true;
 				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_STUDENT,'register');
 				$submit['register']=$register;
+			}
+		}
+
+		return $submit;
+    }
+
+    protected function register_class($email,$uname,$rname,$password,$password1,$mygrade,$redirect,$class_code)
+    {
+		$class_check=$this->class_check($class_code);
+
+		if(!$class_check['errorcode'])
+		{
+			$submit['error']=$class_check['error'];
+		}
+		else
+		{
+			$reg_data=array('register_origin'=>$email?Constant::REG_ORIGEN_CLASS_EMAIL:Constant::REG_ORIGEN_CLASS_UNAME);
+			if($class_check['class_grade']) 
+			{
+				$mygrade=$class_check['class_grade'];
+			}
+			$submit=$this->register_student($uname,$rname,$password,$password1,$mygrade,$redirect,$reg_data);
+
+			if($submit['errorcode'])
+			{
+				//加入班级
+				$this->load->model('class/classes_student');
+				$this->classes_student->add($class_check['class_id'],$submit['register']['user_id'],time(),Classes_student::JOIN_METHOD_REGCLASS);
 			}
 		}
 
