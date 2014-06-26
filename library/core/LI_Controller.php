@@ -117,6 +117,7 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('tizi_url', tizi_url());
         $this->smarty->assign('login_url', login_url());
         $this->smarty->assign('zl_url', zl_url());
+        $this->smarty->assign('ziyuan_url', ziyuan_url());
         $this->smarty->assign('jia_url', jia_url());
         $this->smarty->assign('xue_url', xue_url());
         $this->smarty->assign('survey_url', survey_url());

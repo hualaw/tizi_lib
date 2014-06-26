@@ -81,20 +81,20 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = LIBPATH.'config/'.ENVIRONMENT.'/config.php'))
+		if ( ! defined('ENVIRONMENT') OR ! file_exists($lib_file_path = LIBPATH.'config/'.ENVIRONMENT.'/config.php'))
 		{
-			$file_path = LIBPATH.'config/config.php';
+			$lib_file_path = LIBPATH.'config/config.php';
 		}
 
-		if (file_exists($file_path))
+		if (file_exists($lib_file_path))
 		{
-			require($file_path);
+			require($lib_file_path);
 		}
 
-		$lib_config = array();
-		if (isset($config) AND is_array($config))
+		$exist_lib = false;
+		if ( isset($config) AND is_array($config))
 		{
-			$lib_config = $config;
+			$exist_lib = true;
 		}
 
 		// Is the config file in the environment folder?
@@ -104,20 +104,20 @@ if ( ! function_exists('get_config'))
 		}
 
 		// Fetch the config file
-		if ( ! file_exists($file_path))
+		if (! file_exists($file_path))
 		{
-			exit('The configuration file does not exist.');
+			if( ! $exist_lib) exit('The configuration file does not exist.');
 		}
-
-		require($file_path);
+		else
+		{
+			require($file_path);
+		}
 
 		// Does the $config array exist in the file?
 		if ( ! isset($config) OR ! is_array($config))
 		{
 			exit('Your config file does not appear to be formatted correctly.');
 		}
-
-		$config = array_merge($lib_config,$config);
 
 		// Are any values being dynamically replaced?
 		if (count($replace) > 0)

@@ -312,6 +312,7 @@ class Document_Model extends MY_Model {
 			}
 		}
 		if (!$data or $data["last_update"] != date("Y-m-d")){
+			/**
 			$data = array();
 			$this->db->select("id,doc_type,file_name,file_ext,hits,subject_id");
 			$this->db->where("subject_id > 0");
@@ -333,7 +334,8 @@ class Document_Model extends MY_Model {
 			} else {
 				$data["data"] = array();
 			}
-			/**
+			*/
+			
 			$date = date("Y-m-d H:i:s");
 			$data = array();
 			$this->db->select("doc_id as id,doc_type,file_name,file_ext,hits,subject_id");
@@ -346,7 +348,7 @@ class Document_Model extends MY_Model {
 				$this->db->limit(7, 0);
 				$data["data"] = $this->db->get("lesson_position")->result_array();
 			}
-			*/ 
+			
 			$data["last_update"] = date("Y-m-d");
             if($this->redis_model->connect("statistics")){
                 $this->cache->hset(self::HOMEPAGE_PS_LESSON, $fields, serialize($data));
