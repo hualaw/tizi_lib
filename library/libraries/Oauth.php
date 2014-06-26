@@ -10,6 +10,7 @@ class Oauth{
         'qq'=>'qqConnect.qqConnect',   
         'weibo'=>'weiboConnect.weiboConnect',
         'weixin'=>'wxConnect.wx_auth',
+        'tizi'=>'tiziConnect.tiziConnect',
     );
 
     private $connect;
