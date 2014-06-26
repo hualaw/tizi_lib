@@ -54,6 +54,9 @@ define(function(require,exports){
 					$(".aSendEmailTip").html(data.error).addClass("error").removeClass("undis");
 				});
                 });	
+                if ($(".aSendEmail").attr("disabled")=="true" && $(".tipsBar").length>0) {
+                	$(".tipsBar").show();
+                };
 				// Common.comValidform.sendEmailCode(email,code_type,function(){
 				// 	_this.emailWaitTime(email,code_type);
 				// 	$(this).addClass('aSendCaptapOk');
@@ -74,6 +77,7 @@ define(function(require,exports){
 					clearInterval(timer);
 					$('.aSendEmail').removeClass('aSendEmailOk').removeAttr("disabled").val('重新发送');
 					$('.aSendEmail').next('span').fadeOut();
+					$(".tipsBar").hide();
 				}else{
 					$('.aSendEmail').val(wait + '秒后重新发送');	
 				}
