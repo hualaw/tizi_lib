@@ -47,11 +47,8 @@ class Tizi_Register extends Tizi_Controller {
 		$password1=$this->input->post("s_repassword",true,false,$password);
 		$rname=$this->input->post("s_name",true,true);
 		$mygrade=$this->input->post("s_mygrade",true,false,Constant::DEFAULT_GRADE_ID);
-		$redirect=$this->input->post("redirect",true,true);
-		
+		$redirect=$this->input->post("redirect",true,true);	
 		$class_code=$this->input->post("invite_class",true,true);
-		$qq=$this->input->post("s_qq",true,true);
-		$parent_phone=$this->input->post("parent_phone",true,true);
 
 		if($class_code)
 		{
@@ -64,6 +61,8 @@ class Tizi_Register extends Tizi_Controller {
 
 		if($submit['errorcode'])
 		{	
+			$qq=$this->input->post("s_qq",true,true);
+			$parent_phone=$this->input->post("parent_phone",true,true);
 			//保存家长手机号码
 			if($parent_phone&&preg_phone($parent_phone))
 			{
@@ -140,6 +139,7 @@ class Tizi_Register extends Tizi_Controller {
     	if(!$invite_check['errorcode'])
 		{
 			$submit['error']=$invite_check['error'];
+			$submit['errorcode']=false;
 		}
 		else
 		{
@@ -206,14 +206,12 @@ class Tizi_Register extends Tizi_Controller {
 		if(!$class_check['errorcode'])
 		{
 			$submit['error']=$class_check['error'];
+			$submit['errorcode']=false;
 		}
 		else
 		{
 			$reg_data=array('register_origin'=>$email?Constant::REG_ORIGEN_CLASS_EMAIL:Constant::REG_ORIGEN_CLASS_UNAME);
-			if($class_check['class_grade']) 
-			{
-				$mygrade=$class_check['class_grade'];
-			}
+			if($class_check['class_grade']) $mygrade=$class_check['class_grade'];		
 			$submit=$this->register_student($uname,$rname,$password,$password1,$mygrade,$redirect,$reg_data);
 
 			if($submit['errorcode'])
