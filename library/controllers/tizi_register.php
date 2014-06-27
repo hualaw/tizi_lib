@@ -178,7 +178,7 @@ class Tizi_Register extends Tizi_Controller {
 			{
 				//加入班级
 				$this->load->model('class/classes_teacher');
-				$this->classes_student->create($class_check['class_id'],$submit['register']['user_id'],$mysubject,time());
+				$this->classes_teacher->create($class_check['class_id'],$submit['register']['user_id'],$mysubject,time());
 			}
 		}
 
