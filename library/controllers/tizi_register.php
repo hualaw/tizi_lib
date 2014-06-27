@@ -67,7 +67,7 @@ class Tizi_Register extends Tizi_Controller {
 			if($parent_phone&&preg_phone($parent_phone))
 			{
 				$this->load->model("user_data/student_data_model");
-        		$this->student_data_model->update_student_parent_phone($submit['register']['user_id'],$parent_phone);
+        		$this->student_data_model->update_student_register($submit['register']['user_id'],$parent_phone,$qq);
 			}
 		}
 
