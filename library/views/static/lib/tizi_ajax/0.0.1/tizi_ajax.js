@@ -67,21 +67,15 @@
 		};
 		var options = $.extend(defaults, options);
 		
+		var callback_name='';
 		if(options['dataType']=='jsonp'){
-			//options['jsonp']='callback';
-			options['data'] = $.tizi_token(options['data'],options['type'],serialize,'callback');
-
-			var success=options['success'];
-			//callback=function(data){$.tizi_callback(data,success);}
-			options['success']=function(data){$.tizi_callback(data,success);}
-			//options['error']=function(){};
+			callback_name='callback';
 		}else{			
 			options['dataType']='json';
-			options['data'] = $.tizi_token(options['data'],options['type'],serialize);
-			
-			var success=options['success'];
-			options['success']=function(data){$.tizi_callback(data,success);}
 		}
+		options['data'] = $.tizi_token(options['data'],options['type'],serialize,callback_name);
+		var success=options['success'];
+		options['success']=function(data){$.tizi_callback(data,success);}
 
 		$.ajax(options);
 	}
