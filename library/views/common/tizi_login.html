@@ -61,10 +61,10 @@
     {if isset($reg_redirect) && $reg_redirect}
         {$oauth_url="&redirect="|cat:urlencode($reg_redirect)}
     {/if}
-    <a href="javascript:void(0)" dUrl="{$login_url}oauth/login?type=qq{$oauth_url}" class="fl" title="腾讯QQ">
+    <a href="javascript:void(0)" dUrl="{$login_url}oauth/login?type=qq{$oauth_url}" class="qq fl" title="腾讯QQ">
         <i class="qq fl"></i>使用QQ登录
     </a>
-    <a href="javascript:void(0)" dUrl="{$login_url}oauth/login?type=weibo{$oauth_url}" class="fl" title="新浪微博">
+    <a href="javascript:void(0)" dUrl="{$login_url}oauth/login?type=weibo{$oauth_url}" class="weibo fl" title="新浪微博">
         <i class="weibo fl"></i>使用微博登录
     </a>
 </div>
