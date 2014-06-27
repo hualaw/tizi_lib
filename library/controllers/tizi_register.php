@@ -176,9 +176,11 @@ class Tizi_Register extends Tizi_Controller {
 
 			if($submit['errorcode'])
 			{
+				$this->load->model('question/question_subject_model');
+				$subject_id=$this->question_subject_model->get_subject_type_by_id($mysubject);
 				//加入班级
 				$this->load->model('class/classes_teacher');
-				$this->classes_teacher->create($class_check['class_id'],$submit['register']['user_id'],$mysubject,time());
+				$this->classes_teacher->create($class_check['class_id'],$submit['register']['user_id'],$subject_id,time());
 			}
 		}
 
