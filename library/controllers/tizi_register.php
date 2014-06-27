@@ -411,7 +411,7 @@ class Tizi_Register extends Tizi_Controller {
 		{
 			$check['error']=$this->lang->line('error_invalid_uname');
 		}
-		else if($uname&&!preg_email($uname))
+		else if($uname&&!preg_uname($uname))
 		{
 			$check['error']=$this->lang->line('error_invalid_uname');
 		}
