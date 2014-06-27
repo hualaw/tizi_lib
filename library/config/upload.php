@@ -45,6 +45,10 @@ $config['max_height_avatar'] = 100;//单个文件最大的高度
 $config['folder_avatar'] = 'avatar/';
 $config['prefix_avatar'] = 'tizi__';
 $config['num_pf_avatar'] = 10000;
+//avatar-----space
+$config['space_folder_avatar'] = 'space_avatar/';
+$config['space_prefix_avatar'] = 'tizi__';
+$config['space_num_pf_avatar'] = 10000;
 
 //edu
 $config['bucket_edu'] = 'tizi';
