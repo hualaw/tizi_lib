@@ -212,7 +212,7 @@ class Tizi_Register extends Tizi_Controller {
 		{
 			$reg_data=array('register_origin'=>$email?Constant::REG_ORIGEN_CLASS_EMAIL:Constant::REG_ORIGEN_CLASS_UNAME);
 			if($class_check['class_grade']) $mygrade=$class_check['class_grade'];		
-			$submit=$this->register_student($uname,$rname,$password,$password1,$mygrade,$redirect,$reg_data);
+			$submit=$this->register_student($email,$uname,$rname,$password,$password1,$mygrade,$redirect,$reg_data);
 
 			if($submit['errorcode'])
 			{
