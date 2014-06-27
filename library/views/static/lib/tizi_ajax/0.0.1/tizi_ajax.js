@@ -68,13 +68,13 @@
 		var options = $.extend(defaults, options);
 		
 		if(options['dataType']=='jsonp'){
-			options['jsonp']='callback';
-			options['data'] = $.tizi_token(options['data'],options['type'],serialize,options['jsonp']);
+			//options['jsonp']='callback';
+			options['data'] = $.tizi_token(options['data'],options['type'],serialize,'callback');
 
 			var success=options['success'];
-			callback=function(data){$.tizi_callback(data,success);}
-			options['success']=function(){};
-			options['error']=function(){};
+			//callback=function(data){$.tizi_callback(data,success);}
+			options['success']=function(data){$.tizi_callback(data,success);}
+			//options['error']=function(){};
 		}else{			
 			options['dataType']='json';
 			options['data'] = $.tizi_token(options['data'],options['type'],serialize);
