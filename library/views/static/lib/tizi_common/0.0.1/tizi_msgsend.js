@@ -54,7 +54,7 @@ define(function(require,exports){
 					$(".aSendEmailTip").html(data.error).addClass("error").removeClass("undis");
 				});
                 });	
-                if ($(".aSendEmail").attr("disabled")=="true" && $(".tipsBar").length>0) {
+                if ($(".aSendEmail").attr("disabled")=="disabled" && $(".tipsBar").length>0) {
                 	$(".tipsBar").show();
                 };
 				// Common.comValidform.sendEmailCode(email,code_type,function(){
