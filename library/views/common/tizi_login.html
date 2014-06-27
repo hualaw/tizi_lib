@@ -1,7 +1,8 @@
 <form action="{$login_url}login/submit" class="indexLoginForm" method="post" dataType="jsonp" onSubmit="return false;">
     <ul>
-        <li class="posr">
-            <input type="text" name="username" class="cInput yh username" placeholder='用户名/学号/手机号/邮箱' />
+        <li class="posr cf">
+            <input type="text" name="username" class="cInput yh username fl" placeholder='用户名/学号/手机号/邮箱' />
+            {if !isset($tip_type) or !$tip_type}
             <div class="ValidformInfo">
               <span class="Validform_checktip"></span>
               <span class="dec">
@@ -9,9 +10,13 @@
                 <s class="dec2">&#9670;</s>
               </span>
             </div>
+            {else}
+            <span class="Validform_checktip fl"></span>
+            {/if}
         </li>
         <li class="cf posr">
             <input type="password" name="password" class="cInput yh password fl" placeholder='密码' />
+            {if !isset($tip_type) or !$tip_type}
             <div class="ValidformInfo">
               <span class="Validform_checktip"></span>
               <span class="dec">
@@ -19,6 +24,9 @@
                 <s class="dec2">&#9670;</s>
               </span>
             </div>
+            {else}
+            <span class="Validform_checktip fl"></span>
+            {/if}
         </li>
     </ul>
     <div class="remerberPass cf">
