@@ -2,13 +2,25 @@
 	<div class="layout">
 		<ul class="link fr">
 			<li class="first">
+				{if $user_type}
 				<a href="{$login_url}teacher/cert/certification" target="_blank">教师认证</a>
+				{else}
+				<a href="{$login_url}home/certification" target="_blank">教师认证</a>
+				{/if}
 			</li>
 			<li>
+				{if $user_type}
 				<a href="{$login_url}credit/teacher" target="_blank">积分回馈</a>
+				{else}
+				<a href="{$login_url}home/credit" target="_blank">积分回馈</a>
+				{/if}
 			</li>
 			<li>
+				{if $user_type}
 				<a href="{$login_url}teacher/user/medal" target="_blank">达人勋章</a>
+				{else}
+				<a href="{$login_url}home/medal" target="_blank">达人勋章</a>
+				{/if}
 			</li>
 			{if $user_type}
 			<li>
