@@ -88,18 +88,13 @@ if ( ! function_exists('get_config'))
 
 		if (file_exists($lib_file_path))
 		{
-			$exist_lib = true;
 			require($lib_file_path);
 		}
-		else
-		{
-			$exist_lib = false;
-		}
 
-		$lib_config = array();
-		if (isset($config) AND is_array($config))
+		$exist_lib = false;
+		if ( isset($config) AND is_array($config))
 		{
-			$lib_config = $config;
+			$exist_lib = true;
 		}
 
 		// Is the config file in the environment folder?
@@ -111,7 +106,7 @@ if ( ! function_exists('get_config'))
 		// Fetch the config file
 		if (! file_exists($file_path))
 		{
-			if(! $exist_lib) exit('The configuration file does not exist.');
+			if( ! $exist_lib) exit('The configuration file does not exist.');
 		}
 		else
 		{
@@ -123,8 +118,6 @@ if ( ! function_exists('get_config'))
 		{
 			exit('Your config file does not appear to be formatted correctly.');
 		}
-
-		$config = array_merge($lib_config,$config);
 
 		// Are any values being dynamically replaced?
 		if (count($replace) > 0)

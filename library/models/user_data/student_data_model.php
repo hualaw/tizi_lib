@@ -46,6 +46,12 @@ class Student_Data_Model extends Data_Model {
         return $this->update_data($user_id,$school_id,'school_id');
     }
 
+    public function update_student_register($user_id,$parent_phone,$qq)
+    {
+        if(!$parent_phone&&!$qq) return false;
+        return $this->update_data_array($user_id,array('parent_phone'=>$parent_phone,'qq'=>$qq));
+    }
+
     public function update_student_detail($user_id,$gender,$qq)
     {
         if(!$gender) return false;
