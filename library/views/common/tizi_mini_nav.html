@@ -54,10 +54,10 @@
             <a href="{$tizi_url}" class="logo fl">梯子网</a>
             <p class="miniNav fl">
                 <a href="{$tizi_url}">首页</a>
-                <a href="{$tizi_url}shi">老师</a>
-                <a href="{$tizi_url}xue">学生</a>
-                <a href="{$tizi_url}jia">家长</a>
-                <a href="{$tizi_url}app">应用中心</a>
+                <a href="{$tizi_url}shi" {if isset($pagetype) && $pagetype eq 'teacher'}class="active"{/if}>老师</a>
+                <a href="{$tizi_url}xue" {if isset($pagetype) && $pagetype eq 'student'}class="active"{/if}>学生</a>
+                <a href="{$tizi_url}jia" {if isset($pagetype) && $pagetype eq 'parent'}class="active"{/if}>家长</a>
+                <a href="{$tizi_url}app" {if isset($pagetype) && $pagetype eq 'app'}class="active"{/if}>应用中心</a>
             </p>
         </div>
         <!-- 左侧导航区结束 -->
