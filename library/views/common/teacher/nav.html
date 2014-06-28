@@ -1,0 +1,54 @@
+<div class="nav">
+	<div class="layout">
+		<ul class="link fr">
+			<li class="first">
+				{if $user_type}
+				<a href="{$login_url}teacher/cert/certification" target="_blank">教师认证</a>
+				{else}
+				<a href="{$login_url}home/certification" target="_blank">教师认证</a>
+				{/if}
+			</li>
+			<li>
+				{if $user_type}
+				<a href="{$login_url}credit/teacher" target="_blank">积分回馈</a>
+				{else}
+				<a href="{$login_url}home/credit" target="_blank">积分回馈</a>
+				{/if}
+			</li>
+			<li>
+				{if $user_type}
+				<a href="{$login_url}teacher/user/medal" target="_blank">达人勋章</a>
+				{else}
+				<a href="{$login_url}home/medal" target="_blank">达人勋章</a>
+				{/if}
+			</li>
+			{if $user_type}
+			<li>
+				<a href="{$login_url}teacher/user/invited" target="_blank">邀请</a>
+			</li>
+			{/if}
+		</ul>
+		<ul class="main fl">
+			<li class="first">
+				{if $user_type}
+				<a href="{$tizi_url}teacher/paper/center" class="navPaper">出卷子</a>
+				{else}
+				<a href="{$tizi_url}home/paper" class="navPaper">出卷子</a>
+				{/if}
+			</li>
+			<li>
+				<a href="{$tizi_url}teacher/lesson/prepare" class="navLesson">备课</a>
+			</li>
+			<li>
+				<a href="#" class="navHomework">留作业</a>
+			</li>
+			<li>
+				{if $user_type}
+				<a href="{$tizi_url}teacher/class/my" class="navClass">班级空间</a>
+				{else}
+				<a href="{$tizi_url}home/class" class="navClass">班级空间</a>
+				{/if}
+			</li>
+		</ul>
+	</div>
+</div>

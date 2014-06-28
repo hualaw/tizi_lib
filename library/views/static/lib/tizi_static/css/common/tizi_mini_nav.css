@@ -1,0 +1,16 @@
+.topMiniNav{padding:10px 0px;font-size:14px;background: #f6f6f6}
+.topMiniNav .navWrap a.logo{background:url(../../image/common/tiziLogo_b.gif) no-repeat; display: block;width:122px;height:51px;text-indent: -999em;overflow:hidden;}
+.topMiniNav .navWrap p.miniNav{margin-left: 30px;}
+.topMiniNav .navWrap p.miniNav a{font-size:14px;padding:0px 12px;line-height: 50px;}
+.topMiniNav .navWrap p.miniNav a.active,
+.topMiniNav .navWrap p.miniNav a:hover{font-weight: bold;}
+/*右侧登陆前开始*/
+.topMiniNav .topLogin .loginBefore{line-height: 50px;}
+.topMiniNav .topLogin .loginBefore a{margin-left:20px;}
+/*右侧登陆前结束*/
+/*右侧登录后开始*/
+.topMiniNav .topLogin .loginOver .userName .icon{line-height: 50px;background: url(../../image/common/narrow_down.gif) no-repeat right center;display:block;padding-right:20px; cursor: pointer;}
+.topMiniNav .topLogin .loginOver .userName ul.info{ position: absolute;top: 40px;right:0px;border:1px solid #e2e2e2;background:#fff;width: 100px; text-align: center;line-height: 36px;box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4);z-index:1000;border-radius: 2px;}
+.topMiniNav .topLogin .loginOver .userName ul.info li a{display: block;}
+.topMiniNav .topLogin .loginOver .userName ul.info li a:hover{background:#ddd;color:#333;}
+/*右侧登陆后结束*/
