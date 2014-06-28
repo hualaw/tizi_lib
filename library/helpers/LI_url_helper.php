@@ -81,6 +81,14 @@ if ( ! function_exists('waijiao_url'))
 	}
 }
 
+if ( ! function_exists('api_url'))
+{
+	function api_url($uri = '')
+	{
+		return site_url($uri,'api');
+	}
+}
+
 if ( ! function_exists('static_url'))
 {
 	function static_url($site = '')
