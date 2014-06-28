@@ -43,8 +43,10 @@ $config['space_static_url'] = 'http://space-static.tizi.com/';
 $config['waijiao_url'] = 'http://waijiao.tizi.com/';
 $config['waijiao_static_url'] = 'http://waijiao-static.tizi.com/';
 
-$config['bbs_url'] = 'http://bbs.tizi.com/';
 $config['api_url'] = 'http://api.tizi.com/';
+$config['api_static_url'] = 'http://api-static.tizi.com/';
+
+$config['bbs_url'] = 'http://bbs.tizi.com/';
 $config['nahao_url'] = 'http://www.nahao.com/';
 $config['91_url'] = 'http://www.91waijiao.com/';
 /*
