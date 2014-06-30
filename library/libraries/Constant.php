@@ -180,9 +180,9 @@ Class CI_Constant {
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'tizi' => array(
-				self::USER_TYPE_STUDENT => tizi_url(),
-			    self::USER_TYPE_TEACHER => tizi_url(),
-			    self::USER_TYPE_PARENT => jia_url()
+				self::USER_TYPE_STUDENT => tizi_url('xue'),
+			    self::USER_TYPE_TEACHER => tizi_url('shi'),
+			    self::USER_TYPE_PARENT => tizi_url('jia')
 			)
 		);
 
