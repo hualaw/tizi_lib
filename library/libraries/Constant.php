@@ -166,9 +166,9 @@ Class CI_Constant {
 		$redirect_url = array(
 			'login' => array(
 				//self::USER_TYPE_STUDENT => login_url("student/user/center"),
-				self::USER_TYPE_STUDENT => login_url("lian"),
+				self::USER_TYPE_STUDENT => tizi_url("lian"),
 			    //self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
-			    self::USER_TYPE_TEACHER => login_url("teacher/paper/center"),
+			    self::USER_TYPE_TEACHER => tizi_url("teacher/paper/center"),
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'logout' => array(
