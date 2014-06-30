@@ -29,6 +29,11 @@
 			{/if}
 		</ul>
 		<ul class="main fl">
+			{if $user_type && $user_type eq $constant.user_type_teacher}
+			<li class="first">
+				<a href="{$login_url}teacher/user/center" target="_blank">首页</a>
+			</li>
+			{/if}
 			<li class="first">
 				{if $user_type}
 				<a href="{$tizi_url}teacher/paper/center" class="navPaper">出卷子</a>
