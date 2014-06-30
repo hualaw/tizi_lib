@@ -21,10 +21,10 @@ class Teacher_Data_Model extends Data_Model {
         return $this->update_data_array($user_id,$data);
     }
 
-    public function update_teacher_download_default($user_id,$download_default,$download_type='paper')
+    public function update_teacher_download_default($user_id,$download_default)
     {
         if(!$download_default) return false;
-        return $this->update_data($user_id,$download_default,$download_type.'_download_default');
+        return $this->update_data($user_id,$download_default,'paper_download_default');
     }
 
     public function update_teacher_gender($user_id,$gender)
