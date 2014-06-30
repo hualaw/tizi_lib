@@ -51,3 +51,21 @@ if (!function_exists('path2avatar')) {
 		return $path;
 	}
 }
+
+if (!function_exists('path2spaceAvatar')) {
+	function path2spaceAvatar($user_id,$type=1) {
+		$ci =& get_instance();
+		$ci->load->config("upload",true,true);
+		$avatar = $ci->config->item("upload");
+		$domain_avatar = isset($avatar["domain_avatar"])?$avatar["domain_avatar"]:'';
+		$folder_avatar = isset($avatar["space_folder_avatar"])?$avatar["space_folder_avatar"]:'';
+        $prefix_avatar = isset($avatar["space_prefix_avatar"])?$avatar["space_prefix_avatar"]:'';
+        $num_pf_avatar = isset($avatar["space_num_pf_avatar"])?$avatar["space_num_pf_avatar"]:'';
+        if(isset($avatar["space_num_pf_avatar"]))
+        {
+        	$num_pf_avatar = alpha_id_num(intval($user_id/$avatar["space_num_pf_avatar"]));
+        }
+		$path = $domain_avatar.$folder_avatar.$num_pf_avatar.'/'.md5($prefix_avatar.$user_id.'__avatar'.$type).'.jpg';
+		return $path;
+	}
+}
