@@ -165,7 +165,7 @@ Class CI_Constant {
 		if(!$redirect_type) $redirect_type='login';
 		$redirect_url = array(
 			'login' => array(
-				self::USER_TYPE_STUDENT => tizi_url("student/user/center"),
+				self::USER_TYPE_STUDENT => login_url("student/user/center"),
 			    self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
 			    self::USER_TYPE_PARENT => jia_url()
 			),
@@ -182,7 +182,7 @@ Class CI_Constant {
 			'tizi' => array(
 				self::USER_TYPE_STUDENT => tizi_url('xue'),
 			    self::USER_TYPE_TEACHER => tizi_url('shi'),
-			    self::USER_TYPE_PARENT => tizi_url('jia')
+			    self::USER_TYPE_PARENT => tizig_url('jia')
 			)
 		);
 
