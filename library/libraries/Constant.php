@@ -165,7 +165,7 @@ Class CI_Constant {
 		if(!$redirect_type) $redirect_type='login';
 		$redirect_url = array(
 			'login' => array(
-				self::USER_TYPE_STUDENT => tizi_url("student/practice"),
+				self::USER_TYPE_STUDENT => tizi_url("student/user/center"),
 			    self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
 			    self::USER_TYPE_PARENT => jia_url()
 			),
@@ -175,24 +175,18 @@ Class CI_Constant {
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'register' => array(
-				self::USER_TYPE_STUDENT => tizi_url("student/practice"),
+				self::USER_TYPE_STUDENT => tizi_url("lian"),
 			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
-			    self::USER_TYPE_PARENT => jia_url("parent/home")
+			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'tizi' => array(
 				self::USER_TYPE_STUDENT => tizi_url("student/practice"),
 			    self::USER_TYPE_TEACHER => tizi_url(),
 			    self::USER_TYPE_PARENT => jia_url()
-			),
-			'supply' => array(
-				self::USER_TYPE_STUDENT => login_url("student/user/supply"),
-			    self::USER_TYPE_TEACHER => login_url("teacher/user/supply"),
-			    self::USER_TYPE_PARENT => login_url("parent/user/supply")
 			)
 		);
 
 		//$redirect_url['register']=$redirect_url['login'];
-		$redirect_url['edu']=$redirect_url['tizi'];
 		if(!isset($redirect_url[$redirect_type])) $redirect_url[$redirect_type] = $redirect_url['login'];
 
 		return isset($redirect_url[$redirect_type][$user_type])?$redirect_url[$redirect_type][$user_type]:site_url();
