@@ -1,6 +1,11 @@
 <div class="nav">
 	<div class="layout">
 		<ul class="main fl">
+			{if $user_type && $user_type eq $constant.user_type_student}
+			<li class="first">
+				<a href="{$login_url}student/user/center" target="_blank">首页</a>
+			</li>
+			{/if}
 			<li class="first">
 				<a href="{$waijiao_url}" class="navEverdayWaijiao" target="_blank">天天外教</a>
 			</li>
