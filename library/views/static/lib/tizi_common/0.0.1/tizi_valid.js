@@ -7,28 +7,14 @@ define(function(require, exports) {
     // 请求公共验证信息
     var sDataType = require("tizi_datatype").dataType();
 
-    exports.indexLogin = function(callback_login){
+    exports.indexLogin = function(tip_type,callback_login){
          // 加载placeHolder插件
         seajs.use('placeHolder',function(ex){
             ex.JPlaceHolder.init();
         });
         var _Form = $(".indexLoginForm").Validform({
             // 自定义tips在输入框上面显示
-            tiptype: function(msg, o, cssctl) {
-                if (!o.obj.is("form")) {
-                    var objtip = o.obj.next().find(".Validform_checktip");
-                    objtip.text(msg);
-                    o.obj.next().show();
-                    var objtip = o.obj.next().find(".Validform_checktip");
-                    objtip.text(msg);
-                    var infoObj = o.obj.next(".ValidformTips");
-                    // 判断验证成功
-                    if (o.type == 2) {
-                        infoObj.show();
-                        o.obj.next().hide();
-                    }
-                }
-            },
+            tiptype: 3,
             showAllError: false,
             beforeSubmit: function(curform) {
                 // 加载MD5加密
@@ -70,6 +56,24 @@ define(function(require, exports) {
 
             }
         });
+        // 判断如果tiptype ！==3的时候让错误信息在右侧显示
+        if(tip_type !== 3){
+            _Form.config({tiptype:function(msg, o, cssctl) {
+                if (!o.obj.is("form")) {
+                    var objtip = o.obj.next().find(".Validform_checktip");
+                    objtip.text(msg);
+                    o.obj.next().show();
+                    var objtip = o.obj.next().find(".Validform_checktip");
+                    objtip.text(msg);
+                    var infoObj = o.obj.next(".ValidformTips");
+                    // 判断验证成功
+                    if (o.type == 2) {
+                        infoObj.show();
+                        o.obj.next().hide();
+                    }
+                }
+            }});
+        };
         _Form.addRule([{
                 ele: ".username",
                 datatype: sDataType.Username.datatype,

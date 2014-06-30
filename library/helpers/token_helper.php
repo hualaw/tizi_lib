@@ -15,11 +15,12 @@ if (!function_exists('json_ntoken')) {
     function json_ntoken($param) 
     {
     	$ci = &get_instance();
+    	$callback=$ci->input->get_post('callback',true);
     	$callback_name=$ci->input->get_post('callback_name',true);
     	$param['callback']=$callback_name?true:false;
     	
 		header('Content-type:text/html;charset=utf-8');
-		if($callback_name) return $callback_name.'('.json_encode($param, JSON_HEX_TAG).')';
+		if($callback&&$callback_name) return $callback.'('.json_encode($param, JSON_HEX_TAG).')';
 		return json_encode($param, JSON_HEX_TAG);
     }
 }
@@ -29,12 +30,13 @@ if (!function_exists('json_token')) {
     {
         $ci = &get_instance();
 		$page_name=$ci->input->post('page_name',true);
+		$callback=$ci->input->get_post('callback',true);
 		$callback_name=$ci->input->get_post('callback_name',true);
 		$param['token']=$page_name?generate_token($page_name):'';
 		$param['callback']=$callback_name?true:false;
 
 		header('Content-type:text/html;charset=utf-8');
-		if($callback_name) return $callback_name.'('.json_encode($param, JSON_HEX_TAG).')';
+		if($callback&&$callback_name) return $callback.'('.json_encode($param, JSON_HEX_TAG).')';
 		return json_encode($param, JSON_HEX_TAG);
     }
 }
