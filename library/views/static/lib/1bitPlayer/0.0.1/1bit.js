@@ -34,7 +34,8 @@ function OneBit(pluginPath) {
 			if (this.hasClass(links[i].parentNode, this.wrapperClass)) {
 				continue
 			}
-			if (links[i].href.substr(links[i].href.length - 4) != '.mp3') {
+			//if (links[i].href.substr(links[i].href.length - 4) != '.mp3') {
+			if (links[i].href.indexOf('.mp3') < 0) {
 				continue
 			}
 			this.insertPlayer(links[i])
@@ -86,7 +87,8 @@ function OneBit(pluginPath) {
 			so.addVariable('foreColor', this.color)
 		}
 		so.addVariable('analytics', this.analytics);
-		so.addVariable('filename', elem.href);
+		// so.addVariable('filename', elem.href);
+		so.addVariable('filename', encodeURIComponent(elem.href));
 		so.write(hook_id);
 		this.playerCount++
 	};

@@ -18,7 +18,7 @@ Class CI_Constant {
 	const REG_ORIGEN_WEB_EUNAME = 5;
 	const REG_ORIGEN_AQ_IOS = 21;
 	const REG_ORIGIN_AQ_ANDROID = 31;
-
+	//原常量  EN 拼写错了
 	const REG_ORIGEN_APP_IOS = 22;
 	const REG_ORIGEN_APP_IOS_QQ = 23;
 	const REG_ORIGEN_APP_IOS_WEIBO = 24;
@@ -26,6 +26,14 @@ Class CI_Constant {
 	const REG_ORIGEN_IOS_TIKU_QQ = 26;
 	const REG_ORIGEN_IOS_TIKU_WEIBO = 27;
 	const REG_ORIGEN_IOS_JXT = 28;
+	//原常量 EN 改为IN
+	const REG_ORIGIN_APP_IOS = 22;
+	const REG_ORIGIN_APP_IOS_QQ = 23;
+	const REG_ORIGIN_APP_IOS_WEIBO = 24;
+	const REG_ORIGIN_IOS_TIKU = 25;
+	const REG_ORIGIN_IOS_TIKU_QQ = 26;
+	const REG_ORIGIN_IOS_TIKU_WEIBO = 27;
+	const REG_ORIGIN_IOS_JXT = 28;
 
 	const REG_ORIGIN_APP_ANDROID = 32;
 	const REG_ORIGIN_APP_ANDROID_QQ = 33;
