@@ -114,7 +114,7 @@ class Register_Model extends LI_Model {
 		return $data;
 	}
 	/*get student id*/
-	function get_student_id()
+	public function get_student_id()
 	{
 		/**
 		$this->load->helper('string');

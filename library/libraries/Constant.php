@@ -37,19 +37,24 @@ Class CI_Constant {
 
 	const REG_ORIGIN_CRM = 41;
 	const REG_ORIGIN_CRM_STUID	= 43;
-	const REG_ORIGIN_QQ_PERFECT	= 51;
-	const REG_ORIGIN_QQ_SKIP	= 52;
-	const REG_ORIGIN_WEIBO_PERFECT = 53;
-	const REG_ORIGIN_WEIBO_SKIP = 54;
-	const REG_ORIGIN_WEIXIN_PERFECT = 55;
-	const REG_ORIGIN_WEIXIN_SKIP = 56;
+	const REG_ORIGIN_QQ_PERFECT	= 51;		//第三方登录-qq-完善信息
+	const REG_ORIGIN_QQ_SKIP	= 52;		//第三方登录-qq-跳过
+	const REG_ORIGIN_WEIBO_PERFECT = 53;	//第三方登录-weibo-完善信息
+	const REG_ORIGIN_WEIBO_SKIP = 54;		//第三方登录-weibo-跳过
+	const REG_ORIGIN_WEIXIN_PERFECT = 55;	//第三方登录-weixin-完善信息
+	const REG_ORIGIN_WEIXIN_SKIP = 56;		//第三方登录-weixin-跳过
+	const REG_ORIGIN_TADD_PERFECT = 58;		//班级老师添加的学生帐号-完善信息
+	const REG_ORIGIN_TADD_SKIP = 59;		//班级老师添加的学生帐号-跳过
 	const REG_ORIGEN_CLASS_EMAIL = 62;
 	const REG_ORIGEN_CLASS_UNAME = 64;
 	const REG_ORIGEN_SURVEY_EMAIL= 66;
 	const REG_ORIGEN_SURVEY_UNAME= 68;
 	const REG_ORIGEN_FOOTBALL_EMAIL= 67;
 	const REG_ORIGEN_FOOTBALL_UNAME= 69;
-	const REG_ORIGIN_SSO		 = 70;
+	const REG_ORIGIN_SSO_PERFECT  = 70;		//SSO厂商登录-完善信息
+	const REG_ORIGIN_SSO_SKIP = 71;			//SSO厂商登录-跳过
+	const REG_ORIGIN_CARD_PERFECT = 72;		//卡片登录-完善信息
+	const REG_ORIGIN_CARD_SKIP = 73;		//卡片登录-跳过
 
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
@@ -95,6 +100,12 @@ Class CI_Constant {
 	const LOGIN_TYPE_STUID = 3;
 	const LOGIN_TYPE_UNAME = 4;
 	const LOGIN_TYPE_ERROR = 9;
+	
+	/*login sso type*/
+	const LOGIN_SSO_TYPE_OAUTH = 1;		//OAUTH 第三方登录
+	const LOGIN_SSO_TYPE_SSO = 2;		//SSO	厂商登录
+	const LOGIN_SSO_TYPE_CARD = 3;		//梯子帐号卡登录
+	const LOGIN_SSO_TYPE_TADD = 4;		//老师添加的帐号
 
 	/*tizi api type*/
 	const API_TYPE_TIZI = 1;
@@ -145,6 +156,7 @@ Class CI_Constant {
     const REDIS_AUTHLOGIN_TIMEOUT = 14400;//默认auto login用户名的缓存时间
 
     const DEFAULT_SUBJECT_ID = 2;//默认科目，初中数学
+    const DEFAULT_SUBJECT_TYPE = 2;//数学
     const DEFAULT_GRADE_ID = 1;//默认年级，初中
 
 	//medal types
