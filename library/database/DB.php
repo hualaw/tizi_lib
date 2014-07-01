@@ -37,18 +37,13 @@ function &DB($params = '', $active_record_override = NULL)
 
 		if (file_exists($lib_file_path))
 		{
-			$exist_lib = true;
 			require($lib_file_path);
 		}
-		else
-		{
-			$exist_lib = false;
-		}
 
-		$lib_db = array();
-		if (isset($db) AND is_array($db))
+		$exist_lib = false;
+		if ( isset($db) AND is_array($db))
 		{
-			$lib_db = $db;
+			$exist_lib = true;
 		}
 
 		// Is the config file in the environment folder?
@@ -60,7 +55,7 @@ function &DB($params = '', $active_record_override = NULL)
 		// Fetch the config file
 		if (! file_exists($file_path))
 		{
-			if(! $exist_lib) exit('The db file does not exist.');
+			if( ! $exist_lib) exit('The db file does not exist.');
 		}
 		else
 		{
@@ -72,8 +67,6 @@ function &DB($params = '', $active_record_override = NULL)
 		{
 			exit('Your db file does not appear to be formatted correctly.');
 		}
-
-		$config = array_merge($lib_db,$db);
 
 		// Is the config file in the environment folder?
 		/*
