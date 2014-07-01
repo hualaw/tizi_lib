@@ -9,6 +9,7 @@ $route['login/check']="login/login/check_login";
 
 $route['oauth/login']="login/oauthlogin/oauth";
 $route['oauth/callback/(:any)']="login/oauthlogin/callback/$1";
+$route['sso/login']="login/ssologin/index";
 
 $route['check_code']="login/login/check_code";
 $route['check_captcha']="login/captcha_code/validate";

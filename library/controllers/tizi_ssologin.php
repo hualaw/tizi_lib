@@ -25,7 +25,7 @@ class Tizi_Ssologin extends Tizi_Controller {
 			} else {
 				$this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_SSO);
 				$this->session->set_userdata("sso_id", $sso["id"]);
-				$sso_redirect = login_url("login/sso/role");
+				$sso_redirect = login_url("sso/role?platform=sso");
 				redirect($sso_redirect);
 			}
 		}
