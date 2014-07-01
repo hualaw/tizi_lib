@@ -46,6 +46,10 @@ $config['folder_avatar'] = 'avatar_dev/';
 $config['prefix_avatar'] = 'tizi__';
 $config['num_pf_avatar'] = 10000;
 
+$config['space_folder_avatar'] = 'space_avatar/';
+$config['space_prefix_avatar'] = 'tizi__';
+$config['space_num_pf_avatar'] = 10000;
+
 //edu
 $config['bucket_edu'] = 'tizi';
 $config['domain_edu'] = 'http://tizi.oss.aliyuncs.com/';

@@ -1,28 +1,19 @@
 <div class="nav">
 	<div class="layout">
-		<!-- <ul class="link fr">
-			<li class="first">
-				<a href="{$site_url}teacher/cert/certification" target="_blank">教师认证</a>
-			</li>
-			<li>
-				<a href="{$site_url}credit/teacher" target="_blank">积分回馈</a>
-			</li>
-			<li>
-				<a href="{$site_url}teacher/user/medal">达人勋章</a>
-			</li>
-			<li>
-				<a href="{$site_url}teacher/user/invited">邀请</a>
-			</li>
-		</ul> -->
 		<ul class="main fl">
+			{if $user_type && $user_type eq $constant.user_type_student}
 			<li class="first">
-				<a href="" class="navEverdayWaijiao">天天外教</a>
+				<a href="{$login_url}student/user/center" target="_blank">首页</a>
+			</li>
+			{/if}
+			<li class="first">
+				<a href="{$waijiao_url}" class="navEverdayWaijiao" target="_blank">天天外教</a>
 			</li>
 			<li>
-				<a href="{$site_url}student/special" class="navSpecial">专项挑战</a>
+				<a href="{$site_url}lian" class="navSpecial">专项挑战</a>
 			</li>
 			<li>
-				<a href="{$site_url}student/class" class="navClass">班级空间</a>
+				<a href="{$site_url}ban" class="navClass">班级空间</a>
 			</li>
 		</ul>
 	</div>

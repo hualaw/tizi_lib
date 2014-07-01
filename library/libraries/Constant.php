@@ -11,22 +11,20 @@ Class CI_Constant {
 	const USER_TYPE_RESEARCHER = 5;
 
 	/*zujuan register origien*/
-	const REG_ORIGEN_WEB_PHONE = 1;
-	const REG_ORIGEN_WEB_EMAIL = 2;
-	const REG_ORIGEN_WEB_STUID = 3;
-	const REG_ORIGEN_WEB_UNAME = 4;
-	const REG_ORIGEN_WEB_EUNAME = 5;
-	const REG_ORIGEN_AQ_IOS = 21;
+	const REG_ORIGIN_WEB_PHONE = 1;
+	const REG_ORIGIN_WEB_EMAIL = 2;
+	const REG_ORIGIN_WEB_STUID = 3;
+	const REG_ORIGIN_WEB_UNAME = 4;
+	//app
+	const REG_ORIGIN_AQ_IOS = 21;
 	const REG_ORIGIN_AQ_ANDROID = 31;
-
-	const REG_ORIGEN_APP_IOS = 22;
-	const REG_ORIGEN_APP_IOS_QQ = 23;
-	const REG_ORIGEN_APP_IOS_WEIBO = 24;
-	const REG_ORIGEN_IOS_TIKU = 25;
-	const REG_ORIGEN_IOS_TIKU_QQ = 26;
-	const REG_ORIGEN_IOS_TIKU_WEIBO = 27;
-	const REG_ORIGEN_IOS_JXT = 28;
-
+	const REG_ORIGIN_APP_IOS = 22;
+	const REG_ORIGIN_APP_IOS_QQ = 23;
+	const REG_ORIGIN_APP_IOS_WEIBO = 24;
+	const REG_ORIGIN_IOS_TIKU = 25;
+	const REG_ORIGIN_IOS_TIKU_QQ = 26;
+	const REG_ORIGIN_IOS_TIKU_WEIBO = 27;
+	const REG_ORIGIN_IOS_JXT = 28;
 	const REG_ORIGIN_APP_ANDROID = 32;
 	const REG_ORIGIN_APP_ANDROID_QQ = 33;
 	const REG_ORIGIN_APP_ANDROID_WEIBO = 34;
@@ -34,22 +32,26 @@ Class CI_Constant {
 	const REG_ORIGIN_ANDROID_TIKU_QQ = 36;
 	const REG_ORIGIN_ANDROID_TIKU_WEIBO = 37;
 	const REG_ORIGIN_ANDROID_JXT = 38;
-
+	//crm
 	const REG_ORIGIN_CRM = 41;
 	const REG_ORIGIN_CRM_STUID	= 43;
-	const REG_ORIGIN_QQ_PERFECT	= 51;
-	const REG_ORIGIN_QQ_SKIP	= 52;
-	const REG_ORIGIN_WEIBO_PERFECT = 53;
-	const REG_ORIGIN_WEIBO_SKIP = 54;
-	const REG_ORIGIN_WEIXIN_PERFECT = 55;
-	const REG_ORIGIN_WEIXIN_SKIP = 56;
-	const REG_ORIGEN_CLASS_EMAIL = 62;
-	const REG_ORIGEN_CLASS_UNAME = 64;
-	const REG_ORIGEN_SURVEY_EMAIL= 66;
-	const REG_ORIGEN_SURVEY_UNAME= 68;
-	const REG_ORIGEN_FOOTBALL_EMAIL= 67;
-	const REG_ORIGEN_FOOTBALL_UNAME= 69;
-	const REG_ORIGIN_SSO		 = 70;
+	//sso
+	const REG_ORIGIN_QQ_PERFECT	= 51;		//第三方登录-qq-完善信息
+	const REG_ORIGIN_QQ_SKIP	= 52;		//第三方登录-qq-跳过
+	const REG_ORIGIN_WEIBO_PERFECT = 53;	//第三方登录-weibo-完善信息
+	const REG_ORIGIN_WEIBO_SKIP = 54;		//第三方登录-weibo-跳过
+	const REG_ORIGIN_WEIXIN_PERFECT = 55;	//第三方登录-weixin-完善信息
+	const REG_ORIGIN_WEIXIN_SKIP = 56;		//第三方登录-weixin-跳过
+	const REG_ORIGIN_TADD_PERFECT = 58;		//班级老师添加的学生帐号-完善信息
+	const REG_ORIGIN_TADD_SKIP = 59;		//班级老师添加的学生帐号-跳过
+	//classcode
+	const REG_ORIGIN_CLASS_EMAIL = 62;
+	const REG_ORIGIN_CLASS_UNAME = 64;
+	//sso
+	const REG_ORIGIN_SSO_PERFECT  = 70;		//SSO厂商登录-完善信息
+	const REG_ORIGIN_SSO_SKIP = 71;			//SSO厂商登录-跳过
+	const REG_ORIGIN_CARD_PERFECT = 72;		//卡片登录-完善信息
+	const REG_ORIGIN_CARD_SKIP = 73;		//卡片登录-跳过
 
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
@@ -95,6 +97,12 @@ Class CI_Constant {
 	const LOGIN_TYPE_STUID = 3;
 	const LOGIN_TYPE_UNAME = 4;
 	const LOGIN_TYPE_ERROR = 9;
+	
+	/*login sso type*/
+	const LOGIN_SSO_TYPE_OAUTH = 1;		//OAUTH 第三方登录
+	const LOGIN_SSO_TYPE_SSO = 2;		//SSO	厂商登录
+	const LOGIN_SSO_TYPE_CARD = 3;		//梯子帐号卡登录
+	const LOGIN_SSO_TYPE_TADD = 4;		//老师添加的帐号
 
 	/*tizi api type*/
 	const API_TYPE_TIZI = 1;
@@ -145,6 +153,7 @@ Class CI_Constant {
     const REDIS_AUTHLOGIN_TIMEOUT = 14400;//默认auto login用户名的缓存时间
 
     const DEFAULT_SUBJECT_ID = 2;//默认科目，初中数学
+    const DEFAULT_SUBJECT_TYPE = 2;//数学
     const DEFAULT_GRADE_ID = 1;//默认年级，初中
 
 	//medal types
@@ -165,8 +174,10 @@ Class CI_Constant {
 		if(!$redirect_type) $redirect_type='login';
 		$redirect_url = array(
 			'login' => array(
-				self::USER_TYPE_STUDENT => tizi_url("student/home"),
-			    self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
+				//self::USER_TYPE_STUDENT => login_url("student/user/center"),
+				self::USER_TYPE_STUDENT => tizi_url("lian"),
+			    //self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
+			    self::USER_TYPE_TEACHER => tizi_url("teacher/paper/center"),
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'logout' => array(
@@ -175,24 +186,18 @@ Class CI_Constant {
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'register' => array(
-				self::USER_TYPE_STUDENT => tizi_url("student/home"),
+				self::USER_TYPE_STUDENT => tizi_url("lian"),
 			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
-			    self::USER_TYPE_PARENT => jia_url("parent/home")
-			),
-			'tizi' => array(
-				self::USER_TYPE_STUDENT => tizi_url("student/home"),
-			    self::USER_TYPE_TEACHER => tizi_url(),
 			    self::USER_TYPE_PARENT => jia_url()
 			),
-			'supply' => array(
-				self::USER_TYPE_STUDENT => login_url("student/user/supply"),
-			    self::USER_TYPE_TEACHER => login_url("teacher/user/supply"),
-			    self::USER_TYPE_PARENT => login_url("parent/user/supply")
+			'tizi' => array(
+				self::USER_TYPE_STUDENT => tizi_url('xue'),
+			    self::USER_TYPE_TEACHER => tizi_url('shi'),
+			    self::USER_TYPE_PARENT => tizi_url('jia')
 			)
 		);
 
 		//$redirect_url['register']=$redirect_url['login'];
-		$redirect_url['edu']=$redirect_url['tizi'];
 		if(!isset($redirect_url[$redirect_type])) $redirect_url[$redirect_type] = $redirect_url['login'];
 
 		return isset($redirect_url[$redirect_type][$user_type])?$redirect_url[$redirect_type][$user_type]:site_url();
