@@ -15,7 +15,6 @@ Class CI_Constant {
 	const REG_ORIGIN_WEB_EMAIL = 2;
 	const REG_ORIGIN_WEB_STUID = 3;
 	const REG_ORIGIN_WEB_UNAME = 4;
-	const REG_ORIGIN_WEB_EUNAME = 5;
 	//app
 	const REG_ORIGIN_AQ_IOS = 21;
 	const REG_ORIGIN_AQ_ANDROID = 31;

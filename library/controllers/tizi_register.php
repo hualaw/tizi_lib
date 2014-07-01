@@ -256,57 +256,6 @@ class Tizi_Register extends Tizi_Controller {
 		return $submit;
     }
 
-    protected function register_euname($euname,$rname,$password,$password1,$mygrade,$redirect,$reg_data=array(),$auto_login=true)
-    {
-    	if(strpos($redirect,'http://') === false) $redirect='';
-
-    	$user_type=Constant::USER_TYPE_STUDENT;
-
-		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
-
-		$euname_check=$this->euname_check($euname,$rname,$password,$password1);
-
-		if(!$euname_check['errorcode'])
-		{
-			$submit['error']=$euname_check['error'];
-		}
-		else
-		{
-			$reg_data=array_merge(array('register_grade'=>$mygrade,'register_origin'=>Constant::REG_ORIGIN_WEB_EUNAME),$reg_data);
-			if($euname_check['utype']==Constant::LOGIN_TYPE_EMAIL)
-			{
-				if(isset($reg_data['origin_type'][Constant::LOGIN_TYPE_EMAIL])) 
-				{
-					$reg_data['register_origin']=$reg_data['origin_type'][Constant::LOGIN_TYPE_EMAIL];
-				}
-				unset($reg_data['origin_type']);
-				$register=$this->register_by_email($euname,$password,$rname,$user_type,$reg_data,$auto_login);
-			}
-			else
-			{
-				if(isset($reg_data['origin_type'][Constant::LOGIN_TYPE_UNAME])) 
-				{
-					$reg_data['register_origin']=$reg_data['origin_type'][Constant::LOGIN_TYPE_UNAME];
-				}
-				unset($reg_data['origin_type']);
-				$register=$this->register_by_uname($euname,$password,$rname,$user_type,$reg_data,$auto_login);
-			}
-
-			if(!$register['errorcode'])
-			{
-				$submit['error']=$register['error'];
-			}
-			else
-			{
-				$submit['errorcode']=true;
-				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_STUDENT,'register');
-				$submit['register']=$register;
-			}
-		}
-
-		return $submit;
-    }
-
     protected function register_parent($email,$rname,$password,$password1,$redirect,$reg_data=array(),$auto_login=true)
    	{
    		if(strpos($redirect,'http://') === false) $redirect='';
