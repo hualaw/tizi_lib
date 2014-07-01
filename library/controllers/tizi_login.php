@@ -89,7 +89,7 @@ class Tizi_Login extends Tizi_Controller {
 				{
 					$this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_TADD);
 					$this->session->set_userdata("sso_id", $create_pk);
-					$submit["redirect"] = login_url("login/sso/student");
+					$submit["redirect"] = login_url("sso/student");
 					$submit["errorcode"] = true;
 				}
 				else
@@ -100,7 +100,7 @@ class Tizi_Login extends Tizi_Controller {
 					if (isset($user_invite) && $user_invite["user_type"] == Constant::USER_TYPE_STUDENT){
 						$this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_CARD);
 						$this->session->set_userdata("sso_id", $user_invite["id"]);
-						$submit["redirect"] = login_url("login/sso/student");
+						$submit["redirect"] = login_url("sso/student");
 						$submit["errorcode"] = true;
 					} else {
 						log_message('trace_tizi','23800013:login failed:'.$username.':'.$password,$user_id);
@@ -118,7 +118,7 @@ class Tizi_Login extends Tizi_Controller {
 					{
 						$this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_CARD);
 						$this->session->set_userdata("sso_id", $user_invite["id"]);
-						$submit["redirect"] = login_url("login/sso/teacher");
+						$submit["redirect"] = login_url("sso/teacher");
 						$submit["errorcode"] = true;
 					}
 					else 

@@ -72,7 +72,7 @@ class Tizi_Oauthlogin extends Tizi_Controller {
                         $this->session->set_userdata('perfect_redirect',$oauth_redirect);
                     }
 
-                    $oauth_redirect=login_url("login/sso/role");
+                    $oauth_redirect=login_url("sso/role?platform=".$platform_code);
                 }else{//绑定用户
                     
                     $session=$this->session_model->generate_session($user_auth_data["user_id"]);
