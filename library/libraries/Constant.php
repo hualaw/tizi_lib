@@ -11,22 +11,13 @@ Class CI_Constant {
 	const USER_TYPE_RESEARCHER = 5;
 
 	/*zujuan register origien*/
-	const REG_ORIGEN_WEB_PHONE = 1;
-	const REG_ORIGEN_WEB_EMAIL = 2;
-	const REG_ORIGEN_WEB_STUID = 3;
-	const REG_ORIGEN_WEB_UNAME = 4;
-	const REG_ORIGEN_WEB_EUNAME = 5;
-	const REG_ORIGEN_AQ_IOS = 21;
+	const REG_ORIGIN_WEB_PHONE = 1;
+	const REG_ORIGIN_WEB_EMAIL = 2;
+	const REG_ORIGIN_WEB_STUID = 3;
+	const REG_ORIGIN_WEB_UNAME = 4;
+	//app
+	const REG_ORIGIN_AQ_IOS = 21;
 	const REG_ORIGIN_AQ_ANDROID = 31;
-	//原常量  EN 拼写错了
-	const REG_ORIGEN_APP_IOS = 22;
-	const REG_ORIGEN_APP_IOS_QQ = 23;
-	const REG_ORIGEN_APP_IOS_WEIBO = 24;
-	const REG_ORIGEN_IOS_TIKU = 25;
-	const REG_ORIGEN_IOS_TIKU_QQ = 26;
-	const REG_ORIGEN_IOS_TIKU_WEIBO = 27;
-	const REG_ORIGEN_IOS_JXT = 28;
-	//原常量 EN 改为IN
 	const REG_ORIGIN_APP_IOS = 22;
 	const REG_ORIGIN_APP_IOS_QQ = 23;
 	const REG_ORIGIN_APP_IOS_WEIBO = 24;
@@ -34,7 +25,6 @@ Class CI_Constant {
 	const REG_ORIGIN_IOS_TIKU_QQ = 26;
 	const REG_ORIGIN_IOS_TIKU_WEIBO = 27;
 	const REG_ORIGIN_IOS_JXT = 28;
-
 	const REG_ORIGIN_APP_ANDROID = 32;
 	const REG_ORIGIN_APP_ANDROID_QQ = 33;
 	const REG_ORIGIN_APP_ANDROID_WEIBO = 34;
@@ -42,9 +32,10 @@ Class CI_Constant {
 	const REG_ORIGIN_ANDROID_TIKU_QQ = 36;
 	const REG_ORIGIN_ANDROID_TIKU_WEIBO = 37;
 	const REG_ORIGIN_ANDROID_JXT = 38;
-
+	//crm
 	const REG_ORIGIN_CRM = 41;
 	const REG_ORIGIN_CRM_STUID	= 43;
+	//sso
 	const REG_ORIGIN_QQ_PERFECT	= 51;		//第三方登录-qq-完善信息
 	const REG_ORIGIN_QQ_SKIP	= 52;		//第三方登录-qq-跳过
 	const REG_ORIGIN_WEIBO_PERFECT = 53;	//第三方登录-weibo-完善信息
@@ -53,12 +44,10 @@ Class CI_Constant {
 	const REG_ORIGIN_WEIXIN_SKIP = 56;		//第三方登录-weixin-跳过
 	const REG_ORIGIN_TADD_PERFECT = 58;		//班级老师添加的学生帐号-完善信息
 	const REG_ORIGIN_TADD_SKIP = 59;		//班级老师添加的学生帐号-跳过
-	const REG_ORIGEN_CLASS_EMAIL = 62;
-	const REG_ORIGEN_CLASS_UNAME = 64;
-	const REG_ORIGEN_SURVEY_EMAIL= 66;
-	const REG_ORIGEN_SURVEY_UNAME= 68;
-	const REG_ORIGEN_FOOTBALL_EMAIL= 67;
-	const REG_ORIGEN_FOOTBALL_UNAME= 69;
+	//classcode
+	const REG_ORIGIN_CLASS_EMAIL = 62;
+	const REG_ORIGIN_CLASS_UNAME = 64;
+	//sso
 	const REG_ORIGIN_SSO_PERFECT  = 70;		//SSO厂商登录-完善信息
 	const REG_ORIGIN_SSO_SKIP = 71;			//SSO厂商登录-跳过
 	const REG_ORIGIN_CARD_PERFECT = 72;		//卡片登录-完善信息
