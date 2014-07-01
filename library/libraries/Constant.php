@@ -11,20 +11,6 @@ Class CI_Constant {
 	const USER_TYPE_RESEARCHER = 5;
 
 	/*zujuan register origien*/
-	const REG_ORIGEN_WEB_PHONE = 1;
-	const REG_ORIGEN_WEB_EMAIL = 2;
-	const REG_ORIGEN_WEB_STUID = 3;
-	const REG_ORIGEN_WEB_UNAME = 4;
-	const REG_ORIGEN_WEB_EUNAME = 5;
-	//原常量  EN 拼写错了
-	const REG_ORIGEN_APP_IOS = 22;
-	const REG_ORIGEN_APP_IOS_QQ = 23;
-	const REG_ORIGEN_APP_IOS_WEIBO = 24;
-	const REG_ORIGEN_IOS_TIKU = 25;
-	const REG_ORIGEN_IOS_TIKU_QQ = 26;
-	const REG_ORIGEN_IOS_TIKU_WEIBO = 27;
-	const REG_ORIGEN_IOS_JXT = 28;
-	//register
 	const REG_ORIGIN_WEB_PHONE = 1;
 	const REG_ORIGIN_WEB_EMAIL = 2;
 	const REG_ORIGIN_WEB_STUID = 3;
