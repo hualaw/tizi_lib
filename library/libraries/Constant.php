@@ -184,14 +184,14 @@ Class CI_Constant {
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'register' => array(
-				self::USER_TYPE_STUDENT => tizi_url("lian"),
+				self::USER_TYPE_STUDENT => tizi_url("pk"),
 			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'tizi' => array(
-				self::USER_TYPE_STUDENT => tizi_url('xue'),
-			    self::USER_TYPE_TEACHER => tizi_url('shi'),
-			    self::USER_TYPE_PARENT => tizi_url('jia')
+				self::USER_TYPE_STUDENT => tizi_url('xuesheng'),
+			    self::USER_TYPE_TEACHER => tizi_url('laoshi'),
+			    self::USER_TYPE_PARENT => tizi_url('jiazhang')
 			)
 		);
 
