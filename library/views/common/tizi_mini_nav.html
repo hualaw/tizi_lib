@@ -16,6 +16,11 @@
                             <a href="{$space_url}myspace" target="_blank">我的空间</a>
                         </li>
                         {/if}
+                        {if $user_type eq $constant.user_type_parent}
+                        <li>
+                            <a href="{$jia_url}parent/child">孩子专区</a>
+                        </li>
+                        {/if}
                         <li>
                             <a href="{$tizi_url}about/feedback" target="_blank">问题反馈</a>
                         </li>
