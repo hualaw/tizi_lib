@@ -47,9 +47,6 @@ class Session_Model extends LI_Model {
 				'login_time'=>time()
 			);
 			
-			//是否有答疑权限，有的话就显示答疑tab
-			if($data['user_type'] == Constant::USER_TYPE_TEACHER) $user_data['aq_show']=$this->auth_aq($user_id);
-
 			$this->session->set_userdata($user_data);
 
 			$this->db->query("update `user` set last_login=?,update_time=update_time where 
