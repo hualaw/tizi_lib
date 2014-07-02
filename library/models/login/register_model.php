@@ -74,19 +74,19 @@ class Register_Model extends LI_Model {
         {
             case Constant::INSERT_REGISTER_EMAIL:	$email=$username;
             										$email_verified=0;
-            										$origin=Constant::REG_ORIGEN_WEB_EMAIL;
+            										$origin=Constant::REG_ORIGIN_WEB_EMAIL;
             										break;
 
             case Constant::INSERT_REGISTER_PHONE: 	$phone=$username;
             										$phone_verified=1;
 													$phone_mask=mask_phone($username);
-													$origin=Constant::REG_ORIGEN_WEB_PHONE;
+													$origin=Constant::REG_ORIGIN_WEB_PHONE;
 													break;
 			case Constant::INSERT_REGISTER_STUID:	$student_id=$username!=""?$username:$this->get_student_id();
-													$origin=Constant::REG_ORIGEN_WEB_STUID;
+													$origin=Constant::REG_ORIGIN_WEB_STUID;
 													break;
 			case Constant::INSERT_REGISTER_UNAME:	$uname=$username;
-													$origin=Constant::REG_ORIGEN_WEB_UNAME;
+													$origin=Constant::REG_ORIGIN_WEB_UNAME;
 													break;
             default:break;
         }
@@ -114,7 +114,7 @@ class Register_Model extends LI_Model {
 		return $data;
 	}
 	/*get student id*/
-	function get_student_id()
+	public function get_student_id()
 	{
 		/**
 		$this->load->helper('string');

@@ -123,10 +123,10 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('survey_url', survey_url());
         $this->smarty->assign('space_url', space_url());
         $this->smarty->assign('waijiao_url', waijiao_url());
+        $this->smarty->assign('api_url', api_url());
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
 
         $this->smarty->assign('bbs_url', site_url('','bbs'));
-        $this->smarty->assign('api_url', site_url('','api'));
         $this->smarty->assign('nahao_url', site_url('','nahao'));
         $this->smarty->assign('91waijiao_url', site_url('','91waijiao'));
 
@@ -152,9 +152,6 @@ class LI_Controller extends CI_Controller{
    		$this->smarty->assign('home_student', redirect_url(Constant::USER_TYPE_STUDENT,'tizi'));
     	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
    		$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
-
-		//是否有答疑权限，有的话就显示答疑tab
-		$this->smarty->assign('aq_show',$this->session->userdata('aq_show'));
 
    		$this->smarty->assign('base_avatar', $avatar_url);
    		$this->smarty->assign('constant', $this->user_constant);
