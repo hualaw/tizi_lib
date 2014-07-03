@@ -24,7 +24,8 @@ define(function(require, exports) {
                     if(jQuery.isFunction( window[ callbackName ] )) {
                         window[ callbackName ]();
                     }else{
-                        window.location.reload();
+                        //window.location.reload();
+                        return false;
                     }
                 }
             }
