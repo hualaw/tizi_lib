@@ -17,10 +17,13 @@ define(function(require, exports) {
             ok:false,
             close:function(){
                 if(redirect.substr(0,9) == 'callback:'){
-                    var callback = redirect.substr(9);
-                    seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
-                        ex.close();
-                    });
+                    var callbackName = redirect.substr(9) + 'Close';
+                    //seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
+                    //    ex.close();
+                    //});
+                    if(jQuery.isFunction( window[ callbackName ] )) {
+                        window[ callbackName ]();
+                    }
                 }
             }
         });
