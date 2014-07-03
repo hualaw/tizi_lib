@@ -23,6 +23,8 @@ define(function(require, exports) {
                     //});
                     if(jQuery.isFunction( window[ callbackName ] )) {
                         window[ callbackName ]();
+                    }else{
+                        window.location.reload();
                     }
                 }
             }
@@ -73,6 +75,8 @@ define(function(require, exports) {
                         //});
                         if(jQuery.isFunction( window[ callbackName ] )) {
                             window[ callbackName ]();
+                        }else{
+                            window.location.reload();
                         }
                     }else if(data.redirect){
                         window.location.href=data.redirect;
