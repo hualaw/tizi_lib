@@ -57,6 +57,16 @@ if (!function_exists('qiniu_download')) {
     }
 }
 
+/*七牛下载链接*/
+if (!function_exists('qiniu_pub_link')) {
+    function qiniu_pub_link($key) {
+        $ci =& get_instance();
+        $ci->load->library('qiniu');
+        $path = $ci->qiniu->qiniu_public_link($key);
+        return $path;
+    }
+}
+
 /*七牛 视频文件 转换成 mp3/mp4 链接, 默认3小时, $instant=false调用预处理的，true调用即时处理*/
 if (!function_exists('qiniu_vi_au')) {
     function qiniu_vi_au($key,$ext='mp4',$instant=true, $ttl=10800) {
