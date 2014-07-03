@@ -207,7 +207,7 @@ class Tizi_Login extends Tizi_Controller {
 			$this->smarty->assign('login_redirect',$redirect);
 			$this->smarty->assign('reg_redirect',$reg_redirect);
 			$this->smarty->assign('reg_role',$reg_role);
-			if(!$nohtml) $html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
+			if(!$nohtml) $html=$this->smarty->fetch('[lib]common/tizi_login_form.html');
 			$redirect='';
 		}
         echo json_token(array('errorcode'=>$errorcode,'html'=>$html,'redirect'=>$redirect,'reg_redirect'=>$reg_redirect,'reg_role'=>$reg_role));

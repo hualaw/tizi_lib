@@ -307,7 +307,7 @@ class LI_Controller extends CI_Controller{
 						$this->smarty->assign('login_redirect',$login_redirect);
 						$this->smarty->assign('reg_redirect',$reg_redirect);
 						$this->smarty->assign('reg_role',$reg_role);
-						$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
+						$html=$this->smarty->fetch('[lib]common/tizi_login_form.html');
 				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'html'=>$html,'redirect'=>$login_redirect,'token'=>false,'code'=>1));
 					    exit();
 					}
