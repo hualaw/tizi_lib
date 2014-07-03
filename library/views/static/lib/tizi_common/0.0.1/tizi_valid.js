@@ -37,10 +37,15 @@ define(function(require, exports) {
                                 window.location.reload();
                             }
                         }else if(data.redirect.substr(0,9) == 'callback:'){
-                            var callback = data.redirect.substr(9);
-                            seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
-                                ex.callback();
-                            });
+                            var callbackName = data.redirect.substr(9) + 'Callback';
+                            // seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
+                            //     ex.callback();
+                            // });
+                            if(jQuery.isFunction( window[ callbackName ] )) {
+                                window[ callbackName ]();
+                            }else{
+                                window.location.reload();
+                            }
                         }else if(data.redirect){
                             window.location.href=data.redirect;
                         }
