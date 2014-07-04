@@ -46,6 +46,8 @@ $config['folder_avatar'] = 'avatar_dev/';
 $config['prefix_avatar'] = 'tizi__';
 $config['num_pf_avatar'] = 10000;
 
+$config['max_width_avatar'] = 180;//单个文件最大的宽度
+$config['max_height_avatar'] = 180;//单个文件最大的高度
 $config['space_folder_avatar'] = 'space_avatar/';
 $config['space_prefix_avatar'] = 'tizi__';
 $config['space_num_pf_avatar'] = 10000;
