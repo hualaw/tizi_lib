@@ -61,6 +61,14 @@ class Thrift_Zujuan {
 		}
 	}
 	
+	public function add_question($question_id,$paper_id,$question_origin,$category_id,$course_id){
+
+	}
+
+	public function del_question($paper_id,$paper_question_id_list,$question_origin){
+
+	}
+
 	protected function log_err($msg, $env_variable = false){
 		//return $this->_log->error($msg);
 		log_message('error_tizi', $msg, $env_variable);
