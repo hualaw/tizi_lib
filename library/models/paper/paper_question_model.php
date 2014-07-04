@@ -51,18 +51,12 @@ class Paper_Question_Model extends MY_Model {
 			else
 			{
 				$paper_question_type_id=0;
-				if($this->_namespace=='paper')
-				{
-					$this->load->model('paper/paper_section_model');
-					$paper_section=$this->paper_section_model->get_sections_by_paper($paper_id);
-					$this->load->model('paper/paper_question_type_model');
-					$paper_question_type_id=$this->paper_question_type_model->add_question_type($paper_id,$paper_section[$question_type_id->is_section_type]->id,$question_type_id->id,$question_type_id->name);
-				}
-				else if($this->_namespace=='homework')
-				{
-					$this->load->model('paper/homework_question_type_model');
-					$paper_question_type_id=$this->homework_question_type_model->add_question_type($paper_id,$question_type_id->id,$question_type_id->name);
-				}
+				
+				$this->load->model('paper/paper_section_model');
+				$paper_section=$this->paper_section_model->get_sections_by_paper($paper_id);
+				$this->load->model('paper/paper_question_type_model');
+				$paper_question_type_id=$this->paper_question_type_model->add_question_type($paper_id,$paper_section[$question_type_id->is_section_type]->id,$question_type_id->id,$question_type_id->name);
+
 				if($paper_question_type_id)
 				{
 					$paper_question_type=new stdclass();
