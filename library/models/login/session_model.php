@@ -23,14 +23,15 @@ class Session_Model extends LI_Model {
 	/*desc:generate session after login*/
 	/*input:arg($user_id)*/
 	/*output:session,return(errorcode(1-success,0-failed))*/
-	function generate_session($user_id,$dbsave=true)
+	function generate_session($user_id,$session_id=false,$dbsave=true)
 	{
-		$session_id=$this->session->userdata("session_id");
+		$session_id=$session_id?$session_id:$this->session->userdata("session_id");
 		$data=$this->bind_session($session_id,$user_id);
 		if(!empty($data))
 		{
 			$register_data=json_decode($data['user_data']);
 			$user_data=array(
+				'session_id'=>$session_id,
 				'user_id'=>$user_id,
 				'urname'=>$data['name'],
 				'user_type'=>$data['user_type'],
@@ -47,7 +48,11 @@ class Session_Model extends LI_Model {
 				'login_time'=>time()
 			);
 			
+			//是否有答疑权限，有的话就显示答疑tab
+			if($data['user_type'] == Constant::USER_TYPE_TEACHER) $user_data['aq_show']=$this->auth_aq($user_id);
+
 			$this->session->set_userdata($user_data);
+			unset($user_data['session_id']);
 
 			$this->db->query("update `user` set last_login=?,update_time=update_time where 
 				id=?", array(date("Y-m-d H:i:s"), $user_id));
