@@ -7,7 +7,7 @@ class Register_Model extends LI_Model {
 		
 	function __construct()
 	{
-        	parent::__construct();
+        parent::__construct();
 		$this->load->database();
 	}
 	/*desc:insert new register to db*/
