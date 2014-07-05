@@ -60,6 +60,13 @@ class Qiniu {
         return $privateUrl;
     }
 
+    //获取共有链接
+    function qiniu_public_link($key){
+        $domain = $this->domain;
+        $baseUrl = 'http://'.($domain.'/'.$key);
+        return $baseUrl;
+    }
+
     //即时转换成mp4的接口   访问时间默认设置成 3小时
     function qiniu_media($key,$ext='mp4',$ttl=10800){
         $domain = $this->domain;
