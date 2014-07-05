@@ -53,6 +53,9 @@ Class CI_Constant {
 	const REG_ORIGIN_CARD_PERFECT = 72;		//卡片登录-完善信息
 	const REG_ORIGIN_CARD_SKIP = 73;		//卡片登录-跳过
 
+	const QRTOKEN_EXPIRE_TIME = 300;//14400-4hour,0-with session expire
+	const REDIS_QRTOKEN_TIMEOUT = 300;//二维码登录token有效期
+
 	/*zujuan session and cookie expire*/
 	const SESSION_EXPIRE_TIME = "2 hour";
 	const COOKIE_EXPIRE_TIME = 0;//14400-4hour,0-with session expire

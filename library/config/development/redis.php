@@ -25,6 +25,7 @@ $config['redis_db']['study_statistics'] = 21;//梯子学堂统计
 $config['redis_db']['space']		= 22;//教师空间基本信息缓存
 $config['redis_db']['task']			= 23;//任务系统相关
 $config['redis_db']['fls_statistics'] = 24;//天天外教统计
+$config['redis_db']['qrcode_login']	= 25;//二维码登录
 
 // Default connection group
 $config['redis_default']['host'] = '192.168.11.12';	// IP address or host
