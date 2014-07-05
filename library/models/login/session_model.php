@@ -178,6 +178,25 @@ class Session_Model extends LI_Model {
 		return array('errorcode'=>true);		
 	}
 
+	function generate_qrtoken($session_id=false,$expire_time=Constant::QRTOKEN_EXPIRE_TIME)
+	{
+		$qrtoken=false;
+		if($this->redis_model->connect('qrcode_login'))
+		{
+			$session_id=$session_id?$session_id:$this->session->userdata('session_id');
+			$qrtoken=$this->cache->get($session_id);
+			if(!$qrtoken)
+			{
+				$qrtoken=$this->encrypt->encode($session_id.time());
+				$expire_time=Constant::REDIS_QRTOKEN_TIMEOUT;
+				$login_value=json_encode(array('session_id'=>$session_id,'expire_time'=>$expire_time));
+				$this->cache->save($session_id,$qrtoken,Constant::QRTOKEN_EXPIRE_TIME);
+				$this->cache->save($qrtoken,$login_value,$expire_time);
+			}
+		}
+		return $qrtoken;		
+	}
+
 	function clear_mscookie()
 	{
 		delete_cookie(Constant::COOKIE_TZMYSUBJECT_PAPER);
