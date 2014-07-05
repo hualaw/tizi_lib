@@ -174,7 +174,7 @@ class LI_Controller extends CI_Controller{
 
 	protected function auto_login()
 	{
-        $this->_username=$this->input->cookie(Constant::COOKIE_TZUSERNAME);
+        $this->_username=str_replace(' ','+',$this->input->cookie(Constant::COOKIE_TZUSERNAME));
         $this->tizi_uid=$this->session->userdata("user_id");
 
 		if(!$this->tizi_uid&&$this->_username)
