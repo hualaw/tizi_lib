@@ -83,6 +83,34 @@ class class_model extends LI_Model {
 		}
 		return 1;
 	}
+	
+	/*获取最新创建的班级*/
+	public function getnew($size = 3){
+		$class = $this->db->query("select id,classname,creator_id,school_id,school_define_id,class_grade from classes 
+			order by id desc limit 0,{$size}")->result_array();
+		$this->load->model("class/classes_schools");
+		$this->load->model("login/register_model");
+		foreach ($class as $key => $value){
+			if ($value["school_id"] > 0){
+				$school_info = $this->classes_schools->school_info($value["school_id"]);
+			} else if ($value["school_define_id"] > 0){
+				$school_info = $this->classes_schools->define_school_info($value["school_define_id"]);
+			} else {
+				$school_info = array();
+			}
+			$class[$key]["school"] = implode("", $school_info);
+			
+			$user_info = $this->register_model->get_user_info($value["creator_id"]);
+			if (isset($user_info["user"]->name) && $user_info["user"]->name){
+				$realname = $user_info["user"]->name;
+				$realname .= strpos($realname, "老师") === false ? "老师" : ""; 
+			} else {
+				$realname = "";
+			}
+			$class[$key]["realname"] = $realname;
+		}
+		return $class;
+	}
 }
 
 /* end of class_model.php */
