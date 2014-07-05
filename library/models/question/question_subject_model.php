@@ -81,7 +81,7 @@ class Question_Subject_Model extends LI_Model {
             case 'paper': 
             case 'homework': if($subject_id > 0 && $subject_id <= 26) $check_subject = true;break;
             case 'lesson': if($subject_id > 0 && $subject_id <= 26 && $subject_id != 23) $check_subject = true;break;
-            case 'binding': if($subject_id > 0 && $subject_id <= 26) $check_subject = true;break;
+            case 'binding': if($subject_id > 0 && $subject_id <= 27) $check_subject = true;break;
             case 'all': if($subject_id > 0 && $subject_id <= 26) $check_subject = true;
             default: break;
         }
