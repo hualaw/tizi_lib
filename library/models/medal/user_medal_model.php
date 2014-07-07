@@ -95,7 +95,57 @@ class user_medal_model extends MY_Model {
 		return $login_statistics;
 	}
 
+	/** 获取用户勋章的个数
+	 * @param $user_id
+	 * @return mixed
+	 */
+	public function get_user_medal_count($user_id) {
+		$r_key = $user_id . '_' . date('m_d', time());
 
+		$this->load->model("redis/redis_model");
+		$this->redis_model->connect('medal');
+
+		if ($len = $this->cache->redis->hlen($r_key)) {
+			return $len;
+		}
+		$sql = "SELECT COUNT(*) count FROM {$this->_table} WHERE user_id = {$user_id} GROUP BY ";
+		return $this->db->query($sql)->row()->count;
+	}
+
+	/** 获得不同勋章获得的人数
+	 * @return mixed
+	 */
+	public function get_distinct_medal_count() {
+		//TODO  key修改
+		$redis_key = 'distinct_medal_count2';
+
+		$this->load->model("redis/redis_model");
+		$this->redis_model->connect('medal');
+
+		if ($distinct_medal_count = $this->cache->redis->hget($redis_key, 'distinct')) {
+			return unserialize($distinct_medal_count);
+		}
+
+		$sql = "SELECT medal_type, COUNT(*) medal_count FROM {$this->_table} GROUP BY medal_type";
+		$tmp = $this->db->query($sql)->result();
+
+		foreach ($tmp as $kt => $vt) {
+			$distinct_medal_count[$vt->medal_type] = $vt;
+		}
+
+		$this->cache->redis->hset($redis_key, 'distinct', serialize($distinct_medal_count));
+		$this->cache->redis->expire($redis_key, Constant::USER_DISTINCT_MEDAL_COUNT_TIMEOUT);
+		return $distinct_medal_count;
+	}
+
+	/**
+	 * @param $limit
+	 * @return mixed
+	 */
+	public function get_latest_medal_user($limit) {
+		$sql = "SELECT user_id, medal_type FROM {$this->_table} ORDER BY get_date DESC LIMIT {$limit}";
+		return $this->db->query($sql)->result();
+	}
 	/** 获取资深用户的达人等级
 	 * @static
 	 * @param $register_days

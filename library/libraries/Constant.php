@@ -166,6 +166,7 @@ Class CI_Constant {
 	const USER_ACTIVITY_MEDAL = 4;			//活动认证
 
 	const USER_MEDAL_TIMEOUT = 86400;		//勋章过期时间 24h
+	const USER_DISTINCT_MEDAL_COUNT_TIMEOUT = 3600;		// 1h
 
     function __construct()
 	{
