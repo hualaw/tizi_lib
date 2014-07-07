@@ -499,13 +499,17 @@ class cloud_model extends MY_Model{
     }
 
     //分享文件的总数
-    function share_file_total($class_id='',$uid){
-        $class_sql = '';
+    function share_file_total($class_id='',$uid=0){
+        $class_sql = $uid_sql = '';
         if($class_id){
             $class_id = intval($class_id);
             $class_sql = " and s.class_id = $class_id ";
         }
-        $sql = "select count(1) as num from $this->_share_table  s left join $this->_file_table f on f.id=s.file_id where s.user_id=$uid and s.is_del=0 and f.is_del=0 $class_sql";
+        if($uid){
+            $uid = intval($uid);
+            $uid_sql = " and s.user_id = $uid ";
+        }
+        $sql = "select count(1) as num from $this->_share_table s left join $this->_file_table f on f.id=s.file_id where s.is_del=0 and f.is_del=0 $class_sql $uid_sql";
         return $this->db->query($sql)->row(0)->num;
     }
 
