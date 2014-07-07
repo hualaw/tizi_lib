@@ -498,6 +498,13 @@ class CI_Cache_redis extends CI_Driver
         }       
     }
 
+	public function sismember($key, $data){
+		if ($this->_slave)
+		{
+			return $this->_slave->sismember($key, $data);
+		}	
+	} 
+
     public function srandmember($key,$count=0){
         if ($this->_slave)
         {
@@ -535,6 +542,7 @@ class CI_Cache_redis extends CI_Driver
             return $this->_slave->llen($key);
         }   
     }   
+
 
     /*hash end*/
 	
