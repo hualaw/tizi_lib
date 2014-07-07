@@ -13,7 +13,7 @@ function(K) {
 		var fileUrl = K.undef(options.fileUrl, "http://"),
 		fileTitle = K.undef(options.fileTitle, ""),
 		clickFn = options.clickFn,
-		html = ['<div style="padding:20px;">', '<div class="ke-dialog-row">', '<label for="keUrl" style="width:60px;">' + lang.url + "</label>", '<input type="text" id="keUrl" name="url" class="ke-input-text" style="width:160px;" /> &nbsp;', '<input type="button" class="ke-upload-button" value="' + lang.upload + '" /> &nbsp;', '<span class="ke-button-common ke-button-outer">', '<input type="button" class="ke-button-common ke-button" name="viewServer" value="' + lang.viewServer + '" />', "</span>", "</div>", '<div class="ke-dialog-row">', '<label for="keTitle" style="width:60px;">' + lang.title + "</label>", '<input type="text" id="keTitle" class="ke-input-text" name="title" value="" style="width:160px;" /></div>', "</div>", "</form>", "</div>"].join(""),
+		html = ['<div style="padding:20px;">', '<div class="ke-dialog-row">', '<label for="keUrl" style="width:60px;">' + lang.url + "</label>", '<input type="text" id="keUrl" name="url" class="ke-input-text" style="width:160px;" /> &nbsp;', '<input type="button" class="ke-upload-button" value="' + lang.upload + '" /> &nbsp;', '<span class="ke-button-common ke-button-outer">', '<input type="button" class="ke-button-common ke-button" style="display:none" name="viewServer" value="' + lang.viewServer + '" />', "</span>", "</div>", '<div class="ke-dialog-row">', '<label for="keTitle" style="width:60px;">' + lang.title + "</label>", '<input type="text" id="keTitle" class="ke-input-text" name="title" value="" style="width:160px;" /></div>', "</div>", "</form>", "</div>"].join(""),
 		dialog = self.createDialog({
 			name: name,
 			width: 450,
@@ -53,6 +53,7 @@ function(K) {
 							// 弹出框
 							$.dialog({
 								content:self.lang("uploadSuccess"),
+								icon:"succeed",
 								zIndex:811214,
 								ok:function(){
 									self.closeDialog();
