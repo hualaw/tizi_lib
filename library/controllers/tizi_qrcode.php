@@ -1,5 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require LIBPATH."libraries/Qrcode/phpqrcode.php";//引入PHP QR库文件
+require LIBPATH."third_party/phpqrcode/phpqrcode.php";//引入PHP QR库文件
 
 class Tizi_Qrcode extends MY_Controller {
 
