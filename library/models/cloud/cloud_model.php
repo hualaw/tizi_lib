@@ -53,13 +53,15 @@ class cloud_model extends MY_Model{
         }else{
             $uid_sql = '';
         }
-        $sql = "select *,s.id as share_id from $this->_share_table s left join $this->_file_table f on f.id=s.file_id where 1=1 $uid_sql and s.class_id=$class_id and s.is_del=0 and f.is_del=0 order by s.create_time desc ".$limit_sql;
+        $sql = "select *,s.id as share_id from $this->_share_table s left join $this->_file_table f on f.id=s.file_id where 1=1 $uid_sql and s.class_id=$class_id and s.is_del=0  order by s.create_time desc ".$limit_sql;
+        /*2014-07-08 删除条件：and f.is_del=0   删除文件本身不影响分享到班级的文件 */
         return $this->db->query($sql)->result_array();//echo $this->db->last_query();die;
     }
 
     //通过分享id来获取相关信息
     function get_file_by_share_id($share_id){
-        $sql = "select f.*,s.*,s.id as share_id from $this->_share_table as s left join $this->_file_table as f on s.file_id = f.id where s.id=$share_id and f.is_del=0 and s.is_del=0";
+        $sql = "select f.*,s.*,s.id as share_id from $this->_share_table as s left join $this->_file_table as f on s.file_id = f.id where s.id=$share_id and s.is_del=0";
+        /*2014-07-08 删除条件：and f.is_del=0   删除文件本身不影响分享到班级的文件 */
         return $this->db->query($sql)->result_array();
     }
 
@@ -322,7 +324,8 @@ class cloud_model extends MY_Model{
         if($class_id){
             $class_sql = " and s.class_id=$class_id";
         }
-        $sql = "select f.$field , s.*,s.id as share_id from $this->_file_table f left join $this->_share_table s on s.file_id=f.id where f.id=$file_id and f.is_del=0 $class_sql limit 1";
+        $sql = "select f.$field , s.*,s.id as share_id from $this->_file_table f left join $this->_share_table s on s.file_id=f.id where f.id=$file_id  $class_sql limit 1";
+        /*2014-07-08 删除条件：and f.is_del=0   删除文件本身不影响分享到班级的文件 */
         if($only_file_info){
             $sql = "select * from $this->_file_table where id=$file_id and is_del=0 limit 1";
         }
@@ -509,7 +512,8 @@ class cloud_model extends MY_Model{
             $uid = intval($uid);
             $uid_sql = " and s.user_id = $uid ";
         }
-        $sql = "select count(1) as num from $this->_share_table s left join $this->_file_table f on f.id=s.file_id where s.is_del=0 and f.is_del=0 $class_sql $uid_sql";
+        $sql = "select count(1) as num from $this->_share_table s left join $this->_file_table f on f.id=s.file_id where s.is_del=0  $class_sql $uid_sql";
+        /*2014-07-08 删除条件：and f.is_del=0   删除文件本身不影响分享到班级的文件 */
         return $this->db->query($sql)->row(0)->num;
     }
 
