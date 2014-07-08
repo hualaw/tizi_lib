@@ -15,7 +15,7 @@ class User_Statistics_Model extends MY_Model {
         $statistics=array();
         if($this->redis_model->connect('statistics'))
         {
-            $statistics=$this->cache->redis->hmget('user_statistics',array('teacher','student','school','lesson_total','question_total'));
+            $statistics=$this->cache->redis->hmget('user_statistics',array('teacher','student','parent','school','lesson_total','question_total'));
         }
         if(empty($statistics))
         {
