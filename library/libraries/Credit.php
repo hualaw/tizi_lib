@@ -9,7 +9,7 @@ class CI_Credit {
 		$this->_CI = & get_instance();
 	}
 	
-	public function exec($user_id, $action, $certificate = false, $msg = "", $data = array()){
+	public function exec($user_id, $action, $certificate = false, $msg = "", $data = array(), $credit_def = 0){
 		$this->_CI->load->model("credit/credit_rule_model");
 		$rule = $this->_CI->credit_rule_model->action_get($action);
 		$rule_log = $this->_CI->credit_rule_model->get_log($user_id, $rule["id"]);
@@ -117,6 +117,8 @@ class CI_Credit {
 		} else {
 			$credit_change = $rule["general_credit"];
 		}
+		//新增自定义添加数量
+		$credit_def > 0 && $credit_change = $credit_def;
 		
 		if (empty($rule_log)){					//新增rule_log
 			//初始化
@@ -125,16 +127,17 @@ class CI_Credit {
 				"user_id" => $user_id,
 				"cyclenum" => 1,
 				"data" => implode(",", $data),
+				"total" => $credit_change,
 				"start_date" => $date,
 				"last_date" => $date
 			);
 		} else {
 			$rule_log["data"] = implode(",", $rule_log["data"]);
+			$rule_log["total"] += $credit_change;
 		}
 		
-		if ($msg === ""){
-			$msg = $rule["statement"];
-		}
+		$msg === "" && $msg = $rule["statement"];
+		
 		$flag = $this->_CI->credit_model->change_add($user_id, $rule["id"], $credit_change, $msg, $rule_log);
 		return $credit_change;
 	}

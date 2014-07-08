@@ -356,6 +356,13 @@ class Document_Model extends MY_Model {
 		}
     	return $data;
 	}
+	
+	/* 通过ids获取文档 */
+	public function get_by_ids($ids, $offset, $pagesize, $fields = "*"){
+		$res = $this->db->query("select {$fields} from lesson_document where id in ({$ids}) 
+			order by upload_time desc limit {$offset},{$pagesize}")->result_array();
+		return $res;
+	}
 }
 
 /* end of document_model.php */
