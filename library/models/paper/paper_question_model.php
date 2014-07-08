@@ -138,7 +138,8 @@ class Paper_Question_Model extends MY_Model {
     public function delete_question_from_paper($paper_id,$paper_question_id_list,$question_origin=0,$is_paper_question_id=false,$is_recycle=false) 
 	{
 		$this->load->library('thrift_zujuan');
-    	$qdel = $this->thrift_zujuan->del_question($paper_id,$paper_question_id_list,$question_origin,$is_paper_question_id);
+		$paper_question_id_list_array=is_array($paper_question_id_list)?$paper_question_id_list:array($paper_question_id_list);
+    	$qdel = $this->thrift_zujuan->del_question($paper_id,$paper_question_id_list_array,$question_origin,$is_paper_question_id);
     	return ($qdel == 'success')?true:false;
 
 		if($is_paper_question_id) $_question_id='id';
