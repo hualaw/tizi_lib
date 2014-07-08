@@ -77,13 +77,6 @@ class Session_Model extends LI_Model {
 		return array('errorcode'=>$errorcode,'user_data'=>$user_data);
 	}
 
-	private function auth_aq($user_id)
-	{
-		$this->db->where('id',$user_id);
-		$query=$this->db->get('aq_teacher');
-		return $query->num_rows();
-	}
-
 	function clear_session()
 	{
 		$this->session->sess_destroy();
