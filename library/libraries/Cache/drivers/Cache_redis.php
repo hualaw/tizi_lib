@@ -345,10 +345,10 @@ class CI_Cache_redis extends CI_Driver
 	}
 
 	/**
-	 * ·â×°redis zadd·½Ê½£¬½«ÔªËØ¼ÓÈëzset
-	 * @param string $key 		ÓĞĞò¼¯zset±êÊ¶¹Ø¼ü×Ö
-	 * @param int    $score		$memberµÄÓÅÏÈ¼¶Öµ
-	 * @param string $member    ´æ´¢µÄÔªËØÖµ
+	 * ï¿½ï¿½×°redis zaddï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Ø¼ï¿½ï¿½ï¿½zset
+	 * @param string $key 		ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ê¶ï¿½Ø¼ï¿½ï¿½ï¿½
+	 * @param int    $score		$memberï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½Öµ
+	 * @param string $member    ï¿½æ´¢ï¿½ï¿½Ôªï¿½ï¿½Öµ
 	 */
 	public function zadd($key, $score, $member)
 	{
@@ -359,9 +359,9 @@ class CI_Cache_redis extends CI_Driver
 	}
 
 	/**
-	 * ·â×°redis zcard·½Ê½,·µ»ØÓĞĞò¼¯zsetµÄÔªËØ¸öÊı
-	 * @param  string   $key 	ÓĞĞò¼¯zset±êÊ¶¹Ø¼ü×Ö
-	 * @return int		ÓĞĞò¼¯zsetµÄÔªËØ¸öÊı
+	 * ï¿½ï¿½×°redis zcardï¿½ï¿½Ê½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ôªï¿½Ø¸ï¿½ï¿½ï¿½
+	 * @param  string   $key 	ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ê¶ï¿½Ø¼ï¿½ï¿½ï¿½
+	 * @return int		ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ôªï¿½Ø¸ï¿½ï¿½ï¿½
 	 */
 	public function zcard($key)
 	{
@@ -421,6 +421,14 @@ class CI_Cache_redis extends CI_Driver
 			return $this->_slave->hget($key,$field);
         }       
     }
+
+	public function hlen($key){
+
+		if ($this->_slave)
+		{
+			return $this->_slave->hlen($key);
+		}
+	}
 
     public function hincrby($key,$field,$value){
     	if($this->_redis){
@@ -498,6 +506,13 @@ class CI_Cache_redis extends CI_Driver
         }       
     }
 
+	public function sismember($key, $data){
+		if ($this->_slave)
+		{
+			return $this->_slave->sismember($key, $data);
+		}	
+	} 
+
     public function srandmember($key,$count=0){
         if ($this->_slave)
         {
@@ -536,14 +551,15 @@ class CI_Cache_redis extends CI_Driver
         }   
     }   
 
+
     /*hash end*/
 	
 	/**
-	 * ·â×°redis ZCOUNT·½Ê½,·µ»ØÓĞĞò¼¯zsetµÄÔªËØ¸öÊı
-	 * @param  string   $key 	ÓĞĞò¼¯zset±êÊ¶¹Ø¼ü×Ö
-	 * @param  int 		$min	×îĞ¡score
-	 * @param  int      $max	×î´óscore
-	 * @return int		ÓĞĞò¼¯zsetµÄÔªËØ¸öÊı
+	 * ï¿½ï¿½×°redis ZCOUNTï¿½ï¿½Ê½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ôªï¿½Ø¸ï¿½ï¿½ï¿½
+	 * @param  string   $key 	ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ê¶ï¿½Ø¼ï¿½ï¿½ï¿½
+	 * @param  int 		$min	ï¿½ï¿½Ğ¡score
+	 * @param  int      $max	ï¿½ï¿½ï¿½score
+	 * @return int		ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ôªï¿½Ø¸ï¿½ï¿½ï¿½
 	 */
 	 public function zcount($key, $min, $max){
 		if ($this->_slave){
@@ -552,10 +568,10 @@ class CI_Cache_redis extends CI_Driver
 	 }
 	 
 	/**
-	 * ·â×°redis ZINCRBY·½Ê½,Ôö¼ÓÔªËØµÄÓÅÏÈ¼¶scoreÖµ
-	 * @param  string $key 	       ÓĞĞò¼¯zset±êÊ¶¹Ø¼ü×Ö
-	 * @param  int    $increment   Ôö¼Ó¸ÃÔªËØµÄÓÅÏÈ¼¶Öµ
-	 * @param  string $member      ´æ´¢µÄÔªËØÖµ
+	 * ï¿½ï¿½×°redis ZINCRBYï¿½ï¿½Ê½,ï¿½ï¿½ï¿½ï¿½Ôªï¿½Øµï¿½ï¿½ï¿½ï¿½È¼ï¿½scoreÖµ
+	 * @param  string $key 	       ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ê¶ï¿½Ø¼ï¿½ï¿½ï¿½
+	 * @param  int    $increment   ï¿½ï¿½ï¿½Ó¸ï¿½Ôªï¿½Øµï¿½ï¿½ï¿½ï¿½È¼ï¿½Öµ
+	 * @param  string $member      ï¿½æ´¢ï¿½ï¿½Ôªï¿½ï¿½Öµ
 	 */
 	 public function zincrby($key, $increment, $member){
 		if ($this->_redis){
@@ -564,11 +580,11 @@ class CI_Cache_redis extends CI_Driver
 	 } 
 	 
 	/**
-	 * ·â×°redis ZREVRANGE·½Ê½£¬°´scoreÖµ´Ó´óµ½Ğ¡ÅÅÁĞ¸ÃÓĞĞò¼¯µÄÔªËØ²¢·µ»Ø
-	 * @param  string $key 	 	     ÓĞĞò¼¯zset±êÊ¶¹Ø¼ü×Ö 
-	 * @param  int    $start	 	 ÓĞĞò¼¯zset¿ªÊ¼µÄ³ÉÔ±Î»ÖÃ
-	 * @param  int    $stop		     ÓĞĞò¼¯zset½áÊøµÄ³ÉÔ±Î»ÖÃ
-	 * @param  BOOL   $WITHSCORES	 Îª1Ôò·µscore
+	 * ï¿½ï¿½×°redis ZREVRANGEï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½scoreÖµï¿½Ó´ï¿½Ğ¡ï¿½ï¿½ï¿½Ğ¸ï¿½ï¿½ï¿½ï¿½ò¼¯µï¿½Ôªï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param  string $key 	 	     ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ê¶ï¿½Ø¼ï¿½ï¿½ï¿½ 
+	 * @param  int    $start	 	 ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ê¼ï¿½Ä³ï¿½Ô±Î»ï¿½ï¿½
+	 * @param  int    $stop		     ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½ï¿½ï¿½Ä³ï¿½Ô±Î»ï¿½ï¿½
+	 * @param  BOOL   $WITHSCORES	 Îª1ï¿½ï¿½score
 	 */
 	 public function zrevrange($key, $start, $stop, $WITHSCORES=1){
 		if ($this->_slave){
@@ -584,13 +600,13 @@ class CI_Cache_redis extends CI_Driver
 
 	 
 	/**
-	 * ·â×°redis ZREVRANGEBYSCORE·½Ê½£¬°´scoreÖµ´Ó´óµ½Ğ¡ÅÅÁĞ¸ÃÓĞĞò¼¯µÄÔªËØ²¢·µ»Ø
-	 * @param  string $key 	 	     ÓĞĞò¼¯zset±êÊ¶¹Ø¼ü×Ö 
-	 * @param  int    $max			 »ñÈ¡¼ÇÂ¼µÄ×î´óscore
-	 * @param  int    $min			 »ñÈ¡¼ÇÂ¼µÄ×îĞ¡score
-	 * @param  int    $offset	 	 ÓĞĞò¼¯zset¿ªÊ¼µÄ³ÉÔ±Î»ÖÃ
-	 * @param  int    $count	     »ñÈ¡ÓĞĞò¼¯zsetµÄ³ÉÔ±ÊıÁ¿
-	 * @param  BOOL   $WITHSCORES	 Îª1Ôò·µscore
+	 * ï¿½ï¿½×°redis ZREVRANGEBYSCOREï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½scoreÖµï¿½Ó´ï¿½Ğ¡ï¿½ï¿½ï¿½Ğ¸ï¿½ï¿½ï¿½ï¿½ò¼¯µï¿½Ôªï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param  string $key 	 	     ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ê¶ï¿½Ø¼ï¿½ï¿½ï¿½ 
+	 * @param  int    $max			 ï¿½ï¿½È¡ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½score
+	 * @param  int    $min			 ï¿½ï¿½È¡ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Ğ¡score
+	 * @param  int    $offset	 	 ï¿½ï¿½ï¿½ï¿½zsetï¿½ï¿½Ê¼ï¿½Ä³ï¿½Ô±Î»ï¿½ï¿½
+	 * @param  int    $count	     ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½zsetï¿½Ä³ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
+	 * @param  BOOL   $WITHSCORES	 Îª1ï¿½ï¿½score
 	 */
 	 public function zrevrangebyscore($key, $max, $min, $offset, $count, $WITHSCORES=1){
 		if ($this->_slave){
@@ -605,9 +621,9 @@ class CI_Cache_redis extends CI_Driver
     } 
 	 
 	 /**
-	 * ·â×°redis lPush·½Ê½,×ó²àÈë¶Ó
-	 * @param  string $key 	       ¶ÓÁĞ¼üÃû
-	 * @param  string $value   	   Èë¶ÓÄÚÈİ
+	 * ï¿½ï¿½×°redis lPushï¿½ï¿½Ê½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param  string $key 	       ï¿½ï¿½ï¿½Ğ¼ï¿½ï¿½ï¿½
+	 * @param  string $value   	   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	 public function lpush($key, $value){
 		if ($this->_redis){
@@ -617,8 +633,8 @@ class CI_Cache_redis extends CI_Driver
 	 
 	 
 	 /**
-	 * ·â×°redis rPop·½Ê½,ÓÒ²à³ö¶Ó
-	 * @param  string $key 	       ¶ÓÁĞ¼üÃû
+	 * ï¿½ï¿½×°redis rPopï¿½ï¿½Ê½,ï¿½Ò²ï¿½ï¿½ï¿½ï¿½
+	 * @param  string $key 	       ï¿½ï¿½ï¿½Ğ¼ï¿½ï¿½ï¿½
 	 */
 	 public function rpop($key){
 		if ($this->_slave){

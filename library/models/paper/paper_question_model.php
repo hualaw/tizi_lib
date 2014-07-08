@@ -14,11 +14,19 @@ class Paper_Question_Model extends MY_Model {
     public function __construct()
     {
         parent::__construct();
+        $this->load->config('thrift');
     }
 
     /*添加试题到试题栏*/
     public function add_question_to_paper($paper_id,$question_id,$question_origin=0,$category_id=0,$course_id=0)
     {
+    	if($this->config->item('thrift_zujuan_activity'))
+    	{
+    		$this->load->library('thrift_zujuan');
+    		$qadd = $this->thrift_zujuan->add_question($question_id,$paper_id,$question_origin,$category_id,$course_id); 
+    		return ($qadd == 'success')?true:false;
+    	}
+
     	switch ($question_origin) 
     	{
     		case Constant::QUESTION_ORIGIN_MYQUESTION: $this->_question_table="teacher_question";
@@ -51,18 +59,12 @@ class Paper_Question_Model extends MY_Model {
 			else
 			{
 				$paper_question_type_id=0;
-				if($this->_namespace=='paper')
-				{
-					$this->load->model('paper/paper_section_model');
-					$paper_section=$this->paper_section_model->get_sections_by_paper($paper_id);
-					$this->load->model('paper/paper_question_type_model');
-					$paper_question_type_id=$this->paper_question_type_model->add_question_type($paper_id,$paper_section[$question_type_id->is_section_type]->id,$question_type_id->id,$question_type_id->name);
-				}
-				else if($this->_namespace=='homework')
-				{
-					$this->load->model('paper/homework_question_type_model');
-					$paper_question_type_id=$this->homework_question_type_model->add_question_type($paper_id,$question_type_id->id,$question_type_id->name);
-				}
+				
+				$this->load->model('paper/paper_section_model');
+				$paper_section=$this->paper_section_model->get_sections_by_paper($paper_id);
+				$this->load->model('paper/paper_question_type_model');
+				$paper_question_type_id=$this->paper_question_type_model->add_question_type($paper_id,$paper_section[$question_type_id->is_section_type]->id,$question_type_id->id,$question_type_id->name);
+
 				if($paper_question_type_id)
 				{
 					$paper_question_type=new stdclass();
@@ -139,6 +141,14 @@ class Paper_Question_Model extends MY_Model {
     //从试卷中删除多个试题
     public function delete_question_from_paper($paper_id,$paper_question_id_list,$question_origin=0,$is_paper_question_id=false,$is_recycle=false) 
 	{
+		if($this->config->item('thrift_zujuan_activity'))
+    	{
+			$this->load->library('thrift_zujuan');
+			$paper_question_id_list_array=is_array($paper_question_id_list)?$paper_question_id_list:array($paper_question_id_list);
+	    	$qdel = $this->thrift_zujuan->del_question($paper_id,$paper_question_id_list_array,$question_origin,$is_paper_question_id);
+	    	return ($qdel == 'success')?true:false;
+	    }
+
 		if($is_paper_question_id) $_question_id='id';
 		else $_question_id='question_id';
 

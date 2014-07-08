@@ -37,7 +37,7 @@ define(function(require, exports) {
 	};
 
 	/*是否下载xxx文件*/
-	exports.down_confirm_box = function(url,fname,noxunlei){
+	exports.down_confirm_box = function(url,fname,noxunlei,share_id){
 		if(!noxunlei){
 			url = url + '&session_id=' + $.cookies.get(baseSessID);
 		}
@@ -49,9 +49,20 @@ define(function(require, exports) {
 			button:[{
 				name:'点击下载',
 				href:url,
-				className:'aui_state_highlight',
+				className:'aui_state_highlight clickDown',
 				target:'_self'
 			}]
 		});
+		if(share_id!='undefined'){
+			$('.clickDown').click(function(){
+	            $.tizi_ajax({
+	                    url: baseUrlName + "resource/cloud_base/add_download_count", 
+	                    type: 'POST',
+	                    data: {'share_id':share_id},
+	                    dataType: 'json',
+	                    success: function(data){  }
+	            });         
+	        });
+		}
 	};
 });

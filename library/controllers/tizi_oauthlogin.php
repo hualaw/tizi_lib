@@ -40,11 +40,11 @@ class Tizi_Oauthlogin extends Tizi_Controller {
             $this->load->library('Oauth');
             $this->oauth->init($platform);
 
-            if($platform_code == 1 || $platform_code == 2){
+            if($platform_code != 3){
 
                 $data = $this->oauth->callback();//data = array('open_id'=>'','access_token'=>'');
 
-            }elseif($platform_code == 3){
+            }else{
 
                 $data = $this->oauth->wx_user_detail();//微信
 
@@ -64,16 +64,15 @@ class Tizi_Oauthlogin extends Tizi_Controller {
                 $oauth_redirect=$this->session->userdata('oauth_redirect');
                 if(empty($user_auth_data['user_id'])){//未绑定用户
                     
-                    $this->session->set_userdata("oauth_id", $user_auth_data["oauth_id"]);
-    				$this->session->set_userdata("oauth_nickname", $data["nickname"]);
-    				$this->session->set_userdata("oauth_platform", $platform_code);
+                    $this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_OAUTH);
+                    $this->session->set_userdata("sso_id", $user_auth_data["oauth_id"]);
 
                     if(stripos($oauth_redirect,'http://')!==false)
                     {
                         $this->session->set_userdata('perfect_redirect',$oauth_redirect);
                     }
 
-                    $oauth_redirect=login_url("oauth/firstlogin?platform={$platform_code}");
+                    $oauth_redirect=login_url("sso/role?platform=".$platform_code);
                 }else{//绑定用户
                     
                     $session=$this->session_model->generate_session($user_auth_data["user_id"]);
