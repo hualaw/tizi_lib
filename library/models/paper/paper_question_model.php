@@ -20,7 +20,7 @@ class Paper_Question_Model extends MY_Model {
         {
         	$this->_thrift_zujuan=true;
         }
-        if($this->tizi_uid == 812805643) $this->_thrift_zujuan=true;
+        if($this->session->userdata('user_id') == 812805643) $this->_thrift_zujuan=true;
     }
 
     /*添加试题到试题栏*/
