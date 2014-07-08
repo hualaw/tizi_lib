@@ -167,6 +167,8 @@ Class CI_Constant {
 
 	const USER_MEDAL_TIMEOUT = 86400;		//勋章过期时间 24h
 
+	const CLASS_STORAGE = 10737418240;//班级分享文件总容量 10GB = 10*1024*1024*1024
+
     function __construct()
 	{
 	
