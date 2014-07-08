@@ -167,10 +167,13 @@ Class CI_Constant {
 
 	const USER_MEDAL_TIMEOUT = 86400;		//勋章过期时间 24h
 
+	const CLASS_STORAGE = 10737418240;//班级分享文件总容量 10GB = 10*1024*1024*1024
+ 
 	const USER_DISTINCT_MEDAL_COUNT_TIMEOUT = 3600;		// 1h
 	
 	//about devote
 	const DEVOTE_LESSON_SHARE = 19;			//文件共享贡献
+ 
 
     function __construct()
 	{
