@@ -20,7 +20,7 @@ class Paper_Question_Model extends MY_Model {
     /*添加试题到试题栏*/
     public function add_question_to_paper($paper_id,$question_id,$question_origin=0,$category_id=0,$course_id=0)
     {
-    	if($this->config->item('thrift_zujuan_activity'))
+    	if($this->config->item('thrift_zujuan_active'))
     	{
     		$this->load->library('thrift_zujuan');
     		$qadd = $this->thrift_zujuan->add_question($question_id,$paper_id,$question_origin,$category_id,$course_id); 
@@ -141,7 +141,7 @@ class Paper_Question_Model extends MY_Model {
     //从试卷中删除多个试题
     public function delete_question_from_paper($paper_id,$paper_question_id_list,$question_origin=0,$is_paper_question_id=false,$is_recycle=false) 
 	{
-		if($this->config->item('thrift_zujuan_activity'))
+		if($this->config->item('thrift_zujuan_active'))
     	{
 			$this->load->library('thrift_zujuan');
 			$paper_question_id_list_array=is_array($paper_question_id_list)?$paper_question_id_list:array($paper_question_id_list);
