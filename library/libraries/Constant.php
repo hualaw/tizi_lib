@@ -173,7 +173,6 @@ Class CI_Constant {
 	
 	//about devote
 	const DEVOTE_LESSON_SHARE = 19;			//文件共享贡献
- 
 
     function __construct()
 	{
