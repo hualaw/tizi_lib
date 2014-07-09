@@ -10,15 +10,29 @@ class Paper_Question_Model extends MY_Model {
 	protected $_question_type_subject_table="question_type_subject";
 	protected $_paper_table="paper_testpaper";
 	protected $_paper_id="testpaper_id";
+	protected $_thrift_zujuan=false;
 
     public function __construct()
     {
         parent::__construct();
+        $this->load->config('thrift');
+        if($this->config->item('thrift_zujuan_active'))
+        {
+        	$this->_thrift_zujuan=true;
+        }
+        if($this->session->userdata('user_id') == 812805643) $this->_thrift_zujuan=true;
     }
 
     /*添加试题到试题栏*/
     public function add_question_to_paper($paper_id,$question_id,$question_origin=0,$category_id=0,$course_id=0)
     {
+    	if($this->_thrift_zujuan)
+    	{
+    		$this->load->library('thrift_zujuan');
+    		$qadd = $this->thrift_zujuan->add_question($question_id,$paper_id,$question_origin,$category_id,$course_id); 
+    		return ($qadd == 'success')?true:false;
+    	}
+
     	switch ($question_origin) 
     	{
     		case Constant::QUESTION_ORIGIN_MYQUESTION: $this->_question_table="teacher_question";
@@ -133,6 +147,14 @@ class Paper_Question_Model extends MY_Model {
     //从试卷中删除多个试题
     public function delete_question_from_paper($paper_id,$paper_question_id_list,$question_origin=0,$is_paper_question_id=false,$is_recycle=false) 
 	{
+		if($this->_thrift_zujuan)
+    	{
+			$this->load->library('thrift_zujuan');
+			$paper_question_id_list_array=is_array($paper_question_id_list)?$paper_question_id_list:array($paper_question_id_list);
+	    	$qdel = $this->thrift_zujuan->del_question($paper_id,$paper_question_id_list_array,$question_origin,$is_paper_question_id);
+	    	return ($qdel == 'success')?true:false;
+	    }
+
 		if($is_paper_question_id) $_question_id='id';
 		else $_question_id='question_id';
 

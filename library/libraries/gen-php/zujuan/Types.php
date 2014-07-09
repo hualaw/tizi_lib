@@ -17,16 +17,14 @@ use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
 
-class PageQuestion {
+class AddPaperQuestion {
   static $_TSPEC;
 
   public $question_id = null;
   public $paper_id = null;
-  public $is_delete = null;
-  public $question_origin = null;
-  public $category_id = null;
-  public $course_id = null;
-  public $action = null;
+  public $question_origin = 0;
+  public $category_id = 0;
+  public $course_id = 0;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
@@ -40,24 +38,16 @@ class PageQuestion {
           'type' => TType::I32,
           ),
         3 => array(
-          'var' => 'is_delete',
-          'type' => TType::I32,
-          ),
-        4 => array(
           'var' => 'question_origin',
           'type' => TType::I32,
           ),
-        5 => array(
+        4 => array(
           'var' => 'category_id',
           'type' => TType::I32,
           ),
-        6 => array(
+        5 => array(
           'var' => 'course_id',
           'type' => TType::I32,
-          ),
-        7 => array(
-          'var' => 'action',
-          'type' => TType::STRING,
           ),
         );
     }
@@ -68,9 +58,6 @@ class PageQuestion {
       if (isset($vals['paper_id'])) {
         $this->paper_id = $vals['paper_id'];
       }
-      if (isset($vals['is_delete'])) {
-        $this->is_delete = $vals['is_delete'];
-      }
       if (isset($vals['question_origin'])) {
         $this->question_origin = $vals['question_origin'];
       }
@@ -80,14 +67,11 @@ class PageQuestion {
       if (isset($vals['course_id'])) {
         $this->course_id = $vals['course_id'];
       }
-      if (isset($vals['action'])) {
-        $this->action = $vals['action'];
-      }
     }
   }
 
   public function getName() {
-    return 'PageQuestion';
+    return 'AddPaperQuestion';
   }
 
   public function read($input)
@@ -121,35 +105,21 @@ class PageQuestion {
           break;
         case 3:
           if ($ftype == TType::I32) {
-            $xfer += $input->readI32($this->is_delete);
+            $xfer += $input->readI32($this->question_origin);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
         case 4:
           if ($ftype == TType::I32) {
-            $xfer += $input->readI32($this->question_origin);
+            $xfer += $input->readI32($this->category_id);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
         case 5:
           if ($ftype == TType::I32) {
-            $xfer += $input->readI32($this->category_id);
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        case 6:
-          if ($ftype == TType::I32) {
             $xfer += $input->readI32($this->course_id);
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        case 7:
-          if ($ftype == TType::STRING) {
-            $xfer += $input->readString($this->action);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -166,7 +136,7 @@ class PageQuestion {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('PageQuestion');
+    $xfer += $output->writeStructBegin('AddPaperQuestion');
     if ($this->question_id !== null) {
       $xfer += $output->writeFieldBegin('question_id', TType::I32, 1);
       $xfer += $output->writeI32($this->question_id);
@@ -177,29 +147,177 @@ class PageQuestion {
       $xfer += $output->writeI32($this->paper_id);
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->is_delete !== null) {
-      $xfer += $output->writeFieldBegin('is_delete', TType::I32, 3);
-      $xfer += $output->writeI32($this->is_delete);
-      $xfer += $output->writeFieldEnd();
-    }
     if ($this->question_origin !== null) {
-      $xfer += $output->writeFieldBegin('question_origin', TType::I32, 4);
+      $xfer += $output->writeFieldBegin('question_origin', TType::I32, 3);
       $xfer += $output->writeI32($this->question_origin);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->category_id !== null) {
-      $xfer += $output->writeFieldBegin('category_id', TType::I32, 5);
+      $xfer += $output->writeFieldBegin('category_id', TType::I32, 4);
       $xfer += $output->writeI32($this->category_id);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->course_id !== null) {
-      $xfer += $output->writeFieldBegin('course_id', TType::I32, 6);
+      $xfer += $output->writeFieldBegin('course_id', TType::I32, 5);
       $xfer += $output->writeI32($this->course_id);
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->action !== null) {
-      $xfer += $output->writeFieldBegin('action', TType::STRING, 7);
-      $xfer += $output->writeString($this->action);
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class RemovePaperQuestion {
+  static $_TSPEC;
+
+  public $paper_id = null;
+  public $paper_question_id_list = null;
+  public $question_origin = 0;
+  public $is_paper_question_id = false;
+
+  public function __construct($vals=null) {
+    if (!isset(self::$_TSPEC)) {
+      self::$_TSPEC = array(
+        1 => array(
+          'var' => 'paper_id',
+          'type' => TType::I32,
+          ),
+        2 => array(
+          'var' => 'paper_question_id_list',
+          'type' => TType::LST,
+          'etype' => TType::I32,
+          'elem' => array(
+            'type' => TType::I32,
+            ),
+          ),
+        3 => array(
+          'var' => 'question_origin',
+          'type' => TType::I32,
+          ),
+        4 => array(
+          'var' => 'is_paper_question_id',
+          'type' => TType::BOOL,
+          ),
+        );
+    }
+    if (is_array($vals)) {
+      if (isset($vals['paper_id'])) {
+        $this->paper_id = $vals['paper_id'];
+      }
+      if (isset($vals['paper_question_id_list'])) {
+        $this->paper_question_id_list = $vals['paper_question_id_list'];
+      }
+      if (isset($vals['question_origin'])) {
+        $this->question_origin = $vals['question_origin'];
+      }
+      if (isset($vals['is_paper_question_id'])) {
+        $this->is_paper_question_id = $vals['is_paper_question_id'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'RemovePaperQuestion';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->paper_id);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::LST) {
+            $this->paper_question_id_list = array();
+            $_size0 = 0;
+            $_etype3 = 0;
+            $xfer += $input->readListBegin($_etype3, $_size0);
+            for ($_i4 = 0; $_i4 < $_size0; ++$_i4)
+            {
+              $elem5 = null;
+              $xfer += $input->readI32($elem5);
+              $this->paper_question_id_list []= $elem5;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->question_origin);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 4:
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->is_paper_question_id);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('RemovePaperQuestion');
+    if ($this->paper_id !== null) {
+      $xfer += $output->writeFieldBegin('paper_id', TType::I32, 1);
+      $xfer += $output->writeI32($this->paper_id);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->paper_question_id_list !== null) {
+      if (!is_array($this->paper_question_id_list)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('paper_question_id_list', TType::LST, 2);
+      {
+        $output->writeListBegin(TType::I32, count($this->paper_question_id_list));
+        {
+          foreach ($this->paper_question_id_list as $iter6)
+          {
+            $xfer += $output->writeI32($iter6);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->question_origin !== null) {
+      $xfer += $output->writeFieldBegin('question_origin', TType::I32, 3);
+      $xfer += $output->writeI32($this->question_origin);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->is_paper_question_id !== null) {
+      $xfer += $output->writeFieldBegin('is_paper_question_id', TType::BOOL, 4);
+      $xfer += $output->writeBool($this->is_paper_question_id);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();

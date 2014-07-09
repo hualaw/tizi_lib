@@ -216,6 +216,12 @@ class Classes_Schools extends LI_Model{
 		$result = $this->db->query("select parentid from classes_area where id=?", array($childid))->result_array();
 		return isset($result[0]["parentid"]) ? $result[0]["parentid"] : 0;
 	}
+	
+	public function class_move($from_school_id, $to_school_id){
+		$this->db->query("update classes set school_id=? where school_id=?", array($to_school_id, $from_school_id));
+		return $this->db->affected_rows();
+	}
+	
 }
 
 

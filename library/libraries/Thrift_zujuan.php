@@ -19,6 +19,10 @@ require_once THRIFT_ROOT . '/Type/TType.php';
 require_once THRIFT_ROOT . '/Exception/TException.php';
 require_once THRIFT_ROOT . '/Exception/TTransportException.php';
 require_once THRIFT_ROOT . '/Exception/TProtocolException.php';
+require_once GEN_DIR . '/facebook/fb303/FacebookService.php';
+require_once GEN_DIR . '/facebook/fb303/Types.php';
+require_once GEN_DIR . '/yiduoyun/ydy303/YdyService.php';
+require_once GEN_DIR . '/yiduoyun/ydy303/Types.php';
 require_once GEN_DIR . '/zujuan/ChoiceQuestionService.php';
 require_once GEN_DIR . '/zujuan/Types.php';
 
@@ -29,6 +33,8 @@ use addQuestion\ChoiceQuestionServiceIf;
 use addQuestion\ChoiceQuestionServiceClient;
 use addQuestion\ChoiceQuestionService_addQuestion_args;
 use addQuestion\ChoiceQuestionService_addQuestion_result;
+use addQuestion\AddPaperQuestion;
+use addQuestion\RemovePaperQuestion;
 use Thrift\Exception\TException;
 
 class Thrift_Zujuan {
@@ -54,7 +60,7 @@ class Thrift_Zujuan {
 			$this->_socket = new TSocket($this->_host, $this->_port);
 			$this->_transport = new TBufferedTransport($this->_socket, 1024, 1024);
 			$this->_protocol = new TBinaryProtocol($this->_transport);
-			$this->_client = new PhoneServiceClient($this->_protocol);
+			$this->_client = new ChoiceQuestionServiceClient($this->_protocol);
 			$this->_transport->open();
 		} catch (TException $te){
 			
@@ -62,11 +68,34 @@ class Thrift_Zujuan {
 	}
 	
 	public function add_question($question_id,$paper_id,$question_origin,$category_id,$course_id){
-
+		$args = new \addQuestion\AddPaperQuestion();
+		$args->question_id = $question_id;
+		$args->paper_id = $paper_id;
+		$args->question_origin = $question_origin;
+		$args->category_id = $category_id;
+		$args->course_id = $course_id;
+		try {
+			$status = $this->_client->addQuestion($args);
+		} catch (TException $tx){
+			$status = -127;
+			//$this->log_err("thrift errcode 2:add uid phone connect server failed!", array('uid'=>$uid, 'phone'=>$phone));
+		}
+		return $status;
 	}
 
-	public function del_question($paper_id,$paper_question_id_list,$question_origin){
-
+	public function del_question($paper_id,$paper_question_id_list,$question_origin,$is_paper_question_id){
+		$args = new \addQuestion\RemovePaperQuestion();
+		$args->paper_id = $paper_id;
+		$args->paper_question_id_list = $paper_question_id_list;
+		$args->question_origin = $question_origin;
+		$args->is_paper_question_id = $is_paper_question_id;
+		try {
+			$status = $this->_client->removeQuestion($args);
+		} catch (TException $tx){
+			$status = -127;
+			//$this->log_err("thrift errcode 2:add uid phone connect server failed!", array('uid'=>$uid, 'phone'=>$phone));
+		}
+		return $status;
 	}
 
 	protected function log_err($msg, $env_variable = false){

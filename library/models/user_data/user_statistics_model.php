@@ -15,7 +15,7 @@ class User_Statistics_Model extends MY_Model {
         $statistics=array();
         if($this->redis_model->connect('statistics'))
         {
-            $statistics=$this->cache->redis->hmget('user_statistics',array('teacher','student','school','lesson_total','question_total'));
+            $statistics=$this->cache->redis->hmget('user_statistics',array('teacher','student','parent','school','lesson_total','question_total'));
         }
         if(empty($statistics))
         {
@@ -58,7 +58,7 @@ class User_Statistics_Model extends MY_Model {
         if(!isset($statistics['paper'])||!$statistics['paper']) $statistics['paper']=0;
         if(!isset($statistics['homework'])||!$statistics['homework']) $statistics['homework']=0;
         $statistics['paper_limit']=$privilege['privilege']['paper_permonth']['value'];
-        $statistics['homework_limit']=$privilege['privilege']['homework_permonth']['value'];
+        $statistics['homework_limit']=30000;	//作业下载4.0删除
         if($statistics['paper']>$statistics['paper_limit']) $statistics['paper']=$statistics['paper_limit'];
         if($statistics['homework']>$statistics['homework_limit']) $statistics['homework']=$statistics['homework_limit'];
 
