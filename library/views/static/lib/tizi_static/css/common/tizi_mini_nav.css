@@ -1,4 +1,4 @@
-.topMiniNav{padding:10px 0px;font-size:14px;background: #f6f6f6}
+.topMiniNav{padding:10px 0px;font-size:14px;background: #f6f6f6;z-index:9999;}
 .topMiniNav .navWrap a.logo{background:url(../../image/common/tiziLogo_b.gif) no-repeat; display: block;width:122px;height:51px;text-indent: -999em;overflow:hidden;}
 .topMiniNav .navWrap p.miniNav{margin-left: 30px;}
 .topMiniNav .navWrap p.miniNav a{font-size:14px;padding:0px 12px;line-height: 50px;}
