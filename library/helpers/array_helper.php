@@ -18,7 +18,7 @@ if ( ! function_exists('array_get')) {
     }   
 }
 
-if ( ! function_exists('distinct_and_notempty')) {
+if ( ! function_exists('explode_to_distinct_and_notempty')) {
     function explode_to_distinct_and_notempty($array,$delimiter=',') {
         $array = explode("$delimiter",$array);
         $array = array_unique($array);

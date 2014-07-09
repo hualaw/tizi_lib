@@ -48,9 +48,6 @@ class Session_Model extends LI_Model {
 				'login_time'=>time()
 			);
 			
-			//是否有答疑权限，有的话就显示答疑tab
-			if($data['user_type'] == Constant::USER_TYPE_TEACHER) $user_data['aq_show']=$this->auth_aq($user_id);
-
 			$this->session->set_userdata($user_data);
 			unset($user_data['session_id']);
 
@@ -75,13 +72,6 @@ class Session_Model extends LI_Model {
 			$errorcode=false;
 		}
 		return array('errorcode'=>$errorcode,'user_data'=>$user_data);
-	}
-
-	private function auth_aq($user_id)
-	{
-		$this->db->where('id',$user_id);
-		$query=$this->db->get('aq_teacher');
-		return $query->num_rows();
 	}
 
 	function clear_session()
