@@ -20,8 +20,8 @@ class credit_store_model extends LI_Model {
 		if ($balance["balance"] >= $goods["credit_price"]){
 			$this->db->trans_start();
 			$this->db->query("UPDATE credit SET balance=balance-? WHERE id=?", array($goods["credit_price"], $user_id));
-			$this->db->query("INSERT INTO credit_orders(user_id,goods_id,status,create_date) VALUES(?,?,?,?)", array(
-				$user_id, $goods_id, Constant::CREDIT_ORDER_STATUS_NEW, date("Y-m-d H:i:s")));
+			$this->db->query("INSERT INTO credit_orders(user_id,goods_id,create_date) VALUES(?,?,?,?)", array(
+				$user_id, $goods_id, date("Y-m-d H:i:s")));
 			$foreign_id = $this->db->insert_id();
 			
 			$msg = "兑换 ".$goods["name"];

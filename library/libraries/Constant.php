@@ -173,12 +173,6 @@ Class CI_Constant {
 	
 	//about devote
 	const DEVOTE_LESSON_SHARE = 19;			//文件共享贡献
-	
-	//about credit
-	const CREDIT_ORDER_STATUS_NEW = 0;		//新创建的订单，需要用户选择收获地址等
-	const CREDIT_ORDER_STATUS_PREPARE = 1;	//用户已经选择了收货地址，等待管理员进行确认并发货，此时可以改地址
-	const CREDIT_ORDER_STATUS_SUCC = 2;		//管理员已经发货了，不能修改地址了，订单已经完成了。
-	const CREDIT_ORDER_STATUS_ERR = -1;		//失败的订单，可能是用户作弊等原因。	
 
     function __construct()
 	{
