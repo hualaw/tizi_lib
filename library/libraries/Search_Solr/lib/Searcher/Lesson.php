@@ -76,7 +76,6 @@ class Searcher_Lesson extends Searcher_Abstract
             'exec_time' => $exec_time,
         );
         return $return;
-
     }
     /**
      * 添加索引，如果连续添加，请将$withCommit 设置为false, 否则严重影响效率
