@@ -53,7 +53,7 @@ define(function(require, exports) {
 				target:'_self'
 			}]
 		});
-		if(share_id!='undefined'){
+		if(share_id!=undefined){
 			$('.clickDown').click(function(){
 	            $.tizi_ajax({
 	                    url: baseUrlName + "resource/cloud_base/add_download_count", 
