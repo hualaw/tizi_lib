@@ -21,6 +21,7 @@ class credit_logs_model extends LI_Model {
 	public function use_list($user_id, $offset, $persize){
 		$res = $this->db->query("select id,foreign_id,credit_change,msg,`date` from credit_logs where user_id=? 
 			and credit_change<0 order by id desc limit {$offset},{$persize}", array($user_id))->result_array();
+		return $res;
 	}
 	
 	//最近100天积分使用记录的统计
