@@ -53,7 +53,6 @@ define(function(require, exports) {
 				target:'_self'
 			}]
 		});
-		alert(share_id);
 		if(share_id!=undefined){
 			$('.clickDown').click(function(){
 	            $.tizi_ajax({
