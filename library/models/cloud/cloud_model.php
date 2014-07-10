@@ -155,17 +155,23 @@ class cloud_model extends MY_Model{
     }
 
     //获取某人的某类型的文件集合
-    function get_file_by_type($user_id,$type,$page_num=1,$total=false){
+    function get_file_by_type($user_id,$type,$is_cloud=true,$page_num=1,$total=false){
         if(in_array($type, array_keys(Constant::cloud_filetype(0,true)))){
             if($total){
-
                 $this->db->select("COUNT(`id`) AS filenum");
-                return $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'file_type'=>$type,'is_del'=>0))->row()->filenum;
+                $w = array('user_id'=>$user_id,'file_type'=>$type,'is_del'=>0);
+                if($is_cloud){
+                    $w['show_place'] = 0 ; //网盘
+                }
+                return $this->db->get_where($this->_file_table,$w)->row()->filenum;
             }else{
 
                 $limit=Constant::CLOUD_FILE_PER_PAGE_NUM;
                 if($page_num<=0) $page_num=1;
                 $offset=($page_num-1)*$limit;
+                if($is_cloud){
+                    $this->db->where('show_place',0);
+                }
                 $this->db->where(array('user_id'=>$user_id,'file_type'=>$type,'is_del'=>0));
                 $this->db->order_by('upload_time','desc');
                 $this->db->limit($limit,$offset);
@@ -187,12 +193,20 @@ class cloud_model extends MY_Model{
 
     //获取某人名下的某个文件夹下的所有文件和文件夹
     function get_dir_child_by_p_id($user_id,$dir_id=0,$page_num=1,$file_offset=0,$total=false){
+        //tizi4.0 ， 分离网盘和资源库（备课）
+        if($dir_id ==0 ){//因为从备课上传的文件，dir_id也会是0，所以不能认为dir_id为0的就是网盘
+            $is_cloud = array('dir_id'=>0,'show_place'=>0);
+        }
         if($total){
             $this->db->select("COUNT(`id`) AS filenum");
-            $files_total = $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0))->row()->filenum;
-            // echo $this->db->last_query();
+            $w = array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0);
+            if($dir_id == 0){
+                $w = array_merge($w,$is_cloud);
+            }
+            $files_total = $this->db->get_where($this->_file_table,$w)->row()->filenum;
             $this->db->select("COUNT(`dir_id`) AS dirnum");
-            $dir_total = $this->db->get_where($this->_dir_table,array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0))->row()->dirnum;
+            $w = array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0);
+            $dir_total = $this->db->get_where($this->_dir_table,$w)->row()->dirnum;
             $all_total = $dir_total+$files_total;
             if($files_total>0){
                 return array('all_total'=>$all_total,'total_page'=>$all_total,'dir_total'=>$dir_total,'file_total'=>$files_total);
@@ -203,7 +217,8 @@ class cloud_model extends MY_Model{
             $limit=Constant::CLOUD_FILE_PER_PAGE_NUM;
             if($page_num<=0) $page_num=1;
             $offset=($page_num-1)*$limit;
-            $this->db->where(array('user_id'=>$user_id,'is_del'=>0,'p_id'=>$dir_id,'cat_id'=>null));
+            $w = array('user_id'=>$user_id,'is_del'=>0,'p_id'=>$dir_id,'cat_id'=>null);
+            $this->db->where($w);
             $this->db->limit($limit,$offset);
             $this->db->order_by('create_time','desc');
             $dir_query=$this->db->get($this->_dir_table);
@@ -214,11 +229,13 @@ class cloud_model extends MY_Model{
             if(!$count_file){
                 return $return;
             }
+            
+            $show_place = $dir_id==0?' and show_place=0 ':'';
             if(!$file_offset){
                 $file_offset = $count_file;
-                $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$user_id and is_del=0 order by upload_time desc limit 0,$file_offset";
+                $sql = "select * from $this->_file_table where dir_id=$dir_id $show_place and user_id=$user_id and is_del=0 order by upload_time desc limit 0,$file_offset";
             }else{
-                $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$user_id and is_del=0 order by upload_time desc limit $file_offset,".Constant::CLOUD_FILE_PER_PAGE_NUM;
+                $sql = "select * from $this->_file_table where dir_id=$dir_id $show_place and user_id=$user_id and is_del=0 order by upload_time desc limit $file_offset,".Constant::CLOUD_FILE_PER_PAGE_NUM;
             }
             $return['file'] = $this->db->query($sql)->result_array();            
             return $return;
@@ -227,13 +244,14 @@ class cloud_model extends MY_Model{
 
     //获取文件夹下的文件
     function get_files_in_a_dir($uid,$dir_id,$filetype=0,$sub_cat_id=null){
+        $is_cloud = $dir_id==0?' and show_place=0 ':'';
         if(in_array($filetype,array_keys(Constant::cloud_filetype(0,true)))){
             $f_sql = " and file_type=$filetype";
         }else{
             $f_sql = "";
         }
         $sub_cat_sql = $sub_cat_id?" and sub_cat_id = $sub_cat_id ":'';
-        $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$uid $sub_cat_sql and is_del=0 $f_sql order by id desc ";
+        $sql = "select * from $this->_file_table where dir_id=$dir_id  $is_cloud  and user_id=$uid $sub_cat_sql and is_del=0 $f_sql order by id desc ";
         return $this->db->query($sql)->result_array();
     }
 
