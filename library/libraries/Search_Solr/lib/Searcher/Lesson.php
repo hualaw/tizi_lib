@@ -15,10 +15,25 @@ class Searcher_Lesson extends Searcher_Abstract
      */
     public function search(Array $query = array(), $page = 1, $limit = 10, $sort = 'score desc, id desc')
     {
+        $result = $this->search_field($query,$page,$limit,$sort,'file_name');
+        if($result['result']){
+            return $result;
+        }
+        $result = $this->search_field($query,$page,$limit,$sort,'category_text');
+        if($result['result']){
+            return $result;
+        }
+        $result = $this->search_field($query,$page,$limit,$sort,'file_content');
+        if($result['result']){
+            return $result;
+        }
+    }
+
+    public function search_field(Array $query = array(), $page = 1, $limit = 10, $sort = 'score desc, id desc',$field = 'file_name'){
         $page = ($page >= 1) ? intval($page) : 1;
         $limit = $limit ? intval($limit) : 10;
         $start = $limit * ($page - 1);
-        $cond = $this->_getQuery($query);
+        $cond = $this->_getQuery($query,$field);
         $params = array();
         if ($sort) {
             $params['sort'] = $sort;
@@ -62,7 +77,6 @@ class Searcher_Lesson extends Searcher_Abstract
         );
         return $return;
     }
-
     /**
      * 添加索引，如果连续添加，请将$withCommit 设置为false, 否则严重影响效率
      * @param Apache_Solr_Document $document
@@ -93,7 +107,7 @@ class Searcher_Lesson extends Searcher_Abstract
      * @param Array $query = array('keyword' => '', 'subject_id' => '', 'category_id' => '', 'doc_type' => '', 'doc_type_new' => '')
      * @return string
      */
-    private function _getQuery($query = array())
+    private function _getQuery($query = array(),$field='file_name')
     {
         $filterQuery = array();
         if (!isset($query['status'])) {
@@ -106,6 +120,8 @@ class Searcher_Lesson extends Searcher_Abstract
         }
         if (isset($query['category_id']) AND $query['category_id']) {
             $filterQuery[] = 'category_id:' . intval($query['category_id']);
+        }else{
+            $filterQuery[] = 'category_id:[1 TO *]';
         }
         if (isset($query['doc_type']) AND is_array($query['doc_type'])) {
             $doc_type_arr = array();
@@ -129,7 +145,7 @@ class Searcher_Lesson extends Searcher_Abstract
                 $keyword = '"' . addslashes($keyword) . '"';
             }
             $keyword = str_replace(' ', ' AND ', $keyword);
-            $keyword = 'file_name:(' . $keyword . ') OR file_content:(' . $keyword . ')^0.2';
+            $keyword = "$field:($keyword)";
         }
         $data = array(
             'filterQuery' => $filterQuery,
