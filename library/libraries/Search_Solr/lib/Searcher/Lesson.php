@@ -146,7 +146,7 @@ class Searcher_Lesson extends Searcher_Abstract
                 $keyword = '"' . addslashes($keyword) . '"';
             }
             $keyword = str_replace(' ', ' AND ', $keyword);
-            $keyword = "$field:(' . $keyword . ')";
+            $keyword = "$field:($keyword)";
         }
         $data = array(
             'filterQuery' => $filterQuery,
