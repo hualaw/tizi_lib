@@ -66,10 +66,10 @@ class Classes_student extends LI_Model{
 		}
 		
 		// 2014-01-09 给新进来的学生布置未截止的作业
-		$this->load->model('homework/homework_assign_model','ham');
+		$this->load->model('exercise_plan/homework_assign_model','ham');
 		$this->ham->get_hw_to_new_stu($user_id,$class_id);
 		// 2014-03-07  新加入班级，要获取以前的分享
-		$this->load->model('homework/student_task_model');
+		$this->load->model('exercise_plan/student_task_model');
 		$this->student_task_model->pushShareFirstAboard($user_id,$class_id);
 		
 		return $student_id;

@@ -21,7 +21,7 @@ class cloud_model extends MY_Model{
     //将文件分享到班级
     function share_to_classes($param){
         $this->load->model('class/classes_student');
-        $this->load->model("homework/student_task_model");
+        $this->load->model("exercise_plan/student_task_model");
         foreach($param as $val){
             $this->db->insert($this->_share_table,$val);
             $insert_id = $this->db->insert_id();
