@@ -1,0 +1,13 @@
+.nav .link li{background:url(../../image/common/nav_li_bg.gif) no-repeat left 10px}
+.navHome li a.navHome,
+.navMemberCenter li a.navMemberCenter,
+.navMyCloud li a.navMyCloud,
+.navClass li a.navClass,
+.navHomework li a.navHomework,
+.navLesson li a.navLesson,
+.navPaper li a.navPaper,
+.navTestLibrary li a.navTestLibrary,
+.navSelfUp li a.navSelfUp,
+.navOral li a.navOral,
+.nav li a.active,
+.nav li a:hover{background-color: #169171;display: block; text-decoration: none;color:#fff;}
