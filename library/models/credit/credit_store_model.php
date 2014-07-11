@@ -24,7 +24,7 @@ class credit_store_model extends LI_Model {
 				$user_id, $goods_id, date("Y-m-d H:i:s")));
 			$foreign_id = $this->db->insert_id();
 			
-			$msg = "兑换 ".$goods["name"];
+			$msg = "兑换".$goods["name"];
 			$this->db->query("INSERT INTO credit_logs(user_id,foreign_id,credit_change,total,msg,cyclenum) VALUES(?,?,?,?,?,?)", array(
 				$user_id, $foreign_id, 0-$goods["credit_price"], $balance["balance"]-$goods["credit_price"], $msg, 0));
 			$this->db->trans_complete();
@@ -40,6 +40,17 @@ class credit_store_model extends LI_Model {
 	public function get_order($order_id, $fields = "*"){
 		$res = $this->db->query("select {$fields} from credit_orders where id=?", array($order_id))->row_array();
 		return $res;
+	}
+	
+	public function update_addr($order_id, $address, $user_id){
+		$this->db->query("update credit_orders set address=? where id=? and user_id=?", array($address, $order_id, $user_id));
+		return $this->db->affected_rows();
+	}
+	
+	public function spitdate_order_count($user_id, $date){
+		$res = $this->db->query("select count(*) as num from credit_orders where user_id=? and create_date>?", 
+			array($user_id, $date))->row_array();
+		return isset($res["num"]) ? $res["num"] : 0;
 	}
 	
 }
