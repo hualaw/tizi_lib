@@ -21,6 +21,9 @@
                             <a href="{$jia_url}parent/child">孩子专区</a>
                         </li>
                         {/if}
+                        {if isset($top_label) && $top_label}
+                            {$top_label}
+                        {/if}
                         <li>
                             <a href="{$tizi_url}about/feedback" target="_blank">问题反馈</a>
                         </li>
