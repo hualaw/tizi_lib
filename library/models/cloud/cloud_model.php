@@ -695,8 +695,9 @@ class cloud_model extends MY_Model{
         
     }
 
-    function update_file_table($data,$where){
-        $this->db->where($where);
+    function update_file_table($data,$where,$where_in=false){
+        if($where_in)$this->db->where_in('id',$where);
+        else $this->db->where($where);
         $res = $this->db->update($this->_file_table,$data);
         return $res;
     }

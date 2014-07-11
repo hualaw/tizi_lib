@@ -17,12 +17,8 @@ class Student_Homework_Model extends LI_Model{
 
     function __construct()
     {
-        //$this->load->library('My_Redis');
-        //$this->redis = $this->my_redis->connect();
         parent::__construct();
-        if($this->connect_redis()){
-            $this->_redis = true;
-        }
+
     }
 
     /**
@@ -447,7 +443,7 @@ class Student_Homework_Model extends LI_Model{
 		$this->load->model("redis/redis_model");
         if($this->redis_model->connect('timer'))
         {
-            return true;
+			return $this->cache->redis;
         }
         return false;
     }
@@ -784,7 +780,7 @@ class Student_Homework_Model extends LI_Model{
             $attr_group = array('style','class');
             foreach($attr_group as $attr){
                 $text =  preg_replace( '/'.$attr.'=(["\'])[^\1]*?\1/i', '', $text, -1);
-                $text =  preg_replace( '/'.$attr.'=.*?\s/i', '', $text, -1);
+                $text =  preg_replace( '/'.$attr.'=.*?(?=[\s\>])/i', '', $text, -1);
             }
         }
         return trim($text);

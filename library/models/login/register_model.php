@@ -695,7 +695,7 @@ class Register_Model extends LI_Model {
 	/*get user information*/
 	/*input:arg(user_id)*/
 	/*output:return(user,errorcode(1-success,0-invalid user))*/
-	function get_user_info($user_id,$utype=0)
+	function get_user_info($user_id,$utype=0,$select='*')
 	{
 		if(!$user_id) return array('user'=>array(),'errorcode'=>false);
 
@@ -704,7 +704,8 @@ class Register_Model extends LI_Model {
 			case Constant::LOGIN_TYPE_UNAME:$this->db->where('uname',$user_id);break;
 			case 0: $this->db->where('id',$user_id);		
 			default:break;
-		}		
+		}
+		$this->db->select($select);		
 		$query=$this->db->get($this->_table);
 		$total=$query->num_rows();
 		$user=array();

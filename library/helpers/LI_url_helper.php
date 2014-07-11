@@ -81,6 +81,14 @@ if ( ! function_exists('waijiao_url'))
 	}
 }
 
+if ( ! function_exists('huodong_url'))
+{
+	function huodong_url($uri = '')
+	{
+		return site_url($uri,'huodong');
+	}
+}
+
 if ( ! function_exists('api_url'))
 {
 	function api_url($uri = '')
