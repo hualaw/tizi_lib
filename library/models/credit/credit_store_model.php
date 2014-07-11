@@ -42,8 +42,8 @@ class credit_store_model extends LI_Model {
 		return $res;
 	}
 	
-	public function update_addr($addr_id, $order_id, $user_id){
-		$this->db->query("update credit_orders set address_id=? where id=? and user_id=?", array($addr_id, $order_id, $user_id));
+	public function update_addr($order_id, $address, $user_id){
+		$this->db->query("update credit_orders set address=? where id=? and user_id=?", array($address, $order_id, $user_id));
 		return $this->db->affected_rows();
 	}
 	
