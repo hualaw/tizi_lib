@@ -173,6 +173,9 @@ Class CI_Constant {
 	
 	//about devote
 	const DEVOTE_LESSON_SHARE = 19;			//文件共享贡献
+	
+	//about credit
+	const CREDIT_STORE_MAXBUY_PERDAY = 3;	//积分商城一天最大兑换次数
 
     function __construct()
 	{
