@@ -780,7 +780,7 @@ class Student_Homework_Model extends LI_Model{
             $attr_group = array('style','class');
             foreach($attr_group as $attr){
                 $text =  preg_replace( '/'.$attr.'=(["\'])[^\1]*?\1/i', '', $text, -1);
-                $text =  preg_replace( '/'.$attr.'=.*?\s/i', '', $text, -1);
+                $text =  preg_replace( '/'.$attr.'=.*?(?=[\s\>])/i', '', $text, -1);
             }
         }
         return trim($text);
