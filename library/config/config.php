@@ -43,6 +43,9 @@ $config['space_static_url'] = 'http://space-static.tizi.com/';
 $config['waijiao_url'] = 'http://waijiao.tizi.com/';
 $config['waijiao_static_url'] = 'http://waijiao-static.tizi.com/';
 
+$config['huodong_url'] = 'http://huodong.tizi.com/';
+$config['huodong_static_url'] = 'http://huodong-static.tizi.com/';
+
 $config['api_url'] = 'http://api.tizi.com/';
 $config['api_static_url'] = 'http://api-static.tizi.com/';
 
