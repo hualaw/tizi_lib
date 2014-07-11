@@ -1,6 +1,7 @@
 <?php
 class Homework_Assign_Model extends LI_Model{
-    private $_table = 'homework_assign';
+    // private $_table = 'homework_assign';
+    private $_table = 'paper_assign';
     function __construct(){
         parent::__construct();
     }
@@ -33,13 +34,13 @@ class Homework_Assign_Model extends LI_Model{
     	// $param['online'] = isset($param['online'])?$param['online']:true;//默认是在线作业
 	    // $param['is_other'] = false;//现在就是false,没有‘其他作业’//isset($param['is_other'])?$param['is_other']:false;
 
-        $sql = "select count(1) as count from homework_assign where paper_id = {$param['paper_id']} and class_id={$param['class_id']} ";
-        $count = $this->db->query($sql)->row(0)->count; //检测是否有布置过重复的作业
-        if(!$count){ 
-        	if($this->db->insert('homework_assign',$param)){
+        // $sql = "select count(1) as count from homework_assign where paper_id = {$param['paper_id']} and class_id={$param['class_id']} ";
+        // $count = $this->db->query($sql)->row(0)->count; //检测是否有布置过重复的作业
+        // if(!$count){ 
+        	if($this->db->insert($this->_table,$param)){
         		return  $this->db->insert_id();
         	}
-        }
+        // }
     	
         return false; 
     }
