@@ -47,6 +47,12 @@ class credit_store_model extends LI_Model {
 		return $this->db->affected_rows();
 	}
 	
+	public function spitdate_order_count($user_id, $date){
+		$res = $this->db->query("select count(*) as num from credit_orders where user_id=? and create_date>?", 
+			array($user_id, $date))->row_array();
+		return isset($res["num"]) ? $res["num"] : 0;
+	}
+	
 }
 
 /* end of credit_store_model.php */
