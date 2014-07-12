@@ -73,13 +73,13 @@ class Homework_Assign_Model extends LI_Model{
     }
     
     /**
-     * 通过id查找布置的作业的homework_assign表中的信息
+     * 通过id查找布置的作业的paper_assign表中的信息
      * @param int $id
      */
     function get_assigned_homework_info_by_id($id){
     	$this->db->select('*');
         $this->db->where('id',$id);
-        $res = $this->db->get('homework_assign');
+        $res = $this->db->get($this->_table);
         $res = $res->result_array();
         return $res[0];
     }

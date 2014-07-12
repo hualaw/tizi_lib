@@ -113,6 +113,13 @@ class Paper_Save_Log extends MY_Model {
         $this->db->limit($limit,$offset);
         return $this->db->get($this->_table)->result();
     }
+
+    //布置试卷后 次数加一
+    function incr_assign_count($save_log_id){
+        $sql = "update {$this->_table} set assign_count = assign_count+1 where id = $save_log_id ";
+        // echo $sql;die;
+        $this->db->query($sql);
+    }
 }
 
 /* end of paper_save_log.php */
