@@ -96,6 +96,11 @@ class Searcher_Question extends Searcher_Abstract
         } else {
             $filterQuery[] = 'online:' . intval($query['online']);
         }
+        if (!isset($query['no_repeat'])) {
+            $filterQuery[] = 'no_repeat:1';
+        } else {
+            $filterQuery[] = 'no_repeat:' . intval($query['no_repeat']);
+        }
         if (isset($query['subject_id']) AND $query['subject_id']) {
             $filterQuery[] = 'subject_id:' . intval($query['subject_id']);
         }
