@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{include file='file:[lib]common/tizi_meta.html'}
+<title>{block name=title}{/block}-梯子网</title>
+<link rel="stylesheet" type="text/css" href="{$static_url}{$static_version}css/mobile/{$csspath}/style.css" />
+{block name=stylesheet}{/block}
+</head>
+
+<body class="navHome">
+<div class="wrap layout {$csspath}Page" id="tiziModule" module="{$csspath}">
+	{include file='file:[lib]common/mobile/header.html'}
+	{block name=container}{/block}
+</div>
+{include file='file:[lib]common/tizi_errormsg.html'}
+<!-- js引入开始 -->
+<script type="text/javascript" src="{$static_url}{$static_version}public/sea/2.1.0/sea.js{$version}"></script>
+<script type="text/javascript" src="{$static_url}{$static_version}public/config.js{$version}"></script>
+<!--js引入结束-->
+{block name=script}{/block}
+{include file='file:[lib]common/tizi_ga.html'}
+</body>
+</html>
