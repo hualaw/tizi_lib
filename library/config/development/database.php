@@ -64,14 +64,14 @@ $db['tizi']['swap_pre'] = '';
 $db['tizi']['autoinit'] = TRUE;
 $db['tizi']['stricton'] = FALSE;
 
-//读写分裂
+//问卷调查
 $db['survey']['hostname'] = '192.168.11.12';
 $db['survey']['username'] = 'tizi';
 $db['survey']['password'] = 'tizi';
 $db['survey']['database'] = 'survey';
 $db['survey']['dbdriver'] = 'mysql';
 $db['survey']['dbprefix'] = '';
-$db['survey']['pconnect'] = TRUE;
+$db['survey']['pconnect'] = FALSE;
 $db['survey']['db_debug'] = TRUE;
 $db['survey']['cache_on'] = FALSE;
 $db['survey']['cachedir'] = '';
@@ -88,7 +88,7 @@ $db['tiku']['password'] = 'ti_tiku_zi';
 $db['tiku']['database'] = 'tiku';
 $db['tiku']['dbdriver'] = 'mysqli';
 $db['tiku']['dbprefix'] = '';
-$db['tiku']['pconnect'] = TRUE;
+$db['tiku']['pconnect'] = FALSE;
 $db['tiku']['db_debug'] = TRUE;
 $db['tiku']['cache_on'] = FALSE;
 $db['tiku']['cachedir'] = '';
