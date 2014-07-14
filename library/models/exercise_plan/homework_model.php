@@ -1,5 +1,5 @@
 <?php
-require_once('paper_model.php');
+require_once('/../paper/paper_model.php');
 
 class Homework_Model extends Paper_Model {
 

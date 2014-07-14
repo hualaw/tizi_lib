@@ -57,7 +57,7 @@ class Homework_Assign_Model extends LI_Model{
      */
     function get_assigned_homework_info($id=false,$user_id=false,$class_id=false, $page=1, $offset=9){
     	$sql = "select ha.name,ha.id,ha.class_id,ha.paper_id,ha.start_time,ha.deadline,ha.is_assigned,
-				ha.online,ha.assign_time,ha.is_other, ha.description, ha.count as hw_q_count,ha.is_checked from homework_assign ha left join classes_teacher ct on  ct.teacher_id=ha.user_id LEFT  join classes on classes.id = ha.class_id where  ct.class_id=ha.class_id and classes.close_status=0 ";
+				ha.online,ha.assign_time,ha.is_other, ha.description, ha.count as hw_q_count,ha.is_checked from {$this->_table} ha left join classes_teacher ct on  ct.teacher_id=ha.user_id LEFT  join classes on classes.id = ha.class_id where  ct.class_id=ha.class_id and classes.close_status=0 ";
     	if($id){
 	    	$sql .= " and ha.id=$id ";
     	}else{
@@ -193,9 +193,9 @@ class Homework_Assign_Model extends LI_Model{
 
     function _get_homework_model($paper_id)
     {
-		$this->load->model('paper/homework_model');
-        $this->load->model('paper/homework_question_type_model');
-        $this->load->model('paper/homework_question_model');
+		$this->load->model('exercise_plan/homework_model');
+        $this->load->model('exercise_plan/homework_question_type_model');
+        $this->load->model('exercise_plan/homework_question_model');
         $this->load->model('question/question_model');
         $this->question_model->init('exercise');
 
