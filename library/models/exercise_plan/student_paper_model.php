@@ -32,6 +32,13 @@ class Student_Paper_Model extends LI_Model{
         
 	}
 
+    public function get_student_paper_num($user_id){
+    
+        $result = $this->db->query("select count(*) as paper_num from `student_paper` where `user_id` = {$user_id}")
+            ->row_array();
+        return isset($result['paper_num']) ? $result['paper_num'] : 0;
+    }
+
     public function get_class_correct_rate($paper_assign_id){
             
         $data = $this->db->query("select `online_done_num`, `correct_num` from `student_paper` where `paper_assign_id` = {$paper_assign_id}")
