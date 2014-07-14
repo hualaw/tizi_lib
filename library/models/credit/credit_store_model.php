@@ -4,12 +4,12 @@ class credit_store_model extends LI_Model {
 	
 	public function product_all(){
 		$res = $this->db->query("select id,name,credit_price,stock,exchange_total,thumb from 
-			credit_store order by id asc")->result_array();
+			credit_store where online=1 order by id asc")->result_array();
 		return $res;
 	}
 	
 	public function get($id, $fields = "*"){
-		$res = $this->db->query("select {$fields} from credit_store where id=?", array($id))->row_array();
+		$res = $this->db->query("select {$fields} from credit_store where id=? and online=1", array($id))->row_array();
 		return $res;
 	}
 	
@@ -27,6 +27,7 @@ class credit_store_model extends LI_Model {
 			$msg = "兑换".$goods["name"];
 			$this->db->query("INSERT INTO credit_logs(user_id,foreign_id,credit_change,total,msg,cyclenum) VALUES(?,?,?,?,?,?)", array(
 				$user_id, $foreign_id, 0-$goods["credit_price"], $balance["balance"]-$goods["credit_price"], $msg, 0));
+			$this->db->query("UPDATE credit_store SET stock=stock-1,exchange_total=exchange_total+1 WHERE id=?", array($goods_id));
 			$this->db->trans_complete();
 			if ($this->db->trans_status() === false){
 				return false;
