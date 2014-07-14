@@ -712,7 +712,7 @@ class Register_Model extends LI_Model {
 		if($total==1)
         {
             $user=$query->row();
-			$user->phone=$user->phone_mask;
+            if(isset($user->phone_mask)) $user->phone=$user->phone_mask;
             $errorcode=true;
         }
         else
