@@ -1,0 +1,11 @@
+.nav{background:#49b764;}
+.nav ul.main li.first{border-left:1px solid #0da04f;}
+.nav ul.main li{border-right:1px solid #0da04f;}
+.navEverdayWaijiao ul.main li a.navEverdayWaijiao,
+.navClass ul.main li a.navClass,
+.navSpecial ul.main li a.navSpecial,
+.navChampions ul.main li a.navChampions,
+.nav ul.main li a.active,
+.nav ul.main li a:hover{background-color: #0da04f;display: block; text-decoration: none;color:#fff;}
+
+.nav ul.link li{background:url(../../image/common/nav_li_bg.gif) no-repeat;}

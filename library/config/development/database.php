@@ -64,31 +64,14 @@ $db['tizi']['swap_pre'] = '';
 $db['tizi']['autoinit'] = TRUE;
 $db['tizi']['stricton'] = FALSE;
 
-
-$db['jxt']['hostname'] = '192.168.11.75';
-$db['jxt']['username'] = 'root';
-$db['jxt']['password'] = '';
-$db['jxt']['database'] = 'tizi_jxt';
-$db['jxt']['dbdriver'] = 'mysqli';
-$db['jxt']['dbprefix'] = '';
-$db['jxt']['pconnect'] = TRUE;
-$db['jxt']['db_debug'] = TRUE;
-$db['jxt']['cache_on'] = FALSE;
-$db['jxt']['cachedir'] = '';
-$db['jxt']['char_set'] = 'utf8';
-$db['jxt']['dbcollat'] = 'utf8_general_ci';
-$db['jxt']['swap_pre'] = '';
-$db['jxt']['autoinit'] = TRUE;
-$db['jxt']['stricton'] = FALSE;
-
-//读写分裂
+//问卷调查
 $db['survey']['hostname'] = '192.168.11.12';
 $db['survey']['username'] = 'tizi';
 $db['survey']['password'] = 'tizi';
 $db['survey']['database'] = 'survey';
 $db['survey']['dbdriver'] = 'mysql';
 $db['survey']['dbprefix'] = '';
-$db['survey']['pconnect'] = TRUE;
+$db['survey']['pconnect'] = FALSE;
 $db['survey']['db_debug'] = TRUE;
 $db['survey']['cache_on'] = FALSE;
 $db['survey']['cachedir'] = '';
@@ -106,7 +89,7 @@ $db['tiku']['database'] = 'tiku';
 $db['tiku']['dbdriver'] = 'mysqli';
 $db['tiku']['dbprefix'] = '';
 $db['tiku']['pconnect'] = FALSE;
-$db['tiku']['db_debug'] = true;
+$db['tiku']['db_debug'] = TRUE;
 $db['tiku']['cache_on'] = FALSE;
 $db['tiku']['cachedir'] = '';
 $db['tiku']['char_set'] = 'utf8';

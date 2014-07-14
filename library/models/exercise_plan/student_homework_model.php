@@ -8,6 +8,7 @@
 class Student_Homework_Model extends LI_Model{
 
 	private $_redis=false;
+    private $_table = 'student_paper';
 
     private $_img_url = array(
         'static.91waijiao.com'=>'tzstatic.oss.aliyuncs.com/static',
@@ -34,7 +35,7 @@ class Student_Homework_Model extends LI_Model{
         $this->db->where('id',$s_work_id);
         if($this->db->update('student_homework',$homeworkinfo)){
 			if (false !== $aid && false !== $user_id){
-				$this->load->model("homework/homework_assign_model");
+				$this->load->model("exercise_plan/homework_assign_model");
 				$assign = $this->homework_assign_model->get_assigned_homework_info_by_id($aid);
 				if (isset($assign["user_id"])){
 					$this->load->library("credit");
@@ -660,7 +661,7 @@ class Student_Homework_Model extends LI_Model{
      * @param int $assignment_id
      */
     function get_all_stu_homework($assignment_id , $time=false){
-        $sql = "select u.name , u.student_id as student_in_class_id , s.*,ha.online from student_homework s left join user u on u.id=s.student_id left join homework_assign ha on ha.id = s.assignment_id where assignment_id=$assignment_id ";
+        $sql = "select u.name , u.student_id as student_in_class_id , s.*,ha.online from {$this->_table} s left join user u on u.id=s.user_id left join paper_assign ha on ha.id = s.paper_assign_id where paper_assign_id=$assignment_id ";
         if($time && $time<5){
             $time2 = $time*900 ; // to seconds
             $time1 = $time2 - 900 ;
@@ -780,7 +781,7 @@ class Student_Homework_Model extends LI_Model{
             $attr_group = array('style','class');
             foreach($attr_group as $attr){
                 $text =  preg_replace( '/'.$attr.'=(["\'])[^\1]*?\1/i', '', $text, -1);
-                $text =  preg_replace( '/'.$attr.'=.*?\s/i', '', $text, -1);
+                $text =  preg_replace( '/'.$attr.'=.*?(?=[\s\>])/i', '', $text, -1);
             }
         }
         return trim($text);
@@ -790,7 +791,7 @@ class Student_Homework_Model extends LI_Model{
     function set_is_download($assid,$user_id){
         $sql= "update student_homework set is_download=1 where assignment_id=? and student_id=? ";
         $arr = array($assid,$user_id);
-        $this->load->model("homework/homework_assign_model");
+        $this->load->model("exercise_plan/homework_assign_model");
         $assign = $this->homework_assign_model->get_assigned_homework_info_by_id($assid);
         if (isset($assign["user_id"])){
 			$this->load->library("credit");

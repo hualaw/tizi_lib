@@ -127,6 +127,7 @@
   background: -ms-linear-gradient(#ffffff 0%, #f6f6f6 47%, #ededed 100%);
 }
 .cBtnSilver:hover{
+  color: #333;
   background: #e6e6e5;
   background: linear-gradient(#f6f6f6 0%,#e6e6e5 100%);
   background: -webkit-linear-gradient(#f6f6f6 0%,#e6e6e5 100%);

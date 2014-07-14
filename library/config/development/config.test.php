@@ -43,6 +43,9 @@ $config['survey_static_url'] = 'application/views/static/';
 $config['waijiao_url'] = 'http://192.168.11.12:8690/';
 $config['waijiao_static_url'] = 'application/views/static/';
 
+$config['huodong_url'] = 'http://192.168.11.12:8692/';
+$config['huodong_static_url'] = 'application/views/static/';
+
 $config['api_url'] = 'http://192.168.11.12:8787/';
 $config['api_static_url'] = 'application/views/static/';
 

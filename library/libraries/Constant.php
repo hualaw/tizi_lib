@@ -173,6 +173,9 @@ Class CI_Constant {
 	
 	//about devote
 	const DEVOTE_LESSON_SHARE = 19;			//文件共享贡献
+	
+	//about credit
+	const CREDIT_STORE_MAXBUY_PERDAY = 3;	//积分商城一天最大兑换次数
 
     function __construct()
 	{
@@ -194,8 +197,8 @@ Class CI_Constant {
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'register' => array(
-				self::USER_TYPE_STUDENT => tizi_url("pk"),
-			    self::USER_TYPE_TEACHER => tizi_url("teacher/class/my"),
+				self::USER_TYPE_STUDENT => tizi_url("ban"),
+			    self::USER_TYPE_TEACHER => tizi_url("banji"),
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'tizi' => array(

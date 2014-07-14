@@ -190,7 +190,7 @@ class Student_Task_Model extends LI_Model{
      */
     public function getTaskByPageNum($page_num){
         
-        $this->load->model('homework/student_survey_model','ssm');
+        $this->load->model('exercise_plan/student_survey_model','ssm');
         $tasks = array();   
         $this->per_page_num = Constant::STU_HOMEWORK_PER_PAGE;
         $offset = $this->per_page_num * ($page_num-1);
@@ -282,9 +282,9 @@ class Student_Task_Model extends LI_Model{
     public function advance_save($data){
         $this->db->trans_start();
         foreach($data as $workinfo){
-            $this->db->insert('student_homework',$workinfo);
+            $this->db->insert('student_paper',$workinfo);
             $id = $this->db->insert_id();
-            $this->pushTaskOnAddHomework($workinfo['student_id'],$id);
+            $this->pushTaskOnAddHomework($workinfo['user_id'],$id);
         }
         $this->db->trans_complete();
         if (!$this->db->trans_status())                                 

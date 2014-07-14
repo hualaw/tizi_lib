@@ -1,4 +1,4 @@
-<div class="topMiniNav posr">
+<div class="topMiniNav posr {if isset($nav_class)}{$nav_class}{else}topMiniNavBig{/if}">
     <div class="layout">
         <!-- 右侧登录区域开始 -->
         <div class="topLogin fr">
@@ -20,6 +20,9 @@
                         <li>
                             <a href="{$jia_url}parent/child">孩子专区</a>
                         </li>
+                        {/if}
+                        {if isset($top_label) && $top_label}
+                            {$top_label}
                         {/if}
                         <li>
                             <a href="{$tizi_url}about/feedback" target="_blank">问题反馈</a>
