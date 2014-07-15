@@ -99,6 +99,9 @@ class User_Data_Model extends Data_Model{
 			$level++;
 		}
 
+		if ($level == 1) {
+			return 1;
+		}
 		return $level - 1;
 	}
 
