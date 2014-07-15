@@ -93,33 +93,13 @@ class User_Data_Model extends Data_Model{
 	 * @return int
 	 */
 	public function exp_to_level($exp) {
-		$arr = array(
-			4 => 1,
-			11 => 2,
-			20 => 3,
-			31 => 4,
-			44 => 5,
-			60 => 6,
-			77=> 7,
-			95 => 8,
-			116 => 9,
-			139 => 10,
-			164 => 11,
-			191 => 12,
-			220 => 13,
-			252 => 14,
-			285 => 15,
-			319 => 16,
-			356 => 17,
-			395 => 18
-		);
+		$level = 1;
 
-		foreach ($arr as $ka => $va) {
-			if ($exp <= $ka) {
-				return $va;
-			}
+		while ((($level - 1) * ($level - 1) + 4 * ($level - 1)) < $exp) {
+			$level++;
 		}
-		return 18;
+
+		return $level - 1;
 	}
 
 	/** 用户由等级获得相应等级需要的经验
