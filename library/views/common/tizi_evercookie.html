@@ -1,5 +1,6 @@
 <script type="text/javascript" src="{$static_url}{$static_version}lib/evercookie/0.4.0/js/swfobject-2.2.min.js{$version}"></script>
 <script type="text/javascript" src="{$static_url}{$static_version}lib/evercookie/0.4.0/js/evercookie.js{$version}"></script>
+<script type="text/javascript" src="{$static_url}{$static_version}lib/flashcookie/1.9.1/swfstore.js{$version}"></script>
 {literal}
 <script type="text/javascript">
 var ec = new evercookie({
@@ -8,8 +9,23 @@ var ec = new evercookie({
 	phpuri: '/php'
 });
 
-ec.get("uid", function(best, all) {
-	console.log("uid: " + best);
+var fc = new SwfStore({
+	namespace: 'tzuid',
+	swf_url: '{/literal}{$static_url}{$static_version}lib/flashcookie/1.9.1/storage.swf{literal}',
+	debug: true,
+	onready: function(){
+	},
+	onerror: function(){
+	}
+});
+
+ec.get("uid", function(ecuid, all) {
+	var fcuid = fc.get("uid");
+	if(fcuid != ecuid) {
+		fc.set("uid", ecuid);
+		console.log('fcset');
+	}
+	console.log("uid: " + ecuid);
     for (var item in all){
 		console.log("Storage mechanism " + item + " returned " + all[item] + " votes");
     }
