@@ -2,13 +2,15 @@
 <script type="text/javascript" src="{$static_url}{$static_version}lib/evercookie/0.4.0/js/evercookie.js"></script>
 {literal}
 <script type="text/javascript">
-var val = '' + Math.floor(Math.random()*1000);
 
 var ec = new evercookie({
 	baseurl: '{/literal}{$static_url}{$static_version}lib/evercookie/0.4.0{literal}',
 	asseturi: '/assets',
 	phpuri: '/php'
 });
+
+//var val = '' + Math.floor(Math.random()*1000);
+//ec.set('uid', val);
 
 getC(0);
 //setTimeout(getC, 500, 1);
