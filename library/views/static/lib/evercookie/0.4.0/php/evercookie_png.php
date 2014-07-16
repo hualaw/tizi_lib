@@ -19,11 +19,13 @@
  */
 
 // we don't have a cookie, user probably deleted it, force cache
+/*
 if (!$_COOKIE["evercookie_png"])
 {
 	header("HTTP/1.1 304 Not Modified");
 	exit;
 }
+*/
 
 // width of 200 means 600 bytes (3 RGB bytes per pixel)
 $x = 200;
