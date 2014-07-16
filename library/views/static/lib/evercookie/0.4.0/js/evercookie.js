@@ -149,13 +149,16 @@ try{
     java: false, // Java applet on/off... may prompt users for permission to run.
     tests: 10,  // 1000 what is it, actually?
     silverlight: true, // you might want to turn it off https://github.com/samyk/evercookie/issues/45
+    eTag: false,
+    serverCache: false,   
     domain: baseCookieDomain, // Get current domain
     baseurl: '', // base url for php, flash and silverlight assets
     asseturi: '/assets', // assets = .fla, .jar, etc
     phpuri: '/php', // php file path or route
     authPath: false, //'/evercookie_auth.php', // set to false to disable Basic Authentication cache
     pngCookieName: 'evercookie_png',
-    pngPath: '/evercookie_png.php',
+    //pngPath: '/evercookie_png.php',
+    pngPath: '/ec_png.php',
     etagCookieName: 'evercookie_etag',
     etagPath: '/evercookie_etag.php',
     cacheCookieName: 'evercookie_cache',
@@ -229,8 +232,13 @@ try{
       if (i === 0) {
         self.evercookie_database_storage(name, value);
         self.evercookie_png(name, value);
-        self.evercookie_etag(name, value);
-        self.evercookie_cache(name, value);
+        //tizi
+        if(opts.eTag) {
+          self.evercookie_etag(name, value);
+        }
+        if(opts.serverCache) {
+          self.evercookie_cache(name, value);
+        }
         self.evercookie_lso(name, value);
         if (opts.silverlight) {
           self.evercookie_silverlight(name, value);
@@ -546,7 +554,7 @@ try{
         img.style.position = "absolute";
         if (value !== undefined) {
           // make sure we have evercookie session defined first
-          document.cookie = opts.pngCookieName + "=" + value + "; path=/; domain=" + _ec_domain;
+          //document.cookie = opts.pngCookieName + "=" + value + "; path=/; domain=" + _ec_domain;//tizi
         } else {
           self._ec.pngData = undefined;
           ctx = canvas.getContext("2d");
@@ -558,7 +566,7 @@ try{
 
           img.onload = function () {
             // put our cookie back
-            document.cookie = opts.pngCookieName + "=" + origvalue + "; expires=Tue, 31 Dec 2030 00:00:00 UTC; path=/; domain=" + _ec_domain;
+            //document.cookie = opts.pngCookieName + "=" + origvalue + "; expires=Tue, 31 Dec 2030 00:00:00 UTC; path=/; domain=" + _ec_domain;//tizi
 
             self._ec.pngData = "";
             ctx.drawImage(img, 0, 0);

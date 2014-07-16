@@ -42,7 +42,7 @@ if (!isset($_COOKIE['evercookie_etag']) || empty($_COOKIE['evercookie_etag'])) {
 
     $headers = apache_request_headers();
     if(isset($headers['If-None-Match'])) {
-		//echo $headers['If-None-Match'];
+		echo $headers['If-None-Match'];
 	}
 
     header('Etag: '.$headers["If-None-Match"]);
@@ -51,5 +51,5 @@ if (!isset($_COOKIE['evercookie_etag']) || empty($_COOKIE['evercookie_etag'])) {
 
 // set our etag
 header('Etag: ' . $_COOKIE['evercookie_etag']);
-//echo $_COOKIE['evercookie_etag'];
+echo $_COOKIE['evercookie_etag'];
 exit;
