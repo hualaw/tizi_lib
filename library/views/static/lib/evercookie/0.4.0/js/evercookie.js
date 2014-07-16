@@ -149,7 +149,7 @@ try{
     java: false, // Java applet on/off... may prompt users for permission to run.
     tests: 10,  // 1000 what is it, actually?
     silverlight: true, // you might want to turn it off https://github.com/samyk/evercookie/issues/45
-    domain: '.' + window.location.host.replace(/:\d+/, ''), // Get current domain
+    domain: baseCookieDomain, // Get current domain
     baseurl: '', // base url for php, flash and silverlight assets
     asseturi: '/assets', // assets = .fla, .jar, etc
     phpuri: '/php', // php file path or route
@@ -162,6 +162,8 @@ try{
     cachePath: '/evercookie_cache.php'
   };
   
+  //defaultOptionMap['domain'] = '.' + window.location.host.replace(/:\d+/, ''); // Get current domain
+
   var _baseKeyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
   /**
    * @class Evercookie
