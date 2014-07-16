@@ -157,8 +157,7 @@ try{
     phpuri: '/php', // php file path or route
     authPath: false, //'/evercookie_auth.php', // set to false to disable Basic Authentication cache
     pngCookieName: 'evercookie_png',
-    //pngPath: '/evercookie_png.php',
-    pngPath: '/ec_png.php',
+    pngPath: '/evercookie_png.php',
     etagCookieName: 'evercookie_etag',
     etagPath: '/evercookie_etag.php',
     cacheCookieName: 'evercookie_cache',
@@ -988,10 +987,18 @@ try{
     };
 
     this.evercookie_cookie = function (name, value) {
+      //tizi
       if (value !== undefined) {
+        var orivalue=null;
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+        if(arr=document.cookie.match(reg)){
+          orivalue=unescape(arr[2]);
+        }
         // expire the cookie first
-        document.cookie = name + "=; expires=Mon, 20 Sep 2010 00:00:00 UTC; path=/; domain=" + _ec_domain;
-        document.cookie = name + "=" + value + "; expires=Tue, 31 Dec 2030 00:00:00 UTC; path=/; domain=" + _ec_domain;
+        if(orivalue !== value){
+          document.cookie = name + "=; expires=Mon, 20 Sep 2010 00:00:00 UTC; path=/; domain=" + _ec_domain;
+          document.cookie = name + "=" + value + "; expires=Tue, 31 Dec 2030 00:00:00 UTC; path=/; domain=" + _ec_domain;
+        }
       } else {
         return this.getFromStr(name, document.cookie);
       }

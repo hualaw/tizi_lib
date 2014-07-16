@@ -31,7 +31,8 @@ $y = 1;
 
 $gd = imagecreatetruecolor($x, $y);
 
-$data_arr = str_split($_COOKIE["evercookie_png"]);
+//$data_arr = str_split($_COOKIE["evercookie_png"]);
+$data_arr = str_split($_COOKIE[$_GET['name']]);
 
 $x = 0;
 $y = 0;
