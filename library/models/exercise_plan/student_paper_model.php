@@ -17,7 +17,7 @@ class Student_Paper_Model extends LI_Model{
 
 	public function get_student_paper($user_id, $paper_assign_id = ''){
 		
-        $sql = "select a.*,b.`paper_id`,b.`start_time` as begin_time, b.`deadline`, b.`count`, b.`is_shuffled`, c.`subject_id`, d.`content` ,c.`user_id` as teacher_id ,b.`get_answer_way` from `student_paper` as a left join `paper_assign` as b  on a.`paper_assign_id` = b.`id` left join `paper_testpaper` as c on b.`paper_id` = c.`id` left join `student_exercise_plan_comment` as d on a.`paper_assign_id` = d.`assignment_id` and a.`user_id` = d.`student_id` where a.`user_id` = {$user_id}";
+        $sql = "select a.*,b.`paper_id`,b.`start_time` as begin_time, b.`deadline`, b.`count`, b.`is_shuffled`, c.`subject_id`, d.`content` ,c.`user_id` as teacher_id ,b.`get_answer_way` from `student_paper` as a left join `paper_assign` as b  on a.`paper_assign_id` = b.`id` left join `paper_testpaper` as c on b.`paper_id` = c.`id` left join `student_exercise_plan_comment` as d on a.`paper_assign_id` = d.`assignment_id` and a.`user_id` = d.`student_id` where a.`user_id` = {$user_id} and b.`is_assigned` = 1";
         if($paper_assign_id){
 
             $sql .= " and a.`paper_assign_id` = {$paper_assign_id}";
@@ -34,7 +34,7 @@ class Student_Paper_Model extends LI_Model{
 
     public function get_student_paper_num($user_id){
     
-        $result = $this->db->query("select count(*) as paper_num from `student_paper` where `user_id` = {$user_id}")
+        $result = $this->db->query("select count(*) as paper_num from `student_paper` as a left join `paper_assign` as b on a.`paper_assign_id` = b.`id` where a.`user_id` = {$user_id} and b.`is_assigned` = 1")
             ->row_array();
         return isset($result['paper_num']) ? $result['paper_num'] : 0;
     }
