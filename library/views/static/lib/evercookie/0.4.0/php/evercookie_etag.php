@@ -51,4 +51,5 @@ if (!isset($_COOKIE['evercookie_etag']) || empty($_COOKIE['evercookie_etag'])) {
 
 // set our etag
 header('Etag: ' . $_COOKIE['evercookie_etag']);
-echo $_COOKIE['evercookie_etag'];
+//echo $_COOKIE['evercookie_etag'];
+exit;
