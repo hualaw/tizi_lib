@@ -284,7 +284,8 @@ class Student_Task_Model extends LI_Model{
         foreach($data as $workinfo){
             $this->db->insert('student_paper',$workinfo);
             $id = $this->db->insert_id();
-            $this->pushTaskOnAddHomework($workinfo['user_id'],$id);
+            //2014-07-16 tizi4.0 不用再push to table "task"
+            // $this->pushTaskOnAddHomework($workinfo['user_id'],$id);
         }
         $this->db->trans_complete();
         if (!$this->db->trans_status())                                 
