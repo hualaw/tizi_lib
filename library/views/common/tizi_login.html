@@ -62,9 +62,13 @@
         {$oauth_url="&redirect="|cat:urlencode($reg_redirect)}
     {/if}
     <a href="javascript:void(0)" dUrl="{$login_url}oauth/login?type=qq{$oauth_url}" class="qq fl" title="腾讯QQ">
-        <i class="qq fl"></i>使用QQ登录
+        <i class="qq fl"></i>
+        <em class="wide">使用QQ登录</em>
+        <em class="little undis">QQ登录</em>
     </a>
     <a href="javascript:void(0)" dUrl="{$login_url}oauth/login?type=weibo{$oauth_url}" class="weibo fl" title="新浪微博">
-        <i class="weibo fl"></i>使用微博登录
+        <i class="weibo fl"></i>
+        <em class="wide">使用微博登录</em>
+        <em class="little undis">微博登录</em>
     </a>
 </div>

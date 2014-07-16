@@ -159,6 +159,7 @@
   background: -o-linear-gradient(#ff8c44 0%,#ff7d35 50%,#ff6b23 100%);
 }
 .cBtnNormalOrg:hover{
+  color:#fff;
   background: #ff6b23; 
   background: linear-gradient(#ff6b23 0%,#de5918 100%);
   background: -webkit-linear-gradient(#ff6b23 0%,#de5918 100%);
