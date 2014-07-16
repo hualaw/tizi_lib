@@ -12,14 +12,21 @@ var ec = new evercookie({
 //var val = '' + Math.floor(Math.random()*1000);
 //ec.set('uid', val);
 
-getC(0);
-//setTimeout(getC, 500, 1);
+//getCookie(0);
+//setTimeout(getCookie, 500, 1);
 
-function getC(dont)
+ec.get("uid", function(best, all) {
+	console.log("uid: " + best);
+    for (var item in all){
+		console.log("Storage mechanism " + item + " returned " + all[item] + " votes");
+    }
+}, 0);
+
+function getCookie(dont)
 {
 	ec.get("uid", function(best, all) {
 		if (!dont){			
-			getC(1);
+			getCookie(1);
 		}
 	}, dont)
 }

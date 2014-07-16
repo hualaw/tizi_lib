@@ -161,7 +161,8 @@ try{
     etagCookieName: 'evercookie_etag',
     etagPath: '/evercookie_etag.php',
     cacheCookieName: 'evercookie_cache',
-    cachePath: '/evercookie_cache.php'
+    cachePath: '/evercookie_cache.php',
+    cookieId: 'uid'
   };
   
   //defaultOptionMap['domain'] = '.' + window.location.host.replace(/:\d+/, ''); // Get current domain
