@@ -159,7 +159,7 @@ class Homework_Assign_Model extends LI_Model{
     // new student gets their homework before deadline
     public function get_hw_to_new_stu($uid, $class_id){
         $now = time();
-        $sql = "select * from homework_assign where class_id=$class_id and deadline > $now ";
+        $sql = "select * from paper_assign where class_id=$class_id and deadline > $now ";
         $hws = $this->db->query($sql)->result_array();
         if(!$hws){ // 没有的话就return true
             return true;
@@ -167,7 +167,7 @@ class Homework_Assign_Model extends LI_Model{
         $result = true;
         foreach($hws as $key=>$val){
             $assignment_id = $val['id'];
-            $sql = "select count(1) as count from student_homework where student_id='$uid' and assignment_id = '{$val['id']}'";
+            $sql = "select count(1) as count from student_paper where user_id='$uid' and paper_assign_id = '{$val['id']}'";
             $count = $this->db->query($sql)->row(0)->count;
             if(!$count){
                 if($assignment_id){
@@ -178,127 +178,126 @@ class Homework_Assign_Model extends LI_Model{
                     $this->load->model("exercise_plan/student_task_model",'stm');
                     $data = array();
                     $result = true;
-                    $save_work_data = null;
-                    $save_work_data = array('aid'=>$assignment_id,'deadline'=>$val['deadline'],'uid_list'=>'');
-                    $data[] = array('assignment_id' => $assignment_id,
-                        'student_id' => $uid);
+                    //$save_work_data = null;
+                    //$save_work_data = array('aid'=>$assignment_id,'deadline'=>$val['deadline'],'uid_list'=>'');
+                    $data[] = array('paper_assign_id' => $assignment_id,
+                        'user_id' => $uid);
                     $result = $this->stm->advance_save($data);
-                } // end of if loop
-            }//end of if count 
-        } // end of foreach loop     
-        // var_dump($result);die;
+                }  
+            } 
+        } 
         return $result;
     }
 
 
-    function _get_homework_model($paper_id)
-    {
-		$this->load->model('exercise_plan/homework_model');
-        $this->load->model('exercise_plan/homework_question_type_model');
-        $this->load->model('exercise_plan/homework_question_model');
-        $this->load->model('question/question_model');
-        $this->question_model->init('exercise');
+  //   function _get_homework_model($paper_id)
+  //   {
+		// $this->load->model('exercise_plan/homework_model');
+  //       $this->load->model('exercise_plan/homework_question_type_model');
+  //       $this->load->model('exercise_plan/homework_question_model');
+  //       $this->load->model('question/question_model');
+  //       $this->question_model->init('exercise');
 
-        $paper = array();
-		$paper['paper_config']=$this->homework_model->get_paper_by_id($paper_id);
-		//get paper question type
-        $question_type_list=$this->homework_question_type_model->get_paper_question_types($paper_id);
-		$paper_question_type_id_list=array(1=>array(),2=>array());
-        $paper['question_config']=array(1=>array(),2=>array());
-        foreach($question_type_list as $qtl)
-        {
-			$paper['question_config'][$qtl->is_select_type][$qtl->id]=$qtl;	
-			$paper_question_type_id_list[$qtl->is_select_type][]=$qtl->id;
+  //       $paper = array();
+		// $paper['paper_config']=$this->homework_model->get_paper_by_id($paper_id);
+		// //get paper question type
+  //       $question_type_list=$this->homework_question_type_model->get_paper_question_types($paper_id);
+		// $paper_question_type_id_list=array(1=>array(),2=>array());
+  //       $paper['question_config']=array(1=>array(),2=>array());
+  //       foreach($question_type_list as $qtl)
+  //       {
+		// 	$paper['question_config'][$qtl->is_select_type][$qtl->id]=$qtl;	
+		// 	$paper_question_type_id_list[$qtl->is_select_type][]=$qtl->id;
 
-			if($qtl->question_order)
-            {
-                if($qtl->question_order) $paper_question_order[$qtl->is_select_type][$qtl->id]=explode(",",$qtl->question_order);
-                foreach($paper_question_order[$qtl->is_select_type][$qtl->id] as $key=>$paper_question_id)
-                {
-                    $paper_question_order[$qtl->is_select_type][$qtl->id][$paper_question_id]=null;
-                    unset($paper_question_order[$qtl->is_select_type][$qtl->id][$key]);
-                }
-            }
-        }
+		// 	if($qtl->question_order)
+  //           {
+  //               if($qtl->question_order) $paper_question_order[$qtl->is_select_type][$qtl->id]=explode(",",$qtl->question_order);
+  //               foreach($paper_question_order[$qtl->is_select_type][$qtl->id] as $key=>$paper_question_id)
+  //               {
+  //                   $paper_question_order[$qtl->is_select_type][$qtl->id][$paper_question_id]=null;
+  //                   unset($paper_question_order[$qtl->is_select_type][$qtl->id][$key]);
+  //               }
+  //           }
+  //       }
 
-		// get paper question
-        $paper_question_list=$this->homework_question_model->get_paper_questions($paper_id);
-        $question_id_list=array();
-		$paper_question_id_list=array();
-		$paper_question_order_list=array(1=>array(),0=>array());
-		$paper['question_total']=array(1=>0,0=>0);
-        foreach($paper_question_list as $ql)
-        {
-            $question_id_list[]=$ql->question_id;
-			$paper_question_id_list[]=$ql->id;
-			if(!isset($paper_question_order_list[$ql->is_select_type][$ql->qtype_id])&&isset($paper_question_order[$ql->is_select_type][$ql->qtype_id])) $paper_question_order_list[$ql->is_select_type][$ql->qtype_id]=$paper_question_order[$ql->is_select_type][$ql->qtype_id];
-			if(in_array($ql->qtype_id,$paper_question_type_id_list[$ql->is_select_type]))
-			{
-            	$paper_question_order_list[$ql->is_select_type][$ql->qtype_id][$ql->id]=$ql->question_id;
-				$paper['question_total'][$ql->is_select_type]++;
-			}
-        }		
+		// // get paper question
+  //       $paper_question_list=$this->homework_question_model->get_paper_questions($paper_id);
+  //       $question_id_list=array();
+		// $paper_question_id_list=array();
+		// $paper_question_order_list=array(1=>array(),0=>array());
+		// $paper['question_total']=array(1=>0,0=>0);
+  //       foreach($paper_question_list as $ql)
+  //       {
+  //           $question_id_list[]=$ql->question_id;
+		// 	$paper_question_id_list[]=$ql->id;
+		// 	if(!isset($paper_question_order_list[$ql->is_select_type][$ql->qtype_id])&&isset($paper_question_order[$ql->is_select_type][$ql->qtype_id])) $paper_question_order_list[$ql->is_select_type][$ql->qtype_id]=$paper_question_order[$ql->is_select_type][$ql->qtype_id];
+		// 	if(in_array($ql->qtype_id,$paper_question_type_id_list[$ql->is_select_type]))
+		// 	{
+  //           	$paper_question_order_list[$ql->is_select_type][$ql->qtype_id][$ql->id]=$ql->question_id;
+		// 		$paper['question_total'][$ql->is_select_type]++;
+		// 	}
+  //       }		
 
-		foreach($paper_question_order_list as $paper_section_type=>$paper_question_type)
-        {
-            if($paper_question_type)
-            {
-                foreach($paper_question_type as $paper_question_type_id=>$paper_question)
-                {
-                    if(!in_array($paper_question_type_id,$paper_question_type_id_list[$paper_section_type]))
-                    {
-                        unset($paper_question_order_list[$paper_section_type][$paper_question_type_id]);
-                    }
-                    if($paper_question)
-                    {
-                        foreach($paper_question as $paper_question_id=>$question)
-                        {
-                            if(!in_array($paper_question_id,$paper_question_id_list))
-                            {
-                                unset($paper_question_order_list[$paper_section_type][$paper_question_type_id][$paper_question_id]);
-                            }
-                            else if($question==null)
-                            {
-                                unset($paper_question_order_list[$paper_section_type][$paper_question_type_id][$paper_question_id]);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+		// foreach($paper_question_order_list as $paper_section_type=>$paper_question_type)
+  //       {
+  //           if($paper_question_type)
+  //           {
+  //               foreach($paper_question_type as $paper_question_type_id=>$paper_question)
+  //               {
+  //                   if(!in_array($paper_question_type_id,$paper_question_type_id_list[$paper_section_type]))
+  //                   {
+  //                       unset($paper_question_order_list[$paper_section_type][$paper_question_type_id]);
+  //                   }
+  //                   if($paper_question)
+  //                   {
+  //                       foreach($paper_question as $paper_question_id=>$question)
+  //                       {
+  //                           if(!in_array($paper_question_id,$paper_question_id_list))
+  //                           {
+  //                               unset($paper_question_order_list[$paper_section_type][$paper_question_type_id][$paper_question_id]);
+  //                           }
+  //                           else if($question==null)
+  //                           {
+  //                               unset($paper_question_order_list[$paper_section_type][$paper_question_type_id][$paper_question_id]);
+  //                           }
+  //                       }
+  //                   }
+  //               }
+  //           }
+  //       }
 
-		$paper_question_order_list[2]=$paper_question_order_list[0];
-		unset($paper_question_order_list[0]);	
-        if(isset($paper['question_config'][0])){
-            $paper['question_config'][2]=$paper['question_config'][0];
-            unset($paper['question_config'][0]);	
-        }
-		$paper['question_total'][2]=$paper['question_total'][0];
-		unset($paper['question_total'][0]);
-		$paper['paper_question']=$paper_question_order_list;
+		// $paper_question_order_list[2]=$paper_question_order_list[0];
+		// unset($paper_question_order_list[0]);	
+  //       if(isset($paper['question_config'][0])){
+  //           $paper['question_config'][2]=$paper['question_config'][0];
+  //           unset($paper['question_config'][0]);	
+  //       }
+		// $paper['question_total'][2]=$paper['question_total'][0];
+		// unset($paper['question_total'][0]);
+		// $paper['paper_question']=$paper_question_order_list;
 
-        // get question
-        $question_list=$this->question_model->get_question_by_ids($question_id_list);
-        if($question_list)
-        {
-            foreach($question_list as $ql)
-            {
-                $paper['question'][$ql->id]=$ql;
-				$this->load->helper('img_helper');
-                $paper['question'][$ql->id]->body=path2img($ql->body);
-				$paper['question'][$ql->id]->answer=path2img($ql->answer);
-				$paper['question'][$ql->id]->analysis=path2img($ql->analysis);
-            }
-        }
-        else
-        {
-            $paper['question']=null;
-        }
-		//echo '<pre>';
-        //print_r($paper);
-        //echo '</pre>';
-		return $paper;
-    }
+  //       // get question
+  //       $question_list=$this->question_model->get_question_by_ids($question_id_list);
+  //       if($question_list)
+  //       {
+  //           foreach($question_list as $ql)
+  //           {
+  //               $paper['question'][$ql->id]=$ql;
+		// 		$this->load->helper('img_helper');
+  //               $paper['question'][$ql->id]->body=path2img($ql->body);
+		// 		$paper['question'][$ql->id]->answer=path2img($ql->answer);
+		// 		$paper['question'][$ql->id]->analysis=path2img($ql->analysis);
+  //           }
+  //       }
+  //       else
+  //       {
+  //           $paper['question']=null;
+  //       }
+		// //echo '<pre>';
+  //       //print_r($paper);
+  //       //echo '</pre>';
+		// return $paper;
+  //   }
 
 }
 
