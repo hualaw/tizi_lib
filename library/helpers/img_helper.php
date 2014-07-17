@@ -30,8 +30,8 @@ if (!function_exists('path2champion')) {
 			$src = "http://tizi.oss.aliyuncs.com/";
 		} else {
 			$ci =& get_instance();
-			$ci->load->config("config",true,true);
-			$avatar = $ci->config->item("config");
+			$ci->load->config("qiniu",true,true);
+			$avatar = $ci->config->item("qiniu");
 			$src = $avatar['zhuangyuan_bucket'] . '/';
 		}
 
