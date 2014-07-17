@@ -9,31 +9,31 @@ var ec = new evercookie({
 	phpuri: '/php'
 });
 
+var fcuid = null;
+
 var fc = new SwfStore({
 	swf_url: '{/literal}{$static_url}{$static_version}lib/flashcookie/1.9.1/storage.swf{literal}',
 	debug: true,
 	onready: function(){
-		var fcuid = fc.get("uid");
-		console.log("fcuid: " + fcuid);
-		if(!fcuid){
-			fc.set("uid",123);
-			console.log('fcset');
-		}
+		fcuid = fc.get("uid");
 	},
 	onerror: function(){
 	}
 });
 
 ec.get("uid", function(ecuid, all) {
-	// var fcuid = fc.get("uid");
-	// if(fcuid != ecuid) {
-	// 	fc.set("uid", ecuid);
-	// 	console.log('fcset');
-	// }
-	console.log("ecuid: " + ecuid);
-    for (var item in all){
-		console.log("Storage mechanism " + item + " returned " + all[item] + " votes");
-    }
+	if(!fcuid) {
+		if(typeof fc == 'object') {
+			fc.set("uid", ecuid);
+			alert("fcset:"+ecuid);
+		}
+	} else if(fcuid != ecuid) {
+		ec.set("uid", fcuid);
+		alert("ecset:"+fcuid);
+	} else {
+		alert("uid:"+ecuid);
+	}
 }, 0);
+
 </script>
 {/literal}
