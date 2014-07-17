@@ -363,6 +363,13 @@ class Document_Model extends MY_Model {
 			order by upload_time desc limit {$offset},{$pagesize}")->result_array();
 		return $res;
 	}
+
+    /*获取备课文件所属用户id*/
+    public function get_file_owner($file_id)
+    {
+        $file_data = $this->db->get_where('lesson_document',array('id'=>$file_id))->row();
+        return isset($file_data->user_id)?$file_data->user_id:0;
+    }
 }
 
 /* end of document_model.php */
