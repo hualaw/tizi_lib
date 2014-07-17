@@ -34,7 +34,8 @@
     var counter = 0; // a counter for element id's and whatnot
 
     var alpnum = /[^a-z0-9_]/ig; //a regex to find anything thats not letters and numbers
-
+    //tizi
+    var debug = false;
     /**
      * SwfStore constructor - creates a new SwfStore object and embeds the .swf into the web page.
      *
@@ -166,7 +167,7 @@
 
     // we need to check everything we send to flash because it can't take functions as arguments
     function checkData(data) {
-        if (typeof data === "function" && config.debug) {
+        if (typeof data === "function" && debug) {
             throw 'SwfStore Error: Functions cannot be used as keys or values.';
         }
     }
@@ -238,7 +239,7 @@
          * @private
          */
         _checkReady: function() {
-            if (!this.ready && config.debug) {
+            if (!this.ready && debug) {
                 throw 'SwfStore is not yet finished initializing. Pass a config.onready callback or wait until this.ready is true before trying to use a SwfStore instance.';
             }
         },
