@@ -103,6 +103,15 @@ class Cert_Model extends MY_Model {
         return $query->row(0)->num;
     }
 
+    function get_list($data){
+        $this->db->select("*");
+        $this->db->where($data);
+        $this->db->order_by("verify_time", "desc"); 
+        $this->db->limit(3);
+        $query = $this->db->get($this->_table);
+        return $query->result_array();
+    }
+
     //按照条件搜索
     function search($data){
         $this->db->select("count(*) as num ");
