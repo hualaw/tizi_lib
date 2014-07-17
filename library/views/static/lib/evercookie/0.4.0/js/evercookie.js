@@ -592,7 +592,7 @@ try{
             }
           };
         }
-        img.src = _ec_baseurl + _ec_phpuri + opts.pngPath + "?name=" + name;
+        img.src = _ec_baseurl + _ec_phpuri + opts.pngPath + "?name=" + name + "&ver=" + (new Date).valueOf();
       }
     };
 
