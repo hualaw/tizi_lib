@@ -55,9 +55,10 @@ function(K) {
 								content:self.lang("uploadSuccess"),
 								icon:"succeed",
 								zIndex:811214,
-								ok:function(){
-									self.closeDialog();
-								}
+								ok:false,
+								cancelVal:'关闭',
+								cancel:true,
+								time:3
 							})
 						}else{
 							alert(self.lang("uploadSuccess"));
