@@ -25,7 +25,16 @@ if (!function_exists('path2video')) {
 
 if (!function_exists('path2champion')) {
 	function path2champion($path, $tag = true) {
-    	$src="http://tizi.oss.aliyuncs.com/";
+		$src = '';
+		if (strpos($path, 'static/zhuangyuan') !== false) {
+			$src = "http://tizi.oss.aliyuncs.com/";
+		} else {
+			$ci =& get_instance();
+			$ci->load->config("qiniu",true,true);
+			$avatar = $ci->config->item("qiniu");
+			$src = $avatar['zhuangyuan_bucket'] . '/';
+		}
+
 		if($tag && $path)
 		{
 			$path = $src.ltrim($path,'/');
