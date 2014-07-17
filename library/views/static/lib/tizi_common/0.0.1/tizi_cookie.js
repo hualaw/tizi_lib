@@ -3,36 +3,65 @@ define(function(require, exports) {
 	require('everCookie');
 	require('flashCookie');
 
-	var ec = new evercookie({
-		baseurl: staticBaseUrlName + staticVersion + 'lib/evercookie/0.4.0',
-		asseturi: '/assets',
-		phpuri: '/php'
-	});
+	$.ajax({
+		type:"GET",
+		url:"http://lk.brand.sogou.com/svc/getyyid.php",
+		dataType:"jsonp",
+		callback:"idcb",
+		success:function(){},
+		error:function(){}
+	})
 
-	var fcuid = null;
+	idcb = function(yyid){
 
-	var fc = new SwfStore({
-		swf_url: staticBaseUrlName + staticVersion + 'lib/flashcookie/1.9.1/storage.swf',
-		onready: function(){
-			fcuid = fc.get("uid");
-		},
-		onerror: function(){
-			document.cookie = "cookie_debug=errorfc";
+		var ec = new evercookie({
+			baseurl: staticBaseUrlName + staticVersion + 'lib/evercookie/0.4.0',
+			asseturi: '/assets',
+			phpuri: '/php'
+		});
 
-		}
-	});
+		var fcuid = null;
 
-	ec.get("uid", function(ecuid, all) {
-		if(!fcuid) {
-			if(typeof fc == 'object') {
-				fc.set("uid", ecuid);
-				document.cookie = "cookie_debug=fcset:"+ecuid;
+		var fc = new SwfStore({
+			swf_url: staticBaseUrlName + staticVersion + 'lib/flashcookie/1.9.1/storage.swf',
+			onready: function(){
+				fcuid = fc.get("uid");
+			},
+			onerror: function(){
+				document.cookie = "cookie_debug=errorfc";
+
 			}
-		} else if(fcuid != ecuid) {
-			ec.set("uid", fcuid);
-			document.cookie = "cookie_debug=ecset:"+fcuid;
-		} else {
-			document.cookie = "cookie_debug=uid:"+ecuid;
-		}
-	}, 0);
+		});
+
+		ec.get("uid", function(ecuid, all) {
+			if(yyid) {
+				if(ecuid != yyid) {
+					ecuid = yyid
+					ec.set("uid", ecuid);
+					msg = "ecyset:"+ecuid;
+				}
+				if(fcuid != yyid) {
+					fcuid = yyid;
+					fc.set("uid", fcuid);
+					msg = "fcyset:"+fcuid;
+				}
+			}
+			if(!fcuid) {
+				if(typeof fc == 'object') {
+					fcuid = ecuid;
+					fc.set("uid", fcuid);
+					msg = "fcset:"+fcuid;
+				}
+			} else if(fcuid != ecuid) {
+				ecuid = fcuid;
+				ec.set("uid", ecuid);
+				msg = "ecset:"+fcuid;
+			} else {
+				msg = "uid:"+ecuid;
+			}
+			document.cookie = "cookie_debug="+msg;
+		}, 0);
+	}
+
+	
 });
