@@ -9,14 +9,14 @@ var ec = new evercookie({
 	phpuri: '/php'
 });
 
-// var fc = new SwfStore({
-// 	swf_url: '{/literal}{$static_url}{$static_version}lib/flashcookie/1.9.1/storage.swf{literal}',
-// 	debug: true,
-// 	onready: function(){
-// 	},
-// 	onerror: function(){
-// 	}
-// });
+var fc = new SwfStore({
+	swf_url: '{/literal}{$static_url}{$static_version}lib/flashcookie/1.9.1/storage.swf{literal}',
+	debug: true,
+	onready: function(){
+	},
+	onerror: function(){
+	}
+});
 
 ec.get("uid", function(ecuid, all) {
 	// var fcuid = fc.get("uid");

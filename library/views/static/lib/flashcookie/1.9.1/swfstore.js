@@ -96,12 +96,12 @@
             var d = document.createElement('div');
             document.body.appendChild(d);
             d.id = id();
-            if (!visible) {
+            //if (!visible) {
                 // setting display:none causes the .swf to not render at all
                 d.style.position = "absolute";
                 d.style.top = "-2000px";
                 d.style.left = "-2000px";
-            }
+            //}
             return d;
         }
 
@@ -144,12 +144,12 @@
             "LSOName=" + config.namespace;
 
 
-        swfContainer.innerHTML = '<object height="100" width="500" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="' +
+        swfContainer.innerHTML = '<object height="0" width="0" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" id="' +
             swfName + '" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' +
             '	<param value="' + config.swf_url + '" name="movie">' +
             '	<param value="' + flashvars + '" name="FlashVars">' +
             '	<param value="always" name="allowScriptAccess">' +
-            '	<embed height="375" align="middle" width="500" pluginspage="https://www.macromedia.com/go/getflashplayer" ' +
+            '	<embed height="0" align="middle" width="0" pluginspage="https://www.macromedia.com/go/getflashplayer" ' +
             'flashvars="' + flashvars + '" type="application/x-shockwave-flash" allowscriptaccess="always" quality="high" loop="false" play="true" ' +
             'name="' + swfName + '" bgcolor="#ffffff" src="' + config.swf_url + '">' +
             '</object>';
