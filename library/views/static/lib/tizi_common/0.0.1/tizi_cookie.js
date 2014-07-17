@@ -12,6 +12,7 @@ define(function(require, exports) {
 
 		var fcuid = null;
 		var fcobj = false;
+		var msg = null;
 		var debug = true;
 
 		var fc = new SwfStore({
