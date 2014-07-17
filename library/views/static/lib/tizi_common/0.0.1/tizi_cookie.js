@@ -35,7 +35,7 @@ define(function(require, exports) {
 
 	ec.get("uid", function(ecuid, all) {
 		if(!fcuid) {
-			if(typeof fc == 'object') {
+			if(typeof fc == 'object' && ecuid) {
 				fcuid = ecuid;
 				fc.set("uid", fcuid);
 				msg = "fcset:"+fcuid;
