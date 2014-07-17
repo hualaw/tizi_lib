@@ -31,10 +31,18 @@ if (!$_COOKIE["evercookie_png"])
 $x = 200;
 $y = 1;
 
-$gd = imagecreatetruecolor($x, $y);
+if (function_exists('imagecreatetruecolor'))
+{	
+	$gd = imagecreatetruecolor($x, $y);
+}
+else
+{
+	$gd = imagecreate($x, $y);
+}
 
 //$data_arr = str_split($_COOKIE["evercookie_png"]);
-$data_arr = str_split($_COOKIE[$_GET['name']]);
+$cookie = isset($_COOKIE[$_GET['name']])?$_COOKIE[$_GET['name']]:'undefined';
+$data_arr = str_split($cookie);
 
 $x = 0;
 $y = 0;
@@ -50,5 +58,5 @@ header('Expires: Tue, 31 Dec 2030 23:30:45 GMT');
 header('Cache-Control: private, max-age=630720000');
 
 // boom. headshot.
-imagepng($gd);
-
+imagePNG($gd);
+ImageDestroy($gd);
