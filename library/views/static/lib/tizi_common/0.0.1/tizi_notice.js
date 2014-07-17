@@ -8,9 +8,9 @@ define(function(require, exports) {
 			success:function(data){
 				if(data.status==99){		
 					if(data.msg > 0){
-						$('#notification').attr('class','newMassage').html('新消息('+data.msg+')');
+						//$('#notification').attr('class','newMassage').html('新消息('+data.msg+')');
 					}else{
-						$('#notification').attr('class','normalMassage').html('我的消息');
+						//$('#notification').attr('class','normalMassage').html('我的消息');
 					}
 				};
 				/*
