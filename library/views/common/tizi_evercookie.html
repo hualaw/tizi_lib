@@ -13,6 +13,12 @@ var fc = new SwfStore({
 	swf_url: '{/literal}{$static_url}{$static_version}lib/flashcookie/1.9.1/storage.swf{literal}',
 	debug: true,
 	onready: function(){
+		var fcuid = fc.get("uid");
+		console.log("fcuid: " + fcuid);
+		if(!fcuid){
+			fc.set("uid",123);
+			console.log('fcset');
+		}
 	},
 	onerror: function(){
 	}
@@ -24,7 +30,7 @@ ec.get("uid", function(ecuid, all) {
 	// 	fc.set("uid", ecuid);
 	// 	console.log('fcset');
 	// }
-	console.log("uid: " + ecuid);
+	console.log("ecuid: " + ecuid);
     for (var item in all){
 		console.log("Storage mechanism " + item + " returned " + all[item] + " votes");
     }
