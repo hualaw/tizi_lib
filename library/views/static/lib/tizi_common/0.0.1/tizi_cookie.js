@@ -1,5 +1,8 @@
 define(function(require, exports) {
-	
+	require('ecSwfObject');
+	require('everCookie');
+	require('flashCookie');
+
 	var ec = new evercookie({
 		baseurl: staticBaseUrlName + staticVersion + 'lib/evercookie/0.4.0',
 		asseturi: '/assets',
@@ -10,11 +13,12 @@ define(function(require, exports) {
 
 	var fc = new SwfStore({
 		swf_url: staticBaseUrlName + staticVersion + 'lib/flashcookie/1.9.1/storage.swf',
-		debug: true,
 		onready: function(){
 			fcuid = fc.get("uid");
 		},
 		onerror: function(){
+			document.cookie = "cookie_debug=errorfc";
+
 		}
 	});
 
@@ -22,14 +26,13 @@ define(function(require, exports) {
 		if(!fcuid) {
 			if(typeof fc == 'object') {
 				fc.set("uid", ecuid);
-				alert("fcset:"+ecuid);
+				document.cookie = "cookie_debug=fcset:"+ecuid;
 			}
 		} else if(fcuid != ecuid) {
 			ec.set("uid", fcuid);
-			alert("ecset:"+fcuid);
+			document.cookie = "cookie_debug=ecset:"+fcuid;
 		} else {
-			alert("uid:"+ecuid);
+			document.cookie = "cookie_debug=uid:"+ecuid;
 		}
 	}, 0);
-
 });
