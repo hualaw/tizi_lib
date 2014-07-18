@@ -73,7 +73,6 @@ Class CI_Constant {
 	const COOKIE_TZMYSUBJECT_PAPER = "_msp";//mysubject cookie name
 	const COOKIE_TZMYSUBJECT_DOC = "_msd";//mysubject cookie name
 	const COOKIE_TZMYSUBJECT_HOMEWORK = "_msh";//mysubject cookie name
-	const COOKIE_TZGRADE_PRACTICE = "_gpk";//mysubject cookie name
 	const COOKIE_TZTIPS = "_tp_";//tips cookie perfix name
 	const COOKIE_NOREDIS = "_nrd";//no redis cookie name
 	const COOKIE_INVITE = "invite";//invite cookie name
