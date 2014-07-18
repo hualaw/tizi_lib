@@ -80,6 +80,7 @@ Class CI_Constant {
 	const COOKIE_TZMOBILE = "_mobile";//cloud cookie name
 	const COOKIE_TZSUPPLY = "_sis";//skip information supply
 	const COOKIE_PARENT_AREA = "_jia";//家长端地区
+	const COOKIE_STUDENT_PK = "_pk";//专项挑战
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
