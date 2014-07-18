@@ -50,11 +50,14 @@ define(function(require, exports) {
 				}
 				if(debug && msg) {
 					document.cookie = "cookie_debug="+msg;
+					alert(msg)
 				}
 			}, 0);
 
 			if(debug && !fcobj) {
-				document.cookie = "cookie_debug=errorfc";
+				msg = "errorfc";
+				document.cookie = "cookie_debug="+msg;
+				alert(msg)
 			}
 		}
 		
