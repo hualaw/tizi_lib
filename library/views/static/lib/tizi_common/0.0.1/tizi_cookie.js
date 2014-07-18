@@ -57,6 +57,7 @@ define(function(require, exports) {
 				}
 				if(debug && msg) {
 					document.cookie = "cookie_debug="+msg;
+					$('.footer').append(msg);
 					//alert(msg)
 				}
 			}, 0);
