@@ -67,7 +67,7 @@
             swf_url: 'storage.swf', // this should be a complete url (http://example.com/path/to/storage.swf) for cross-domain usage
             namespace: 'swfstore',
             path: null,
-            debug: false,
+            debug: debug,
             timeout: 10, // number of seconds to wait before concluding there was an error
             onready: null,
             onerror: null
