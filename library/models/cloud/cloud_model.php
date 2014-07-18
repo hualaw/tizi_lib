@@ -720,5 +720,29 @@ class cloud_model extends MY_Model{
         return $res;
     }
 
+    /**
+     * 我的贡献页面（审核中的文件）
+     */
+    public function get_upload_check($user_id,$page_num=1,$total=false)
+    {
+        
+        $this->db->where('user_id',$user_id);
+        $this->db->where_in('is_share_to_tizi',array(2,3));
+        if($total){
+            $this->db->select('count(id) as total');
+            $query=$this->db->get('cloud_user_file');
+            $count=isset($query->row()->total)?$query->row()->total:0;
+            return $count;
+        }else{
+            $this->db->select('id,file_name,file_ext,upload_time,is_share_to_tizi');
+            $limit=10;
+            if($page_num<=0) $page_num=1;
+            $offset=($page_num-1)*$limit;
+            $this->db->order_by('upload_time','desc');
+            $this->db->limit($limit,$offset);
+            $query=$this->db->get('cloud_user_file');
+            return $query->result();
+        }
+    }
 
 }
