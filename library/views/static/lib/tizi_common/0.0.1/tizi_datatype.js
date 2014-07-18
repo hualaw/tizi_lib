@@ -71,8 +71,7 @@ define(function(require, exports) {
             },
             //qq
             QQ:{
-                datatype:"n5-12 | /^\\w{0}$/",
-                datatype_nonull:"n5-12",
+                datatype:"n5-12",
                 nullmsg:"请输入QQ号码！",
                 errormsg:"长度5-12个数字"
             },

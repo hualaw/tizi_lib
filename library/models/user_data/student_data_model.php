@@ -52,10 +52,10 @@ class Student_Data_Model extends Data_Model {
         return $this->update_data_array($user_id,array('parent_phone'=>$parent_phone,'qq'=>$qq));
     }
 
-    public function update_student_detail($user_id,$gender,$qq)
+    public function update_student_detail($user_id,$gender,$qq,$parent_phone)
     {
         if(!$gender) return false;
-        return $this->update_data_array($user_id,array('sex'=>$gender,'qq'=>$qq));
+        return $this->update_data_array($user_id,array('sex'=>$gender,'qq'=>$qq,'parent_phone'=>$parent_phone));
     }
 
     public function update_student_survey($user_id,$gender,$school_id)
