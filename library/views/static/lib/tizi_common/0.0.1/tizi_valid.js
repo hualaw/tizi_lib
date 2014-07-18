@@ -122,13 +122,14 @@ define(function(require, exports) {
             {
                 // 检测QQ
                 ele:".QQText",
+                ignore:"ignore",
                 datatype:sDataType.QQ.datatype,
                 errormsg:sDataType.QQ.errormsg
             },
             {
                 // 检测QQ未登录
                 ele:".QQTextUnlogin",
-                datatype:sDataType.QQ.datatype_nonull,
+                datatype:sDataType.QQ.datatype,
                 nullmsg:sDataType.QQ.nullmsg,
                 errormsg:sDataType.QQ.errormsg
             },
