@@ -26,7 +26,10 @@ define(function(require, exports) {
 		function cookieCheck(fcobj)
 		{
 			ec.get("uid", function(ecuid, all) {
-				var fcuid = fc.get("uid");
+				var fcuid = null;
+				if(fcobj) {
+					fcuid = fc.get("uid");
+				}
 				if(!fcuid && !ecuid){
 					var fcuid = ecuid = $.cookies.get(baseSessID);
 					ec.set("uid", fcuid);
@@ -34,12 +37,16 @@ define(function(require, exports) {
 					if(fcobj) {
 						fc.set("uid", fcuid);
 						msg = msg + ";fcset:"+fcuid;
+					} else {
+						msg = msg + ";efc"
 					}
 				} else if(!fcuid && ecuid) {
 					if(fcobj) {
 						fcuid = ecuid;
 						fc.set("uid", fcuid);
 						msg = "fcset:"+fcuid;
+					} else {
+						msg = "uid:"+ecuid+";efc";
 					}
 				} else if(fcuid != ecuid) {
 					ecuid = fcuid;
@@ -50,15 +57,9 @@ define(function(require, exports) {
 				}
 				if(debug && msg) {
 					document.cookie = "cookie_debug="+msg;
-					alert(msg)
+					//alert(msg)
 				}
 			}, 0);
-
-			if(debug && !fcobj) {
-				msg = "errorfc";
-				document.cookie = "cookie_debug="+msg;
-				alert(msg)
-			}
 		}
 		
 	});
