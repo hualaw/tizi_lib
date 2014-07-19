@@ -551,6 +551,14 @@ class CI_Cache_redis extends CI_Driver
         }   
     }   
 
+    public function lrem($key, $member, $num){
+        
+        if($this->_redis){
+            $this->_redis->lrem($key, $member, $num);
+        }
+
+    }
+
 
     /*hash end*/
 	
