@@ -51,8 +51,10 @@ class Student_Paper_Model extends LI_Model{
         $online_done_num = 0;
         foreach($data as $val){
             $correct_num += $val['correct_num'];
-            $online_done_num += $val['online_done_num'];
+            if(!$online_done_num && $val['online_done_num'])
+                $online_done_num = $val['online_done_num'];
         }
+        $online_done_num = $online_done_num * count($data);
 
         return $online_done_num  ? $correct_num / $online_done_num : 0;
 
