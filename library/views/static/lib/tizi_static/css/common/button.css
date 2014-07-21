@@ -168,3 +168,24 @@
   background: -o-linear-gradient(#f99f16 0%,#ef9918 100%);
 }
 /*橙色button样式结束*/
+
+/*学生端button开始*/
+.cBtnNormal_student{
+  border:0px;
+  cursor: pointer;
+  text-align: center;
+  padding:0 10px;
+  height:30px;
+  line-height: 30px;
+  display: inline-block;
+  color:#fff;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  background: #49b764;
+}
+.cBtnNormal_student:hover{
+  background: #6abb7e;
+}
+/*学生端button结束*/
