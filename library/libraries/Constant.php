@@ -267,7 +267,9 @@ Class CI_Constant {
 	/* 教师空间配置 以前在space下 拿到lib 开通空间用 */
 	const SPACE_SUBSCRIBE_ACCOUNT=10000;
 	const SPACE_ARTICLE_TITLE='欢迎您在梯子网安家';
-
+	const SPACE_TIZI_NICKNAME='梯子网空间';
+	const SPACE_TIZI_DOMAIN='tizi';
+	const SPACE_TIZI_AVATAR='default_avatar.gif';
 	const SPACE_ARTICLE_CONTENT = '
 亲爱的老师：<br>
 欢迎您在梯子网安家   <br>
