@@ -123,6 +123,8 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('survey_url', survey_url());
         $this->smarty->assign('space_url', space_url());
         $this->smarty->assign('waijiao_url', waijiao_url());
+        $this->smarty->assign('huodong_url', huodong_url());
+        $this->smarty->assign('dafen_url', dafen_url());
         $this->smarty->assign('api_url', api_url());
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
 
