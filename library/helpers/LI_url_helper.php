@@ -89,6 +89,14 @@ if ( ! function_exists('huodong_url'))
 	}
 }
 
+if ( ! function_exists('dafen_url'))
+{
+	function dafen_url($uri = '')
+	{
+		return site_url($uri,'dafen');
+	}
+}
+
 if ( ! function_exists('api_url'))
 {
 	function api_url($uri = '')
