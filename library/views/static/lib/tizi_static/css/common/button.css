@@ -87,21 +87,21 @@
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -o-border-radius: 5px;
-  background: #0bd3a2;
-  background: linear-gradient(#21dcae 0%,#0bd3a2 55%,#0cbe93 100%);
-  background: -webkit-linear-gradient(#21dcae 0%,#0bd3a2 55%,#0cbe93 100%);
-  background: -moz-linear-gradient(#21dcae 0%,#0bd3a2 55%,#0cbe93 100%);
-  background: -o-linear-gradient(#21dcae 0%,#0bd3a2 55%,#0cbe93 100%);
-  background: -ms-linear-gradient(#21dcae 0%,#0bd3a2 55%,#0cbe93 100%);
+  background: #0bd2a1;
+  background: linear-gradient(#21dcae 0%,#0bd2a1 55%,#0cbe93 100%);
+  background: -webkit-linear-gradient(#21dcae 0%,#0bd2a1 55%,#0cbe93 100%);
+  background: -moz-linear-gradient(#21dcae 0%,#0bd2a1 55%,#0cbe93 100%);
+  background: -o-linear-gradient(#21dcae 0%,#0bd2a1 55%,#0cbe93 100%);
+  background: -ms-linear-gradient(#21dcae 0%,#0bd2a1 55%,#0cbe93 100%);
 }
 .cBtnNormal:hover{
   color:#fff;
-  background: #0bd3a2;
-  background: linear-gradient(#0bd3a2 0%,#0cbe93 55%,#09aa83 100%);
-  background: -webkit-linear-gradient(#0bd3a2 0%,#0cbe93 55%,#09aa83 100%);
-  background: -moz-linear-gradient(#0bd3a2 0%,#0cbe93 55%,#09aa83 100%);
-  background: -o-linear-gradient(#0bd3a2 0%,#0cbe93 55%,#09aa83 100%);
-  background: -ms-linear-gradient(#0bd3a2 0%,#0cbe93 55%,#09aa83 100%);
+  background: #0bd2a1;
+  background: linear-gradient(#0bd2a1 0%,#0bc89a 55%,#0cbf93 100%);
+  background: -webkit-linear-gradient(#0bd2a1 0%,#0bc89a 55%,#0cbf93 100%);
+  background: -moz-linear-gradient(#0bd2a1 0%,#0bc89a 55%,#0cbf93 100%);
+  background: -o-linear-gradient(#0bd2a1 0%,#0bc89a 55%,#0cbf93 100%);
+  background: -ms-linear-gradient(#0bd2a1 0%,#0bc89a 55%,#0cbf93 100%);
 }
 /*绿色button样式结束*/
 /*银色button样式开始*/
@@ -146,25 +146,25 @@
   color:#fff;
   height:30px;
   line-height: 30px;
-  border:1px solid #cc3300;
+  border:1px solid #f19100;
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -o-border-radius: 5px;
-  background: #ff8c44; 
-  background: linear-gradient(#ff8c44 0%,#ff7d35 50%,#ff6b23 100%);
-  background: -webkit-linear-gradient(#ff8c44 0%,#ff7d35 50%,#ff6b23 100%);
-  background: -moz-linear-gradient(#ff8c44 0%,#ff7d35 50%,#ff6b23 100%);
-  background: -ms-linear-gradient(#ff8c44 0%,#ff7d35 50%,#ff6b23 100%);
-  background: -o-linear-gradient(#ff8c44 0%,#ff7d35 50%,#ff6b23 100%);
+  background: #ffa51d; 
+  background: linear-gradient(#ffa51d 0%,#ff9a02 50%,#ff9f0e 100%);
+  background: -webkit-linear-gradient(#ffa51d 0%,#ff9a02 50%,#ff9f0e 100%);
+  background: -moz-linear-gradient(#ffa51d 0%,#ff9a02 50%,#ff9f0e 100%);
+  background: -ms-linear-gradient(#ffa51d 0%,#ff9a02 50%,#ff9f0e 100%);
+  background: -o-linear-gradient(#ffa51d 0%,#ff9a02 50%,#ff9f0e 100%);
 }
 .cBtnNormalOrg:hover{
   color:#fff;
-  background: #ff6b23; 
-  background: linear-gradient(#ff6b23 0%,#de5918 100%);
-  background: -webkit-linear-gradient(#ff6b23 0%,#de5918 100%);
-  background: -moz-linear-gradient(#ff6b23 0%,#de5918 100%);
-  background: -ms-linear-gradient(#ff6b23 0%,#de5918 100%);
-  background: -o-linear-gradient(#ff6b23 0%,#de5918 100%);
+  background: #f99f16; 
+  background: linear-gradient(#f99f16 0%,#ef9918 100%);
+  background: -webkit-linear-gradient(#f99f16 0%,#ef9918 100%);
+  background: -moz-linear-gradient(#f99f16 0%,#ef9918 100%);
+  background: -ms-linear-gradient(#f99f16 0%,#ef9918 100%);
+  background: -o-linear-gradient(#f99f16 0%,#ef9918 100%);
 }
 /*橙色button样式结束*/
