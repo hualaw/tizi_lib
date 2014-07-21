@@ -73,7 +73,6 @@ Class CI_Constant {
 	const COOKIE_TZMYSUBJECT_PAPER = "_msp";//mysubject cookie name
 	const COOKIE_TZMYSUBJECT_DOC = "_msd";//mysubject cookie name
 	const COOKIE_TZMYSUBJECT_HOMEWORK = "_msh";//mysubject cookie name
-	const COOKIE_TZGRADE_PRACTICE = "_gpk";//mysubject cookie name
 	const COOKIE_TZTIPS = "_tp_";//tips cookie perfix name
 	const COOKIE_NOREDIS = "_nrd";//no redis cookie name
 	const COOKIE_INVITE = "invite";//invite cookie name
@@ -81,6 +80,7 @@ Class CI_Constant {
 	const COOKIE_TZMOBILE = "_mobile";//cloud cookie name
 	const COOKIE_TZSUPPLY = "_sis";//skip information supply
 	const COOKIE_PARENT_AREA = "_jia";//家长端地区
+	const COOKIE_STUDENT_PK = "_pk";//专项挑战
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
@@ -264,6 +264,55 @@ Class CI_Constant {
         
     }
 
+	/* 教师空间配置 以前在space下 拿到lib 开通空间用 */
+	const SPACE_SUBSCRIBE_ACCOUNT=10000;
+	const SPACE_ARTICLE_TITLE='欢迎您在梯子网安家';
+
+	const SPACE_ARTICLE_CONTENT = '
+亲爱的老师：<br>
+欢迎您在梯子网安家   <br>
+您可以用文字、图片记录和展示最真实的自我，与其他老师交流，随时随地记录教学感悟和趣闻。<br>
+  <br>
+准备好了吗？现在就开始精彩的空间之旅！ <br>
+    <br>
+温馨提示：   <br>
+多关注其他老师，便可第一时间看到更多的内容。<br>
+文章可以添加附件，方便您把相关资源提供给大家。<br>
+<br>
+这样做您的空间会受到更多的关注：<br>
+多写文章，向大家分享自己的文字；<br>
+完善个人资料，上传靓照当头像，向大家介绍自己<br>
+随便逛逛，看看邻居的观点，留下您的宝贵评论<br>
+<br>
+如果有问题，可以向梯子网进行<a href="http://www.tizi.com/about/feedback" target="_blank">反馈</a> ，我们第一时间给您回复。<br>
+<br>
+梯子网
+<br>  ';
+
+	public static function get_content($space_user_id){
+		$string = '
+			亲爱的老师：<br>
+			欢迎您在梯子网安家，您的博客地址是：
+			<a href="'.site_url().'space/'.$space_user_id.'" target="_blank" style="color:#009a83">'.site_url().'space/'. $space_user_id.' </a><br>
+			您可以用文字、图片记录和展示最真实的自我，与其他老师交流，随时随地记录教学感悟和趣闻。<br>
+			  <br>
+			准备好了吗？现在就开始精彩的空间之旅！ <br>
+			    <br>
+			温馨提示：   <br>
+			多关注其他老师，便可第一时间看到更多的内容。<br>
+			文章可以添加附件，方便您把相关资源提供给大家。<br>
+			<br>
+			这样做您的空间会受到更多的关注：<br>
+			多<a href="'.site_url().'space/'.$space_user_id.'/add" target="_blank" style="color:#009a83">写文章</a>，向大家分享自己的文字；<br>
+			<a href="'.site_url().'myspace/settings" target="_blank" style="color:#009a83">完善个人资料</a>，上传靓照当头像，向大家介绍自己<br>
+			随便逛逛，看看邻居的观点，留下您的宝贵评论<br>
+			<br>
+			如果有问题，可以向梯子网进行<a href="http://www.tizi.com/about/feedback" target="_blank" style="color:#009a83">反馈</a> ，我们第一时间给您回复。<br>
+			<br>
+			梯子网
+			<br>  ';
+		return $string;
+	}
 
 }
 /* End of file Constant.php */
