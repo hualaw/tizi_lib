@@ -227,6 +227,17 @@ class Practice_Statistics_Model extends Practice_Model{
 
     }
 
+    public function pk_top_random($num = 2){
+        
+        $stats = $this->participants_top(20);       
+        $keys = array_rand($stats, $num);
+        $data = array();
+        array_walk($keys, function($val)use($stats, &$data){ $data[] = $stats[$val];});
+
+        return $data;
+
+    }
+
     public function myHistory($uid, $num = 10){
 
         if(!$uid || !$num) return array();
@@ -278,8 +289,10 @@ class Practice_Statistics_Model extends Practice_Model{
             $stats[$key]['subject_id'] = $sid;
             $stats[$key]['subject_name'] = $subject_name;
             $stats[$key]['grade'] = isset($grades[$val['grade']])?$grades[$val['grade']]:'';
-            $stats[$key]['icon'] = isset($icons[$val['p_c_type']]) ? $icons[$val['p_c_type']] : '';
-            $stats[$key]['url'] = ($val['p_c_type'] == 1)?$urls[1]:$urls[2];
+            $stats[$key]['icon'] = 'image/student/special/'.(isset($icons[$val['p_c_type']]) ?
+                $icons[$val['p_c_type']] : "subject_{$sid}.jpg");
+            $stats[$key]['url'] = ($val['p_c_type'] == 1 ? $urls[1]:$urls[2]).$val['p_c_id'];
+
         }
         return $stats;
 
