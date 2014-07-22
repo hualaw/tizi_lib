@@ -91,7 +91,7 @@ class Tizi_Oauthlogin extends Tizi_Controller {
             else
             {
                 $this->smarty->assign('oauth_redirect',$oauth_redirect);
-                $this->smarty->display('file:[lib]header/tizi_oauth.html');
+                $this->smarty->display('file:[lib]common/tizi_oauth.html');
             }
         }catch(OauthException $e){
             //exit($e->getMessage());
