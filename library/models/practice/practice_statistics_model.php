@@ -6,6 +6,8 @@
  */
 require_once(__DIR__."/practice_model.php");
 class Practice_Statistics_Model extends Practice_Model{
+	
+	const HOMEPAGE_RAND_PRACTICE = "homepage_rand_practice";
     
     public function __construct(){
         parent::__construct();
@@ -298,6 +300,26 @@ class Practice_Statistics_Model extends Practice_Model{
 
     }
 
-
+	public function homepage_practice(){
+		$fields = "default";
+		$this->load->model("redis/redis_model");
+		$data = array();
+    	if($this->redis_model->connect("statistics")){
+			$data = $this->cache->hget(self::HOMEPAGE_RAND_PRACTICE, $fields);
+			if ($data){
+				$data = json_decode($data, true);
+			}
+		}
+		if (!$data or $data["last_update"] != date("Y-m-d")){
+			
+			$data = $this->pk_top_random(2);
+			
+			$data["last_update"] = date("Y-m-d");
+			if($this->redis_model->connect("statistics")){
+                $this->cache->hset(self::HOMEPAGE_RAND_PRACTICE, $fields, json_encode($data));
+            }
+		}
+		return $data;
+	}
 
 }
