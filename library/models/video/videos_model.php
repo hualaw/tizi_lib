@@ -1,0 +1,118 @@
+<?php
+
+class Videos_Model extends MY_Model {
+
+    private $_table = 'fls_video';
+    private $_tb_unit="common_unit";
+    private $_tb_stage="common_stage";
+    public function __construct(){
+        parent::__construct();
+    }
+
+    function get_video_by_id($video_id,$select='*',$not_preview=true){
+        $this->db->select(" $select ");
+        if($not_preview){
+            $this->db->where('online',1);//如果是preview就不用考虑online字段
+        }
+        if(is_array($video_id)){
+            $this->db->where_in('id',$video_id);
+            $query=$this->db->get($this->_table); //  echo $this->db->last_query();die;
+            return $query->result_array();
+        }else{
+            $this->db->where('id',$video_id);
+            $query=$this->db->get($this->_table); //  echo $this->db->last_query();die;
+            return $query->row(0);
+        }
+    }
+
+    /*视频信息，附带unit_name, stage_name */
+    function get_video_info_with_unit($video_id){
+        $sql = "select v.*,u.unit_name,u.unit_number,s.semester,s.name as stage_name from {$this->_table} v left join {$this->_tb_unit} u on u.id=v.unit_id left join {$this->_tb_stage} s on s.id=u.stage_id where v.id=$video_id and v.online=1";
+        $result = $this->db->query($sql)->result_array();
+        return $result;
+    }
+    
+    /*根据学段获取视频（不分页）*/
+    public function get_video_by_stage($user_id,$stage_id,$edition_id)
+    {
+    	$query = $this->db->query("SELECT v.`id`,u.`unit_name` as name,u.`unit_number`,v.`unit_id`,v.`en_title`,v.`chs_title`,v.`thumb_uri`  
+    		FROM {$this->_tb_unit} AS u LEFT JOIN fls_video AS v ON u.`id`= v.unit_id 
+    		WHERE u.`stage_id` = ? AND u.`edition_id` = ? AND v.`online` = ? ORDER BY u.`id` ASC, v.`unit_id` ASC",array($stage_id,$edition_id,1));
+    	$video_list = $query->result();
+    	return self::prase_video_info($user_id,$video_list,1);
+    }
+
+    public function get_video_by_unit($user_id,$unit_id)
+    {
+    	$this->db->select("id,en_title,chs_title,unit_id,thumb_uri");
+    	//$this->db->order_by('date','desc');
+    	$video_list = $this->db->get_where($this->_table,array('unit_id'=>$unit_id,'online'=>1))->result();
+    	self::prase_video_info($user_id,$video_list,2);
+        return $video_list;
+    }
+
+    public function prase_video_info($user_id,&$video_list,$type)
+    {
+        $active_data = -1;
+        $this->load->model('statistics/statistics_model');
+        if($user_id)$active_data = $this->statistics_model->get_user_active_data($user_id);
+
+        switch ($type) {
+            case 1:
+                $return_arr = array();
+                foreach ($video_list as $val) {
+                    if(!array_key_exists($val->unit_id, $return_arr)){
+                        $return_arr[$val->unit_id]['name']=$val->name;
+                        $return_arr[$val->unit_id]['unit_number']=$val->unit_number;
+                        $return_arr[$val->unit_id]['video_list'][]=array(
+                            'id'=>$val->id,
+                            'en_title'=>$val->en_title,
+                            'chs_title'=>$val->chs_title,
+                            'thumb_uri'=>qiniu_pub_link($val->thumb_uri.'?imageView/0/w/'.Constant::VIDEO_THUMB_IMG_WIDTH.'/h/'.Constant::VIDEO_THUMB_IMG_HEIGHT),
+                            'video'=>self::get_video_status($active_data,$val->id,Constant::LEARN_TYPE_WATCH),
+                            'question'=>self::get_video_status($active_data,$val->id,Constant::LEARN_TYPE_SYNC_QUESTION),
+                            'read'=>self::get_video_status($active_data,$val->id,Constant::LEARN_TYPE_SYNC_READ));
+                    }else{
+                        array_push($return_arr[$val->unit_id]['video_list'],array(
+                            'id'=>$val->id,
+                            'en_title'=>$val->en_title,
+                            'chs_title'=>$val->chs_title,
+                            'thumb_uri'=>qiniu_pub_link($val->thumb_uri.'?imageView/0/w/'.Constant::VIDEO_THUMB_IMG_WIDTH.'/h/'.Constant::VIDEO_THUMB_IMG_HEIGHT),
+                            'video'=>self::get_video_status($active_data,$val->id,Constant::LEARN_TYPE_WATCH),
+                            'question'=>self::get_video_status($active_data,$val->id,Constant::LEARN_TYPE_SYNC_QUESTION),
+                            'read'=>self::get_video_status($active_data,$val->id,Constant::LEARN_TYPE_SYNC_READ)));
+                    }
+                }
+                return $return_arr;
+                break;
+            case 2:
+                foreach ($video_list as &$video) {
+                    $video->thumb_uri=qiniu_pub_link($video->thumb_uri.'?imageView/0/w/'.Constant::VIDEO_THUMB_IMG_WIDTH.'/h/'.Constant::VIDEO_THUMB_IMG_HEIGHT);
+                    $video->video = self::get_video_status($active_data,$video->id,Constant::LEARN_TYPE_WATCH);
+                    $video->question=self::get_video_status($active_data,$video->id,Constant::LEARN_TYPE_SYNC_QUESTION);
+                    $video->read=self::get_video_status($active_data,$video->id,Constant::LEARN_TYPE_SYNC_READ);
+                }
+                break;
+             default:
+                break;   
+            }
+
+    }
+
+    protected function get_video_status($active_data,$video_id,$type){
+        if($active_data===false) return -1;
+        else if(is_array($active_data) and empty($active_data)) return 0;
+        else if($active_data==-1) return $active_data;
+        else return array_key_exists('video_'.$video_id.'_'.$type, $active_data)?1:0;
+    }
+
+    function get_people_name($user_id){
+        $user_id = intval(($user_id));
+        if(!$user_id){
+            return null;
+        }
+        $sql = "select name from user where id = $user_id";
+        $n = $this->db->query($sql)->row(0)->name;
+        return $n;
+    } 
+}
