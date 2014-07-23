@@ -6,6 +6,11 @@ class Classes_agents_model extends LI_Model{
 		parent::__construct();
 	}
 	
+	public function add_agents($province_id, $city_id, $county_id, $school_id){
+		$this->db->query("INSERT IGNORE INTO classes_agents_student(province_id,city_id,county_id,school_id) VALUES(?,?,?,?)", 
+			array($province_id, $city_id, $county_id, $school_id));
+	}
+	
 	public function create($class_id, $school_id, array $students_name){
 		$this->load->model("class/classes_student_create");
 		$total = count($students_name);

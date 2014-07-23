@@ -26,6 +26,23 @@ class Classes_Manager {
 		}
 	}
 	
+	public function create($classname, $creator_id, $create_date, $subject_id, $extension = array()){
+		$this->_CI->load->model("class/classes");
+		$classes = $this->_CI->classes->creator_get($creator_id, "id");
+		$class_number = self::class_number($creator_id);
+		if (count($classes) >= $class_number){
+			return array("code" => -10, "msg" => "超过数量限制", "max" => $class_number);
+		}
+		return $this->_CI->classes->create($classname, $creator_id, $create_date, $subject_id, $extension);
+	}
+	
+	private function class_number($user_id){
+		$this->_CI->load->library("credit");
+		$privilege = $this->_CI->credit->userlevel_privilege($user_id);
+		return isset($privilege["privilege"]["class_number"]["value"]) ? 
+			$privilege["privilege"]["class_number"]["value"] : Constant::TEACHER_CLASS_MAX_NUM;
+	}
+	
 	//老师加入班级
 	/**
 	 * @return
