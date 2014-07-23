@@ -274,13 +274,6 @@ class Practice_Statistics_Model extends Practice_Model{
             1=>tizi_url().'practice/training/',
             2=>tizi_url().'practice/game/',
         );
-        $icons = array(
-            3=>'gameImg3.jpg', 8=>'gameImg1.png',
-            7=>'gameImg6.jpg', 2=>'gameImg7.jpg',
-            4=>'gameImg2.jpg', 5=>'gameImg8.jpg',
-            6=>'gameImg4.jpg', 9=>'gameImg5.jpg',
-            10=>'gameImg9.png', 11=>'ratio.png',
-        );
         $this->load->model('question/question_subject_model');
         foreach($stats as $key=>$val){
 
@@ -291,8 +284,8 @@ class Practice_Statistics_Model extends Practice_Model{
             $stats[$key]['subject_id'] = $sid;
             $stats[$key]['subject_name'] = $subject_name;
             $stats[$key]['grade'] = isset($grades[$val['grade']])?$grades[$val['grade']]:'';
-            $stats[$key]['icon'] = 'image/student/special/'.(isset($icons[$val['p_c_type']]) ?
-                $icons[$val['p_c_type']] : "subject_{$sid}.jpg");
+            $stats[$key]['icon'] = 'image/student/special/'.($val['p_c_type'] != 1 ?
+                'gameImg'.$val['p_c_type'].'.png' : "subject_{$sid}.jpg");
             $stats[$key]['url'] = ($val['p_c_type'] == 1 ? $urls[1]:$urls[2]).$val['p_c_id'];
 
         }
