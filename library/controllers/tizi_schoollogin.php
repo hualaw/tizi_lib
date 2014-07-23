@@ -28,7 +28,7 @@ class Tizi_Schoollogin extends Tizi_Controller {
 				$this->session_model->generate_cookie($agents["create_id"], $agents["user_id"], $cookie_time);
 				$this->session_model->clear_mscookie();
 				$redirect = $this->get_redirect($session["user_data"]["user_type"], $session["user_data"], "login");
-				echo json_out(array("code" => 1, "redirect" => $redirect));exit;
+				echo json_token(array("code" => 1, "redirect" => $redirect));exit;
 			} else if ($agents["create_id"] > 0){
 				call_user_func("self::sso", $agents["create_id"], $password);
 			} else {
