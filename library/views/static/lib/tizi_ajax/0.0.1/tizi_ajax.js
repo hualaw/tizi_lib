@@ -33,14 +33,14 @@
 	}
 	$.tizi_token = function(options_data,type,serialize,callback_name){
 		if(serialize === true){
-			var len = options_data.length
+			var len = options_data.length;
 			options_data[len] = {'name':'ver','value':(new Date).valueOf()};
 			if(type.toLocaleLowerCase() == 'post'){
 				options_data[len+1] = {'name':'token','value':basePageToken};
 				options_data[len+2] = {'name':'page_name','value':basePageName};
 			}
 			if(callback_name){
-				var len = options_data.length
+				var len = options_data.length;
 				options_data[len] = {'name':'callback_name','value':callback_name};
 			}
 		}else{

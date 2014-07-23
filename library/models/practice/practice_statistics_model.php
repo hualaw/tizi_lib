@@ -285,7 +285,7 @@ class Practice_Statistics_Model extends Practice_Model{
             $stats[$key]['subject_name'] = $subject_name;
             $stats[$key]['grade'] = isset($grades[$val['grade']])?$grades[$val['grade']]:'';
             $stats[$key]['icon'] = 'image/student/special/'.($val['p_c_type'] != 1 ?
-                'gameImg'.$val['p_c_type'].'.png' : "subject_{$sid}.jpg");
+                'gameImg'.$val['p_c_type'] : "subject_{$sid}").'.png';
             $stats[$key]['url'] = ($val['p_c_type'] == 1 ? $urls[1]:$urls[2]).$val['p_c_id'];
 
         }
