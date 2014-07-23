@@ -179,8 +179,10 @@ class Tizi_Register extends Tizi_Controller {
 				$this->load->model('question/question_subject_model');
 				$subject_id=$this->question_subject_model->get_subject_type_by_id($mysubject);
 				//加入班级
-				$this->load->model('class/classes_teacher');
-				$this->classes_teacher->create($class_check['class_id'],$submit['register']['user_id'],$subject_id,time());
+				//$this->load->model('class/classes_teacher');
+				//$this->classes_teacher->create($class_check['class_id'],$submit['register']['user_id'],$subject_id,time());
+				$this->load->library('classes_manager');
+				$this->classes_manager->teacher2class($class_check['class_id'],$submit['register']['user_id'],$subject_id,time());
 			}
 		}
 
@@ -248,8 +250,10 @@ class Tizi_Register extends Tizi_Controller {
 			if($submit['errorcode'])
 			{
 				//加入班级
-				$this->load->model('class/classes_student');
-				$this->classes_student->add($class_check['class_id'],$submit['register']['user_id'],time(),Classes_student::JOIN_METHOD_REGCLASS);
+				//$this->load->model('class/classes_student');
+				//$this->classes_student->add($class_check['class_id'],$submit['register']['user_id'],time(),Classes_student::JOIN_METHOD_REGCLASS);
+				$this->load->library('classes_manager');
+				$this->classes_manager->student2class($class_check['class_id'],$submit['register']['user_id'],Classes_student::JOIN_METHOD_REGCLASS,time());
 			}
 		}
 
