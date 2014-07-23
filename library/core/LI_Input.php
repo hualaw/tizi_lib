@@ -31,13 +31,10 @@ class LI_Input extends CI_Input {
 		}
 		else
 		{
-			if(isset($_GET) && is_array($_GET))
+			$get = $this->_fetch_from_array($_GET, $index, $xss_clean);
+			if(!empty($get) && !is_array($get))
 			{
-				$get = $this->_fetch_from_array($_GET, $index, $xss_clean);
-			}
-			else
-			{
-				$get = trim($this->_fetch_from_array($_GET, $index, $xss_clean));
+				$get = trim($get);
 				if($tags_clean) $get = htmlspecialchars(strip_tags($get));
 				if(!$get && $default !== false) $get = $default;
 			}
