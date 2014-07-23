@@ -32,7 +32,7 @@ class LI_Input extends CI_Input {
 		else
 		{
 			$get = $this->_fetch_from_array($_GET, $index, $xss_clean);
-			if(!is_array($get))
+			if(!empty($get) && !is_array($get))
 			{
 				$get = trim($get);
 				if($tags_clean) $get = htmlspecialchars(strip_tags($get));
