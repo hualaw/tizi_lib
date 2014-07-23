@@ -7,6 +7,7 @@ $route['logout/check']="login/login/check_logout";
 $route['login/submit']="login/login/submit";
 $route['login/check']="login/login/check_login";
 
+$route['school/login']="login/schoollogin/index";
 $route['oauth/login']="login/oauthlogin/oauth";
 $route['oauth/callback/(:any)']="login/oauthlogin/callback/$1";
 $route['sso/callback']="login/ssologin/index";
