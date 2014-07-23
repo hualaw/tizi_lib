@@ -342,7 +342,7 @@ class cloud_model extends MY_Model{
         if($class_id){
             $class_sql = " and s.class_id=$class_id";
         }
-        $sql = "select f.$field , s.*,s.id as share_id from $this->_file_table f left join $this->_share_table s on s.file_id=f.id where f.id=$file_id  $class_sql limit 1";
+        $sql = "select f.$field , s.*,s.id as share_id , f.user_id as user_id from $this->_file_table f left join $this->_share_table s on s.file_id=f.id where f.id=$file_id  $class_sql limit 1";
         /*2014-07-08 删除条件：and f.is_del=0   删除文件本身不影响分享到班级的文件 */
         if($only_file_info){
             $sql = "select * from $this->_file_table where id=$file_id and is_del=0 limit 1";
