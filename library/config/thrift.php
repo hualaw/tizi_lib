@@ -6,7 +6,7 @@ $config['thrift_appname'] = 'tizi';
 
 $config['thrift_zujuan_host'] = '10.162.88.125';	
 $config['thrift_zujuan_port'] = 9090;
-$config['thrift_zujuan_active'] = false;
+$config['thrift_zujuan_active'] = true;
 
 /* End of file thrift.php */
 /* Location: ./application/config/thrift.php */
