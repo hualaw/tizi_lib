@@ -1,7 +1,9 @@
 <?php
 
 class Classes_agents_model extends LI_Model{
-		
+	
+	const HOMEPAGE_AGENT_PROVINCE = "homepage_agent_province";
+	
 	public function __construct(){
 		parent::__construct();
 	}
@@ -56,6 +58,49 @@ class Classes_agents_model extends LI_Model{
 		return $this->db->affected_rows();
 	}
 	
+	public function get_province(){
+		$fields = "province";
+		$this->load->model("redis/redis_model");
+        $data = array();
+    	if($this->redis_model->connect("statistics")){
+			$data = $this->cache->hget(self::HOMEPAGE_AGENT_PROVINCE, $fields);
+			if ($data){
+				$data = json_decode($data, true);
+			}
+		}
+		if (!$data or $data["last_update"] != date("Y-m-d")){
+			$data["data"] = self::func_get_province();
+			$data["last_update"] = date("Y-m-d");
+            if($this->redis_model->connect("statistics")){
+                $this->cache->hset(self::HOMEPAGE_AGENT_PROVINCE, $fields, json_encode($data));
+            }
+		}
+		return $data;
+	}
+	
+	public function func_get_province(){
+		$res = $this->db->query("SELECT a.province_id,b.name FROM `classes_agents` AS a LEFT JOIN `classes_area` AS b ON a.province_id=b.id 
+					GROUP BY a.province_id")->result_array();
+		return $res;
+	}
+	
+	public function get_city($province_id){
+		$cities = array();
+		$res = $this->db->query("SELECT a.city_id,b.name FROM classes_agents as a left join classes_area as b on a.city_id=b.id 
+					 WHERE a.province_id=?", array($province_id))->result_array();
+		foreach ($res as $value){
+			$cities[$value["city_id"]] = $value["name"];
+		}
+		return $cities;
+	}
+	
+	public function get_school($city_id){
+		$school = array();
+		$res = $this->db->query("SELECT a.school_id,b.schoolname FROM classes_agents as a left join classes_schools as b on a.school_id=b.id 
+					 WHERE a.city_id=?", array($city_id))->result_array();
+		return $res;
+	}
+	
 	public function name_school($school_id){
 		$data = array();
 		$res = $this->db->query("SELECT username FROM classes_agents_user where school_id=?", array($school_id))->result_array();
@@ -63,6 +108,11 @@ class Classes_agents_model extends LI_Model{
 			$data[] = $value["username"];
 		}
 		return $data;
+	}
+	
+	public function get_by_school_id($school_id, $fields = "*"){
+		$res = $this->db->query("SELECT {$fields} FROM classes_agents WHERE school_id=?", $school_id)->row_array();
+		return $res;
 	}
 	
 }
