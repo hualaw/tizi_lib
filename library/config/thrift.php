@@ -4,7 +4,7 @@ $config['thrift_host'] = 'phone.server.waijiao.com';
 $config['thrift_port'] = 1899;
 $config['thrift_appname'] = 'tizi';
 
-$config['thrift_zujuan_host'] = '192.168.11.12';	
+$config['thrift_zujuan_host'] = '114.215.184.231';	
 $config['thrift_zujuan_port'] = 9090;
 $config['thrift_zujuan_active'] = false;
 
