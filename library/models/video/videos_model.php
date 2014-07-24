@@ -45,20 +45,24 @@ class Videos_Model extends MY_Model {
     	return self::prase_video_info($user_id,$video_list,1);
     }
 
-    public function get_video_by_unit($user_id,$unit_id)
+    public function get_video_by_unit($user_id,$unit_id,$parse=true)
     {
     	$this->db->select("id,en_title,chs_title,unit_id,thumb_uri");
     	//$this->db->order_by('date','desc');
     	$video_list = $this->db->get_where($this->_table,array('unit_id'=>$unit_id,'online'=>1))->result();
-    	self::prase_video_info($user_id,$video_list,2);
+        if($parse){
+    	   self::prase_video_info($user_id,$video_list,2);
+        }
         return $video_list;
     }
 
     public function prase_video_info($user_id,&$video_list,$type)
     {
         $active_data = -1;
-        $this->load->model('statistics/statistics_model');
-        if($user_id)$active_data = $this->statistics_model->get_user_active_data($user_id);
+        if($user_id){
+            $this->load->model('statistics/statistics_model');
+            $active_data = $this->statistics_model->get_user_active_data($user_id);
+        }
 
         switch ($type) {
             case 1:
