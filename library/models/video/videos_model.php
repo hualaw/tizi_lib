@@ -5,6 +5,9 @@ class Videos_Model extends MY_Model {
     private $_table = 'fls_video';
     private $_tb_unit="common_unit";
     private $_tb_stage="common_stage";
+    private $_tb_learn_log="fls_learn_log";
+    private $_tb_my_word="fls_my_words";
+    private $_tb_exercise_wrong="fls_exercise_wrong";
     public function __construct(){
         parent::__construct();
     }
@@ -119,4 +122,26 @@ class Videos_Model extends MY_Model {
         $n = $this->db->query($sql)->row(0)->name;
         return $n;
     } 
+
+    /*视频学习统计*/
+    public function video_learn_statistics($user_id)
+    {
+        $video_query = $this->db->query("SELECT COUNT(`id`) AS total ,COUNT(DISTINCT `video_id`) AS video_total FROM {$this->_tb_learn_log} WHERE user_id={$user_id} AND learn_type=3");
+        $return_val = $video_query->row();
+
+        $word_query = $this->db->query("SELECT COUNT(`id`) AS total FROM {$this->_tb_my_word} WHERE user_id={$user_id} AND status =1");
+        $return_val->word_total = $word_query->row()->total;
+        return $return_val;
+    }
+
+    /*同步练习统计*/
+    public function video_exercise_statistics($user_id)
+    {
+        $query = $this->db->query("SELECT COUNT(DISTINCT `question_id`) AS total FROM {$this->_tb_exercise_wrong} WHERE user_id={$user_id} AND type=1");
+        $return_val = $query->row();
+
+        $wrong_query = $this->db->query("SELECT COUNT(DISTINCT `question_id`) AS total FROM {$this->_tb_exercise_wrong} WHERE user_id={$user_id} AND type=1 AND result=0");
+        $return_val->wrong_total = $wrong_query->row()->total;
+        return $return_val;
+    }
 }
