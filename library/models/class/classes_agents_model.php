@@ -7,8 +7,9 @@ class Classes_agents_model extends LI_Model{
 	}
 	
 	public function add_agents($province_id, $city_id, $county_id, $school_id){
-		$this->db->query("INSERT IGNORE INTO classes_agents_student(province_id,city_id,county_id,school_id) VALUES(?,?,?,?)", 
+		$this->db->query("INSERT IGNORE INTO classes_agents(province_id,city_id,county_id,school_id) VALUES(?,?,?,?)", 
 			array($province_id, $city_id, $county_id, $school_id));
+		return $this->db->affected_rows();
 	}
 	
 	public function create($class_id, $school_id, array $students_name){
@@ -31,23 +32,37 @@ class Classes_agents_model extends LI_Model{
 			$create_id = $this->db->insert_id();
 			$agents = array(
 				"school_id" => $school_id,
-				"student_name" => $value["student_name"],
+				"username" => $value["student_name"],
 				"create_id" => $create_id
 			);
-			$this->db->insert("classes_agents_student", $agents);
+			$this->db->insert("classes_agents_user", $agents);
 		}
 		return $data;
 	}
 	
 	public function search($school_id, $student_name){
-		$res = $this->db->query("SELECT * FROM classes_agents_student WHERE school_id=? AND student_name=?", array($school_id, $student_name))->result_array();
+		$res = $this->db->query("SELECT * FROM classes_agents_user WHERE school_id=? AND username=?", array($school_id, $student_name))->result_array();
 		return isset($res[0]) ? $res[0] : null;
 	}
 	
 	public function register($create_id, $user_id, $active_date){
-		$this->db->query("UPDATE classes_agents_student SET user_id=?,active_date=? WHERE create_id=?", array($user_id, $active_date, $create_id));
+		$this->db->query("UPDATE classes_agents_user SET user_id=?,active_date=? WHERE create_id=?", array($user_id, $active_date, $create_id));
 		return $this->db->affected_rows();
 	}
 	
+	/*直接绑定加入*/
+	public function abs_sign($user_id, $school_id, $name){
+		$this->db->query("INSERT IGNORE INTO classes_agents_user(school_id,username,user_id) VALUES(?,?,?)", array($school_id, $name, $user_id));
+		return $this->db->affected_rows();
+	}
+	
+	public function name_school($school_id){
+		$data = array();
+		$res = $this->db->query("SELECT username FROM classes_agents_user where school_id=?", array($school_id))->result_array();
+		foreach ($res as $value){
+			$data[] = $value["username"];
+		}
+		return $data;
+	}
 	
 }

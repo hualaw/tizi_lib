@@ -16,19 +16,25 @@ class Tizi_Schoollogin extends Tizi_Controller {
 		$agents = $this->classes_agents_model->search($school_id, $username);
 		if (NULL !== $agents){
 			if ($agents["user_id"] > 0){
-				$remember = $this->input->post('remember', true);
-				if($remember){
-					$cookie_time = Constant::COOKIE_REMEMBER_EXPIRE_TIME;
+				$this->load->model("login/register_model");
+				$verify_password = $this->register_model->verify_password($agents["user_id"], $password);
+				if ($verify_password["errorcode"] === true){
+					$remember = $this->input->post("remember", true);
+					if($remember){
+						$cookie_time = Constant::COOKIE_REMEMBER_EXPIRE_TIME;
+					} else {
+						$cookie_time = Constant::COOKIE_EXPIRE_TIME;
+					}
+					
+					$this->load->model("login/session_model");
+					$session = $this->session_model->generate_session($agents["user_id"]);
+					$this->session_model->generate_cookie($agents["create_id"], $agents["user_id"], $cookie_time);
+					$this->session_model->clear_mscookie();
+					$redirect = $this->get_redirect($session["user_data"]["user_type"], $session["user_data"], "login");
+					echo json_token(array("code" => 1, "redirect" => $redirect));exit;
 				} else {
-					$cookie_time = Constant::COOKIE_EXPIRE_TIME;
+					echo json_token(array("code" => -3, "msg" => "姓名或密码错误"));exit;
 				}
-				
-				$this->load->model("login/session_model");
-				$session = $this->session_model->generate_session($agents["user_id"]);
-				$this->session_model->generate_cookie($agents["create_id"], $agents["user_id"], $cookie_time);
-				$this->session_model->clear_mscookie();
-				$redirect = $this->get_redirect($session["user_data"]["user_type"], $session["user_data"], "login");
-				echo json_token(array("code" => 1, "redirect" => $redirect));exit;
 			} else if ($agents["create_id"] > 0){
 				call_user_func("self::sso", $agents["create_id"], $password);
 			} else {
