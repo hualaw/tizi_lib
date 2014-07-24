@@ -611,9 +611,16 @@ class cloud_model extends MY_Model{
         /*活动结束*/
         $share = $this->get_file_by_share_id($share_id);
         if (isset($share[0]["user_id"])){
-			$this->load->library("credit");
-			$data = array($uid);
-			$this->credit->exec($share[0]["user_id"], "cloud_share_download", false, "", $data);
+            //学生下载才给加分
+            $this->load->model('login/register_model');
+            $role = $this->register_model->get_user_info($uid,0,'user_type');
+            if($role['errorcode']){
+                if($role['user']->user_type == Constant::USER_TYPE_STUDENT){
+        			$this->load->library("credit");
+        			$data = array($uid);
+        			$this->credit->exec($share[0]["user_id"], "cloud_share_download", false, "", $data);
+                }
+            }
 		}
         return true;
     }
