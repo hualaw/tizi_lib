@@ -6,6 +6,8 @@
  */
 require_once(__DIR__."/practice_model.php");
 class Practice_Statistics_Model extends Practice_Model{
+	
+	const HOMEPAGE_RAND_PRACTICE = "homepage_rand_practice";
     
     public function __construct(){
         parent::__construct();
@@ -218,6 +220,99 @@ class Practice_Statistics_Model extends Practice_Model{
 		
 	}
 
+    public function participants_top($num =10){
 
+        if(!$num) return array();
+        $stats = $this->get_participants_stats($num);
+        $stats = $this->practice_statistics_model->_construct_p_c_list($stats);
+        return $stats;
+
+    }
+
+    public function pk_top_random($num = 2){
+        
+        $stats = $this->participants_top(20);       
+        $keys = array_rand($stats, $num);
+        $data = array();
+        array_walk($keys, function($val)use($stats, &$data){ $data[] = $stats[$val];});
+
+        return $data;
+
+    }
+
+    public function myHistory($uid, $num = 10){
+
+        if(!$uid || !$num) return array();
+        $stats = array();
+        $redis = $this->connect_redis('practice_statistics');
+        $key = 'participants_stats_'.$uid;
+        $pids = $redis->lrange($key, 0, $num -1);
+        if(!empty($pids)){
+            foreach($pids as $p_c_id){
+                $category = $this->get_category_info($p_c_id);
+                $stats[] = $category;
+            }
+        }
+        $stats = $this->_construct_p_c_list($stats);
+        return $stats;
+
+    }
+
+    private function _construct_p_c_list($stats){
+
+        $grade = array(
+            1  => '小学综合', 2  => '一年级',
+            3  => '二年级', 4  => '三年级',
+            5  => '四年级', 6  => '五年级',
+            7  => '六年级', 8  => '初中综合',
+            9  => '初一', 10  => '初二',
+            11 => '初三', 12 => '高中综合',
+            13 => '高一', 14 => '高二',
+            15 => '高三'
+        );
+        $urls = array(
+            1=>tizi_url().'practice/training/',
+            2=>tizi_url().'practice/game/',
+        );
+        $this->load->model('question/question_subject_model');
+        foreach($stats as $key=>$val){
+
+            $data = $this->get_sid_by_cid($val['p_c_id']);
+            $sid = $data['sid'];
+            $subjects = $this->question_subject_model->get_subject_type(true,'homework');
+            $subject_name = $subjects[$sid-1]->name;
+            $stats[$key]['subject_id'] = $sid;
+            $stats[$key]['subject_name'] = $subject_name;
+            $stats[$key]['grade'] = isset($grades[$val['grade']])?$grades[$val['grade']]:'';
+            $stats[$key]['icon'] = 'image/student/special/'.($val['p_c_type'] != 1 ?
+                'gameImg'.$val['p_c_type'] : "subject_{$sid}").'.png';
+            $stats[$key]['url'] = ($val['p_c_type'] == 1 ? $urls[1]:$urls[2]).$val['p_c_id'];
+
+        }
+        return $stats;
+
+    }
+
+	public function homepage_practice(){
+		$fields = "default";
+		$this->load->model("redis/redis_model");
+		$data = array();
+    	if($this->redis_model->connect("statistics")){
+			$data = $this->cache->hget(self::HOMEPAGE_RAND_PRACTICE, $fields);
+			if ($data){
+				$data = json_decode($data, true);
+			}
+		}
+		if (!$data or $data["last_update"] != date("Y-m-d")){
+			
+			$data = $this->pk_top_random(2);
+			
+			$data["last_update"] = date("Y-m-d");
+			if($this->redis_model->connect("statistics")){
+                $this->cache->hset(self::HOMEPAGE_RAND_PRACTICE, $fields, json_encode($data));
+            }
+		}
+		return $data;
+	}
 
 }

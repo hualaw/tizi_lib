@@ -9,7 +9,7 @@
         {if $user_cert}<i class="v" title="认证教师">V</i>{/if}
     </h2>
     {if $user_type eq $constant.user_type_teacher and isset($userlevel)}
-    <h3 class="memberDeg01">{$userlevel.name}</h3>
+    <h3 class="memberDeg0{$userlevel.const_var}">{$userlevel.name}</h3>
     <div class="integral">
         <!-- <div class="hd">
             <div class="progress" style="width:{$userlevel.percent}%"></div>

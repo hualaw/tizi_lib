@@ -15,7 +15,6 @@ class Question_Exam_Model extends MY_Model {
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('teacher_data_helper');
     }
 
     public function get_area($return_array=false)
