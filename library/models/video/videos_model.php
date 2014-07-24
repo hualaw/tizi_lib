@@ -126,7 +126,7 @@ class Videos_Model extends MY_Model {
         $return_val = $video_query->row();
 
         $word_query = $this->db->query("SELECT COUNT(`id`) AS total FROM {$this->_tb_my_word} WHERE user_id={$user_id} AND status =1");
-        $return_val->word_total = $word_query->total;
+        $return_val->word_total = $word_query->row()->total;
         return $return_val;
     }
 
@@ -137,7 +137,7 @@ class Videos_Model extends MY_Model {
         $return_val = $query->row();
 
         $wrong_query = $this->db->query("SELECT COUNT(DISTINCT `question_id`) AS total FROM {$this->_tb_exercise_wrong} WHERE user_id={$user_id} AND type=1 AND result=0");
-        $return_val->wrong_total = $wrong_query->total;
+        $return_val->wrong_total = $wrong_query->row()->total;
         return $return_val;
     }
 }
