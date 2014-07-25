@@ -11,6 +11,8 @@ class Tizi_Schoollogin extends Tizi_Controller {
 		$school_id = intval($this->input->post("school_id"));
 		$username = trim($this->input->post("username"));
 		$password = trim($this->input->post("password"));
+		
+		$school_id > 0 && $this->input->set_cookie(Constant::COOKIE_SCHOOL_LOGIN, $school_id, 86400 * 30);
 
 		$this->load->model("class/classes_agents_model");
 		$agents = $this->classes_agents_model->search($school_id, $username);
