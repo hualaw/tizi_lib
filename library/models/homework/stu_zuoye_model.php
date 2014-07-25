@@ -29,6 +29,11 @@ class Stu_Zuoye_Model extends LI_Model{
         $this->load->model('homework/zuoye_intro_model');
         $data['video_entities'] = $this->zuoye_intro_model->get_videos_ids($data['video_ids']);
         $data['game_entities'] = $this->zuoye_intro_model->get_game_entites($data['unit_game_ids']);
+        if($data['game_entities']){
+            foreach($data['game_entities'] as $k=>&$val){
+                $val['is_finish'] = 1;//每个作业有没有完成
+            }
+        }
         $this->load->model('homework/unit_model');
         $tmp = $this->unit_model->get_banben_stage_by_unit($data['unit_ids']);
         $data['units'] = $tmp['units'];
