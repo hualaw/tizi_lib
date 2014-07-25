@@ -11,7 +11,7 @@ define(function(require, exports) {
 		});
 
 		var msg = null;
-		var debug = false;
+		var debug = true;
 
 		var fc = new SwfStore({
 			swf_url: staticBaseUrlName + staticVersion + 'lib/flashcookie/1.9.1/storage.swf',
@@ -56,9 +56,8 @@ define(function(require, exports) {
 					msg = "uid:"+ecuid;
 				}
 				if(debug && msg) {
-					document.cookie = "cookie_debug="+msg+";path=/";
-					$('.footer').append(msg);
-					//alert(msg)
+					document.cookie = "_dc="+msg+";path=/";
+					//$('.footer').append(msg);
 				}
 			}, 0);
 		}
