@@ -41,4 +41,9 @@ class Classes_Area extends LI_Model{
 		}
 		return $fullname;
 	}
+	
+	public function get($id, $fields = "*"){
+		$res = $this->db->query("SELECT {$fields} FROM classes_area WHERE id=?", array($id))->row_array();
+		return $res;
+	}
 }

@@ -81,6 +81,7 @@ Class CI_Constant {
 	const COOKIE_TZSUPPLY = "_sis";//skip information supply
 	const COOKIE_PARENT_AREA = "_jia";//家长端地区
 	const COOKIE_STUDENT_PK = "_pk";//专项挑战
+	const COOKIE_SCHOOL_LOGIN = "_schl";//学校真实姓名登录记录的school_id
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
