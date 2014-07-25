@@ -11,7 +11,7 @@ define(function(require, exports) {
 		});
 
 		var msg = null;
-		var debug = true;
+		var debug = false;
 
 		var fc = new SwfStore({
 			swf_url: staticBaseUrlName + staticVersion + 'lib/flashcookie/1.9.1/storage.swf',
