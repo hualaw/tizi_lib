@@ -53,6 +53,7 @@ class Tizi_Schoollogin extends Tizi_Controller {
 		if (md5("ti".$data["password"]."zi") === $password){
 			$this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_TADD);
 			$this->session->set_userdata("sso_id", $create_id);
+			$this->session->set_userdata("sso_ro", Constant::REG_ORIGIN_SCHOOL_LOGIN);
 			echo json_token(array("code" => 1, "redirect" => login_url("sso/student")));exit;
 		} else {
 			echo json_token(array("code" => -3, "msg" => "姓名或密码错误"));exit;

@@ -87,8 +87,10 @@ class Tizi_Login extends Tizi_Controller {
 				$create_pk = $this->classes_student_create->login($username, $password);
 				if ($create_pk > 0)
 				{
+					$create_info = $this->classes_student_create->id_create($create_pk);
 					$this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_TADD);
 					$this->session->set_userdata("sso_id", $create_pk);
+					$create_info["source"] == 1 && $this->session->set_userdata("sso_ro", Constant::REG_ORIGIN_SCHOOL_LOGIN);
 					$submit["redirect"] = login_url("sso/student");
 					$submit["errorcode"] = true;
 				}
