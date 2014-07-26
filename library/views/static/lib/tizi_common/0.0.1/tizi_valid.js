@@ -126,7 +126,11 @@ define(function(require, exports) {
                         curform.find('.password').addClass('Validform_error').focus();
                         curform.find('.username').next('.ValidformInfo').hide();
                         return false;
-                    }
+                    };
+                    // 加载MD5加密
+                    require.async("tizi_validform",function(ex){
+                        ex.md5(curform);
+                    });
                 }
             });
         };
