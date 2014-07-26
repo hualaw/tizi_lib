@@ -108,6 +108,21 @@ define(function(require, exports) {
                 nullmsg:"请输入班级编号",
                 errormsg:"长度6-8个数字"
             },
+            selectProviceName:{
+                datatype:"*",
+                nullmsg:"请选择省份",
+                errormsg:"省份未选择"
+            },
+            selectCityName:{
+                datatype:"*",
+                nullmsg:"请选择城市",
+                errormsg:"城市未选择"
+            },
+            selectSchoolName:{
+                datatype:"*",
+                nullmsg:"请选择学校名称",
+                errormsg:"学校未选择"
+            },
             radioValid:{
                 datatype:"*"
             }
