@@ -42,5 +42,13 @@ class Zuoye_Intro_Model extends LI_Model{
         // qiniu_set_bucket();
         return $v_arr;
     }
+
+    //未截止的作业
+    function not_over_zuoye($class_id){
+        $now = time();
+        $sql = "select id from {$this->_tab} where end_time > $now and class_id = $class_id";
+        $res = $this->db->query($sql)->result_array();
+        return $res;
+    }
 }
  

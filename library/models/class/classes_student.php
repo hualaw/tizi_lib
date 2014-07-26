@@ -65,9 +65,13 @@ class Classes_student extends LI_Model{
 			}
 		}
 		
-		// 2014-01-09 给新进来的学生布置未截止的作业
+		// 2014-07-26 给新进来的学生布置未截止的试卷
 		$this->load->model('exercise_plan/homework_assign_model','ham');
 		$this->ham->get_hw_to_new_stu($user_id,$class_id);
+		//2014-07-26   给新进来的学生布置未截止的作业
+		$this->load->model('homework/stu_zuoye_model');
+        $this->stu_zuoye_model->new_zuoye_for_new_stu($user_id,$class_id);
+
 		// 2014-03-07  新加入班级，要获取以前的分享
 		// 2014-07-16 tizi 4.0 不用push 到 task
 		// $this->load->model('exercise_plan/student_task_model');
