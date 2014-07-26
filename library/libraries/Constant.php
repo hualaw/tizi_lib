@@ -52,6 +52,7 @@ Class CI_Constant {
 	const REG_ORIGIN_SSO_SKIP = 71;			//SSO厂商登录-跳过
 	const REG_ORIGIN_CARD_PERFECT = 72;		//卡片登录-完善信息
 	const REG_ORIGIN_CARD_SKIP = 73;		//卡片登录-跳过
+	const REG_ORIGIN_SCHOOL_LOGIN = 74;		//通过渠道，学校登录
 	//app dafen
 	const REG_ORIGIN_ANDROID_DAFEN = 80;
 	const REG_ORIGIN_IOS_DAFEN = 90;
