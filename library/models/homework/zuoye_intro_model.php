@@ -53,7 +53,7 @@ class Zuoye_Intro_Model extends LI_Model{
 
     //老师某次作业，获得积分
     function change_assign_score($ass_id,$score){
-        if($score){
+        if($score>0){
             $sql = "update {$this->_tab} set score = score + $score where id = $ass_id and status = 1 ";
             $this->db->query($sql);
         }
