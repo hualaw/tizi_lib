@@ -24,7 +24,7 @@ aliasContent = {
     "ecSwfObject" : libPath + "evercookie/0.4.0/js/swfobject-2.2.min",
     "everCookie" : libPath + "evercookie/0.4.0/js/evercookie",
     "flashCookie" : libPath + "flashcookie/1.9.1/swfstore",
-    "soundManager2" : libPath + "soundmanager2/2.97/soundmanager2.min",
+    // "soundManager2" : libPath + "soundmanager2/2.97/soundmanager2.min",
     //梯子公共方法
     "tizi_addon_setSchool": libPath + "tizi_addon/0.0.1/setSchool",
 	"tizi_addon_mp3Player" : libPath + "tizi_addon/0.0.1/mp3Player",
