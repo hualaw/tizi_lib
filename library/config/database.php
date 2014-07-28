@@ -64,29 +64,13 @@ $db['tizi']['swap_pre'] = '';
 $db['tizi']['autoinit'] = TRUE;
 $db['tizi']['stricton'] = FALSE;
 
-$db['jxt']['hostname'] = 'rdsnuyizmnuyizm.mysql.rds.aliyuncs.com';
-$db['jxt']['username'] = 'jxt';
-$db['jxt']['password'] = 'jxt03_S6e_A6';
-$db['jxt']['database'] = 'tizi_jxt';
-$db['jxt']['dbdriver'] = 'mysql';
-$db['jxt']['dbprefix'] = '';
-$db['jxt']['pconnect'] = TRUE;
-$db['jxt']['db_debug'] = FALSE;
-$db['jxt']['cache_on'] = FALSE;
-$db['jxt']['cachedir'] = '';
-$db['jxt']['char_set'] = 'utf8';
-$db['jxt']['dbcollat'] = 'utf8_general_ci';
-$db['jxt']['swap_pre'] = '';
-$db['jxt']['autoinit'] = TRUE;
-$db['jxt']['stricton'] = FALSE;
-
 $db['survey']['hostname'] = 'rdsnuyizmnuyizm.mysql.rds.aliyuncs.com';
 $db['survey']['username'] = 'survey';
 $db['survey']['password'] = '5EUusL7nIKsxs';
 $db['survey']['database'] = 'survey';
 $db['survey']['dbdriver'] = 'mysql';
 $db['survey']['dbprefix'] = '';
-$db['survey']['pconnect'] = TRUE;
+$db['survey']['pconnect'] = FALSE;
 $db['survey']['db_debug'] = FALSE;
 $db['survey']['cache_on'] = FALSE;
 $db['survey']['cachedir'] = '';
@@ -111,6 +95,22 @@ $db['tiku']['dbcollat'] = 'utf8_general_ci';
 $db['tiku']['swap_pre'] = '';
 $db['tiku']['autoinit'] = TRUE;
 $db['tiku']['stricton'] = FALSE;
+
+// $db['jxt']['hostname'] = 'rdsnuyizmnuyizm.mysql.rds.aliyuncs.com';
+// $db['jxt']['username'] = 'jxt';
+// $db['jxt']['password'] = 'jxt03_S6e_A6';
+// $db['jxt']['database'] = 'tizi_jxt';
+// $db['jxt']['dbdriver'] = 'mysql';
+// $db['jxt']['dbprefix'] = '';
+// $db['jxt']['pconnect'] = FALSE;
+// $db['jxt']['db_debug'] = FALSE;
+// $db['jxt']['cache_on'] = FALSE;
+// $db['jxt']['cachedir'] = '';
+// $db['jxt']['char_set'] = 'utf8';
+// $db['jxt']['dbcollat'] = 'utf8_general_ci';
+// $db['jxt']['swap_pre'] = '';
+// $db['jxt']['autoinit'] = TRUE;
+// $db['jxt']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
