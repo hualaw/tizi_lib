@@ -5,6 +5,9 @@
 .topMiniNavBig{padding:10px 0px;font-size:14px;}
 .topMiniNavBig .navWrap a.logo{background:url(../../image/common/tiziLogo_b.gif) no-repeat; display: block;width:122px;height:51px;text-indent: -999em;overflow:hidden;}
 .topMiniNavBig .navWrap p.miniNav{margin-left: 30px;}
+/*梯子打分开始*/
+.topMiniNavBig .navWrap p.miniNav span.scoreSpan{line-height: 50px;color:#469534;}
+/*梯子打分结束*/
 .topMiniNavBig .navWrap p.miniNav a{font-size:14px;margin:0px 12px;line-height: 50px;border-bottom: 2px solid #f6f6f6;padding-bottom:8px;}
 .topMiniNavBig .navWrap p.miniNav a.active,
 .topMiniNavBig .navWrap p.miniNav a:hover{font-weight: bold;color:#333;border-bottom-color:#09aa83 }
