@@ -4,12 +4,12 @@ class credit_store_model extends LI_Model {
 	
 	public function product_all(){
 		$res = $this->db->query("select id,name,credit_price,stock,exchange_total,thumb from 
-			credit_store where online=1 order by id asc")->result_array();
+			credit_store where online=1 and credit_type=0 order by id asc")->result_array();
 		return $res;
 	}
 	
 	public function get($id, $fields = "*"){
-		$res = $this->db->query("select {$fields} from credit_store where id=? and online=1", array($id))->row_array();
+		$res = $this->db->query("select {$fields} from credit_store where id=? and online=1 and credit_type=0", array($id))->row_array();
 		return $res;
 	}
 	
