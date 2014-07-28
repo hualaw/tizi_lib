@@ -52,6 +52,11 @@ Class CI_Constant {
 	const REG_ORIGIN_SSO_SKIP = 71;			//SSO厂商登录-跳过
 	const REG_ORIGIN_CARD_PERFECT = 72;		//卡片登录-完善信息
 	const REG_ORIGIN_CARD_SKIP = 73;		//卡片登录-跳过
+	const REG_ORIGIN_SCHOOL_LOGIN = 74;		//通过渠道，学校登录
+	//app dafen
+	const REG_ORIGIN_ANDROID_DAFEN = 80;
+	const REG_ORIGIN_IOS_DAFEN = 90;
+
 
 	const QRTOKEN_EXPIRE_TIME = 300;//14400-4hour,0-with session expire
 	const REDIS_QRTOKEN_TIMEOUT = 300;//二维码登录token有效期
@@ -81,6 +86,7 @@ Class CI_Constant {
 	const COOKIE_TZSUPPLY = "_sis";//skip information supply
 	const COOKIE_PARENT_AREA = "_jia";//家长端地区
 	const COOKIE_STUDENT_PK = "_pk";//专项挑战
+	const COOKIE_SCHOOL_LOGIN = "_schl";//学校真实姓名登录记录的school_id
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
@@ -223,7 +229,8 @@ Class CI_Constant {
 	public static function user_apps_binary($app_name){
 		$arr = array(
 			'tiku' => 1,
-			'xuetang' => 10
+			'xuetang' => 10,
+			'dafen' => 100
 		);
 		return isset($arr[$app_name]) ? $arr[$app_name] : $arr['tiku'];
 	}
