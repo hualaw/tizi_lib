@@ -118,8 +118,8 @@ Class CI_Constant {
 	const API_TYPE_TIZI = 1;
 	const API_TYPE_JXT = 2;
 	const API_TYPE_AQ = 3;
-	const API_TYPE_TIKU = 4;
-	const API_TYPE_DAFEN = 5;
+	 const API_TYPE_TIKU = 4;
+	 const API_TYPE_DAFEN = 5;
 
 	/*zujuan verify type*/
 	const VERIFY_TYPE_EMAIL = 1;
