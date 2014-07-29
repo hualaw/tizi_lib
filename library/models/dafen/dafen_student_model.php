@@ -1,6 +1,6 @@
 <?php
 
-class lib_student_model extends MY_Model {
+class dafen_student_model extends MY_Model {
 
     /**
      * 根据班级ID获取学生信息
