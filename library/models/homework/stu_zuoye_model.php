@@ -116,6 +116,19 @@ class Stu_Zuoye_Model extends LI_Model{
             //$unit_id = array_shift(json_decode($val['video_ids'], true));
         }
     }
+
+    //给新进班级的学生 未截止的作业
+    function new_zuoye_for_new_stu($user_id,$class_id){
+        $this->load->model('homework/zuoye_intro_model');
+        $ass_ids = $this->zuoye_intro_model->not_over_zuoye($class_id);
+        if(!$ass_ids)return null;
+        $param = array();
+        foreach($ass_ids as $k=>$val){
+            $param[] = array('zy_assign_id' => $val['id'],'user_id' => $user_id,'id'=>0);
+        }
+        $result = $this->db->insert_batch($this->_tab_stu,$param);
+        return $result;
+    }
     
      
 

@@ -77,9 +77,9 @@ class Classes_agents_model extends LI_Model{
 				$data = json_decode($data, true);
 			}
 		}
-		if (!$data or $data["last_update"] != date("Y-m-d")){
+		if (!$data or $data["last_update"] != date("Y-m-d H")){
 			$data["data"] = self::func_get_province();
-			$data["last_update"] = date("Y-m-d");
+			$data["last_update"] = date("Y-m-d H");
             if($this->redis_model->connect("statistics")){
                 $this->cache->hset(self::HOMEPAGE_AGENT_PROVINCE, $fields, json_encode($data));
             }
