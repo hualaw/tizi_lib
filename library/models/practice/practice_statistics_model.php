@@ -224,7 +224,7 @@ class Practice_Statistics_Model extends Practice_Model{
 
         if(!$num) return array();
         $stats = $this->get_participants_stats($num);
-        $stats = $this->practice_statistics_model->_construct_p_c_list($stats);
+        $stats = $this->_construct_p_c_list($stats);
         return $stats;
 
     }
@@ -237,6 +237,15 @@ class Practice_Statistics_Model extends Practice_Model{
         array_walk($keys, function($val)use($stats, &$data){ $data[] = $stats[$val];});
 
         return $data;
+
+    }
+
+    public function pk_random($num = 3){
+        
+        $categories = $this->db
+            ->query("select a.*,b.*,c.`user_num` from `practice_category` as a  left join `practice_category_info` as b on a.`id` = b.`p_c_id` left join `practice_participants_stats` as c on a.`id` = b.`p_c_id` where b.`online` = 1 order by rand() limit 0 , $num")
+            ->result_array();
+        return $this->_construct_p_c_list($categories);
 
     }
 
