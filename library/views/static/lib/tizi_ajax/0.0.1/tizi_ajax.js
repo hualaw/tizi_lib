@@ -33,14 +33,14 @@
 	}
 	$.tizi_token = function(options_data,type,serialize,callback_name){
 		if(serialize === true){
-			var len = options_data.length
+			var len = options_data.length;
 			options_data[len] = {'name':'ver','value':(new Date).valueOf()};
 			if(type.toLocaleLowerCase() == 'post'){
 				options_data[len+1] = {'name':'token','value':basePageToken};
 				options_data[len+2] = {'name':'page_name','value':basePageName};
 			}
 			if(callback_name){
-				var len = options_data.length
+				var len = options_data.length;
 				options_data[len] = {'name':'callback_name','value':callback_name};
 			}
 		}else{
@@ -67,21 +67,15 @@
 		};
 		var options = $.extend(defaults, options);
 		
+		var callback_name='';
 		if(options['dataType']=='jsonp'){
-			options['jsonp']='callback';
-			options['data'] = $.tizi_token(options['data'],options['type'],serialize,options['jsonp']);
-
-			var success=options['success'];
-			callback=function(data){$.tizi_callback(data,success);}
-			options['success']=function(){};
-			options['error']=function(){};
+			callback_name='callback';
 		}else{			
 			options['dataType']='json';
-			options['data'] = $.tizi_token(options['data'],options['type'],serialize);
-			
-			var success=options['success'];
-			options['success']=function(data){$.tizi_callback(data,success);}
 		}
+		options['data'] = $.tizi_token(options['data'],options['type'],serialize,callback_name);
+		var success=options['success'];
+		options['success']=function(data){$.tizi_callback(data,success);}
 
 		$.ajax(options);
 	}

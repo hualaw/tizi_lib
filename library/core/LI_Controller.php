@@ -123,6 +123,8 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('survey_url', survey_url());
         $this->smarty->assign('space_url', space_url());
         $this->smarty->assign('waijiao_url', waijiao_url());
+        $this->smarty->assign('huodong_url', huodong_url());
+        $this->smarty->assign('dafen_url', dafen_url());
         $this->smarty->assign('api_url', api_url());
         $this->smarty->assign('this_url',site_url($this->_segment['n']));
 
@@ -132,6 +134,7 @@ class LI_Controller extends CI_Controller{
 
         $this->smarty->assign('tzid', $this->config->item('sess_cookie_name'));
         $this->smarty->assign('tzu', Constant::COOKIE_TZUSERNAME);
+        $this->smarty->assign('tzc', $this->config->item('cookie_domain'));
         $this->smarty->assign('is_mobile', $this->tizi_mobile);
         
         $this->smarty->assign('static_url', static_url($this->site));
@@ -152,9 +155,6 @@ class LI_Controller extends CI_Controller{
    		$this->smarty->assign('home_student', redirect_url(Constant::USER_TYPE_STUDENT,'tizi'));
     	$this->smarty->assign('home_teacher', redirect_url(Constant::USER_TYPE_TEACHER,'tizi'));
    		$this->smarty->assign('home_parent', redirect_url(Constant::USER_TYPE_PARENT,'tizi'));
-
-		//是否有答疑权限，有的话就显示答疑tab
-		$this->smarty->assign('aq_show',$this->session->userdata('aq_show'));
 
    		$this->smarty->assign('base_avatar', $avatar_url);
    		$this->smarty->assign('constant', $this->user_constant);
@@ -177,7 +177,7 @@ class LI_Controller extends CI_Controller{
 
 	protected function auto_login()
 	{
-        $this->_username=$this->input->cookie(Constant::COOKIE_TZUSERNAME);
+        $this->_username=str_replace(' ','+',$this->input->cookie(Constant::COOKIE_TZUSERNAME));
         $this->tizi_uid=$this->session->userdata("user_id");
 
 		if(!$this->tizi_uid&&$this->_username)
@@ -310,7 +310,7 @@ class LI_Controller extends CI_Controller{
 						$this->smarty->assign('login_redirect',$login_redirect);
 						$this->smarty->assign('reg_redirect',$reg_redirect);
 						$this->smarty->assign('reg_role',$reg_role);
-						$html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
+						$html=$this->smarty->fetch('[lib]common/tizi_login_form.html');
 				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_login'),'login'=>false,'html'=>$html,'redirect'=>$login_redirect,'token'=>false,'code'=>1));
 					    exit();
 					}

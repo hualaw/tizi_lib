@@ -7,7 +7,7 @@ class Register_Model extends LI_Model {
 		
 	function __construct()
 	{
-        	parent::__construct();
+        parent::__construct();
 		$this->load->database();
 	}
 	/*desc:insert new register to db*/
@@ -74,19 +74,19 @@ class Register_Model extends LI_Model {
         {
             case Constant::INSERT_REGISTER_EMAIL:	$email=$username;
             										$email_verified=0;
-            										$origin=Constant::REG_ORIGEN_WEB_EMAIL;
+            										$origin=Constant::REG_ORIGIN_WEB_EMAIL;
             										break;
 
             case Constant::INSERT_REGISTER_PHONE: 	$phone=$username;
             										$phone_verified=1;
 													$phone_mask=mask_phone($username);
-													$origin=Constant::REG_ORIGEN_WEB_PHONE;
+													$origin=Constant::REG_ORIGIN_WEB_PHONE;
 													break;
 			case Constant::INSERT_REGISTER_STUID:	$student_id=$username!=""?$username:$this->get_student_id();
-													$origin=Constant::REG_ORIGEN_WEB_STUID;
+													$origin=Constant::REG_ORIGIN_WEB_STUID;
 													break;
 			case Constant::INSERT_REGISTER_UNAME:	$uname=$username;
-													$origin=Constant::REG_ORIGEN_WEB_UNAME;
+													$origin=Constant::REG_ORIGIN_WEB_UNAME;
 													break;
             default:break;
         }
@@ -114,7 +114,7 @@ class Register_Model extends LI_Model {
 		return $data;
 	}
 	/*get student id*/
-	function get_student_id()
+	public function get_student_id()
 	{
 		/**
 		$this->load->helper('string');
@@ -695,7 +695,7 @@ class Register_Model extends LI_Model {
 	/*get user information*/
 	/*input:arg(user_id)*/
 	/*output:return(user,errorcode(1-success,0-invalid user))*/
-	function get_user_info($user_id,$utype=0)
+	function get_user_info($user_id,$utype=0,$select='*')
 	{
 		if(!$user_id) return array('user'=>array(),'errorcode'=>false);
 
@@ -704,14 +704,15 @@ class Register_Model extends LI_Model {
 			case Constant::LOGIN_TYPE_UNAME:$this->db->where('uname',$user_id);break;
 			case 0: $this->db->where('id',$user_id);		
 			default:break;
-		}		
+		}
+		$this->db->select($select);		
 		$query=$this->db->get($this->_table);
 		$total=$query->num_rows();
 		$user=array();
 		if($total==1)
         {
             $user=$query->row();
-			$user->phone=$user->phone_mask;
+            if(isset($user->phone_mask)) $user->phone=$user->phone_mask;
             $errorcode=true;
         }
         else

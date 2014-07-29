@@ -10,7 +10,7 @@ class credit_userlevel_model extends LI_Model {
 	//根据积分获取用户会员等级
 	public function user_level($credit_total){
 		$res = $this->db->query("select * from credit_userlevel where min_credit<=? and 
-			max_credit>?", array($credit_total, $credit_total))->row_array();
+			max_credit>=?", array($credit_total, $credit_total))->row_array();
 		return $res;
 	}
 	

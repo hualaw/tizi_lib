@@ -87,3 +87,41 @@ if(!function_exists('trans_filesize')){
         }
     }   
 }
+
+if(!function_exists('tizi_rand')){
+    function tizi_rand($award)
+    {
+        if(empty($award)||!is_array($award)) return false;
+        
+        $base = 10000;
+        $group = count($award);
+        $aid = 0;
+        //srand((double)microtime()*1000000);
+        $rand1 = mt_rand(0,$base)%$group;
+        $rand2 = round(mt_rand(0,$base),4)*100/$base;
+
+        $num = count($award[$rand1]);
+        for($j=0;$j<$num;$j++)
+        {
+            if($award[$rand1][$j][1]==100)
+            {
+                $aid = $award[$rand1][$j][0];
+                break;
+            }
+            else
+            {
+                if($j==0&&$rand2<=$award[$rand1][$j][1])
+                {
+                    $aid = $award[$rand1][$j][0];
+                    break;
+                }
+                else if($rand2<=$award[$rand1][$j][1]&&$rand2>$award[$rand1][$j-1][1])
+                {
+                    $aid = $award[$rand1][$j][0];
+                    break;
+                }
+            }
+        }
+        return array('rand1'=>$rand1,'rand2'=>$rand2,'aid'=>$aid);
+    }
+}

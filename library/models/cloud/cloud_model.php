@@ -21,7 +21,7 @@ class cloud_model extends MY_Model{
     //将文件分享到班级
     function share_to_classes($param){
         $this->load->model('class/classes_student');
-        $this->load->model("homework/student_task_model");
+        $this->load->model("exercise_plan/student_task_model");
         foreach($param as $val){
             $this->db->insert($this->_share_table,$val);
             $insert_id = $this->db->insert_id();
@@ -53,13 +53,15 @@ class cloud_model extends MY_Model{
         }else{
             $uid_sql = '';
         }
-        $sql = "select *,s.id as share_id from $this->_share_table s left join $this->_file_table f on f.id=s.file_id where 1=1 $uid_sql and s.class_id=$class_id and s.is_del=0 and f.is_del=0 order by s.create_time desc ".$limit_sql;
+        $sql = "select *,s.id as share_id from $this->_share_table s left join $this->_file_table f on f.id=s.file_id where 1=1 $uid_sql and s.class_id=$class_id and s.is_del=0  order by s.create_time desc ".$limit_sql;
+        /*2014-07-08 删除条件：and f.is_del=0   删除文件本身不影响分享到班级的文件 */
         return $this->db->query($sql)->result_array();//echo $this->db->last_query();die;
     }
 
     //通过分享id来获取相关信息
     function get_file_by_share_id($share_id){
-        $sql = "select f.*,s.*,s.id as share_id from $this->_share_table as s left join $this->_file_table as f on s.file_id = f.id where s.id=$share_id and f.is_del=0 and s.is_del=0";
+        $sql = "select f.*,s.*,s.id as share_id from $this->_share_table as s left join $this->_file_table as f on s.file_id = f.id where s.id=$share_id and s.is_del=0";
+        /*2014-07-08 删除条件：and f.is_del=0   删除文件本身不影响分享到班级的文件 */
         return $this->db->query($sql)->result_array();
     }
 
@@ -153,17 +155,23 @@ class cloud_model extends MY_Model{
     }
 
     //获取某人的某类型的文件集合
-    function get_file_by_type($user_id,$type,$page_num=1,$total=false){
+    function get_file_by_type($user_id,$type,$is_cloud=true,$page_num=1,$total=false){
         if(in_array($type, array_keys(Constant::cloud_filetype(0,true)))){
             if($total){
-
                 $this->db->select("COUNT(`id`) AS filenum");
-                return $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'file_type'=>$type,'is_del'=>0))->row()->filenum;
+                $w = array('user_id'=>$user_id,'file_type'=>$type,'is_del'=>0);
+                if($is_cloud){
+                    $w['show_place'] = 0 ; //网盘
+                }
+                return $this->db->get_where($this->_file_table,$w)->row()->filenum;
             }else{
 
                 $limit=Constant::CLOUD_FILE_PER_PAGE_NUM;
                 if($page_num<=0) $page_num=1;
                 $offset=($page_num-1)*$limit;
+                if($is_cloud){
+                    $this->db->where('show_place',0);
+                }
                 $this->db->where(array('user_id'=>$user_id,'file_type'=>$type,'is_del'=>0));
                 $this->db->order_by('upload_time','desc');
                 $this->db->limit($limit,$offset);
@@ -185,12 +193,20 @@ class cloud_model extends MY_Model{
 
     //获取某人名下的某个文件夹下的所有文件和文件夹
     function get_dir_child_by_p_id($user_id,$dir_id=0,$page_num=1,$file_offset=0,$total=false){
+        //tizi4.0 ， 分离网盘和资源库（备课）
+        if($dir_id ==0 ){//因为从备课上传的文件，dir_id也会是0，所以不能认为dir_id为0的就是网盘
+            $is_cloud = array('dir_id'=>0,'show_place'=>0);
+        }
         if($total){
             $this->db->select("COUNT(`id`) AS filenum");
-            $files_total = $this->db->get_where($this->_file_table,array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0))->row()->filenum;
-            // echo $this->db->last_query();
+            $w = array('user_id'=>$user_id,'dir_id'=>$dir_id,'is_del'=>0);
+            if($dir_id == 0){
+                $w = array_merge($w,$is_cloud);
+            }
+            $files_total = $this->db->get_where($this->_file_table,$w)->row()->filenum;
             $this->db->select("COUNT(`dir_id`) AS dirnum");
-            $dir_total = $this->db->get_where($this->_dir_table,array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0))->row()->dirnum;
+            $w = array('user_id'=>$user_id,'p_id'=>$dir_id,'is_del'=>0);
+            $dir_total = $this->db->get_where($this->_dir_table,$w)->row()->dirnum;
             $all_total = $dir_total+$files_total;
             if($files_total>0){
                 return array('all_total'=>$all_total,'total_page'=>$all_total,'dir_total'=>$dir_total,'file_total'=>$files_total);
@@ -201,7 +217,8 @@ class cloud_model extends MY_Model{
             $limit=Constant::CLOUD_FILE_PER_PAGE_NUM;
             if($page_num<=0) $page_num=1;
             $offset=($page_num-1)*$limit;
-            $this->db->where(array('user_id'=>$user_id,'is_del'=>0,'p_id'=>$dir_id,'cat_id'=>null));
+            $w = array('user_id'=>$user_id,'is_del'=>0,'p_id'=>$dir_id,'cat_id'=>null);
+            $this->db->where($w);
             $this->db->limit($limit,$offset);
             $this->db->order_by('create_time','desc');
             $dir_query=$this->db->get($this->_dir_table);
@@ -212,11 +229,13 @@ class cloud_model extends MY_Model{
             if(!$count_file){
                 return $return;
             }
+            
+            $show_place = $dir_id==0?' and show_place=0 ':'';
             if(!$file_offset){
                 $file_offset = $count_file;
-                $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$user_id and is_del=0 order by upload_time desc limit 0,$file_offset";
+                $sql = "select * from $this->_file_table where dir_id=$dir_id $show_place and user_id=$user_id and is_del=0 order by upload_time desc limit 0,$file_offset";
             }else{
-                $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$user_id and is_del=0 order by upload_time desc limit $file_offset,".Constant::CLOUD_FILE_PER_PAGE_NUM;
+                $sql = "select * from $this->_file_table where dir_id=$dir_id $show_place and user_id=$user_id and is_del=0 order by upload_time desc limit $file_offset,".Constant::CLOUD_FILE_PER_PAGE_NUM;
             }
             $return['file'] = $this->db->query($sql)->result_array();            
             return $return;
@@ -225,13 +244,14 @@ class cloud_model extends MY_Model{
 
     //获取文件夹下的文件
     function get_files_in_a_dir($uid,$dir_id,$filetype=0,$sub_cat_id=null){
+        $is_cloud = $dir_id==0?' and show_place=0 ':'';
         if(in_array($filetype,array_keys(Constant::cloud_filetype(0,true)))){
             $f_sql = " and file_type=$filetype";
         }else{
             $f_sql = "";
         }
         $sub_cat_sql = $sub_cat_id?" and sub_cat_id = $sub_cat_id ":'';
-        $sql = "select * from $this->_file_table where dir_id=$dir_id and user_id=$uid $sub_cat_sql and is_del=0 $f_sql order by id desc ";
+        $sql = "select * from $this->_file_table where dir_id=$dir_id  $is_cloud  and user_id=$uid $sub_cat_sql and is_del=0 $f_sql order by id desc ";
         return $this->db->query($sql)->result_array();
     }
 
@@ -322,7 +342,8 @@ class cloud_model extends MY_Model{
         if($class_id){
             $class_sql = " and s.class_id=$class_id";
         }
-        $sql = "select f.$field , s.*,s.id as share_id from $this->_file_table f left join $this->_share_table s on s.file_id=f.id where f.id=$file_id and f.is_del=0 $class_sql limit 1";
+        $sql = "select f.$field , s.*,s.id as share_id , f.user_id as user_id from $this->_file_table f left join $this->_share_table s on s.file_id=f.id where f.id=$file_id  $class_sql limit 1";
+        /*2014-07-08 删除条件：and f.is_del=0   删除文件本身不影响分享到班级的文件 */
         if($only_file_info){
             $sql = "select * from $this->_file_table where id=$file_id and is_del=0 limit 1";
         }
@@ -499,13 +520,18 @@ class cloud_model extends MY_Model{
     }
 
     //分享文件的总数
-    function share_file_total($class_id='',$uid){
-        $class_sql = '';
+    function share_file_total($class_id='',$uid=0){
+        $class_sql = $uid_sql = '';
         if($class_id){
             $class_id = intval($class_id);
             $class_sql = " and s.class_id = $class_id ";
         }
-        $sql = "select count(1) as num from $this->_share_table  s left join $this->_file_table f on f.id=s.file_id where s.user_id=$uid and s.is_del=0 and f.is_del=0 $class_sql";
+        if($uid){
+            $uid = intval($uid);
+            $uid_sql = " and s.user_id = $uid ";
+        }
+        $sql = "select count(1) as num from $this->_share_table s left join $this->_file_table f on f.id=s.file_id where s.is_del=0  $class_sql $uid_sql";
+        /*2014-07-08 删除条件：and f.is_del=0   删除文件本身不影响分享到班级的文件 */
         return $this->db->query($sql)->row(0)->num;
     }
 
@@ -585,9 +611,16 @@ class cloud_model extends MY_Model{
         /*活动结束*/
         $share = $this->get_file_by_share_id($share_id);
         if (isset($share[0]["user_id"])){
-			$this->load->library("credit");
-			$data = array($uid);
-			$this->credit->exec($share[0]["user_id"], "cloud_share_download", false, "", $data);
+            //学生下载才给加分
+            $this->load->model('login/register_model');
+            $role = $this->register_model->get_user_info($uid,0,'user_type');
+            if($role['errorcode']){
+                if($role['user']->user_type == Constant::USER_TYPE_STUDENT){
+        			$this->load->library("credit");
+        			$data = array($uid);
+        			$this->credit->exec($share[0]["user_id"], "cloud_share_download", false, "", $data);
+                }
+            }
 		}
         return true;
     }
@@ -687,11 +720,36 @@ class cloud_model extends MY_Model{
         
     }
 
-    function update_file_table($data,$where){
-        $this->db->where($where);
+    function update_file_table($data,$where,$where_in=false){
+        if($where_in)$this->db->where_in('id',$where);
+        else $this->db->where($where);
         $res = $this->db->update($this->_file_table,$data);
         return $res;
     }
 
+    /**
+     * 我的贡献页面（审核中的文件）
+     */
+    public function get_upload_check($user_id,$page_num=1,$total=false)
+    {
+        
+        $this->db->where('user_id',$user_id);
+        $this->db->where_in('is_share_to_tizi',array(2,3));
+        if($total){
+            $this->db->select('count(id) as total');
+            $query=$this->db->get('cloud_user_file');
+            $count=isset($query->row()->total)?$query->row()->total:0;
+            return $count;
+        }else{
+            $this->db->select('id,file_name,file_ext,upload_time,is_share_to_tizi');
+            $limit=10;
+            if($page_num<=0) $page_num=1;
+            $offset=($page_num-1)*$limit;
+            $this->db->order_by('upload_time','desc');
+            $this->db->limit($limit,$offset);
+            $query=$this->db->get('cloud_user_file');
+            return $query->result();
+        }
+    }
 
 }
