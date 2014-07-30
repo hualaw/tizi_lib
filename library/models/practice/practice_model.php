@@ -347,7 +347,7 @@ class Practice_Model extends MY_Model{
     
     public function get_category_info($p_c_id){
         $info = $this->db
-            ->query("select a.*,b.*,c.`user_num` from `practice_category` as a  left join `practice_category_info` as b on a.`id` = b.`p_c_id` left join `practice_participants_stats` as c on a.`id` = b.`p_c_id` where a.`id` = {$p_c_id} and b.`online` = 1")
+            ->query("select a.*,b.*,c.`user_num` from `practice_category` as a  left join `practice_category_info` as b on a.`id` = b.`p_c_id` left join `practice_participants_stats` as c on a.`id` = c.`p_c_id` where a.`id` = {$p_c_id} and b.`online` = 1")
             ->row_array();
         return $info;
     }
