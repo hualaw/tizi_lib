@@ -56,7 +56,7 @@ define(function(require, exports) {
 					msg = "uid:"+ecuid;
 				}
 				if(debug && msg) {
-					document.cookie = "_dc="+msg+";path=/";
+					document.cookie = "_dc="+msg+";domain="+baseCookieDomain+";path=/";
 					//$('.footer').append(msg);
 				}
 			}, 0);
