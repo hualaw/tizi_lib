@@ -12,6 +12,17 @@ define(function(require, exports) {
         seajs.use('placeHolder',function(ex){
             ex.JPlaceHolder.init();
         });
+        // 鼠标离开输入框的时候恢复默认状态
+        $('.indexLoginForm input').each(function(){
+            var _this = $(this);
+            $(this).blur(function(){
+                if(_this.val() == ''){
+                    $('.ValidformInfo').hide();
+                    _this.removeClass('Validform_error');
+                    _this.next('.Validform_checktip').hide();
+                }
+            });
+        });
         var _Form = $(".indexLoginForm").Validform({
             tiptype: function (msg, o, cssctl) {
                 if (!o.obj.is("form")) {
