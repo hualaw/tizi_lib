@@ -3,7 +3,6 @@
 class Stu_Video_Model extends LI_Model {
 
 	private $_table='student_video';
-
 	public function __construct()
 	{
 
@@ -74,5 +73,26 @@ class Stu_Video_Model extends LI_Model {
 			return false;
 		}
 		return true;
+	}
+
+	public function get_videos_by_grade($grade=1,$page_num=1,$limit,$vid=false,$total=false)
+	{
+		if($grade) $this->db->where('grade_id',$grade);
+		$this->db->where('online',1);
+		if($total){
+			$query=$this->db->get($this->_table);
+			return $query->num_rows();
+		}
+		if(!$vid){
+			if($page_num<=0) $page_num=1;
+	        $offset=($page_num-1)*$limit;
+	        $this->db->limit($limit,$offset);
+		}else{
+			$this->db->where('id <=',$vid);
+			$this->db->limit($limit);
+		}
+        $this->db->order_by('date','desc');
+		$query=$this->db->get($this->_table);
+		return $query->result();
 	}
 }

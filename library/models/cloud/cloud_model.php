@@ -367,14 +367,16 @@ class cloud_model extends MY_Model{
     }
 
     //检查文件夹or文件是否属于该用户
-    function check_belonging($user_id,$dir_id,$is_file=false){
+    function check_belonging($user_id,$dir_id,$is_file=false,$is_del=0){
         $user_id = intval($user_id); $dir_id = intval($dir_id);
         if(!$is_file){
             $sql = "select count(1) as num from $this->_dir_table where user_id=$user_id and dir_id=$dir_id";
         }else{
             $sql = "select count(1) as num from $this->_file_table where user_id=$user_id and id=$dir_id";
         }
-        $sql.=" and is_del=0";
+        if($is_del == 0){
+            $sql.=" and is_del=0";//班级空间里的文件下载时也要检测，但是可以排除这个条件
+        }
         $num = $this->db->query($sql)->row(0)->num;
         return $num;
     }
