@@ -59,7 +59,7 @@ define(function(require, exports) {
 				json = 'json';
 				if(no_tizi != undefined){json = 'jsonp'; }
 	            $.tizi_ajax({
-	                    url: baseUrlName + "resource/cloud_base/add_download_count", 
+	                    url: tiziUrlName + "resource/cloud_base/add_download_count", 
 	                    type: 'POST',
 	                    data: {'share_id':share_id},
 	                    dataType: json,
