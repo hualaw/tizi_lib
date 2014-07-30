@@ -24,7 +24,8 @@
 
 /*````````````小头部样式开始````````````*/
 .topMiniNavMini{line-height: 29px;}
-.topMiniNavMini .miniNav a{margin-right:10px;}
+.topMiniNavMini .miniNav a{margin-right:10px;color:#333;}
+.topMiniNavMini .miniNav a:hover{color:#f90;}
 .topMiniNavMini .topLogin{width: 200px;text-align:right;}
 .topMiniNavMini .topLogin .loginBefore a{margin-left:10px;}
 .topMiniNavMini .navWrap a.logo{text-indent: -999em;overflow:hidden;}
