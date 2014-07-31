@@ -613,14 +613,21 @@ class cloud_model extends MY_Model{
         /*活动结束*/
         $share = $this->get_file_by_share_id($share_id);
         if (isset($share[0]["user_id"])){
+            $teacher_id = $share[0]["user_id"];//老师的id
             //学生下载才给加分
             $this->load->model('login/register_model');
             $role = $this->register_model->get_user_info($uid,0,'user_type');
             if($role['errorcode']){
                 if($role['user']->user_type == Constant::USER_TYPE_STUDENT){
+                    $teacher_is_cert = $this->register_model->get_user_info($teacher_id,0,'certification');
+                    if(isset($teacher_is_cert['user']->certification)){
+                        $teacher_is_cert = $teacher_is_cert['user']->certification?1:0;
+                    }else{
+                        $teacher_is_cert = 0;
+                    }
         			$this->load->library("credit");
         			$data = array($uid);
-        			$this->credit->exec($share[0]["user_id"], "cloud_share_download", false, "", $data);
+        			$this->credit->exec($share[0]["user_id"], "cloud_share_download", $teacher_is_cert, "", $data);
                 }
             }
 		}
