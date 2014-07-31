@@ -100,8 +100,8 @@ class cloud_model extends MY_Model{
             }
         }
         if ($id > 0 && isset($param["user_id"])){
-			$this->load->library("credit");
-			$this->credit->exec($param["user_id"], "cloud_first_uploaded");
+			// $this->load->library("credit");
+			// $this->credit->exec($param["user_id"], "cloud_first_uploaded");
 			
 			//任务系统_用户在教学网盘中任意上传一个文件
 			$this->load->library("task");
