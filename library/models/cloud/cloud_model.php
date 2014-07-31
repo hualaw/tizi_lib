@@ -707,11 +707,13 @@ class cloud_model extends MY_Model{
         return $all_dir;
     }
 
-    public function get_single_doc_preview($doc_id,$user_id,$is_join = false)
+    public function get_single_doc_preview($doc_id,$user_id,$is_join = false,$is_del=0)
     {
         $this->db->where($this->_file_table.'.id',$doc_id);
         if($user_id) $this->db->where($this->_file_table.'.user_id',$user_id);
-        $this->db->where($this->_file_table.'.is_del',0);
+        if($is_del==0){
+            $this->db->where($this->_file_table.'.is_del',0);
+        }
         $this->db->where($this->_file_table.'.queue_status',1);
         if($is_join){
             $this->db->join('cloud_document_preview','cloud_user_file.id=cloud_document_preview.doc_id','left');
