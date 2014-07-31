@@ -9,8 +9,8 @@ class Tizi_Schoollogin extends Tizi_Controller {
 
     protected function callback(){
 		$school_id = intval($this->input->post("school_id"));
-		$username = trim($this->input->post("username"));
-		$password = trim($this->input->post("password"));
+		$username = trim($this->input->post("s_username"));
+		$password = trim($this->input->post("s_password"));
 		
 		$school_id > 0 && $this->input->set_cookie(Constant::COOKIE_SCHOOL_LOGIN, $school_id, 86400 * 30);
 
