@@ -304,7 +304,7 @@ Class CI_Constant {
 		$string = '
 			亲爱的老师：<br>
 			欢迎您在梯子网安家，您的博客地址是：
-			<a href="'.site_url().'space/'.$space_user_id.'" target="_blank" style="color:#009a83">'.site_url().'space/'. $space_user_id.' </a><br>
+			<a href="'.space_url().'space/'.$space_user_id.'" target="_blank" style="color:#009a83">'.space_url().'space/'. $space_user_id.' </a><br>
 			您可以用文字、图片记录和展示最真实的自我，与其他老师交流，随时随地记录教学感悟和趣闻。<br>
 			  <br>
 			准备好了吗？现在就开始精彩的空间之旅！ <br>
@@ -314,8 +314,8 @@ Class CI_Constant {
 			文章可以添加附件，方便您把相关资源提供给大家。<br>
 			<br>
 			这样做您的空间会受到更多的关注：<br>
-			多<a href="'.site_url().'space/'.$space_user_id.'/add" target="_blank" style="color:#009a83">写文章</a>，向大家分享自己的文字；<br>
-			<a href="'.site_url().'myspace/settings" target="_blank" style="color:#009a83">完善个人资料</a>，上传靓照当头像，向大家介绍自己<br>
+			多<a href="'.space_url().'space/'.$space_user_id.'/add" target="_blank" style="color:#009a83">写文章</a>，向大家分享自己的文字；<br>
+			<a href="'.space_url().'myspace/settings" target="_blank" style="color:#009a83">完善个人资料</a>，上传靓照当头像，向大家介绍自己<br>
 			随便逛逛，看看邻居的观点，留下您的宝贵评论<br>
 			<br>
 			如果有问题，可以向梯子网进行<a href="http://www.tizi.com/about/feedback" target="_blank" style="color:#009a83">反馈</a> ，我们第一时间给您回复。<br>
