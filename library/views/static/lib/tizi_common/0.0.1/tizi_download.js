@@ -37,7 +37,8 @@ define(function(require, exports) {
 	};
 
 	/*是否下载xxx文件*/
-	exports.down_confirm_box = function(url,fname,noxunlei,share_id){
+	/* no_tizi 为true，说明是从其他项目来的请求，要做成jsonp提交 */
+	exports.down_confirm_box = function(url,fname,noxunlei,share_id,no_tizi){
 		if(!noxunlei){
 			url = url + '&session_id=' + $.cookies.get(baseSessID);
 		}
@@ -55,13 +56,18 @@ define(function(require, exports) {
 		});
 		if(share_id!=undefined){
 			$('.clickDown').click(function(){
-	            $.tizi_ajax({
-	                    url: baseUrlName + "resource/cloud_base/add_download_count", 
-	                    type: 'POST',
-	                    data: {'share_id':share_id},
-	                    dataType: 'json',
-	                    success: function(data){  }
-	            });         
+				json = 'json';
+
+				if(no_tizi != undefined){
+					json = 'jsonp';
+				} 
+				$.tizi_ajax({
+                    url: tiziUrlName + "resource/cloud_base/add_download_count", 
+                    type: 'POST',
+                    data: {'share_id':share_id},
+                    dataType: json,
+                    success: function(data){  }
+		        }); 
 	        });
 		}
 	};
