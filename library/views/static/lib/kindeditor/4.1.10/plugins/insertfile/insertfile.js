@@ -59,7 +59,10 @@ function(K) {
 								cancelVal:'关闭',
 								cancel:true,
 								time:3
-							})
+							});
+							seajs.use('module/myspace/edit',function(_edit){
+								_edit.uploadFile();
+							});
 						}else{
 							alert(self.lang("uploadSuccess"));
 						}
