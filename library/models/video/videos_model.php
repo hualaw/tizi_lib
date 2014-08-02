@@ -13,19 +13,18 @@ class Videos_Model extends MY_Model {
         parent::__construct();
     }
 
-    function get_video_by_id($lesson_id,$select='*',$not_preview=true){
+    function get_lesson_by_id($lesson_id,$select='*',$not_preview=true){
         $this->db->select(" $select ");
-        $this->db->join($this->_table_resources.' as r','l.res_id=r.id');
         if($not_preview){
-            $this->db->where('l.online',1);//如果是preview就不用考虑online字段
+            $this->db->where('online',1);//如果是preview就不用考虑online字段
         }
         if(is_array($lesson_id)){
-            $this->db->where_in('l.id',$lesson_id);
-            $query=$this->db->get($this->_table.' as l'); //  echo $this->db->last_query();die;
+            $this->db->where_in('id',$lesson_id);
+            $query=$this->db->get($this->_table); //  echo $this->db->last_query();die;
             return $query->result_array();
         }else{
-            $this->db->where('l.id',$lesson_id);
-            $query=$this->db->get($this->_table.' as l'); //  echo $this->db->last_query();die;
+            $this->db->where('id',$lesson_id);
+            $query=$this->db->get($this->_table); //  echo $this->db->last_query();die;
             return $query->row(0);
         }
     }
@@ -147,5 +146,12 @@ class Videos_Model extends MY_Model {
         $wrong_query = $this->db->query("SELECT COUNT(DISTINCT `question_id`) AS total FROM {$this->_tb_exercise_wrong} WHERE user_id={$user_id} AND type=1 AND result=0");
         $return_val->wrong_total = $wrong_query->row()->total;
         return $return_val;
+    }
+
+    /*根据lesson_id 获取视频列表信息*/
+    public function get_lesson_resource_list($lesson_id)
+    {
+        $this->db->order_by('order_list','desc');
+        return $this->db->get_where($this->_table_resources,array('lesson_id'=>$lesson_id))->result();
     }
 }
