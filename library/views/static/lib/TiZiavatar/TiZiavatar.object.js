@@ -198,7 +198,7 @@ swfobject.addDomLoadEvent(function () {
     var avatarVars = {
         id: 'TiZiAvatar',
         upload_url: baseUrlName + 'upload/avatar',
-        width: 630,
+        width: 710,
         height: 430
     }
 
