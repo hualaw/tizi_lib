@@ -1,91 +1,313 @@
-﻿function TiZiavatar() {
-	var id				= 'TiZiavatar'				//flash文件的ID
-	var file			= staticUrlName + staticVersion + 'lib/TiZiavatar/TiZiavatar.swf';		//flash文件的路径
-	var	version			= "10.1.0";					//播放该flash所需的最低版本
-	var	expressInstall	= '/expressInstall.swf';	//expressInstall.swf的路径
-	var	width			= 710;						//flash文件的宽度
-	var	height			= 430;						//flash文件的高度
-	var container		= id;						//装载flash文件的容器(如div)的id
-	var flashvars		= {};
-	var callback		= function(){};
-	var heightChanged	= false;
-	//智能获取参数，字符类型为装载flash文件的容器(如div)的id，第一个数字类型的为高度，第二个为宽度，第一个object类型的为参数对象，如此4个参数的顺序可随意。
-	for(var i = 0; i < arguments.length; i++)
-	{
-		if(typeof arguments[i] == 'string')
+﻿define(function(require,exports){
+	require('swfObject');
+	function TiZiavatar() {
+		var id				= 'TiZiavatar'				//flash文件的ID
+		var file			= staticUrlName + staticVersion + 'lib/TiZiavatar/TiZiavatar.swf';		//flash文件的路径
+		var	version			= "10.1.0";					//播放该flash所需的最低版本
+		var	expressInstall	= '/expressInstall.swf';	//expressInstall.swf的路径
+		var	width			= 710;						//flash文件的宽度
+		var	height			= 430;						//flash文件的高度
+		var container		= id;						//装载flash文件的容器(如div)的id
+		var flashvars		= {};
+		var callback		= function(){};
+		var heightChanged	= false;
+		//智能获取参数，字符类型为装载flash文件的容器(如div)的id，第一个数字类型的为高度，第二个为宽度，第一个object类型的为参数对象，如此4个参数的顺序可随意。
+		for(var i = 0; i < arguments.length; i++)
 		{
-			container = arguments[i];
-		}
-		else if(typeof arguments[i] == 'number')
-		{
-			if(heightChanged)
+			if(typeof arguments[i] == 'string')
 			{
-				width = arguments[i];
+				container = arguments[i];
+			}
+			else if(typeof arguments[i] == 'number')
+			{
+				if(heightChanged)
+				{
+					width = arguments[i];
+				}
+				else
+				{
+					height = arguments[i];
+					heightChanged = true;
+				}
+			}
+			else if(typeof arguments[i] == 'function')
+			{
+				callback = arguments[i];
 			}
 			else
 			{
-				height = arguments[i];
-				heightChanged = true;
+				flashvars = arguments[i];
 			}
 		}
-		else if(typeof arguments[i] == 'function')
-		{
-			callback = arguments[i];
-		}
-		else
-		{
-			flashvars = arguments[i];
-		}
-	}
-	var vars = {
-		id : id,
-		avatar_sizes_desc : "180*180像素|100*100像素|50*50像素",
-        avatar_sizes    :   "180*180|100*100|50*50",
-        tab_visible: false,//不显示选项卡，外部自定义
-        button_visible: false,//不显示按钮，外部自定义
-        checkbox_visible: false,//不显示复选框，外部自定义
-        browse_box_align : "left",
-        webcam_box_align : "left",
-        src_upload: 0//是否上传原图片的选项：2-显示复选框由用户选择，0-不上传，1-上传
-	};
-	//合并参数
-	for (var name in flashvars)
-	{
-		if(flashvars[name] != null)
-		{
-			vars[name] = flashvars[name];
-		}
-	}
-	var params = {
-		menu				: 'true',
-		scale				: 'noScale',
-		allowFullscreen		: 'true',
-		allowScriptAccess	: 'always',
-		wmode				: 'transparent'
-	};
-	var attributes = {
-		id	: vars.id,
-		name: vars.id
-	};
-	var swf = null;
-	var	callbackFn = function (e) {
-		swf = e.ref;
-		//tizi add swf eq null condition
-		if(swf) swf.eventHandler = function(json){
-			callback.call(swf, json);
+		var vars = {
+			id : id,
+			avatar_sizes_desc : "180*180像素|100*100像素|50*50像素",
+	        avatar_sizes    :   "180*180|100*100|50*50",
+	        tab_visible: false,//不显示选项卡，外部自定义
+	        button_visible: false,//不显示按钮，外部自定义
+	        checkbox_visible: false,//不显示复选框，外部自定义
+	        browse_box_align : "left",
+	        webcam_box_align : "left",
+	        src_upload: 0//是否上传原图片的选项：2-显示复选框由用户选择，0-不上传，1-上传
 		};
+		//合并参数
+		for (var name in flashvars)
+		{
+			if(flashvars[name] != null)
+			{
+				vars[name] = flashvars[name];
+			}
+		}
+		var params = {
+			menu				: 'true',
+			scale				: 'noScale',
+			allowFullscreen		: 'true',
+			allowScriptAccess	: 'always',
+			wmode				: 'transparent'
+		};
+		var attributes = {
+			id	: vars.id,
+			name: vars.id
+		};
+		var swf = null;
+		var	callbackFn = function (e) {
+			swf = e.ref;
+			//tizi add swf eq null condition
+			if(swf) swf.eventHandler = function(json){
+				callback.call(swf, json);
+			};
+		};
+		swfobject.embedSWF(
+			file, 
+			container,
+			width,
+			height,
+			version,
+			expressInstall,
+			vars,
+			params, 
+			attributes,
+			callbackFn
+		);
+		return swf;
 	};
-	swfobject.embedSWF(
-		file, 
-		container,
-		width,
-		height,
-		version,
-		expressInstall,
-		vars,
-		params, 
-		attributes,
-		callbackFn
-	);
-	return swf;
-}
+	swfobject.addDomLoadEvent(function () {
+    var webcamAvailable = false;
+    var currentTab = 'upload';
+    var callback = function (json) {
+        switch (json.code) {
+            case 1: //alert("页面成功加载了组件！");
+                    break;
+            case 2: //alert("已成功加载默认指定的图片到编辑面板。");
+                //如果加载原图成功，说明进入了编辑面板，显示保存和取消按钮，隐藏拍照按钮
+                if (json.type == 0) {
+                    if(this.id == "TiZiAvatar")
+                    {
+                        $('#webcamPanelButton').hide();
+                        $('#editorPanelButtons').show();
+                    }
+                }
+                //否则会转到上传面板
+                else {
+                    //隐藏所有按钮
+                    if(this.id == "TiZiAvatar")$('#editorPanelButtons,#webcamPanelButton').hide();
+                }
+                break;
+            case 3:
+                //如果摄像头已准备就绪且用户已允许使用，显示拍照按钮。
+                if (json.type == 0) {
+                    //alert("摄像头已准备就绪且用户已允许使用。");
+                    if(this.id == "TiZiAvatar")
+                    {
+                        $('.button_shutter').removeClass('Disabled');
+                        $('#webcamPanelButton').show();
+                        webcamAvailable = true;
+                    }
+                }
+                else {
+                    if(this.id == "TiZiAvatar")
+                    {
+                        webcamAvailable = false;
+                        $('#webcamPanelButton').hide();
+                    }
+                    //如果摄像头已准备就绪但用户已拒绝使用。
+                    if (json.type == 1) {
+                        //alert('用户拒绝使用摄像头!');
+                    }
+                    //如果摄像头已准备就绪但摄像头被占用。
+                    else {
+                        //alert('摄像头被占用!');
+                    }
+                }
+                break;
+            case 4:
+                //alert("请选择小于2MB的图片文件（" + json.content + "）。");
+                break;
+            case 5:
+                //如果上传成功
+                if (json.type == 0) {
+                    if(json.content.sourceUrl)
+                    {
+                        //alert("头像已成功保存至服务器，url为：\n" +　json.content.sourceUrl);
+                    }
+                    //alert("头像已成功保存至服务器，url为：\n" + json.content.avatarUrls.join("\n"));
+                    //$('.button_cancel').click();
+                    $('.memberInfo').find('img').removeAttr('src');
+                    $('.memberInfo').find('img').attr('src',json.content.avatarUrls[0]+'?v='+(new Date).valueOf());
+                    cancelClick();
+                }else if (json.type == 1) {
+                    //$.tiziDialog({content:json.content.msg});
+                }else {
+                    //$.tiziDialog({content:json.content});
+                }
+                break;
+        }
+    };
+
+    //选项卡点击事件
+    $('dt').click(function () {
+        if (currentTab != this.id) {
+            currentTab = this.id;
+            $(this).addClass('current');
+            $(this).siblings().removeClass('current');
+            //如果是点击“相册选取”
+            if (this.id === 'albums') {
+                //隐藏flash
+                hideSWF();
+                showAlbums();
+            }
+            else {
+                hideAlbums();
+                showSWF();
+                if (this.id === 'webcam') {
+                    $('#editorPanelButtons').hide();
+                    if (webcamAvailable) {
+                        $('.button_shutter').removeClass('Disabled');
+                        $('#webcamPanelButton').show();
+                    }
+                }
+                else {
+                    //隐藏所有按钮
+                    $('#editorPanelButtons,#webcamPanelButton').hide();
+                }
+            }
+            TiZiAvatar.call('changepanel', this.id);
+        }
+    });
+
+    //复选框事件
+    $('#src_upload').change(function () {
+        TiZiAvatar.call('srcUpload', this.checked);
+    });
+
+    //点击上传按钮的事件
+    $('.button_upload').click(function () {
+        TiZiAvatar.call('upload');
+    });
+
+    //点击取消按钮的事件
+    $('.button_cancel').click(function () {
+        cancelClick();
+    });
+
+    function cancelClick(){
+        var activedTab = $('dt.current')[0].id;
+        if (activedTab === 'albums') {
+            hideSWF();
+            showAlbums();
+        }
+        else {
+            TiZiAvatar.call('changepanel', activedTab);
+            if (activedTab === 'webcam') {
+                $('#editorPanelButtons').hide();
+                if (webcamAvailable) {
+                    $('.button_shutter').removeClass('Disabled');
+                    $('#webcamPanelButton').show();
+                }
+            }
+            else {
+                //隐藏所有按钮
+                $('#editorPanelButtons,#webcamPanelButton').hide();
+            }
+        }
+    }
+
+    //点击拍照按钮的事件
+    $('.button_shutter').click(function () {
+        if (!$(this).hasClass('Disabled')) {
+            $(this).addClass('Disabled');
+            TiZiAvatar.call('pressShutter');
+        }
+    });
+
+    //从相册中选取
+    $('#userAlbums a').click(function () {
+        var sourcePic = this.href;
+        TiZiAvatar.call('loadPic', sourcePic);
+        //隐藏相册
+        hideAlbums();
+        //显示flash
+        showSWF();
+        return false;
+    });
+
+    //隐藏flash的函数
+    function hideSWF() {
+        //将宽高设置为0的方式来隐藏flash，而不能使用将其display样式设置为none的方式来隐藏，否则flash将不会被加载，隐藏时储存其宽高，以便后期恢复
+        $('#avatar').data({
+            w: $('#avatar').width(),
+            h: $('#avatar').height()
+        })
+    .css({
+        width: '0px',
+        height: '0px',
+        overflow: 'hidden'
+    });
+        //隐藏所有按钮
+        $('#editorPanelButtons,#webcamPanelButton').hide();
+    }
+
+    function showSWF() {
+        $('#avatar').css({
+            width: $('#avatar').data('w'),
+            height: $('#avatar').data('h')
+        });
+    }
+
+    //显示相册的函数
+    function showAlbums() {
+        $('#userAlbums').show();
+    }
+
+    //隐藏相册的函数
+    function hideAlbums() {
+        $('#userAlbums').hide();
+    }
+
+    if(typeof avatarParam != 'object') {
+        var avatarParam = {};
+    }
+
+    var avatarVars = {
+        id: 'TiZiAvatar',
+        upload_url: baseUrlName + 'upload/avatar',
+        width: 710,
+        height: 430
+    }
+
+    if(typeof avatarParams == 'object') {
+        for (var name in avatarParams)
+        {
+            if(avatarParams[name] != null)
+            {
+                avatarVars[name] = avatarParams[name];
+            }
+        }
+    }
+
+    var avatarWidth = avatarVars['width'];
+    var avatarHeight = avatarVars['height'];
+
+    var TiZiAvatar = new TiZiavatar('TiZiAvatar', avatarHeight, avatarWidth, avatarVars, callback);
+});
+})
