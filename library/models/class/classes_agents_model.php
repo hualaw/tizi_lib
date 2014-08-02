@@ -30,7 +30,8 @@ class Classes_agents_model extends LI_Model{
 		$data = array();
 		foreach ($students_name as $key => $value){
 			$_priv = array(
-				"password" => rand6pwd($class_id),
+				//"password" => rand6pwd($class_id),
+				"password" => "123456",
 				"class_id" => $class_id,
 				"student_id" => $start_id + $key,
 				"student_name" => $value,
