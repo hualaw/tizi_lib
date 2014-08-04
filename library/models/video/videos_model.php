@@ -39,7 +39,7 @@ class Videos_Model extends MY_Model {
     /*根据学段获取视频（不分页）*/
     public function get_video_by_stage($user_id,$stage_id,$edition_id)
     {
-    	$query = $this->db->query("SELECT v.`id`,u.`unit_name` as name,u.`unit_number`,v.`unit_id`,v.`en_title`,v.`chs_title`,v.`thumb_uri`  
+    	$query = $this->db->query("SELECT v.`id`,u.`unit_name` as name,u.`prefix`,u.`unit_number`,v.`unit_id`,v.`en_title`,v.`chs_title`,v.`thumb_uri`  
     		FROM {$this->_tb_unit} AS u LEFT JOIN {$this->_table} AS v ON u.`id`= v.unit_id 
     		WHERE u.`stage_id` = ? AND u.`edition_id` = ? AND v.`online` = ? ORDER BY u.`id` ASC, v.`unit_id` ASC",array($stage_id,$edition_id,1));
     	$lesson_list = $query->result();
@@ -71,6 +71,7 @@ class Videos_Model extends MY_Model {
                 foreach ($lesson_list as $val) {
                     if(!array_key_exists($val->unit_id, $return_arr)){
                         $return_arr[$val->unit_id]['name']=$val->name;
+                        $return_arr[$val->unit_id]['prefix']=$val->prefix;
                         $return_arr[$val->unit_id]['unit_number']=$val->unit_number;
                         $return_arr[$val->unit_id]['video_list'][]=array(
                             'id'=>$val->id,
