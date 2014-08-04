@@ -321,6 +321,32 @@ class Tizi_Register extends Tizi_Controller {
 		return $register;
    	}
 
+   	protected function register_by_phone($phone,$password,$rname,$user_type,$user_data=false,$auto_login=true)
+   	{
+   		$register=array('errorcode'=>false,'error'=>'');
+		
+		$user_id=$this->register_model->insert_register($phone,$password,$rname,Constant::INSERT_REGISTER_PHONE,$user_type,$user_data);
+		if($user_id['errorcode'])
+		{
+			//login
+			if($auto_login)
+			{
+				$this->session_model->generate_session($user_id['user_id']);
+				$this->session_model->generate_cookie($phone,$user_id['user_id']);
+				$this->session_model->clear_mscookie();
+			}
+
+			$register['user_id']=$user_id['user_id'];
+			$register['errorcode']=true;
+		}
+		else
+		{
+			$register['error']=$this->lang->line('error_reg_insert');
+		}
+
+		return $register;
+   	}
+
    	protected function register_by_uname($uname,$password,$rname,$user_type,$user_data=false,$auto_login=true)
    	{
    		$register=array('errorcode'=>false,'error'=>'');
