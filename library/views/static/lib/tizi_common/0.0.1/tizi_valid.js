@@ -12,6 +12,17 @@ define(function(require, exports) {
         seajs.use('placeHolder',function(ex){
             ex.JPlaceHolder.init();
         });
+        // 鼠标离开输入框的时候恢复默认状态
+        $('.indexLoginForm input').each(function(){
+            var _this = $(this);
+            $(this).blur(function(){
+                if(_this.val() == ''){
+                    $('.ValidformInfo').hide();
+                    _this.removeClass('Validform_error');
+                    _this.next('.Validform_checktip').hide();
+                }
+            });
+        });
         var _Form = $(".indexLoginForm").Validform({
             tiptype: function (msg, o, cssctl) {
                 if (!o.obj.is("form")) {
@@ -75,6 +86,9 @@ define(function(require, exports) {
                             window.location.href=data.redirect;
                         }
                     }else{
+                        // 隐藏登陆按钮并显示登录中开始
+                        $('#comLogin .submitBtn,.homePage .submitBtn').removeAttr('disabled').val('登录').removeClass('submitLock');
+                        // 隐藏登陆按钮并显示登录中结束
                         // 请求dialog插件
                         require.async("tiziDialog",function(){
                             $.tiziDialog({content:data.error});
@@ -83,7 +97,6 @@ define(function(require, exports) {
                 }else{
                     callback_login(data);
                 }
-
             }
         });
         // 判断如果tiptype ！==3的时候让错误信息在上面显示
@@ -127,6 +140,9 @@ define(function(require, exports) {
                         curform.find('.username').next('.ValidformInfo').hide();
                         return false;
                     };
+                    // 隐藏登陆按钮并显示登录中开始
+                    curform.find('.submitBtn').val('登录中...').attr('disabled','disabled').addClass('submitLock');
+                    // 隐藏登陆按钮并显示登录中结束
                     // 加载MD5加密
                     require.async("tizi_validform",function(ex){
                         ex.md5(curform);

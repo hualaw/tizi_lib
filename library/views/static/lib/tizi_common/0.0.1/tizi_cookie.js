@@ -1,9 +1,6 @@
 define(function(require, exports) {
-	// require('ecSwfObject');
-	// require('everCookie');
-	// require('flashCookie');
 
-	require.async(['ecSwfObject','cookies','everCookie','flashCookie'],function(){
+	require.async(['swfObject','cookies','everCookie','flashCookie'],function(){
 		var ec = new evercookie({
 			baseurl: staticBaseUrlName + staticVersion + 'lib/evercookie/0.4.0',
 			asseturi: '/assets',
@@ -56,7 +53,7 @@ define(function(require, exports) {
 					msg = "uid:"+ecuid;
 				}
 				if(debug && msg) {
-					document.cookie = "_dc="+msg+";path=/";
+					document.cookie = "_dc="+msg+";domain="+baseCookieDomain+";path=/";
 					//$('.footer').append(msg);
 				}
 			}, 0);

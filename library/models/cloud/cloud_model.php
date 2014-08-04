@@ -100,8 +100,8 @@ class cloud_model extends MY_Model{
             }
         }
         if ($id > 0 && isset($param["user_id"])){
-			$this->load->library("credit");
-			$this->credit->exec($param["user_id"], "cloud_first_uploaded");
+			// $this->load->library("credit");
+			// $this->credit->exec($param["user_id"], "cloud_first_uploaded");
 			
 			//任务系统_用户在教学网盘中任意上传一个文件
 			$this->load->library("task");
@@ -613,14 +613,21 @@ class cloud_model extends MY_Model{
         /*活动结束*/
         $share = $this->get_file_by_share_id($share_id);
         if (isset($share[0]["user_id"])){
+            $teacher_id = $share[0]["user_id"];//老师的id
             //学生下载才给加分
             $this->load->model('login/register_model');
             $role = $this->register_model->get_user_info($uid,0,'user_type');
             if($role['errorcode']){
                 if($role['user']->user_type == Constant::USER_TYPE_STUDENT){
+                    $teacher_is_cert = $this->register_model->get_user_info($teacher_id,0,'certification');
+                    if(isset($teacher_is_cert['user']->certification)){
+                        $teacher_is_cert = $teacher_is_cert['user']->certification?1:0;
+                    }else{
+                        $teacher_is_cert = 0;
+                    }
         			$this->load->library("credit");
         			$data = array($uid);
-        			$this->credit->exec($share[0]["user_id"], "cloud_share_download", false, "", $data);
+        			$this->credit->exec($share[0]["user_id"], "cloud_share_download", $teacher_is_cert, "", $data);
                 }
             }
 		}
@@ -707,11 +714,13 @@ class cloud_model extends MY_Model{
         return $all_dir;
     }
 
-    public function get_single_doc_preview($doc_id,$user_id,$is_join = false)
+    public function get_single_doc_preview($doc_id,$user_id,$is_join = false,$is_del=0)
     {
         $this->db->where($this->_file_table.'.id',$doc_id);
         if($user_id) $this->db->where($this->_file_table.'.user_id',$user_id);
-        $this->db->where($this->_file_table.'.is_del',0);
+        if($is_del==0){
+            $this->db->where($this->_file_table.'.is_del',0);
+        }
         $this->db->where($this->_file_table.'.queue_status',1);
         if($is_join){
             $this->db->join('cloud_document_preview','cloud_user_file.id=cloud_document_preview.doc_id','left');

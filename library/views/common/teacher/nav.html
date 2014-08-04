@@ -2,13 +2,16 @@
 	<div class="layout">
 		<ul class="link fr">
 			<li class="first">
-				<a href="{$login_url}renzheng">教师认证</a>
+				<a href="{$space_url}">教师空间</a>
 			</li>
 			<li>
-				<a href="{$login_url}jifen">积分回馈</a>
+				<a href="{$login_url}renzheng">认证</a>
 			</li>
 			<li>
-				<a href="{$login_url}xunzhang">达人勋章</a>
+				<a href="{$login_url}jifen">积分</a>
+			</li>
+			<li>
+				<a href="{$login_url}xunzhang">勋章</a>
 			</li>
 			{if $user_type && $user_type eq $constant.user_type_teacher}
 			<li>
@@ -22,6 +25,9 @@
 			</li>
 			<li>
 				<a href="{$tizi_url}beike" class="navLesson">备课</a>
+			</li>
+			<li>
+				<a href="{$tizi_url}zuoye" class="navHomework">留作业</a>
 			</li>
 			<li>
 				<a href="{$tizi_url}banji" class="navClass">班级空间</a>
