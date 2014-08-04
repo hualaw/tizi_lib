@@ -189,6 +189,47 @@ class Tizi_Register extends Tizi_Controller {
 		return $submit;
     }
 
+    protected function register_teacher_phone($phone,$authcode,$rname,$password,$password1,$mysubject,$redirect,$reg_data=array(),$auto_login=true)
+    {
+		if(strpos($redirect,'http://') === false) $redirect='';
+
+		$user_type=Constant::USER_TYPE_TEACHER;
+
+		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
+
+		$reg_check=$this->register_check_phone($phone,$authcode,$rname,$password,$password1);
+		
+		if(!$reg_check['errorcode'])
+		{
+			$submit['error']=$reg_check['error'];
+		}
+		else if(empty($mysubject))
+		{
+			$submit['error']=$this->lang->line('error_invalid_mysubject');
+		}
+		else if($mysubject&&!$this->question_subject_model->check_subject($mysubject,'binding'))
+		{
+			$submit['error']=$this->lang->line('error_invalid_mysubject');
+		}
+		else
+		{
+			$reg_data=array_merge(array('register_subject'=>$mysubject),$reg_data);
+			$register=$this->register_by_phone($phone,$password,$rname,$user_type,$reg_data,$auto_login);
+			if(!$register['errorcode'])
+			{
+				$submit['error']=$register['error'];
+			}
+			else
+			{
+				$submit['errorcode']=true;
+				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_TEACHER,'register');
+				$submit['register']=$register;
+			}
+		}
+
+		return $submit;
+    }
+
     protected function register_student($email,$uname,$rname,$password,$password1,$mygrade,$redirect,$reg_data=array(),$auto_login=true)
     {
     	if(strpos($redirect,'http://') === false) $redirect='';
@@ -389,6 +430,52 @@ class Tizi_Register extends Tizi_Controller {
 		else if($email&&$check_email['errorcode'])
 		{
 			$check['error']=$this->lang->line('error_reg_exist_email');
+		}
+		else if(empty($rname))
+		{
+			$check['error']=$this->lang->line('error_invalid_name');
+		}
+		else if(empty($password))
+		{
+			$check['error']=$this->lang->line('error_invalid_password');
+		}
+		else if($password!=$password1)
+		{
+			$check['error']=$this->lang->line('error_invalid_confirm_password');
+		}
+		else
+		{
+			$check['error']='';
+			$check['errorcode']=true;
+		}
+
+		return $check;
+   	}
+
+   	protected function register_check_phone($phone,$authcode,$rname,$password,$password1)
+   	{
+   		$check=array('errorcode'=>false,'error'=>'');
+
+   		$check_phone=$this->register_model->check_phone($phone);
+
+   		$this->load->model("login/verify_model");
+   		$code_type=$this->verify_model->verify_authcode_phone($authcode,$phone);
+
+		if(empty($phone))
+		{
+			$check['error']=$this->lang->line('error_invalid_phone');
+		}
+		else if($phone&&!preg_email($phone))
+		{
+			$check['error']=$this->lang->line('error_invalid_phone');
+		}
+		else if($phone&&$check_phone['errorcode'])
+		{
+			$check['error']=$this->lang->line('error_reg_exist_phone');
+		}
+		else if(!$code_type['errorcode']||$code_type['code_type']!=Constant::CODE_TYPE_REGISTER)
+		{
+			$check['error']=$this->lang->line('error_sms_code');
 		}
 		else if(empty($rname))
 		{
