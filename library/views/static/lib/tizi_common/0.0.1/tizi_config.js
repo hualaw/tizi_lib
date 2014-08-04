@@ -20,11 +20,10 @@ aliasContent = {
     "kindEditor": libPath + "kindeditor/4.1.10/kindeditor",
     "scrollBar" : libPath + "scrollbar/0.0.1/scrollbar",
     "clipPhoto" : libPath + "clipPhoto/0.0.1/clipPhoto",
-    "swfObject" : libPath + "miniFlashMp3player/0.0.1/swfobject",
-    "ecSwfObject" : libPath + "evercookie/0.4.0/js/swfobject-2.2.min",
+    "swfObject" : libPath + "swfObject/2.2.0/swfobject",
     "everCookie" : libPath + "evercookie/0.4.0/js/evercookie",
     "flashCookie" : libPath + "flashcookie/1.9.1/swfstore",
-    // "soundManager2" : libPath + "soundmanager2/2.97/soundmanager2.min",
+    "tiziAvatar" : libPath + "TiZiavatar/0.0.2/TiZiavatar",
     //梯子公共方法
     "tizi_addon_setSchool": libPath + "tizi_addon/0.0.1/setSchool",
 	"tizi_addon_mp3Player" : libPath + "tizi_addon/0.0.1/mp3Player",

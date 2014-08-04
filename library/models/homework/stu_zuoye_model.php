@@ -78,7 +78,7 @@ class Stu_Zuoye_Model extends LI_Model{
                     }
                     foreach($video_ids as $video_id){
                         $video = array();
-                        $video_info = $this->videos_model->get_video_by_id($video_id);
+                        $video_info = $this->videos_model->get_lesson_by_id($video_id);
                         if(!empty($student_video) && in_array($video_id, $student_video)){
                             $video['is_complete'] = 1;
                         }else{

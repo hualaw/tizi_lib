@@ -46,16 +46,16 @@ class Videos_Model extends MY_Model {
     	return self::prase_video_info($user_id,$lesson_list,1);
     }
 
-    // public function get_video_by_unit($user_id,$unit_id,$parse=true)
-    // {
-    // 	$this->db->select("id,en_title,chs_title,unit_id,thumb_uri");
-    // 	//$this->db->order_by('date','desc');
-    // 	$video_list = $this->db->get_where($this->_table,array('unit_id'=>$unit_id,'online'=>1))->result();
-    //     if($parse){
-    // 	   self::prase_video_info($user_id,$video_list,2);
-    //     }
-    //     return $video_list;
-    // }
+    public function get_lesson_by_unit($user_id,$unit_id,$parse=true)
+    {
+    	$this->db->select("id,en_title,chs_title,unit_id,thumb_uri");
+    	//$this->db->order_by('date','desc');
+    	$video_list = $this->db->get_where($this->_table,array('unit_id'=>$unit_id,'online'=>1))->result();
+        if($parse){
+    	   self::prase_video_info($user_id,$video_list,2);
+        }
+        return $video_list;
+    }
 
     public function prase_video_info($user_id,&$lesson_list,$type)
     {
