@@ -12,6 +12,12 @@ $route['oauth/login']="login/oauthlogin/oauth";
 $route['oauth/callback/(:any)']="login/oauthlogin/callback/$1";
 $route['sso/callback']="login/ssologin/index";
 
+$route['verify']="login/verify/verify_email";
+$route['verify/code/(:any)']="login/verify/verify_email/$1";
+
+$route['send_email_code']="login/verify/send_email_code";
+$route['send_phone_code']="login/verify/send_phone_code";
+
 $route['check_code']="login/login/check_code";
 $route['check_captcha']="login/captcha_code/validate";
 $route['captcha']="login/captcha_code/generate";
