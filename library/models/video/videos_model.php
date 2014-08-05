@@ -31,7 +31,7 @@ class Videos_Model extends MY_Model {
 
     /*视频信息，附带unit_name, stage_name */
     function get_video_info_with_unit($lesson_id){
-        $sql = "select v.*,u.unit_name,u.unit_number,s.semester,s.name as stage_name from {$this->_table} v left join {$this->_tb_unit} u on u.id=v.unit_id left join {$this->_tb_stage} s on s.id=u.stage_id where v.id=$lesson_id and v.online=1";
+        $sql = "select v.*,u.unit_name,u.unit_number,u.prefix,u.edition_id,s.semester,s.name as stage_name from {$this->_table} v left join {$this->_tb_unit} u on u.id=v.unit_id left join {$this->_tb_stage} s on s.id=u.stage_id where v.id=$lesson_id and v.online=1";
         $result = $this->db->query($sql)->result_array();
         return $result;
     }
@@ -39,11 +39,18 @@ class Videos_Model extends MY_Model {
     /*根据学段获取视频（不分页）*/
     public function get_video_by_stage($user_id,$stage_id,$edition_id)
     {
-    	$query = $this->db->query("SELECT v.`id`,u.`unit_name` as name,u.`unit_number`,v.`unit_id`,v.`en_title`,v.`chs_title`,v.`thumb_uri`  
+    	$query = $this->db->query("SELECT v.`id`,u.`unit_name` as name,u.`prefix`,u.`unit_number`,v.`unit_id`,v.`en_title`,v.`chs_title`,v.`thumb_uri`  
     		FROM {$this->_tb_unit} AS u LEFT JOIN {$this->_table} AS v ON u.`id`= v.unit_id 
     		WHERE u.`stage_id` = ? AND u.`edition_id` = ? AND v.`online` = ? ORDER BY u.`id` ASC, v.`unit_id` ASC",array($stage_id,$edition_id,1));
     	$lesson_list = $query->result();
     	return self::prase_video_info($user_id,$lesson_list,1);
+    }
+
+    public function get_relation_lesson($unit_id)
+    {
+        $this->db->select("id,en_title,chs_title");
+        $this->db->order_by('date','desc');
+        return $this->db->get_where($this->_table,array('unit_id'=>$unit_id,'online'=>1))->result();
     }
 
     public function get_lesson_by_unit($user_id,$unit_id,$parse=true)
@@ -71,6 +78,7 @@ class Videos_Model extends MY_Model {
                 foreach ($lesson_list as $val) {
                     if(!array_key_exists($val->unit_id, $return_arr)){
                         $return_arr[$val->unit_id]['name']=$val->name;
+                        $return_arr[$val->unit_id]['prefix']=$val->prefix;
                         $return_arr[$val->unit_id]['unit_number']=$val->unit_number;
                         $return_arr[$val->unit_id]['video_list'][]=array(
                             'id'=>$val->id,
