@@ -31,7 +31,7 @@ class Videos_Model extends MY_Model {
 
     /*视频信息，附带unit_name, stage_name */
     function get_video_info_with_unit($lesson_id){
-        $sql = "select v.*,u.unit_name,u.unit_number,s.semester,s.name as stage_name from {$this->_table} v left join {$this->_tb_unit} u on u.id=v.unit_id left join {$this->_tb_stage} s on s.id=u.stage_id where v.id=$lesson_id and v.online=1";
+        $sql = "select v.*,u.unit_name,u.unit_number,u.prefix,u.edition_id,s.semester,s.name as stage_name from {$this->_table} v left join {$this->_tb_unit} u on u.id=v.unit_id left join {$this->_tb_stage} s on s.id=u.stage_id where v.id=$lesson_id and v.online=1";
         $result = $this->db->query($sql)->result_array();
         return $result;
     }
@@ -44,6 +44,13 @@ class Videos_Model extends MY_Model {
     		WHERE u.`stage_id` = ? AND u.`edition_id` = ? AND v.`online` = ? ORDER BY u.`id` ASC, v.`unit_id` ASC",array($stage_id,$edition_id,1));
     	$lesson_list = $query->result();
     	return self::prase_video_info($user_id,$lesson_list,1);
+    }
+
+    public function get_relation_lesson($unit_id)
+    {
+        $this->db->select("id,en_title,chs_title");
+        $this->db->order_by('date','desc');
+        return $this->db->get_where($this->_table,array('unit_id'=>$unit_id,'online'=>1))->result();
     }
 
     public function get_lesson_by_unit($user_id,$unit_id,$parse=true)
