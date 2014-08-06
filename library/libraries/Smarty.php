@@ -56,15 +56,17 @@ class CI_Smarty extends Smarty{
         {
             $this->smarty->force_compile = false;
             $this->smarty->caching = true;
-            $is_cached = $this->smarty->isCached($template, $cache_id);
-            if(!$is_cached)
-            {
-                $this->smarty->setCaching(Smarty::CACHING_LIFETIME_SAVED);
-            }
+            //$is_cached = $this->smarty->isCached($template, $cache_id);
+            // if(!$is_cached)
+            // {
+            //     $this->smarty->setCaching(Smarty::CACHING_LIFETIME_SAVED);
+            // }
+            //var_dump($this->smarty->isCached($template, $cache_id));
         }
         else
         {
             $this->smarty->caching = false;
+            //var_dump($this->smarty->isCached($template, $cache_id));
         }
         // display template
         $this->fetch($template, $cache_id, $compile_id, $parent, true);
