@@ -41,7 +41,7 @@ class CI_Smarty extends Smarty{
         $this->compile_dir = $config['compile_dir'];
         $this->cache_dir = $config['cache_dir'];
         $this->caching = $config['caching'];
-        //$this->cache_lifetime = $config['lifetime'];
+        $this->cache_lifetime = $config['lifetime'];
         $this->debugging = $config['debugging'];
         $this->compile_check = $config['compile_check'];
         $this->force_compile = $config['force_compile'];
@@ -49,6 +49,26 @@ class CI_Smarty extends Smarty{
         $this->left_delimiter = $config['left_delimiter'];
         $this->right_delimiter = $config['right_delimiter'];
 	}
+
+    public function display($template = null, $cache_id = null, $compile_id = null, $parent = null, $force_cache = true)
+    {
+        if($force_cache && $cache_id)
+        {
+            $this->smarty->force_compile = false;
+            $this->smarty->caching = true;
+            $is_cached = $this->smarty->isCached($template, $cache_id);
+            if(!$is_cached)
+            {
+                $this->smarty->setCaching(Smarty::CACHING_LIFETIME_SAVED);
+            }
+        }
+        else
+        {
+            $this->smarty->caching = false;
+        }
+        // display template
+        $this->fetch($template, $cache_id, $compile_id, $parent, true);
+    }
 
     public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false)
     {
