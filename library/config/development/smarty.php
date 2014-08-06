@@ -4,7 +4,7 @@ $config['template_dir'] = array('default'=>APPPATH.'views','lib'=>LIBPATH.'views
 $config['compile_dir'] = APPPATH.'templates_c';
 $config['cache_dir'] = APPPATH.'cache';
 $config['caching'] = false;
-$config['lifetime'] = 3600;
+$config['lifetime'] = 14400;
 $config['debugging'] = false;
 $config['compile_check'] = false;
 $config['force_compile'] = true;
