@@ -57,14 +57,17 @@ define(function(require, exports) {
 		if(share_id!=undefined){
 			$('.clickDown').click(function(){
 				json = 'json';
-				if(no_tizi != undefined){json = 'jsonp'; }
-	            $.tizi_ajax({
-	                    url: tiziUrlName + "resource/cloud_base/add_download_count", 
-	                    type: 'POST',
-	                    data: {'share_id':share_id},
-	                    dataType: json,
-	                    success: function(data){  }
-	            });         
+
+				if(no_tizi != undefined){
+					json = 'jsonp';
+				} 
+				$.tizi_ajax({
+                    url: tiziUrlName + "resource/cloud_base/add_download_count", 
+                    type: 'POST',
+                    data: {'share_id':share_id},
+                    dataType: json,
+                    success: function(data){  }
+		        }); 
 	        });
 		}
 	};
