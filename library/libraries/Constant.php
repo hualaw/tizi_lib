@@ -56,6 +56,10 @@ Class CI_Constant {
 	//app dafen
 	const REG_ORIGIN_ANDROID_DAFEN = 80;
 	const REG_ORIGIN_IOS_DAFEN = 90;
+	//football
+	const REG_ORIGIN_FOOTBALL_PHONE = 101;
+	const REG_ORIGIN_FOOTBALL_EMAIL = 102;
+	const REG_ORIGIN_FOOTBALL_UNAME = 104;
 
 
 	const QRTOKEN_EXPIRE_TIME = 300;//14400-4hour,0-with session expire
