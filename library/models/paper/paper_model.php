@@ -15,13 +15,14 @@ class Paper_Model extends MY_Model {
     }
 
     //初始化试卷记录
-    public function init_paper_record($subject_id,$user_id=0)
+    public function init_paper_record($subject_id,$user_id=0,$is_saved=0,$is_locked=0)
     {
     	// 第一条为初始化记录
     	$mirror_record=Constant::testpaper_mirror();
         if ($user_id) $mirror_record->user_id=$user_id;
         $mirror_record->subject_id=$subject_id;
-		$mirror_record->is_saved=0;
+		$mirror_record->is_saved=$is_saved;
+        $mirror_record->is_locked=$is_locked;
 	
         $this->db->insert($this->_table,$mirror_record);
 		$paper_insert_id=$this->db->insert_id();
