@@ -164,7 +164,7 @@ class Paper_Model extends MY_Model {
 		if(!$is_copy&&$is_save_log)
 		{
         	/* 添加存档记录 */
-        	$this->load->model('paper/paper_save_log');
+        	//$this->load->model('paper/paper_save_log');
         	if($save_as) $recovery_id=0;
 
         	$save_log=$this->add_save_log_record($user_id,$logname,$copy_tid,$recovery_id);
