@@ -13,6 +13,7 @@ class Tizi_Qrcode extends MY_Controller {
     public function generate()
     {
         $qrcode_value = $this->input->get('qrcode_value');
+        $qrcode_prefix = $this->input->get('qrcode_prefix');
         $qrcode_size = $this->input->get('qrcode_size',true,true,3);
         if(!$qrcode_value)
         {
@@ -22,7 +23,11 @@ class Tizi_Qrcode extends MY_Controller {
         {
             $qrvalue=$qrcode_value;
         }
-
+        if($qrcode_prefix)
+        {
+            $qrvalue = $qrcode_prefix.$qrvalue;
+        }
+        
         if($this->input->get('qrcode_type',true,true,'') == 'base64')
         {
             ob_start();
@@ -48,6 +53,7 @@ class Tizi_Qrcode extends MY_Controller {
     public function generate_img()
     {
         $qrcode_value = $this->input->get('qrcode_value');
+        $qrcode_prefix = $this->input->get('qrcode_prefix');
         $qrcode_size = $this->input->get('qrcode_size',true,true,3);
         if(!$qrcode_value)
         {
@@ -56,6 +62,10 @@ class Tizi_Qrcode extends MY_Controller {
         else
         {
             $qrvalue=$qrcode_value;
+        }
+        if($qrcode_prefix)
+        {
+            $qrvalue = $qrcode_prefix.$qrvalue;
         }
         //$image_obj = $this->captcha->generateQrcode($qrtoken);
         QRcode::jpg($qrvalue, false, 'L', $qrcode_size);
