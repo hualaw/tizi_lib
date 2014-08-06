@@ -95,6 +95,9 @@ define(function(require, exports) {
                     $('.textCaptcha').siblings('.Validform_checktip').text(data.error).attr('class','Validform_checktip Validform_right');
                     check = true;
                 }else{
+                    // 恢复免费注册按钮显示开始
+                    $('.homePage .regButton').removeAttr('disabled').val('免费注册').removeClass('submitLock');
+                    // 恢复免费注册按钮显示结束
                     if(show_dialog) {
                         require.async('tiziDialog',function(){
                             $.tiziDialog({
