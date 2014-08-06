@@ -50,24 +50,10 @@ class CI_Smarty extends Smarty{
         $this->right_delimiter = $config['right_delimiter'];
 	}
 
-    public function display($template = null, $cache_id = null, $compile_id = null, $parent = null, $force_cache = true)
+    public function display($template = null, $cache_id = null, $compile_id = null, $parent = null, $caching = true)
     {
-        if($force_cache && $cache_id)
-        {
-            $this->smarty->force_compile = false;
-            $this->smarty->caching = true;
-            //$is_cached = $this->smarty->isCached($template, $cache_id);
-            // if(!$is_cached)
-            // {
-            //     $this->smarty->setCaching(Smarty::CACHING_LIFETIME_SAVED);
-            // }
-            //var_dump($this->smarty->isCached($template, $cache_id));
-        }
-        else
-        {
-            $this->smarty->caching = false;
-            //var_dump($this->smarty->isCached($template, $cache_id));
-        }
+        $this->caching = !$this->force_compile && $caching && $cache_id ? true : false;
+        //var_dump($this->isCached($template, $cache_id));
         // display template
         $this->fetch($template, $cache_id, $compile_id, $parent, true);
     }
