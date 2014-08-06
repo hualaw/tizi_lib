@@ -180,8 +180,7 @@ class Paper_Question_Model extends MY_Model {
         //向回收站中添加记录
         if ($is_recycle&&$is_paper_question_id&&is_array($paper_question_id_list))
         {
-            //$this->load->model('paper/'.$this->_namespace.'_question_recycle_model');
-            //$this->{$this->_namespace.'_question_recycle_model'}->add_recycle_records($paper_question_id_list,$paper_id);
+            //$this->add_recycle_records($paper_question_id_list,$paper_id);
         }
         $this->db->trans_complete();
 
