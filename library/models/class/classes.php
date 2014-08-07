@@ -201,4 +201,11 @@ class Classes extends LI_Model{
 			order by id desc limit 0,1", array($user_id))->row_array();
 		return $res;
 	}
+	
+	public function first_info($user_id, $fields = "*"){
+		$res = $this->db->query("select {$fields} from classes where creator_id=? and class_status=0 
+			order by id asc limit 0,1", array($user_id))->row_array();
+		return $res;
+	}
+	
 }

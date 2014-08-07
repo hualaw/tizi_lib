@@ -87,8 +87,11 @@ class Tizi_Login extends Tizi_Controller {
 				$create_pk = $this->classes_student_create->login($username, $password);
 				if ($create_pk > 0)
 				{
-					$this->session->set_userdata("create_pk", $create_pk);
-					$submit["redirect"] = login_url("register/student_sign");
+					$create_info = $this->classes_student_create->id_create($create_pk);
+					$this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_TADD);
+					$this->session->set_userdata("sso_id", $create_pk);
+					$create_info["source"] == 1 && $this->session->set_userdata("sso_ro", Constant::REG_ORIGIN_SCHOOL_LOGIN);
+					$submit["redirect"] = login_url("sso/student");
 					$submit["errorcode"] = true;
 				}
 				else
@@ -97,8 +100,9 @@ class Tizi_Login extends Tizi_Controller {
 					$this->load->model("login/user_invite_model");
 					$user_invite = $this->user_invite_model->login($username, $password, "student_id", true);
 					if (isset($user_invite) && $user_invite["user_type"] == Constant::USER_TYPE_STUDENT){
-						$this->session->set_userdata("user_invite_id", $user_invite["id"]);
-						$submit["redirect"] = login_url("register/perfect_student");
+						$this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_CARD);
+						$this->session->set_userdata("sso_id", $user_invite["id"]);
+						$submit["redirect"] = login_url("sso/student");
 						$submit["errorcode"] = true;
 					} else {
 						log_message('trace_tizi','23800013:login failed:'.$username.':'.$password,$user_id);
@@ -114,14 +118,9 @@ class Tizi_Login extends Tizi_Controller {
 				{
 					if ($user_invite["user_type"] == Constant::USER_TYPE_TEACHER)
 					{
-						$this->session->set_userdata("user_invite_id", $user_invite["id"]);
-						$submit["redirect"] = login_url("register/perfect_teacher");
-						$submit["errorcode"] = true;
-					} 
-					else if ($user_invite["user_type"] == Constant::USER_TYPE_RESEARCHER)
-					{
-						$this->session->set_userdata("user_invite_id", $user_invite["id"]);
-						$submit["redirect"] = login_url("register/perfect_researcher");
+						$this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_CARD);
+						$this->session->set_userdata("sso_id", $user_invite["id"]);
+						$submit["redirect"] = login_url("sso/teacher");
 						$submit["errorcode"] = true;
 					}
 					else 
@@ -210,7 +209,7 @@ class Tizi_Login extends Tizi_Controller {
 			$this->smarty->assign('login_redirect',$redirect);
 			$this->smarty->assign('reg_redirect',$reg_redirect);
 			$this->smarty->assign('reg_role',$reg_role);
-			if(!$nohtml) $html=$this->smarty->fetch('[lib]header/tizi_login_form.html');
+			if(!$nohtml) $html=$this->smarty->fetch('[lib]common/tizi_login_form.html');
 			$redirect='';
 		}
         echo json_token(array('errorcode'=>$errorcode,'html'=>$html,'redirect'=>$redirect,'reg_redirect'=>$reg_redirect,'reg_role'=>$reg_role));

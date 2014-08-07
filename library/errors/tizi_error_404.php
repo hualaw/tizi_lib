@@ -151,7 +151,7 @@ input::-ms-clear{display:none;}
     <a href="<?php echo $tizi_url; ?>about/feedback" target="_blank">反馈建议</a> | 
     <a href="<?php echo $tizi_url; ?>about/join" target="_blank">职位招聘</a> | 
     <a href="<?php echo $tizi_url; ?>about/agreements" target="_blank">服务协议</a> | 
-    <a href="<?php echo $zl_url; ?>" target="_blank">资料库</a>
+    <a href="<?php echo $ziyuan_url; ?>" target="_blank">学习资源</a>
   </div>
   <div class="bd">
   <span>&copy;2014 tizi</span>

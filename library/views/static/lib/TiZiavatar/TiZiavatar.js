@@ -3,7 +3,7 @@
 	var file			= staticUrlName + staticVersion + 'lib/TiZiavatar/TiZiavatar.swf';		//flash文件的路径
 	var	version			= "10.1.0";					//播放该flash所需的最低版本
 	var	expressInstall	= '/expressInstall.swf';	//expressInstall.swf的路径
-	var	width			= 630;						//flash文件的宽度
+	var	width			= 710;						//flash文件的宽度
 	var	height			= 430;						//flash文件的高度
 	var container		= id;						//装载flash文件的容器(如div)的id
 	var flashvars		= {};
@@ -39,8 +39,8 @@
 	}
 	var vars = {
 		id : id,
-		avatar_sizes_desc : "100*100像素|50*50像素|32*32像素",
-        avatar_sizes    :   "100*100|50*50|32*32",
+		avatar_sizes_desc : "180*180像素|100*100像素|50*50像素",
+        avatar_sizes    :   "180*180|100*100|50*50",
         tab_visible: false,//不显示选项卡，外部自定义
         button_visible: false,//不显示按钮，外部自定义
         checkbox_visible: false,//不显示复选框，外部自定义

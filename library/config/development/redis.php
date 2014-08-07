@@ -19,12 +19,13 @@ $config['redis_db']['pq_count'] 	= 15;//所有题目组卷次数
 $config['redis_db']['statistics'] 	= 16;//小型数据统计，hash结构，首页用户统计
 $config['redis_db']['seo'] 			= 17;//SEO
 $config['redis_db']['medal'] 		= 18;//勋章medal
-$config['redis_db']['cloud_statistics'] = 19;//网盘统计
+$config['redis_db']['cloud_statistics'] = 19;//网盘统计, 班级空间中的文件容量统计
 $config['redis_db']['qiniu_file'] = 20 ; //七牛上的文件的地址
 $config['redis_db']['study_statistics'] = 21;//梯子学堂统计
 $config['redis_db']['space']		= 22;//教师空间基本信息缓存
 $config['redis_db']['task']			= 23;//任务系统相关
 $config['redis_db']['fls_statistics'] = 24;//天天外教统计
+$config['redis_db']['qrcode_login']	= 25;//二维码登录
 
 // Default connection group
 $config['redis_default']['host'] = '192.168.11.12';	// IP address or host
