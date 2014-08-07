@@ -50,15 +50,20 @@ class CI_Smarty extends Smarty{
         $this->right_delimiter = $config['right_delimiter'];
 	}
 
-    public function display($template = null, $cache_id = null, $compile_id = null, $parent = null, $caching = true)
+    public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null, $caching = true)
     {
         $this->caching = !$this->force_compile && $caching && $cache_id ? true : false;
-        //var_dump($this->isCached($template, $cache_id));
-        // display template
-        $this->fetch($template, $cache_id, $compile_id, $parent, true);
+        
+        return parent::isCached($template, $cache_id, $compile_id, $parent);
     }
 
-    public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false)
+    public function display($template = null, $cache_id = null, $compile_id = null, $parent = null, $caching = true)
+    {
+        // display template
+        $this->fetch($template, $cache_id, $compile_id, $parent, true, $caching);
+    }
+
+    public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false, $caching = true)
     {
         $exclude_agent = array('iPad');
 
@@ -82,6 +87,9 @@ class CI_Smarty extends Smarty{
                 $template=$template_mobile;
             }
         }
+
+        $this->caching = !$this->force_compile && $caching && $cache_id ? true : false;
+
         return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
     }
 
