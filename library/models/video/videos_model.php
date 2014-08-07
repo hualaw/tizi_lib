@@ -13,18 +13,25 @@ class Videos_Model extends MY_Model {
         parent::__construct();
     }
 
-    function get_lesson_by_id($lesson_id,$select='*',$not_preview=true){
+    function get_lesson_by_id($lesson_id,$select='*',$not_preview=true,$need_cat=false){
         $this->db->select(" $select ");
         if($not_preview){
             $this->db->where('online',1);//如果是preview就不用考虑online字段
         }
+
+        //2014-08-07 start 增加联表，获取category id
+        if($need_cat){
+            $this->db->join($this->_tb_unit, "{$this->_tb_unit}.id = {$this->_table}.unit_id", 'left');
+        }
+        //2014-08-07 end
+
         if(is_array($lesson_id)){
-            $this->db->where_in('id',$lesson_id);
+            $this->db->where_in("{$this->_table}.id",$lesson_id);
             $query=$this->db->get($this->_table); //  echo $this->db->last_query();die;
             return $query->result_array();
         }else{
-            $this->db->where('id',$lesson_id);
-            $query=$this->db->get($this->_table); //  echo $this->db->last_query();die;
+            $this->db->where("{$this->_table}.id",$lesson_id);
+            $query=$this->db->get($this->_table); //echo $this->db->last_query();die;
             return $query->row(0);
         }
     }
