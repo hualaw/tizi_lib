@@ -159,6 +159,8 @@ class Paper_Question_Model extends MY_Model {
 		if($is_paper_question_id) $_question_id='id';
 		else $_question_id='question_id';
 
+		$this->db->trans_start();	
+		
         if(is_array($paper_question_id_list))
 		{
 			if(!empty($paper_question_id_list)) $this->db->where_in($_question_id,$paper_question_id_list);
@@ -167,8 +169,7 @@ class Paper_Question_Model extends MY_Model {
 		else
 		{
 			$this->db->where($_question_id,$paper_question_id_list);
-		}
-		$this->db->trans_start();		
+		}	
 
 		$this->db->where($this->_paper_id,$paper_id);
 		//question_orgin false 用于全部删除 cart
@@ -180,8 +181,7 @@ class Paper_Question_Model extends MY_Model {
         //向回收站中添加记录
         if ($is_recycle&&$is_paper_question_id&&is_array($paper_question_id_list))
         {
-            //$this->load->model('paper/'.$this->_namespace.'_question_recycle_model');
-            //$this->{$this->_namespace.'_question_recycle_model'}->add_recycle_records($paper_question_id_list,$paper_id);
+            //$this->add_recycle_records($paper_question_id_list,$paper_id);
         }
         $this->db->trans_complete();
 

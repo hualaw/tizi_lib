@@ -14,34 +14,34 @@ class Paper_Save_Log extends MY_Model {
     }
 
     // 添加保存纪录
-    function add_save_log_record($user_id,$logname,$paper_id,$recovery_id=0)
-    {
-    	$data = array(
-            'user_id'=>$user_id,
-            'save_time'=>date("Y-m-d H:i:s"),
-            'logname'=>$logname,
-            $this->_paper_id=>$paper_id,
-            'is_delete'=>0,
-            'question_count'=>0
-        );
-        $this->db->select('id');
-        $this->db->where('is_delete',0);
-        $this->db->where($this->_paper_id,$paper_id);
-        $query=$this->db->get($this->_paper_question_table);
-        $question_count=$query->num_rows();
-        $data['question_count']=$question_count?$question_count:0;
-    	if($recovery_id)
-    	{
-    		$this->db->where($this->_paper_id,$recovery_id);
-    		$this->db->update($this->_table,$data);
-			return $this->db->affected_rows();
-    	}
-        else
-        {
-        	$this->db->insert($this->_table,$data);
-			return $this->db->insert_id();
-        }
-    }
+   //  function add_save_log_record($user_id,$logname,$paper_id,$recovery_id=0)
+   //  {
+   //  	$data = array(
+   //          'user_id'=>$user_id,
+   //          'save_time'=>date("Y-m-d H:i:s"),
+   //          'logname'=>$logname,
+   //          $this->_paper_id=>$paper_id,
+   //          'is_delete'=>0,
+   //          'question_count'=>0
+   //      );
+   //      $this->db->select('id');
+   //      $this->db->where('is_delete',0);
+   //      $this->db->where($this->_paper_id,$paper_id);
+   //      $query=$this->db->get($this->_paper_question_table);
+   //      $question_count=$query->num_rows();
+   //      $data['question_count']=$question_count?$question_count:0;
+   //  	if($recovery_id)
+   //  	{
+   //  		$this->db->where($this->_paper_id,$recovery_id);
+   //  		$this->db->update($this->_table,$data);
+			// return $this->db->affected_rows();
+   //  	}
+   //      else
+   //      {
+   //      	$this->db->insert($this->_table,$data);
+			// return $this->db->insert_id();
+   //      }
+   //  }
 
     // 删除存档记录
     function delete_save_log($paper_log_id,$user_id)

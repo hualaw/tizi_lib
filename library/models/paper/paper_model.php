@@ -8,6 +8,7 @@ class Paper_Model extends MY_Model {
 	protected $_paper_question_table="paper_question";
 	protected $_paper_section_table="paper_section";
 	protected $_paper_id="testpaper_id";
+    protected $_paper_save_log_table="paper_save_log";
 
     public function __construct()
     {
@@ -163,10 +164,10 @@ class Paper_Model extends MY_Model {
 		if(!$is_copy&&$is_save_log)
 		{
         	/* 添加存档记录 */
-        	$this->load->model('paper/paper_save_log');
+        	//$this->load->model('paper/paper_save_log');
         	if($save_as) $recovery_id=0;
 
-        	$save_log=$this->paper_save_log->add_save_log_record($user_id,$logname,$copy_tid,$recovery_id);
+        	$save_log=$this->add_save_log_record($user_id,$logname,$copy_tid,$recovery_id);
         	if(!$recovery_id) $save_log_id=$save_log;
         	if($save_log) $save_log=$this->set_paper_is_recovery($paper_id,$copy_tid);
         	if($recovery_id&&$save_log) $save_log=$this->set_paper_is_delete($recovery_id);
@@ -187,6 +188,35 @@ class Paper_Model extends MY_Model {
 		{
 			return array('paper_id'=>$copy_tid,'save_log_id'=>$save_log_id);
 		}
+    }
+
+    function add_save_log_record($user_id,$logname,$paper_id,$recovery_id=0)
+    {
+        $data = array(
+            'user_id'=>$user_id,
+            'save_time'=>date("Y-m-d H:i:s"),
+            'logname'=>$logname,
+            $this->_paper_id=>$paper_id,
+            'is_delete'=>0,
+            'question_count'=>0
+        );
+        $this->db->select('id');
+        $this->db->where('is_delete',0);
+        $this->db->where($this->_paper_id,$paper_id);
+        $query=$this->db->get($this->_paper_question_table);
+        $question_count=$query->num_rows();
+        $data['question_count']=$question_count?$question_count:0;
+        if($recovery_id)
+        {
+            $this->db->where($this->_paper_id,$recovery_id);
+            $this->db->update($this->_paper_save_log_table,$data);
+            return $this->db->affected_rows();
+        }
+        else
+        {
+            $this->db->insert($this->_paper_save_log_table,$data);
+            return $this->db->insert_id();
+        }
     }
 
 	public function recover_save_paper($recover_paper_id,$user_id)
