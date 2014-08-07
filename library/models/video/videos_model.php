@@ -55,7 +55,12 @@ class Videos_Model extends MY_Model {
 
     public function get_lesson_by_unit($user_id,$unit_id,$parse=true)
     {
-    	$this->db->select("id,en_title,chs_title,unit_id,thumb_uri");
+    	$this->db->select("{$this->_table}.id,en_title,chs_title,unit_id,thumb_uri,{$this->_tb_unit}.category_id");
+        
+        //2014-08-07 start 增加联表，获取category id
+        $this->db->join($this->_tb_unit, "{$this->_tb_unit}.id = {$this->_table}.unit_id", 'left');
+        //2014-08-07 end
+
     	//$this->db->order_by('date','desc');
     	$video_list = $this->db->get_where($this->_table,array('unit_id'=>$unit_id,'online'=>1))->result();
         if($parse){
