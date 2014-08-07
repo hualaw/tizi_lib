@@ -52,9 +52,9 @@ class CI_Smarty extends Smarty{
 
     public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null, $caching = true)
     {
-        $this->force_compile = false;
+        //$this->force_compile = false;
         $this->caching = !$this->force_compile && $caching && $cache_id ? true : false;
-        
+
         return parent::isCached($template, $cache_id, $compile_id, $parent);
     }
 
@@ -89,7 +89,7 @@ class CI_Smarty extends Smarty{
             }
         }
 
-        $this->force_compile = false;
+        //$this->force_compile = false;
         $this->caching = !$this->force_compile && $caching && $cache_id ? true : false;
 
         return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
