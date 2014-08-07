@@ -40,5 +40,19 @@ class Unit_Model extends MY_Model {
         }
         return array('units'=>$res,'banbens'=>$bb);
     }
+
+    //通过category id 获取外教视频的video id
+    function get_units_from_category($unit_ids){
+        if(!$unit_ids)return null;
+        $sql = "select id from {$this->tab_s_unit} where category_id in ( {$unit_ids} ) ";
+        $res = $this->db->query($sql)->result_array();
+        $units = array();
+        if($res){
+            foreach($res as $k=>$val){
+                $units[] = $val['id'];
+            }
+        }
+        return $units;
+    }
 }
 
