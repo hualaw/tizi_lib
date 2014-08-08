@@ -45,4 +45,10 @@ class Teacher_Data_Model extends Data_Model {
         return $this->update_data_array($user_id,array('gender'=>$gender,'school_id'=>$school_id));
     }
 
+    public function update_teacher_football($user_id,$gender,$school_id,$teacher_name)
+    {
+        if(!$gender||!$school_id||!$teacher_name) return false;
+        return $this->update_data_array($user_id,array('gender'=>$gender,'school_id'=>$school_id,'teacher_name'=>$teacher_name));
+    }
+
 }
