@@ -155,6 +155,9 @@ class User_Data_Model extends Data_Model{
 		$user_rank = $this->db->query($sql)->result();
 		$this->load->model('login/register_model');
 		foreach ($user_rank as $ku => &$vu) {
+			if(empty($vu->user_id)){
+					continue;
+			}
 			$users = $this->register_model->get_user_info($vu->user_id);
 			$vu->user_info = $users['user'];
 			$vu->pet_level = $this->exp_to_level($vu->exp);
