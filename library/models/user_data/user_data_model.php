@@ -144,7 +144,6 @@ class User_Data_Model extends Data_Model{
 		$param = array('user_apps' => $result);
 		return $this->update_user_data($user_id, $param);
 	}
-
 	/** 用户刷题等级排行
 	 * @param $grade_id
 	 * @param $limit
@@ -161,4 +160,5 @@ class User_Data_Model extends Data_Model{
 		}
 		return $user_rank;
 	}
+
 }
