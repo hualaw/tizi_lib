@@ -16,9 +16,18 @@ class Game_Model extends MY_Model {
         
     }
 
-	public function get_question($category_id, $game_id, $question_num = ''){
+    public function get_game_type($game_id, $category_id) {
+        
+        $game_type =  $this->db
+            ->query("select * from `game_type_info` as a left join `game_type_unit` as b on a.`gtu_id` = b.`id` where a.`game_id` = {$game_id}  and b.`unit_id` = {$category_id}")
+            ->row_array();
+
+        return $game_type['game_type_id'];
+    }
+
+	public function get_question($category_id, $game_type, $question_num = ''){
 		
-        $sql = "select * from `game_question` where `category_id` = {$category_id} and `game_type` = {$game_id} order by rand()";
+        $sql = "select * from `game_question` where `category_id` = {$category_id} and `game_type` = {$game_type} order by rand()";
         if($question_num){
             $sql .= " limit 0, $question_num ";
         }
