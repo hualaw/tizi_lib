@@ -198,7 +198,7 @@ class Tizi_Login extends Tizi_Controller {
     {
     	$redirect=$this->input->get('redirect',true);
     	$reg_redirect=$this->input->get('href',true);
-    	$reg_role=$this->input->get('role',true);
+    	$reg_role=$this->input->get('reg_role',true);
     	$reg_url=$this->input->get('reg_url',true,true,'');
     	$nohtml=$this->input->get('nohtml',true,false,0);
     	$html='';
