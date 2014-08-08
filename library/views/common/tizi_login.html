@@ -42,7 +42,9 @@
         <input type="hidden" name="redirect_url" value="{if isset($reg_redirect)}{$reg_redirect}{/if}" />
         <input type="submit" class="cBtnNormal submitBtn yh fl" tabindex="3" value="登录" />
         {if !isset($hide_register) or !$hide_register}
-            {$reg_url=$login_url|cat:"register"}
+            {if !isset($reg_url)}
+                {$reg_url=$login_url|cat:"register"}
+            {/if}
             {if isset($reg_redirect) && $reg_redirect}
                 {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($reg_redirect)}
             {/if}
