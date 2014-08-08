@@ -37,7 +37,8 @@ define(function(require, exports) {
             var redirect = $(this).attr('dest');
             if(redirect == undefined) redirect = $(this).attr('href');
             var role = $(this).attr('role');
-            var param = {'redirect':redirect,'role':role};
+            var reg_url = $(this).attr('rurl');
+            var param = {'redirect':redirect,'role':role,'reg_url':reg_url};
             if(typeof callbackfn != 'function'){
                 callbackfn = function(){}
             }

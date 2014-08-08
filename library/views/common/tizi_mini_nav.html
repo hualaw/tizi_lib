@@ -38,7 +38,7 @@
             {else}
             <!-- 登录前开始 -->
             <div class="loginBefore">
-                <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($login_redirect) && $login_redirect}{$login_redirect}{else}reload{/if}" role="{if isset($reg_role)}{$reg_role}{/if}">登录</a>
+                <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($login_redirect) && $login_redirect}{$login_redirect}{else}reload{/if}" role="{if isset($reg_role)}{$reg_role}{/if}" rurl="{if isset($reg_url)}{$reg_url}{/if}">登录</a>
                 {if !isset($reg_url)}
                     {$reg_url=$login_url|cat:"register"}
                 {/if}
