@@ -170,6 +170,7 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('user_cert',$this->tizi_cert);
 
         $this->smarty->assign('reg_role',$this->reg_role);
+        $this->smarty->assign('reg_url',$this->reg_url);
 
 		//generate global errormsg
         if(!$this->_errormsg) $this->_errormsg="";
