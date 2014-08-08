@@ -24,6 +24,7 @@ class LI_Controller extends CI_Controller{
 
 	protected $reg_role='';
 	protected $reg_url='';
+	protected $reg_site='';
 
 	protected $_segmenttype=array('n','an','r','ar');
 	protected $_segment=array('n'=>'','an'=>'','r'=>'','ar'=>'');
@@ -50,6 +51,7 @@ class LI_Controller extends CI_Controller{
 		parent::__construct();
 
 		$this->site=$site;
+		if($this->reg_url) $this->reg_url=site_url($this->reg_url,$this->reg_site?$this->reg_site:$this->site);
 		$this->auto_login();
 		$this->init();
 		$this->token_list();
