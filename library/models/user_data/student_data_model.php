@@ -64,6 +64,12 @@ class Student_Data_Model extends Data_Model {
         return $this->update_data_array($user_id,array('sex'=>$gender,'school_id'=>$school_id));
     }
 
+    public function update_student_football($user_id,$gender,$school_id,$class_num,$teacher_name)
+    {
+        if(!$gender||!$school_id||!$class_num||!$teacher_name) return false;
+        return $this->update_data_array($user_id,array('sex'=>$gender,'school_id'=>$school_id,'class_num'=>$class_num,'teacher_name'=>$teacher_name));
+    }
+
     /**
      * @info 获取学生资料
      */
