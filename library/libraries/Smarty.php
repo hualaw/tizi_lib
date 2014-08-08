@@ -56,7 +56,7 @@ class CI_Smarty extends Smarty{
         
         $format_template = $this->format_template($template, $cache_id, $caching);
         $template = $format_template['template'];
-        $cached_id = $format_template['cache_id'];
+        $cache_id = $format_template['cache_id'];
 
         return parent::isCached($template, $cache_id, $compile_id, $parent);
     }
@@ -73,7 +73,7 @@ class CI_Smarty extends Smarty{
 
         $format_template = $this->format_template($template, $cache_id, $caching);
         $template = $format_template['template'];
-        $cached_id = $format_template['cache_id'];
+        $cache_id = $format_template['cache_id'];
 
         return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
     }
