@@ -198,7 +198,8 @@ class Tizi_Login extends Tizi_Controller {
     {
     	$redirect=$this->input->get('redirect',true);
     	$reg_redirect=$this->input->get('href',true);
-    	$reg_role=$this->input->get('role',true);
+    	$reg_role=$this->input->get('reg_role',true);
+    	$reg_url=$this->input->get('reg_url',true,true,'');
     	$nohtml=$this->input->get('nohtml',true,false,0);
     	$html='';
         $errorcode=($this->tizi_uid>0);
@@ -209,6 +210,7 @@ class Tizi_Login extends Tizi_Controller {
 			$this->smarty->assign('login_redirect',$redirect);
 			$this->smarty->assign('reg_redirect',$reg_redirect);
 			$this->smarty->assign('reg_role',$reg_role);
+			$this->smarty->assign('reg_url',$reg_url);
 			if(!$nohtml) $html=$this->smarty->fetch('[lib]common/tizi_login_form.html');
 			$redirect='';
 		}
