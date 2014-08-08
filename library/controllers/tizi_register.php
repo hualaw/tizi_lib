@@ -465,17 +465,13 @@ class Tizi_Register extends Tizi_Controller {
 		{
 			$check['error']=$this->lang->line('error_invalid_phone');
 		}
-		else if($phone&&!preg_email($phone))
+		else if($phone&&!preg_phone($phone))
 		{
 			$check['error']=$this->lang->line('error_invalid_phone');
 		}
 		else if($phone&&$check_phone['errorcode'])
 		{
 			$check['error']=$this->lang->line('error_reg_exist_phone');
-		}
-		else if(!$code_type['errorcode']||$code_type['code_type']!=Constant::CODE_TYPE_REGISTER)
-		{
-			$check['error']=$this->lang->line('error_sms_code');
 		}
 		else if(empty($rname))
 		{
@@ -488,6 +484,10 @@ class Tizi_Register extends Tizi_Controller {
 		else if($password!=$password1)
 		{
 			$check['error']=$this->lang->line('error_invalid_confirm_password');
+		}
+		else if(!$code_type['errorcode']||$code_type['code_type']!=Constant::CODE_TYPE_REGISTER)
+		{
+			$check['error']=$this->lang->line('error_sms_code');
 		}
 		else
 		{
