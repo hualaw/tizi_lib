@@ -150,7 +150,8 @@ class User_Data_Model extends Data_Model{
 	 * @return mixed
 	 */
 	public function get_user_exp_rank($grade_id, $limit) {
-		$sql = "SELECT user_id, exp FROM user_data WHERE grade_id = {$grade_id} ORDER BY exp DESC LIMIT {$limit}";
+		$sql ="SELECT user_data.exp, `user`.`name`, `user`.id FROM `user` LEFT JOIN user_data ON user_data.user_id = `user`.id WHERE user_data.grade_id = {$grade_id}  AND `user`.register_origin IN (101,102,104) ORDER BY user_data.exp DESC LIMIT {$limit}";
+		//$sql = "SELECT user_id, exp FROM user_data WHERE grade_id = {$grade_id} ORDER BY exp DESC LIMIT {$limit}";
 		$user_rank = $this->db->query($sql)->result();
 		$this->load->model('login/register_model');
 		foreach ($user_rank as $ku => &$vu) {
