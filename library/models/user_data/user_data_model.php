@@ -145,5 +145,20 @@ class User_Data_Model extends Data_Model{
 		return $this->update_user_data($user_id, $param);
 	}
 
-
+	/** 用户刷题等级排行
+	 * @param $grade_id
+	 * @param $limit
+	 * @return mixed
+	 */
+	public function get_user_exp_rank($grade_id, $limit) {
+		$sql = "SELECT user_id, exp FROM user_data WHERE grade_id = {$grade_id} ORDER BY exp DESC LIMIT {$limit}";
+		$user_rank = $this->db->query($sql)->result();
+		$this->load->model('login/register_model');
+		foreach ($user_rank as $ku => &$vu) {
+			$users = $this->register_model->get_user_info($vu->user_id);
+			$vu->user_info = $users['user'];
+			$vu->pet_level = $this->exp_to_level($vu->exp);
+		}
+		return $user_rank;
+	}
 }
