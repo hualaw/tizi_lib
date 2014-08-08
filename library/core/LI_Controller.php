@@ -23,6 +23,7 @@ class LI_Controller extends CI_Controller{
 	protected $user_constant=array();
 
 	protected $reg_role='';
+	protected $reg_url='';
 
 	protected $_segmenttype=array('n','an','r','ar');
 	protected $_segment=array('n'=>'','an'=>'','r'=>'','ar'=>'');
@@ -306,7 +307,7 @@ class LI_Controller extends CI_Controller{
 						$login_redirect=$this->input->get_post('redirect',true,false,'reload');
 						$reg_redirect=$this->input->get_post('reg_redirect',true);
 						$reg_role=$this->input->get_post('reg_role',true,true,$this->reg_role);
-						$reg_url=$this->input->get_post('reg_url',true,true,'');
+						$reg_url=$this->input->get_post('reg_url',true,true,$this->reg_url);
 						$this->smarty->assign('login_url',login_url());
 						$this->smarty->assign('login_redirect',$login_redirect);
 						$this->smarty->assign('reg_redirect',$reg_redirect);
