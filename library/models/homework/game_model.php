@@ -22,7 +22,7 @@ class Game_Model extends MY_Model {
             ->query("select * from `game_type_info` as a left join `game_type_unit` as b on a.`gtu_id` = b.`id` where a.`game_id` = {$game_id}  and b.`unit_id` = {$category_id}")
             ->row_array();
 
-        return $game_type['game_type_id'];
+        return isset($game_type['game_type_id']) ? $game_type['game_type_id'] : false;
     }
 
 	public function get_question($category_id, $game_type, $question_num = ''){
@@ -36,7 +36,9 @@ class Game_Model extends MY_Model {
 			->result_array();
 		$game_data = array();
 		foreach($result as $val){
-			$game_data[] = json_decode($val['content'], true);
+            $game_data[] = array_merge(array('id'=>$val['id']),
+                json_decode($val['content'], true)
+            );
 		}
 		return $game_data;
 		
