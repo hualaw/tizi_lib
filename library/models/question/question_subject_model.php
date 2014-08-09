@@ -81,8 +81,8 @@ class Question_Subject_Model extends LI_Model {
             case 'paper': 
             case 'homework': if($subject_id > 0 && $subject_id <= 26) $check_subject = true;break;
             case 'lesson': if($subject_id > 0 && $subject_id <= 26 && $subject_id != 23) $check_subject = true;break;
-            case 'binding': if($subject_id > 0 && $subject_id <= 26) $check_subject = true;break;
-            case 'all': if($subject_id > 0 && $subject_id <= 26) $check_subject = true;
+            case 'binding': if($subject_id > 0 && $subject_id <= 27) $check_subject = true;break;
+            case 'all': if($subject_id > 0 && $subject_id <= 27) $check_subject = true;
             default: break;
         }
         return $check_subject;
@@ -93,7 +93,7 @@ class Question_Subject_Model extends LI_Model {
         $check_subject_type = false;
         switch($check_type)
         {
-            case 'all': if($subject_type > 0 && $subject_type <= 11) $check_subject_type = true;
+            case 'all': if($subject_type > 0 && $subject_type <= 12) $check_subject_type = true;
             default: break;
         }
         return $check_subject_type;

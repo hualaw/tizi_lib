@@ -1,0 +1,5 @@
+a.sm2_button{display:inline-block;width:19px;height:16px;text-indent:-999px;overflow:hidden}
+a.sm2_button:focus{outline:none}
+a.sm2_button{background: url(../../image/common/play/normal.gif) no-repeat;}
+a.sm2_button.sm2_playing{background: url(../../image/common/play/on.gif) no-repeat;}
+a.sm2_button.sm2_paused{background: url(../../image/common/play/pause.gif) no-repeat;}

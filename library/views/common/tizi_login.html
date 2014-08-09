@@ -1,0 +1,76 @@
+{nocache}
+<form action="{$login_url}login/submit" class="indexLoginForm" method="post" dataType="jsonp" onSubmit="return false;">
+    <ul>
+        <li class="posr cf">
+            <input type="text" name="username" class="cInput yh username fl" placeholder='用户名/学号/手机号/邮箱' />
+            {if !isset($tip_type) or !$tip_type}
+            <div class="ValidformInfo">
+              <span class="Validform_checktip"></span>
+              <span class="dec">
+                <s class="dec1">&#9670;</s>
+                <s class="dec2">&#9670;</s>
+              </span>
+            </div>
+            {else}
+            <span class="Validform_checktip fl"></span>
+            {/if}
+        </li>
+        <li class="cf posr">
+            <input type="password" name="password" class="cInput yh password fl" placeholder='密码' />
+            {if !isset($tip_type) or !$tip_type}
+            <div class="ValidformInfo">
+              <span class="Validform_checktip"></span>
+              <span class="dec">
+                <s class="dec1">&#9670;</s>
+                <s class="dec2">&#9670;</s>
+              </span>
+            </div>
+            {else}
+            <span class="Validform_checktip fl"></span>
+            {/if}
+        </li>
+    </ul>
+    <div class="remerberPass cf">
+        <div class="fl">
+            <input type="checkbox" value="1" name="remember" id="remember" class="fl" checked />
+            <label for="remember" class="fl">下次自动登录</label>
+        </div>
+        <a href="{$login_url}forgot" class="fogetPw fr">忘记登录密码？</a>
+    </div>
+    <div class="cf bottomLogin">
+        <input type="hidden" name="redirect" value="{if isset($login_redirect)}{$login_redirect}{/if}" />
+        <input type="hidden" name="redirect_url" value="{if isset($reg_redirect)}{$reg_redirect}{/if}" />
+        <input type="submit" class="cBtnNormal submitBtn yh fl" tabindex="3" value="登录" />
+        {if !isset($hide_register) or !$hide_register}
+            {$reg_url=$login_url|cat:"register"}
+            {if isset($reg_redirect) && $reg_redirect}
+                {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($reg_redirect)}
+            {/if}
+            {if isset($reg_role) && $reg_role}
+                {if isset($reg_redirect) && $reg_redirect}
+                    {$reg_url=$reg_url|cat:"&role="|cat:$reg_role}
+                {else}
+                    {$reg_url=$reg_url|cat:"?role="|cat:$reg_role}
+                {/if}
+            {/if}
+            <a href="{$reg_url}" target="_blank" class="fr yh aReg cBtnSilver" >免费注册</a>
+        {/if}
+    </div>
+</form>
+<div class="oauthLogin cf" id="oauthLogin">
+    {$oauth_url=''}
+    {if isset($reg_redirect) && $reg_redirect}
+        {$oauth_url="&redirect="|cat:urlencode($reg_redirect)}
+    {/if}
+    <a href="javascript:void(0)" dUrl="{$login_url}oauth/login?type=qq{$oauth_url}" class="qq fl" title="腾讯QQ">
+        <i class="qq fl"></i>
+        <em class="wide">使用QQ登录</em>
+        <em class="little undis">QQ登录</em>
+    </a>
+    <a href="javascript:void(0)" dUrl="{$login_url}oauth/login?type=weibo{$oauth_url}" class="weibo fl" title="新浪微博">
+        <i class="weibo fl"></i>
+        <em class="wide">使用微博登录</em>
+        <em class="little undis">微博登录</em>
+    </a>
+</div>
+{/nocache}

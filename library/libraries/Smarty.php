@@ -41,7 +41,7 @@ class CI_Smarty extends Smarty{
         $this->compile_dir = $config['compile_dir'];
         $this->cache_dir = $config['cache_dir'];
         $this->caching = $config['caching'];
-        //$this->cache_lifetime = $config['lifetime'];
+        $this->cache_lifetime = $config['lifetime'];
         $this->debugging = $config['debugging'];
         $this->compile_check = $config['compile_check'];
         $this->force_compile = $config['force_compile'];
@@ -50,7 +50,35 @@ class CI_Smarty extends Smarty{
         $this->right_delimiter = $config['right_delimiter'];
 	}
 
-    public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false)
+    public function isCached($template = null, $cache_id = null, $compile_id = null, $parent = null, $caching = true)
+    {
+        $this->caching = !$this->force_compile && $caching && $cache_id ? true : false;
+        
+        $format_template = $this->format_template($template, $cache_id, $caching);
+        $template = $format_template['template'];
+        $cache_id = $format_template['cache_id'];
+
+        return parent::isCached($template, $cache_id, $compile_id, $parent);
+    }
+
+    public function display($template = null, $cache_id = null, $compile_id = null, $parent = null, $caching = true)
+    {
+        // display template
+        $this->fetch($template, $cache_id, $compile_id, $parent, true, $caching);
+    }
+
+    public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false, $caching = true)
+    {
+        $this->caching = !$this->force_compile && $caching && $cache_id ? true : false;
+
+        $format_template = $this->format_template($template, $cache_id, $caching);
+        $template = $format_template['template'];
+        $cache_id = $format_template['cache_id'];
+
+        return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+    }
+
+    private function format_template($template = null, $cache_id = null, $caching = true)
     {
         $exclude_agent = array('iPad');
 
@@ -72,9 +100,14 @@ class CI_Smarty extends Smarty{
             if(isset($this->template_dir[$template_key]) && file_exists($this->template_dir[$template_key].$template_mobile))
             {
                 $template=$template_mobile;
+                if($caching && $cache_id) 
+                {
+                    $cache_id = 'mobile_'.$cache_id;
+                }
             }
         }
-        return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
+
+        return array('template' => $template, 'cache_id' => $cache_id);
     }
 
 }

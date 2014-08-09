@@ -15,10 +15,16 @@ class Teacher_Data_Model extends Data_Model {
         return parent::get_data($user_id);
     }
 
-    public function update_teacher_download_default($user_id,$download_default,$download_type='paper')
+    public function update_teacher_data($user_id,$data)
+    {
+        if(!is_array($data)||empty($data)) return false;
+        return $this->update_data_array($user_id,$data);
+    }
+
+    public function update_teacher_download_default($user_id,$download_default)
     {
         if(!$download_default) return false;
-        return $this->update_data($user_id,$download_default,$download_type.'_download_default');
+        return $this->update_data($user_id,$download_default,'paper_download_default');
     }
 
     public function update_teacher_gender($user_id,$gender)
@@ -31,6 +37,12 @@ class Teacher_Data_Model extends Data_Model {
     {
         if(!$school_id) return false;
         return $this->update_data($user_id,$school_id,'school_id');
+    }
+
+    public function update_teacher_survey($user_id,$gender,$school_id)
+    {
+        if(!$gender||!$school_id) return false;
+        return $this->update_data_array($user_id,array('gender'=>$gender,'school_id'=>$school_id));
     }
 
 }

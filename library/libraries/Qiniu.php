@@ -24,7 +24,7 @@ class Qiniu {
     function change_bucket($bucket_prefix='certification_'){
         $this->_CI->load->config('qiniu',false,true);
         $this->bucket = $this->_CI->config->item($bucket_prefix.'bucket');
-        $this->domain = $this->_CI->config->item($bucket_prefix.'domain');        
+        $this->domain = $this->_CI->config->item($bucket_prefix.'domain');  
     }
 
     // protected function set_bucket($bucket){
@@ -47,14 +47,24 @@ class Qiniu {
     }
  
     //获取下载链接 (私有资源)
-    function qiniu_download_link($key,$name = 'unknow'){
+    function qiniu_download_link($key,$name = 'unknow',$with_name=true,$ttl=3600){
         $domain = $this->domain;
         $client = new Qiniu_MacHttpClient(null);
         $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
+        $getPolicy->Expires = $ttl;
         $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
-        $baseUrl.='?download/'.$name;
+        if($with_name){
+            $baseUrl.='?download/'.$name;
+        }
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
         return $privateUrl;
+    }
+
+    //获取共有链接
+    function qiniu_public_link($key){
+        $domain = $this->domain;
+        $baseUrl = 'http://'.($domain.'/'.$key);
+        return $baseUrl;
     }
 
     //即时转换成mp4的接口   访问时间默认设置成 3小时
@@ -73,6 +83,19 @@ class Qiniu {
         if($get_ext != $ext){
             $baseUrl .= "?avthumb/{$ext}";
         }
+        $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
+        $privateUrl = ($privateUrl);
+        return $privateUrl;
+    }
+
+    /*视频截图*/
+    function qiniu_vframe($key,$offset=1,$w=400,$h=225,$ttl=36000){
+        $domain = $this->domain;
+        $client = new Qiniu_MacHttpClient(null);
+        $getPolicy = new Qiniu_RS_GetPolicy(); // 私有资源得有token
+        $getPolicy->Expires = $ttl;
+        $baseUrl = Qiniu_RS_MakeBaseUrl($domain, $key);
+        $baseUrl .= "?vframe/jpg/offset/$offset/w/$w/h/$h";
         $privateUrl = $getPolicy->MakeRequest($baseUrl, null); // 私有资源得有token
         $privateUrl = ($privateUrl);
         return $privateUrl;

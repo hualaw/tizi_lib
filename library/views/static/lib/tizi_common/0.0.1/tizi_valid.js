@@ -7,20 +7,30 @@ define(function(require, exports) {
     // 请求公共验证信息
     var sDataType = require("tizi_datatype").dataType();
 
-    exports.indexLogin = function(callback_login){
+    exports.indexLogin = function(tip_type,callback_login){
          // 加载placeHolder插件
         seajs.use('placeHolder',function(ex){
             ex.JPlaceHolder.init();
         });
+        // 鼠标离开输入框的时候恢复默认状态
+        $('.indexLoginForm input').each(function(){
+            var _this = $(this);
+            $(this).blur(function(){
+                if(_this.val() == ''){
+                    $('.ValidformInfo').hide();
+                    _this.removeClass('Validform_error');
+                    _this.next('.Validform_checktip').hide();
+                }
+            });
+        });
         var _Form = $(".indexLoginForm").Validform({
-            // 自定义tips在输入框上面显示
-            tiptype: function(msg, o, cssctl) {
+            tiptype: function (msg, o, cssctl) {
                 if (!o.obj.is("form")) {
-                    var objtip = o.obj.next().find(".Validform_checktip");
-                    objtip.text(msg);
+                    var objtip = o.obj.next();
+                    objtip.text(msg).addClass('Validform_wrong');
                     o.obj.next().show();
-                    var objtip = o.obj.next().find(".Validform_checktip");
-                    objtip.text(msg);
+                    var objtip = o.obj.next();
+                    objtip.text(msg).addClass('Validform_wrong');
                     var infoObj = o.obj.next(".ValidformTips");
                     // 判断验证成功
                     if (o.type == 2) {
@@ -31,6 +41,18 @@ define(function(require, exports) {
             },
             showAllError: false,
             beforeSubmit: function(curform) {
+                if(curform.find('.username').val() == ''){
+                    curform.find('.username').next('.Validform_checktip').addClass('Validform_wrong').html(sDataType.Username.nullmsg).show();
+                    curform.find('.username').addClass('Validform_error').focus();
+                    curform.find('.password').next('.Validform_checktip').hide();
+                    return false;
+                }
+                if(curform.find('.password').val() == ''){
+                    curform.find('.password').next('.Validform_checktip').addClass('Validform_wrong').html(sDataType.Passwd.nullmsg).show();
+                    curform.find('.password').addClass('Validform_error').focus();
+                    curform.find('.username').next('.Validform_checktip').hide();
+                    return false;
+                }
                 // 加载MD5加密
                 require.async("tizi_validform",function(ex){
                     ex.md5(curform);
@@ -51,10 +73,15 @@ define(function(require, exports) {
                                 window.location.reload();
                             }
                         }else if(data.redirect.substr(0,9) == 'callback:'){
-                            var callback = data.redirect.substr(9);
-                            seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
-                                ex.callback();
-                            });
+                            var callbackName = data.redirect.substr(9) + 'Callback';
+                            // seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
+                            //     ex.callback();
+                            // });
+                            if(jQuery.isFunction( window[ callbackName ] )) {
+                                window[ callbackName ]();
+                            }else{
+                                window.location.reload();
+                            }
                         }else if(data.redirect){
                             window.location.href=data.redirect;
                         }
@@ -70,14 +97,64 @@ define(function(require, exports) {
 
             }
         });
+        // 判断如果tiptype ！==3的时候让错误信息在上面显示
+        if (tip_type !== 3) {
+            // 鼠标离开输入框的时候恢复默认状态
+            $('.indexLoginForm input').each(function(){
+                var _this = $(this);
+                $(this).blur(function(){
+                    if(_this.val() == ''){
+                        $('.ValidformInfo').hide();
+                        _this.removeClass('Validform_error');
+                    }
+                });
+            });
+            _Form.config({
+                tiptype: function (msg, o, cssctl) {
+                    if (!o.obj.is("form")) {
+                        var objtip = o.obj.next().find(".Validform_checktip");
+                        objtip.text(msg);
+                        o.obj.next().show();
+                        var objtip = o.obj.next().find(".Validform_checktip");
+                        objtip.text(msg);
+                        var infoObj = o.obj.next(".ValidformTips");
+                        // 判断验证成功
+                        if (o.type == 2) {
+                            infoObj.show();
+                            o.obj.next().hide();
+                        }
+                    }
+                },
+                beforeSubmit:function(curform){
+                    if(curform.find('.username').val() == ''){
+                        curform.find('.username').next('.ValidformInfo').show().find('.Validform_checktip').html(sDataType.Username.nullmsg);
+                        curform.find('.username').addClass('Validform_error').focus();
+                        curform.find('.password').next('.ValidformInfo').hide();
+                        return false;
+                    }
+                    if(curform.find('.password').val() == ''){
+                        curform.find('.password').next('.ValidformInfo').show().find('.Validform_checktip').html(sDataType.Passwd.nullmsg);
+                        curform.find('.password').addClass('Validform_error').focus();
+                        curform.find('.username').next('.ValidformInfo').hide();
+                        return false;
+                    };
+                    // 加载MD5加密
+                    require.async("tizi_validform",function(ex){
+                        ex.md5(curform);
+                    });
+                }
+            });
+        };
         _Form.addRule([{
                 ele: ".username",
+                ignore:'ignore',
                 datatype: sDataType.Username.datatype,
                 nullmsg: sDataType.Username.nullmsg,
                 errormsg: sDataType.Username.errormsg
             },
             {
                 ele: ".password",
+                ignore:'ignore',
                 datatype: sDataType.Passwd.datatype,
                 nullmsg: sDataType.Passwd.nullmsg,
                 errormsg: sDataType.Passwd.errormsg
@@ -113,13 +190,14 @@ define(function(require, exports) {
             {
                 // 检测QQ
                 ele:".QQText",
+                ignore:"ignore",
                 datatype:sDataType.QQ.datatype,
                 errormsg:sDataType.QQ.errormsg
             },
             {
                 // 检测QQ未登录
                 ele:".QQTextUnlogin",
-                datatype:sDataType.QQ.datatype_nonull,
+                datatype:sDataType.QQ.datatype,
                 nullmsg:sDataType.QQ.nullmsg,
                 errormsg:sDataType.QQ.errormsg
             },

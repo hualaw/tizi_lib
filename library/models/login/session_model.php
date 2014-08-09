@@ -23,14 +23,15 @@ class Session_Model extends LI_Model {
 	/*desc:generate session after login*/
 	/*input:arg($user_id)*/
 	/*output:session,return(errorcode(1-success,0-failed))*/
-	function generate_session($user_id,$dbsave=true)
+	function generate_session($user_id,$session_id=false,$dbsave=true)
 	{
-		$session_id=$this->session->userdata("session_id");
+		$session_id=$session_id?$session_id:$this->session->userdata("session_id");
 		$data=$this->bind_session($session_id,$user_id);
 		if(!empty($data))
 		{
 			$register_data=json_decode($data['user_data']);
 			$user_data=array(
+				'session_id'=>$session_id,
 				'user_id'=>$user_id,
 				'urname'=>$data['name'],
 				'user_type'=>$data['user_type'],
@@ -47,18 +48,15 @@ class Session_Model extends LI_Model {
 				'login_time'=>time()
 			);
 			
-			//是否有答疑权限，有的话就显示答疑tab
-			if($data['user_type'] == Constant::USER_TYPE_TEACHER) $user_data['aq_show']=$this->auth_aq($user_id);
-
 			$this->session->set_userdata($user_data);
+			unset($user_data['session_id']);
 
-			$this->db->where('id',$user_id);
-			$this->db->set('last_login',date('Y-m-d H:i:s'));
-			$this->db->update($this->_user_table);
+			$this->db->query("update `user` set last_login=?,update_time=update_time where 
+				id=?", array(date("Y-m-d H:i:s"), $user_id));
 
 			if($dbsave) 
 			{
-				$data['uid']=$this->input->cookie('uid');
+				$data['uid']=str_replace(' ','+',$this->input->cookie('uid'));
 				$this->db->insert($this->_table,$data);
 			}
 			
@@ -74,13 +72,6 @@ class Session_Model extends LI_Model {
 			$errorcode=false;
 		}
 		return array('errorcode'=>$errorcode,'user_data'=>$user_data);
-	}
-
-	private function auth_aq($user_id)
-	{
-		$this->db->where('id',$user_id);
-		$query=$this->db->get('aq_teacher');
-		return $query->num_rows();
 	}
 
 	function clear_session()
@@ -177,6 +168,25 @@ class Session_Model extends LI_Model {
 		return array('errorcode'=>true);		
 	}
 
+	function generate_qrtoken($session_id=false,$expire_time=Constant::QRTOKEN_EXPIRE_TIME)
+	{
+		$qrtoken=false;
+		if($this->redis_model->connect('qrcode_login'))
+		{
+			$session_id=$session_id?$session_id:$this->session->userdata('session_id');
+			$qrtoken=$this->cache->get($session_id);
+			if(!$qrtoken)
+			{
+				$qrtoken=$this->encrypt->encode($session_id.time());
+				$expire_time=Constant::REDIS_QRTOKEN_TIMEOUT;
+				$login_value=json_encode(array('session_id'=>$session_id,'expire_time'=>$expire_time));
+				$this->cache->save($session_id,$qrtoken,Constant::QRTOKEN_EXPIRE_TIME);
+				$this->cache->save($qrtoken,$login_value,$expire_time);
+			}
+		}
+		return $qrtoken;		
+	}
+
 	function clear_mscookie()
 	{
 		delete_cookie(Constant::COOKIE_TZMYSUBJECT_PAPER);
@@ -214,6 +224,7 @@ class Session_Model extends LI_Model {
 
 	public function generate_api_session($user_id,$api_type=Constant::API_TYPE_TIZI)
 	{
+		$this->db=$this->load->database('',true);
 		$session_id=sha1(md5($user_id).uniqid().mt_rand(1000000,5555555));
 		$data=$this->bind_session($session_id,$user_id);
 		$data['api_type']=$api_type;
@@ -233,6 +244,7 @@ class Session_Model extends LI_Model {
 	
 	public function get_api_session($session_id,$api_type=Constant::API_TYPE_TIZI,$select='')
 	{
+		$this->db=$this->load->database('',true);
 		if($select) $this->db->select($select);
 		$this->db->where('session_id',$session_id);
 		$this->db->where('api_type',$api_type);

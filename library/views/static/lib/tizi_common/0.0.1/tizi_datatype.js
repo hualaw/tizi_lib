@@ -9,7 +9,7 @@ define(function(require, exports) {
                 "s":/^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]+$/,
                 "s6-18":/^[\u4E00-\u9FA5\uf900-\ufa2d\w\.\s]{6,18}$/,
                 "p":/^[0-9]{6}$/,
-                "m":/^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|18[0-9]{9}$/,
+                "m":/^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/,
                 "e":/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
                 "url":/^(\w+:\/\/)?\w+(\.\w+)+.*$/
             },
@@ -71,8 +71,7 @@ define(function(require, exports) {
             },
             //qq
             QQ:{
-                datatype:"n5-12 | /^\\w{0}$/",
-                datatype_nonull:"n5-12",
+                datatype:"n5-12",
                 nullmsg:"请输入QQ号码！",
                 errormsg:"长度5-12个数字"
             },
@@ -108,6 +107,21 @@ define(function(require, exports) {
                 datatype:"n6-8",
                 nullmsg:"请输入班级编号",
                 errormsg:"长度6-8个数字"
+            },
+            selectProviceName:{
+                datatype:"*",
+                nullmsg:"请选择省份",
+                errormsg:"省份未选择"
+            },
+            selectCityName:{
+                datatype:"*",
+                nullmsg:"请选择城市",
+                errormsg:"城市未选择"
+            },
+            selectSchoolName:{
+                datatype:"*",
+                nullmsg:"请选择学校名称",
+                errormsg:"学校未选择"
             },
             radioValid:{
                 datatype:"*"

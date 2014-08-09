@@ -17,10 +17,13 @@ define(function(require, exports) {
             ok:false,
             close:function(){
                 if(redirect.substr(0,9) == 'callback:'){
-                    var callback = redirect.substr(9);
-                    seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
-                        ex.close();
-                    });
+                    var callbackName = redirect.substr(9) + 'Close';
+                    //seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
+                    //    ex.close();
+                    //});
+                    if(jQuery.isFunction( window[ callbackName ] )) {
+                        window[ callbackName ]();
+                    }
                 }
             }
         });
@@ -64,10 +67,15 @@ define(function(require, exports) {
                             window.location.reload();
                         }
 					}else if(data.redirect.substr(0,9) == 'callback:'){
-                        var callback = data.redirect.substr(9);
-                        seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
-                            ex.callback();
-                        });
+                        var callbackName = data.redirect.substr(9) + 'Callback';
+                        //seajs.use('module/common/ajax/loginForm/' + callback, function(ex){
+                        //    ex.callback();
+                        //});
+                        if(jQuery.isFunction( window[ callbackName ] )) {
+                            window[ callbackName ]();
+                        }else{
+                            window.location.reload();
+                        }
                     }else if(data.redirect){
                         window.location.href=data.redirect;
                     }
@@ -125,7 +133,7 @@ define(function(require, exports) {
     }
     // 第三方登录
     exports.oauthLogin = function(){
-        $('#oauthLogin a.qq').click(function(){
+        $('.oauthLogin a.qq').click(function(){
             var _url = $(this).attr('dUrl');
             if(baseIsMobile){
                 window.location.href=_url;
@@ -133,7 +141,7 @@ define(function(require, exports) {
                 window.open(_url,"TencentLogin","width=600,height=400,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
             }
         });
-        $('#oauthLogin a.weibo').click(function(){
+        $('.oauthLogin a.weibo').click(function(){
             var _url = $(this).attr('dUrl');
             if(baseIsMobile){
                 window.location.href=_url;

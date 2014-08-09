@@ -1,0 +1,83 @@
+{nocache}
+<div class="topMiniNav posr homepageHeader {if isset($nav_class)}{$nav_class}{else}topMiniNavBig{/if}">
+    <div class="layout">
+        <!-- 右侧登录区域开始 -->
+        <div class="topLogin fr">
+            {if $user_type}
+            <!-- 登录后开始 -->
+            <div class="loginOver">
+                <div class="userName posr" id="headerSlidown">
+                    <span class="MyURName icon">{sub_str($user_name,0,12)}</span>
+                    <ul class="info undis">
+                        <li>
+                            <a href="{$login_url}{$constant.user_type[$user_type]}/user/center">个人中心</a>
+                        </li>
+                        {if $user_type eq $constant.user_type_teacher}
+                        <li>
+                            <a href="{$space_url}myspace" target="_blank">我的空间</a>
+                        </li>
+                        {/if}
+                        {if $user_type eq $constant.user_type_parent}
+                        <li>
+                            <a href="{$jia_url}parent/child">孩子专区</a>
+                        </li>
+                        {/if}
+                        {if isset($top_label) && $top_label}
+                            {$top_label}
+                        {/if}
+                        <li>
+                            <a href="{$tizi_url}about/feedback" target="_blank">问题反馈</a>
+                        </li>
+                        <li>
+                            <a id="tiziLogout" class="logoutCheck" href="javascript:void(0);" dest="{if isset($logout_redirect) && $logout_redirect}{$logout_redirect}{else}reload{/if}">退出</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 登陆后结束 -->
+            {else}
+            <!-- 登录前开始 -->
+            <div class="loginBefore">
+                <a id="tiziLogin" class="loginCheck" href="javascript:void(0);" dest="{if isset($login_redirect) && $login_redirect}{$login_redirect}{else}reload{/if}" role="{if isset($reg_role)}{$reg_role}{/if}">登录</a>
+                {$reg_url=$login_url|cat:"register"}
+                {if isset($reg_redirect) && $reg_redirect}
+                    {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($reg_redirect)}
+                {else if isset($this_url) && $this_url && $this_url neq $tizi_url}
+                    {$reg_url=$reg_url|cat:"?redirect="|cat:urlencode($this_url)}
+                {/if}
+                {if isset($reg_role) && $reg_role}
+                    {if isset($reg_redirect) && $reg_redirect}
+                        {$reg_url=$reg_url|cat:"&role="|cat:$reg_role}
+                    {else if isset($this_url) && $this_url}
+                        {$reg_url=$reg_url|cat:"&role="|cat:$reg_role}
+                    {else}
+                        {$reg_url=$reg_url|cat:"?role="|cat:$reg_role}
+                    {/if}
+                {/if}
+                <a id="tiziRegister" href="{$reg_url}" target="_blank">免费注册</a>
+            </div>
+            <!-- 登陆前结束 -->
+            {/if}
+        </div>
+        <!-- 右侧登录区域结束 -->
+        <!-- 左侧导航区开始 -->
+        <div class="navWrap fl">
+            <a href="{$tizi_url}" class="logo fl">梯子网</a>
+            <p class="miniNav fl">
+                {if !isset($hide_nav) || !$hide_nav}
+                <a href="{$tizi_url}">首页</a>
+                <a href="{$tizi_url}juanzi" {if isset($page_type) && $page_type eq 'teacher'}class="active"{/if}>老师</a>
+                <a href="{$waijiao_url}" {if isset($page_type) && $page_type eq 'student'}class="active"{/if}>学生</a>
+                <a href="{$jia_url}" {if isset($page_type) && $page_type eq 'parent'}class="active"{/if}>家长</a>
+                <a href="{$tizi_url}yingyong" {if isset($page_type) && $page_type eq 'app'}class="active"{/if}>应用中心</a>
+                <a href="{$bbs_url}" target="_blank">论坛</a>
+                {/if}
+                {if isset($nav_label) && $nav_label}
+                    {$nav_label}
+                {/if}
+            </p>
+        </div>
+        <!-- 左侧导航区结束 -->
+    </div>
+</div>
+{/nocache}

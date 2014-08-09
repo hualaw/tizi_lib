@@ -1,0 +1,37 @@
+/*````````````公共样式开始````````````*/
+.topMiniNav{background: #f6f6f6;z-index:999;}
+/*````````````公共样式结束````````````*/
+/*````````````大头部样式开始````````````*/
+.topMiniNavBig{padding:10px 0px;font-size:14px;}
+.topMiniNavBig .navWrap a.logo{background:url(../../image/common/tiziLogo_b.gif) no-repeat; display: block;width:122px;height:51px;text-indent: -999em;overflow:hidden;}
+.topMiniNavBig .navWrap p.miniNav{margin-left: 30px;}
+.topMiniNavBig .navWrap p.miniNav a{font-size:14px;margin:0px 12px;line-height: 50px;border-bottom: 2px solid #f6f6f6;padding-bottom:8px;}
+.topMiniNavBig .navWrap p.miniNav a.active,
+.topMiniNavBig .navWrap p.miniNav a:hover{font-weight: bold;color:#333;border-bottom-color:#09aa83 }
+.topMiniNavBig .topLogin{width: 200px;text-align:right;}
+/*右侧登陆前开始*/
+.topMiniNavBig .topLogin .loginBefore{line-height: 50px;}
+.topMiniNavBig .topLogin .loginBefore a{margin-left:20px;}
+/*右侧登陆前结束*/
+/*右侧登录后开始*/
+.topMiniNavBig .topLogin .loginOver .userName .icon{line-height: 50px;background: url(../../image/common/narrow_down.gif) no-repeat right center;_background: url(../../image/common/narrow_down.png) no-repeat right center;display:block;padding-right:20px; cursor: pointer;}
+.topMiniNavBig .topLogin .loginOver .userName ul.info{ position: absolute;top: 40px;right:0px;border:1px solid #e2e2e2;background:#fff;width: 100px; text-align: center;line-height: 36px;box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4);z-index:1000;border-radius: 2px;}
+.topMiniNavBig .topLogin .loginOver .userName ul.info li{height:36px;overflow:hidden;}
+.topMiniNavBig .topLogin .loginOver .userName ul.info li a{display: block;}
+.topMiniNavBig .topLogin .loginOver .userName ul.info li a:hover{background:#ddd;color:#333;}
+/*右侧登陆后结束*/
+/*````````````大头部样式结束````````````*/
+
+/*````````````小头部样式开始````````````*/
+.topMiniNavMini{line-height: 29px;}
+.topMiniNavMini .miniNav a{margin-right:10px;color:#333;}
+.topMiniNavMini .miniNav a:hover{color:#f90;}
+.topMiniNavMini .topLogin{width: 200px;text-align:right;}
+.topMiniNavMini .topLogin .loginBefore a{margin-left:10px;}
+.topMiniNavMini .navWrap a.logo{text-indent: -999em;overflow:hidden;}
+.topMiniNavMini .topLogin .loginOver .userName .icon{line-height: 29px;background: url(../../image/common/narrow_down.gif) no-repeat right center;_background: url(../../image/common/narrow_down.png) no-repeat right center;display:block;padding-right:20px; cursor: pointer;}
+.topMiniNavMini .topLogin .loginOver .userName ul.info{ position: absolute;top: 28px;right:0px;border:1px solid #e2e2e2;background:#fff;width: 100px; text-align: center;line-height: 36px;box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4);z-index:1000;border-radius: 2px;}
+.topMiniNavMini .topLogin .loginOver .userName ul.info li{height:36px;overflow:hidden;}
+.topMiniNavMini .topLogin .loginOver .userName ul.info li a{display: block;}
+.topMiniNavMini .topLogin .loginOver .userName ul.info li a:hover{background:#ddd;color:#333;}
+/*````````````小头部样式结束````````````*/

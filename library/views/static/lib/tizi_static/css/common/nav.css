@@ -1,4 +1,12 @@
-.nav{background:#09aa83;height:46px;line-height: 46px;}
-.nav li{float: left;font-size: 16px;position: relative;*zoom:1;}
-.nav li a{color:#fff;width:94px;text-align: center;display: block;}
-.nav li .new{background: url(../../image/common/new.gif) no-repeat;width:30px;height:19px;display: block;position: absolute;top:-8px;right:-5px;z-index: 10}
+.nav{background:#09aa83;height:40px;line-height: 40px;}
+.nav ul.main{border-left:1px solid #169171;}
+.nav ul.main li{border-right:1px solid #169171;float: left;font-size: 16px;position: relative;*zoom:1;}
+.nav ul.main li a{color:#fff;width:130px;text-align: center;display: block;}
+.nav ul.main li .new{background: url(../../image/common/new.gif) no-repeat;width:30px;height:19px;display: block;position: absolute;top:-8px;right:-5px;z-index: 10}
+.nav ul.main li .hot{background: url(../../image/common/hot.gif) no-repeat;width:30px;height:19px;display: block;position: absolute;top:-8px;right:-5px;z-index: 10}
+
+.nav ul.link li{background:url(../../image/common/nav_li_bg.gif) no-repeat left 14px;float:left;}
+.nav ul.link li a{color:#fff;text-decoration: none; display: block;padding:0px 12px;}
+.nav ul.link li a:hover{background-color: #169171;}
+.nav ul.link li.first{background: none;}
+

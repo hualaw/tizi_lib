@@ -17,16 +17,27 @@ class LI_Input extends CI_Input {
 			// loop through the full _GET array
 			foreach (array_keys($_GET) as $key)
 			{
-				$get[$key] = trim($this->_fetch_from_array($_GET, $key, $xss_clean));
-				if($tags_clean) $get[$key] = htmlspecialchars(strip_tags($get[$key]));
+				if(is_array($_GET[$key]))
+				{
+					$get[$key] = $this->_fetch_from_array($_GET, $key, $xss_clean);
+				}
+				else
+				{
+					$get[$key] = trim($this->_fetch_from_array($_GET, $key, $xss_clean));
+					if($tags_clean) $get[$key] = htmlspecialchars(strip_tags($get[$key]));
+				}
 			}
 			return $get;
 		}
 		else
 		{
 			$get = $this->_fetch_from_array($_GET, $index, $xss_clean);
-			if($tags_clean) $get = htmlspecialchars(strip_tags($get));
-			if(!$get && $default !== false) $get = $default;
+			if(!is_array($get))
+			{
+				$get = trim($get);
+				if($tags_clean) $get = htmlspecialchars(strip_tags($get));
+				if(!$get && $default !== false) $get = $default;
+			}
 			return $get;
 		}
 	}

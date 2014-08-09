@@ -16,6 +16,12 @@ class Student_Data_Model extends Data_Model {
         return parent::get_data($user_id);
     }
 
+    public function update_student_data($user_id,$data)
+    {
+        if(!is_array($data)||empty($data)) return false;
+        return $this->update_data_array($user_id,$data);
+    }
+
     public function update_student_gender($user_id,$gender)
     {
         if(!$gender) return false;
@@ -40,10 +46,22 @@ class Student_Data_Model extends Data_Model {
         return $this->update_data($user_id,$school_id,'school_id');
     }
 
-    public function update_student_detail($user_id,$gender,$qq)
+    public function update_student_register($user_id,$parent_phone,$qq)
     {
-        if(!$gender||!$qq) return false;
-        return $this->update_data_array($user_id,array('sex'=>$gender,'qq'=>$qq));
+        if(!$parent_phone&&!$qq) return false;
+        return $this->update_data_array($user_id,array('parent_phone'=>$parent_phone,'qq'=>$qq));
+    }
+
+    public function update_student_detail($user_id,$gender,$qq,$parent_phone)
+    {
+        if(!$gender) return false;
+        return $this->update_data_array($user_id,array('sex'=>$gender,'qq'=>$qq,'parent_phone'=>$parent_phone));
+    }
+
+    public function update_student_survey($user_id,$gender,$school_id)
+    {
+        if(!$gender||!$school_id) return false;
+        return $this->update_data_array($user_id,array('sex'=>$gender,'school_id'=>$school_id));
     }
 
     /**

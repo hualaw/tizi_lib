@@ -58,6 +58,7 @@ class Question_Model extends MY_Model {
         //if($qtype==3) $this->db->where($this->table.'.asw <>','');
         //if(!$qtype) $this->db->where("(".$this->table.".asw <> '' and ".$this->table.".qtype_id = 3) or (".$this->table.".qtype_id <> 3)");
         $this->db->where($this->table.'.online',1);
+        $this->db->where($this->table.'.no_repeat',1);
         //$this->db->group_by($this->table.'.id');
         $this->db->group_by($this->category_table.'.question_id');
         
@@ -96,12 +97,13 @@ class Question_Model extends MY_Model {
     }
 
     /*get question list*/
-    public function get_question_by_ids($question_id_list)
+    public function get_question_by_ids($question_id_list,$mode='')
     {
 		if(is_array($question_id_list)&&!empty($question_id_list))
 		{
      		$this->db->where_in('id',$question_id_list);
-            $this->db->where('online',1);
+            if($mode=='paper') $this->db->where("(online=1 OR online=100)");
+            else $this->db->where('online',1);
 			$query=$this->db->get($this->table);
         	return $query->result();
 		}
@@ -112,13 +114,14 @@ class Question_Model extends MY_Model {
     }
 
     /*get question list*/
-    public function get_question_by_ids_with_text($question_id_list)
+    public function get_question_by_ids_with_text($question_id_list,$mode='')
     {
         if(is_array($question_id_list)&&!empty($question_id_list))
         {
             $this->db->select($this->table.'_text.body as body_text,'.$this->table.'_text.answer as answer_text,'.$this->table.'_text.analysis as analysis_text,'.$this->table.'.*');
             $this->db->where_in($this->table.'.id',$question_id_list);
-            $this->db->where($this->table.'.online',1);
+            if($mode=='paper') $this->db->where("(".$this->table.".online=1 OR ".$this->table.".online=100)");
+            else $this->db->where($this->table.'.online',1);
             $this->db->join($this->table.'_text',$this->table.'_text.id='.$this->table.'.id');
             $query=$this->db->get($this->table);
             return $query->result();

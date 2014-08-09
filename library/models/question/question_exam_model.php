@@ -15,7 +15,6 @@ class Question_Exam_Model extends MY_Model {
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('teacher_data_helper');
     }
 
     public function get_area($return_array=false)
@@ -104,6 +103,7 @@ class Question_Exam_Model extends MY_Model {
         {
             $this->db->where($this->_table.'.subject_id',$subject_id);
         }
+        $this->db->group_by($this->_table.'.question_ids');
 
         if($grade) $this->db->where($this->_table.'.grade_id',$grade);
         if($exam_type) $this->db->where($this->_table.'.exam_type_id',$exam_type);

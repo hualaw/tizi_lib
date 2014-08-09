@@ -345,10 +345,10 @@ class CI_Cache_redis extends CI_Driver
 	}
 
 	/**
-	 * 封装redis zadd方式，将元素加入zset
-	 * @param string $key 		有序集zset标识关键字
-	 * @param int    $score		$member的优先级值
-	 * @param string $member    存储的元素值
+	 * ��װredis zadd��ʽ����Ԫ�ؼ���zset
+	 * @param string $key 		����zset��ʶ�ؼ���
+	 * @param int    $score		$member�����ȼ�ֵ
+	 * @param string $member    �洢��Ԫ��ֵ
 	 */
 	public function zadd($key, $score, $member)
 	{
@@ -359,9 +359,9 @@ class CI_Cache_redis extends CI_Driver
 	}
 
 	/**
-	 * 封装redis zcard方式,返回有序集zset的元素个数
-	 * @param  string   $key 	有序集zset标识关键字
-	 * @return int		有序集zset的元素个数
+	 * ��װredis zcard��ʽ,��������zset��Ԫ�ظ���
+	 * @param  string   $key 	����zset��ʶ�ؼ���
+	 * @return int		����zset��Ԫ�ظ���
 	 */
 	public function zcard($key)
 	{
@@ -421,6 +421,14 @@ class CI_Cache_redis extends CI_Driver
 			return $this->_slave->hget($key,$field);
         }       
     }
+
+	public function hlen($key){
+
+		if ($this->_slave)
+		{
+			return $this->_slave->hlen($key);
+		}
+	}
 
     public function hincrby($key,$field,$value){
     	if($this->_redis){
@@ -498,6 +506,13 @@ class CI_Cache_redis extends CI_Driver
         }       
     }
 
+	public function sismember($key, $data){
+		if ($this->_slave)
+		{
+			return $this->_slave->sismember($key, $data);
+		}	
+	} 
+
     public function srandmember($key,$count=0){
         if ($this->_slave)
         {
@@ -536,14 +551,23 @@ class CI_Cache_redis extends CI_Driver
         }   
     }   
 
+    public function lrem($key, $member, $num){
+        
+        if($this->_redis){
+            $this->_redis->lrem($key, $member, $num);
+        }
+
+    }
+
+
     /*hash end*/
 	
 	/**
-	 * 封装redis ZCOUNT方式,返回有序集zset的元素个数
-	 * @param  string   $key 	有序集zset标识关键字
-	 * @param  int 		$min	最小score
-	 * @param  int      $max	最大score
-	 * @return int		有序集zset的元素个数
+	 * ��װredis ZCOUNT��ʽ,��������zset��Ԫ�ظ���
+	 * @param  string   $key 	����zset��ʶ�ؼ���
+	 * @param  int 		$min	��Сscore
+	 * @param  int      $max	���score
+	 * @return int		����zset��Ԫ�ظ���
 	 */
 	 public function zcount($key, $min, $max){
 		if ($this->_slave){
@@ -552,10 +576,10 @@ class CI_Cache_redis extends CI_Driver
 	 }
 	 
 	/**
-	 * 封装redis ZINCRBY方式,增加元素的优先级score值
-	 * @param  string $key 	       有序集zset标识关键字
-	 * @param  int    $increment   增加该元素的优先级值
-	 * @param  string $member      存储的元素值
+	 * ��װredis ZINCRBY��ʽ,����Ԫ�ص����ȼ�scoreֵ
+	 * @param  string $key 	       ����zset��ʶ�ؼ���
+	 * @param  int    $increment   ���Ӹ�Ԫ�ص����ȼ�ֵ
+	 * @param  string $member      �洢��Ԫ��ֵ
 	 */
 	 public function zincrby($key, $increment, $member){
 		if ($this->_redis){
@@ -564,11 +588,11 @@ class CI_Cache_redis extends CI_Driver
 	 } 
 	 
 	/**
-	 * 封装redis ZREVRANGE方式，按score值从大到小排列该有序集的元素并返回
-	 * @param  string $key 	 	     有序集zset标识关键字 
-	 * @param  int    $start	 	 有序集zset开始的成员位置
-	 * @param  int    $stop		     有序集zset结束的成员位置
-	 * @param  BOOL   $WITHSCORES	 为1则返score
+	 * ��װredis ZREVRANGE��ʽ����scoreֵ�Ӵ�С���и����򼯵�Ԫ�ز�����
+	 * @param  string $key 	 	     ����zset��ʶ�ؼ��� 
+	 * @param  int    $start	 	 ����zset��ʼ�ĳ�Աλ��
+	 * @param  int    $stop		     ����zset����ĳ�Աλ��
+	 * @param  BOOL   $WITHSCORES	 Ϊ1��score
 	 */
 	 public function zrevrange($key, $start, $stop, $WITHSCORES=1){
 		if ($this->_slave){
@@ -584,24 +608,30 @@ class CI_Cache_redis extends CI_Driver
 
 	 
 	/**
-	 * 封装redis ZREVRANGEBYSCORE方式，按score值从大到小排列该有序集的元素并返回
-	 * @param  string $key 	 	     有序集zset标识关键字 
-	 * @param  int    $max			 获取记录的最大score
-	 * @param  int    $min			 获取记录的最小score
-	 * @param  int    $offset	 	 有序集zset开始的成员位置
-	 * @param  int    $count	     获取有序集zset的成员数量
-	 * @param  BOOL   $WITHSCORES	 为1则返score
+	 * ��װredis ZREVRANGEBYSCORE��ʽ����scoreֵ�Ӵ�С���и����򼯵�Ԫ�ز�����
+	 * @param  string $key 	 	     ����zset��ʶ�ؼ��� 
+	 * @param  int    $max			 ��ȡ��¼�����score
+	 * @param  int    $min			 ��ȡ��¼����Сscore
+	 * @param  int    $offset	 	 ����zset��ʼ�ĳ�Աλ��
+	 * @param  int    $count	     ��ȡ����zset�ĳ�Ա����
+	 * @param  BOOL   $WITHSCORES	 Ϊ1��score
 	 */
 	 public function zrevrangebyscore($key, $max, $min, $offset, $count, $WITHSCORES=1){
 		if ($this->_slave){
 			return $this->_slave->zrevrangebyscore($key,  $max, $min, array('withscores'=>$WITHSCORES,'limit'=>array($offset,$count)));
 		}
 	 }
+
+    public function zremrangebyrank($key, $start, $stop){
+        if ($this->_slave){
+            return $this->_slave->zremrangebyrank ($key, $start, $stop);
+        }
+    } 
 	 
 	 /**
-	 * 封装redis lPush方式,左侧入队
-	 * @param  string $key 	       队列键名
-	 * @param  string $value   	   入队内容
+	 * ��װredis lPush��ʽ,������
+	 * @param  string $key 	       ���м���
+	 * @param  string $value   	   �������
 	 */
 	 public function lpush($key, $value){
 		if ($this->_redis){
@@ -611,8 +641,8 @@ class CI_Cache_redis extends CI_Driver
 	 
 	 
 	 /**
-	 * 封装redis rPop方式,右侧出队
-	 * @param  string $key 	       队列键名
+	 * ��װredis rPop��ʽ,�Ҳ����
+	 * @param  string $key 	       ���м���
 	 */
 	 public function rpop($key){
 		if ($this->_slave){

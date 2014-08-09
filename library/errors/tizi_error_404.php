@@ -52,7 +52,7 @@ input::-ms-clear{display:none;}
 .topNav .info .normalMassage{background:url(<?php echo $site_url; ?>application/views/static/<?php echo $static_version; ?>image/common/button/ico_newMassage.gif) no-repeat left;padding-left:20px;}
 .topNav .miniBox{margin:0px 10px;}
 .header .bd{padding:13px 0px;}
-.header .bd h1 a{background:url(<?php echo $site_url; ?>application/views/static/<?php echo $static_version; ?>image/common/w_logo.gif) no-repeat;width:162px;height:67px;display:block; text-indent: -999em; overflow: hidden;}
+.header .bd h1 a{background:url(<?php echo $tizi_url; ?>application/views/static/image/common/w_logo.gif) no-repeat;width:162px;height:67px;display:block; text-indent: -999em; overflow: hidden;}
 .header .bd h2{padding-left:20px;font-size:24px;color:#ff9600; font-weight: normal;}
 .header .bd h2 span.channel{height:25px;}
 .header .bd h2 span{display: block;font-size: 16px;color:#333;margin-top:8px;}
@@ -71,7 +71,7 @@ input::-ms-clear{display:none;}
 /*content**/
 /*404页面样式开始*/
 .noFind{margin:35px auto 35px auto;background: #f6f6f6;padding:90px 0 200px 0;}
-.noFind h2{background:url(<?php echo $site_url; ?>application/views/static/<?php echo $static_version; ?>image/common/nofind_bg.gif) no-repeat left top; padding-left:150px;height: 140px;line-height: 120px;font-size: 24px;width:140px;margin:0 auto; font-weight: normal}
+.noFind h2{background:url(<?php echo $tizi_url; ?>application/views/static/image/common/nofind_bg.gif) no-repeat left top; padding-left:150px;height: 140px;line-height: 120px;font-size: 24px;width:140px;margin:0 auto; font-weight: normal}
 .noFind .bd{font-size:18px;line-height:32px; text-align: center;}
 /*404页面样式结束*/
 /*footer**/
@@ -151,7 +151,7 @@ input::-ms-clear{display:none;}
     <a href="<?php echo $tizi_url; ?>about/feedback" target="_blank">反馈建议</a> | 
     <a href="<?php echo $tizi_url; ?>about/join" target="_blank">职位招聘</a> | 
     <a href="<?php echo $tizi_url; ?>about/agreements" target="_blank">服务协议</a> | 
-    <a href="<?php echo $zl_url; ?>" target="_blank">资料库</a>
+    <a href="<?php echo $ziyuan_url; ?>" target="_blank">学习资源</a>
   </div>
   <div class="bd">
   <span>&copy;2014 tizi</span>

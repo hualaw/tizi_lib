@@ -70,10 +70,7 @@ swfobject.addDomLoadEvent(function () {
                 break;
         }
     };
-    var TiZiAvatar = new TiZiavatar('TiZiAvatar', 335, {
-        id: 'TiZiAvatar',
-        upload_url: baseUrlName + 'upload/avatar'
-    }, callback);
+
     //选项卡点击事件
     $('dt').click(function () {
         if (currentTab != this.id) {
@@ -104,18 +101,22 @@ swfobject.addDomLoadEvent(function () {
             TiZiAvatar.call('changepanel', this.id);
         }
     });
+
     //复选框事件
     $('#src_upload').change(function () {
         TiZiAvatar.call('srcUpload', this.checked);
     });
+
     //点击上传按钮的事件
     $('.button_upload').click(function () {
         TiZiAvatar.call('upload');
     });
+
     //点击取消按钮的事件
     $('.button_cancel').click(function () {
         cancelClick();
     });
+
     function cancelClick(){
         var activedTab = $('dt.current')[0].id;
         if (activedTab === 'albums') {
@@ -137,6 +138,7 @@ swfobject.addDomLoadEvent(function () {
             }
         }
     }
+
     //点击拍照按钮的事件
     $('.button_shutter').click(function () {
         if (!$(this).hasClass('Disabled')) {
@@ -144,6 +146,7 @@ swfobject.addDomLoadEvent(function () {
             TiZiAvatar.call('pressShutter');
         }
     });
+
     //从相册中选取
     $('#userAlbums a').click(function () {
         var sourcePic = this.href;
@@ -154,6 +157,7 @@ swfobject.addDomLoadEvent(function () {
         showSWF();
         return false;
     });
+
     //隐藏flash的函数
     function hideSWF() {
         //将宽高设置为0的方式来隐藏flash，而不能使用将其display样式设置为none的方式来隐藏，否则flash将不会被加载，隐藏时储存其宽高，以便后期恢复
@@ -169,18 +173,47 @@ swfobject.addDomLoadEvent(function () {
         //隐藏所有按钮
         $('#editorPanelButtons,#webcamPanelButton').hide();
     }
+
     function showSWF() {
         $('#avatar').css({
             width: $('#avatar').data('w'),
             height: $('#avatar').data('h')
         });
     }
+
     //显示相册的函数
     function showAlbums() {
         $('#userAlbums').show();
     }
+
     //隐藏相册的函数
     function hideAlbums() {
         $('#userAlbums').hide();
     }
+
+    if(typeof avatarParam != 'object') {
+        var avatarParam = {};
+    }
+
+    var avatarVars = {
+        id: 'TiZiAvatar',
+        upload_url: baseUrlName + 'upload/avatar',
+        width: 710,
+        height: 430
+    }
+
+    if(typeof avatarParams == 'object') {
+        for (var name in avatarParams)
+        {
+            if(avatarParams[name] != null)
+            {
+                avatarVars[name] = avatarParams[name];
+            }
+        }
+    }
+
+    var avatarWidth = avatarVars['width'];
+    var avatarHeight = avatarVars['height'];
+
+    var TiZiAvatar = new TiZiavatar('TiZiAvatar', avatarHeight, avatarWidth, avatarVars, callback);
 });
