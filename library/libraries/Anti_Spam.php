@@ -318,7 +318,7 @@ class Anti_Spam
         else
         {
             $_nmc = isset($_COOKIE['_nmc'])?$_COOKIE['_nmc']:0;
-            if(!$_nmc && $_COOKIE['_nmc'] != 1) setcookie('_nmc',1,0,'/','.tizi.com');
+            if($_nmc != 1) setcookie('_nmc',1,0,'/','.tizi.com');
             return false;
         }
         //return $connection;
