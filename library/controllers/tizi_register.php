@@ -129,7 +129,8 @@ class Tizi_Register extends Tizi_Controller {
 			else
 			{
 				$submit['errorcode']=true;
-				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_TEACHER,'register');
+				//$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_TEACHER,'register');
+				$submit['redirect']=redirect_url(Constant::USER_TYPE_TEACHER,'register').($redirect?'?redirect='.urlencode($redirect):'');
 				$submit['register']=$register;
 			}
 		}
@@ -222,7 +223,8 @@ class Tizi_Register extends Tizi_Controller {
 			else
 			{
 				$submit['errorcode']=true;
-				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_TEACHER,'register');
+				//$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_TEACHER,'register');
+				$submit['redirect']=redirect_url(Constant::USER_TYPE_TEACHER,'register').($redirect?'?redirect='.urlencode($redirect):'');
 				$submit['register']=$register;
 			}
 		}
@@ -265,7 +267,8 @@ class Tizi_Register extends Tizi_Controller {
 			else
 			{
 				$submit['errorcode']=true;
-				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_STUDENT,'register');
+				//$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_STUDENT,'register');
+				$submit['redirect']=redirect_url(Constant::USER_TYPE_STUDENT,'register').($redirect?'?redirect='.urlencode($redirect):'');
 				$submit['register']=$register;
 			}
 		}
@@ -325,7 +328,8 @@ class Tizi_Register extends Tizi_Controller {
 			else
 			{
 				$submit['errorcode']=true;
-				$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_PARENT,'register');
+				//$submit['redirect']=$redirect?$redirect:redirect_url(Constant::USER_TYPE_PARENT,'register');
+				$submit['redirect']=redirect_url(Constant::USER_TYPE_PARENT,'register').($redirect?'?redirect='.urlencode($redirect):'');
 				$submit['register']=$register;
 			}
 		}

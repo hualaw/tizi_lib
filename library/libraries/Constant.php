@@ -211,9 +211,9 @@ Class CI_Constant {
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'register' => array(
-				self::USER_TYPE_STUDENT => tizi_url("ban"),
-			    self::USER_TYPE_TEACHER => tizi_url("banji"),
-			    self::USER_TYPE_PARENT => jia_url()
+				self::USER_TYPE_STUDENT => login_url('register/success'),
+			    self::USER_TYPE_TEACHER => login_url('register/success'),
+			    self::USER_TYPE_PARENT => login_url('register/success')
 			),
 			'tizi' => array(
 				self::USER_TYPE_STUDENT => waijiao_url(),
