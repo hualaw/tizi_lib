@@ -22,7 +22,8 @@ Class Mail
 		//不同于登录SendCloud站点的帐号，您需要登录后台创建发信子帐号，使用子帐号和密码才可以进行邮件的发送。
 		curl_setopt($ch, CURLOPT_POSTFIELDS,
 				array('api_user' => 'postmaster@tizi-com.sendcloud.org',
-					'api_key' => 'v33EreaE',
+					//'api_key' => 'v33EreaE',
+					'api_key' => 'inmNPi5bQYsc57cA',
 					'from' => 'noreply@daily.tizi.com',
 					'fromname' => '梯子网',
 					'to' => $to_mail_addr,
