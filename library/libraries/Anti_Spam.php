@@ -303,7 +303,7 @@ class Anti_Spam
             $connection->setOption(Memcached::OPT_POLL_TIMEOUT, 50);
             $connection->setOption(Memcached::OPT_PREFIX_KEY, 'antispam_');
 
-            $file_path = APPPATH .'config/' . ENVIRONMENT . '/memcached.php';
+            $file_path = LIBPATH .'config/memcached.php';
             if (file_exists($file_path)) include($file_path);
             else exit('The configuration file memcached.php does not exist.');
             
