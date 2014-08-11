@@ -90,7 +90,7 @@ class Anti_Spam
 	
     public static function check()
     {
-        if(!self::$connection){
+        if(!self::getConnection()){
             return true;
         }
 
@@ -313,6 +313,13 @@ class Anti_Spam
             
             $conf = $config['memcached'];
             self::$connection->addServers($conf);
+            return true;
+        }
+        else
+        {
+            $_nmc = isset($_COOKIE['_nmc'])?$_COOKIE['_nmc']:0;
+            if(!$_nmc && $_COOKIE['_nmc'] != 1) setcookie('_nmc',1,0,'/','.tizi.com');
+            return false;
         }
         //return $connection;
     }
