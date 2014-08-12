@@ -661,7 +661,7 @@ class Student_Homework_Model extends LI_Model{
      * @param int $assignment_id
      */
     function get_all_stu_homework($assignment_id , $time=false){
-        $sql = "select u.name , u.student_id as student_in_class_id , s.*,ha.online from {$this->_table} s left join user u on u.id=s.user_id left join paper_assign ha on ha.id = s.paper_assign_id where paper_assign_id=$assignment_id ";
+        $sql = "select u.name , u.student_id as stu_number , s.*,ha.online from {$this->_table} s left join user u on u.id=s.user_id left join paper_assign ha on ha.id = s.paper_assign_id where paper_assign_id=$assignment_id ";
         if($time && $time<5){
             $time2 = $time*900 ; // to seconds
             $time1 = $time2 - 900 ;
