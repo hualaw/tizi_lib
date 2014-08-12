@@ -163,7 +163,7 @@ class Qiniu {
     }
 
     /* $name 是上传字段的name*/
-    function qiniu_upload($name='uploadfile'){
+    function qiniu_upload($name='uploadfile',$dir=""){
         if(!strlen($name)) {return false;}
         $filesize = $_FILES[$name]["size"];
         // file_put_contents('test_speed.txt', 'size:'.$filesize.',start time: '.time()."\r\n", FILE_APPEND | LOCK_EX);
@@ -177,7 +177,7 @@ class Qiniu {
         $md5 = md5(uniqid());
         $filename = alpha_id(mt_rand(1000000, 9999999)) . "." . $ext;
 
-        $key = date("Ymd") . "/" . substr($md5, 3, 2) . "/" . substr($md5, 7,26).$filename; //不能是slash开头，不然下载会报：bad oauth request
+        $key = $dir.date("Ymd") . "/" . substr($md5, 3, 2) . "/" . substr($md5, 7,26).$filename; //不能是slash开头，不然下载会报：bad oauth request
 
         $_file_content = $_FILES[$name]["tmp_name"];
         $putPolicy = new Qiniu_RS_PutPolicy($bucket);

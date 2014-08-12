@@ -2,6 +2,7 @@
 
 class Anti_Spam
 {
+    static $connection = null;
 
     const TYPE_MINUTE = 'minute';
     const TYPE_HOUR = 'hour';
@@ -89,6 +90,10 @@ class Anti_Spam
 	
     public static function check()
     {
+        if(!self::getConnection()){
+            return true;
+        }
+
         //如果在白名单里面，直接返回true
         $clientIp = self::getClient();
         if (in_array($clientIp, self::$whiteLists)) {
@@ -177,7 +182,7 @@ class Anti_Spam
     public static function get($type = self::TYPE_MINUTE)
     {
         $key = 'visited_' . $type . '_' . self::getClient();
-        $result = self::getConnection()->get($key);
+        $result = self::$connection->get($key);
         //echo $key . " " . $result . "\n";
         return intval($result);
     }
@@ -193,9 +198,9 @@ class Anti_Spam
 	self::logmsg("antispam_{$key}", self::TEMP_KEY_FILENAME);
         $expire = $data[$type]['timeout'];
         if (self::get($type)) {
-            return self::getConnection()->increment($key, 1);
+            return self::$connection->increment($key, 1);
         } else {
-            return self::getConnection()->set($key, 1, $expire);
+            return self::$connection->set($key, 1, $expire);
         }
     }
 
@@ -206,7 +211,7 @@ class Anti_Spam
     public static function isForbidden($forbidden_key="")
     {
         $key = 'forbidden_' . self::getClient() . '_' . $forbidden_key;
-        return self::getConnection()->get($key);
+        return self::$connection->get($key);
     }
 
     /**
@@ -223,7 +228,7 @@ class Anti_Spam
         $message = "forbidden\tantispam_{$key}". "\t" . $expire;
 	self::logmsg($message, self::TEMP_FORBID_FILENAME);
 
-        return self::getConnection()->set($key, 1, $expire);
+        return self::$connection->set($key, 1, $expire);
     }
 
     /**
@@ -238,7 +243,7 @@ class Anti_Spam
         $message = "unforbidden\tantispam_{$key}";
 	self::logmsg($message, self::TEMP_FORBID_FILENAME);
 
-        return self::getConnection()->delete($key, 0);
+        return self::$connection->delete($key, 0);
     }
 
     /**
@@ -292,25 +297,31 @@ class Anti_Spam
      */
     private static function getConnection()
     {
-        static $connection = null;
-        if (!$connection) {
-            $connection = new Memcached();
-            $connection->setOption(Memcached::OPT_COMPRESSION, true);
-            $connection->setOption(Memcached::OPT_DISTRIBUTION, true);
-            $connection->setOption(Memcached::OPT_LIBKETAMA_COMPATIBLE, true);
-            $connection->setOption(Memcached::OPT_NO_BLOCK, true);
-            $connection->setOption(Memcached::OPT_CONNECT_TIMEOUT, 50);
-            $connection->setOption(Memcached::OPT_POLL_TIMEOUT, 50);
-            $connection->setOption(Memcached::OPT_PREFIX_KEY, 'antispam_');
+        if (!self::$connection && extension_loaded('memcached')) {
+            self::$connection = new Memcached();
+            self::$connection->setOption(Memcached::OPT_COMPRESSION, true);
+            self::$connection->setOption(Memcached::OPT_DISTRIBUTION, true);
+            self::$connection->setOption(Memcached::OPT_LIBKETAMA_COMPATIBLE, true);
+            self::$connection->setOption(Memcached::OPT_NO_BLOCK, true);
+            self::$connection->setOption(Memcached::OPT_CONNECT_TIMEOUT, 50);
+            self::$connection->setOption(Memcached::OPT_POLL_TIMEOUT, 50);
+            self::$connection->setOption(Memcached::OPT_PREFIX_KEY, 'antispam_');
 
             $file_path = LIBPATH .'config/memcached.php';
             if (file_exists($file_path)) include($file_path);
             else exit('The configuration file memcached.php does not exist.');
             
             $conf = $config['memcached'];
-            $connection->addServers($conf);
+            self::$connection->addServers($conf);
+            return true;
         }
-        return $connection;
+        else
+        {
+            $_nmc = isset($_COOKIE['_nmc'])?$_COOKIE['_nmc']:0;
+            if($_nmc != 1) setcookie('_nmc',1,0,'/','.tizi.com');
+            return false;
+        }
+        //return $connection;
     }
 
     private static function logmsg($message, $filename)
