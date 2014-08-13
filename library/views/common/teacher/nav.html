@@ -13,11 +13,13 @@
 			<li>
 				<a href="{$login_url}xunzhang">勋章</a>
 			</li>
+			{nocache}
 			{if $user_type && $user_type eq $constant.user_type_teacher}
 			<li>
 				<a href="{$login_url}yaoqing">邀请</a>
 			</li>
 			{/if}
+			{/nocache}
 		</ul>
 		<ul class="main fl">
 			<li>
