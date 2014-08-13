@@ -33,7 +33,10 @@ class Tizi_Login extends Tizi_Controller {
 
 		if(preg_suname($username))
 		{
-			//$submit['redirect_url']=$redirect_url;
+			if(stripos($redirect_url,'http://')!==false)
+			{
+				$this->session->set_userdata("sso_redirect",$redirect_url);
+			}
 			$submit['slhtml']=$this->load_school_login();
 			echo json_token($submit);
     		exit();
@@ -63,7 +66,7 @@ class Tizi_Login extends Tizi_Controller {
 			//完善信息后跳转页面
 			if(stripos($redirect_url,'http://')!==false)
 			{
-				$this->session->set_userdata('perfect_redirect',$redirect_url);
+				$this->session->set_userdata("sso_redirect",$redirect_url);
 			}
 			
 			if (preg_phone($username))
