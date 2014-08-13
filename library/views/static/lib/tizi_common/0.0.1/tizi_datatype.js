@@ -39,10 +39,10 @@ define(function(require, exports) {
             },
             //登录用户名
             Username:{
-                datatype:"e | *1-20",
+                datatype:"e | *2-20",
                 nullmsg:"请输入邮箱/手机号/用户名/学号",
                 nullmsg_nostuid:"请输入邮箱/手机号/用户名",
-                errormsg:"长度1-20个字符"
+                errormsg:"长度2-20个字符"
             },
             //email
             Email:{
