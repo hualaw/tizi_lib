@@ -46,7 +46,7 @@ class Student_Zuoye_Model extends MY_Model {
         
     }
 
-    public function checkCompleteStatus($uid, $zuoye_id) {
+    public function updateCompleteStatus($uid, $zuoye_id) {
                
         $data = $this->get(array('zuoye_student.id'=>$zuoye_id));
         $total_num = $complete_num = 0;
@@ -65,6 +65,10 @@ class Student_Zuoye_Model extends MY_Model {
                 $total_num += count($paper_ids);
                 foreach($paper_ids as $paper) {
                     $assign_id = $paper['assignment_id'];
+                    $paper_info = $this->student_paper_model->get_student_paper($uid, $assign_id);
+                    if($paper_info['is_completed']) {
+                        $complete_num++;
+                    }
                 }
             }
             if (!empty($zuoye_info)) {
@@ -75,11 +79,17 @@ class Student_Zuoye_Model extends MY_Model {
                     $complete_num += count($zuoye_info['video']);
                 }
             }
-            
-
+            $complete_status = 0;
+            if ($complete_num) {
+                if ($total_num == $complete_num)
+                    $complete_status = 2;
+                else 
+                    $complete_status = 1;
+            } 
+            if($complete_status == $student_zuoye['is_complete']) return false;
+            return $this->update($zuoye_id, array('is_complete'=>$complete_status));
         }
         return false;
-
         
     }
         
