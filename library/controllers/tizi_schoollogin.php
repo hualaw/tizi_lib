@@ -32,7 +32,9 @@ class Tizi_Schoollogin extends Tizi_Controller {
 					$session = $this->session_model->generate_session($agents["user_id"]);
 					$this->session_model->generate_cookie($agents["create_id"], $agents["user_id"], $cookie_time);
 					$this->session_model->clear_mscookie();
-					$redirect = $this->get_redirect($session["user_data"]["user_type"], $session["user_data"], "login");
+
+					$sso_redirect = $this->session->userdata("sso_redirect");
+					$redirect = $this->get_redirect($session["user_data"]["user_type"], $session["user_data"], "login", $sso_redirect);
 					echo json_token(array("code" => 1, "redirect" => $redirect));exit;
 				} else {
 					echo json_token(array("code" => -3, "msg" => "姓名或密码错误"));exit;
