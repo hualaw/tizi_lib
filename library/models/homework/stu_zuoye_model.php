@@ -129,17 +129,22 @@ class Stu_Zuoye_Model extends LI_Model{
                     }
                 }
                 //处理试卷作业
+                $paper_complete_sum = 0;
                 if(isset($val['paper_ids']) and $val['paper_ids']){
                     $this->load->model('exercise_plan/student_homework_model');
                     $paper_ids = json_decode($val['paper_ids'],true);
                     foreach($paper_ids as $pas=>$p){//$val['user_id'] == student_id
-                        $papers[] = $this->student_homework_model->get_student_homework($val['user_id'],$p['assignment_id']);
+                        $_pap = $this->student_homework_model->get_student_homework($val['user_id'],$p['assignment_id']);
+                        if($_pap->is_completed){
+                            $paper_complete_sum ++;
+                        }
+                        $papers [] = $_pap;
                         // var_dump($papers);
                     }
                 }
             }
-            $val['task_num'] = count($videos) + count($games);
-            $val['task_num_completed'] = count($student_video) + count($student_game);
+            $val['task_num'] = count($videos) + count($games) + count($papers);
+            $val['task_num_completed'] = count($student_video) + count($student_game) + $paper_complete_sum;
             $val['videos'] = $videos;
             $val['games'] = $games;
             $val['papers'] = $papers;
