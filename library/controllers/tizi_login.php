@@ -31,7 +31,17 @@ class Tizi_Login extends Tizi_Controller {
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
 
+		if(preg_suname($username))
+		{
+			$submit['redirect']=$redirect_type;
+			$submit['redirect_url']=$redirect_url;
+			$submit['slhtml']=$this->load_school_login();
+			echo json_token($submit);
+    		exit();
+		}
+
 		$user_id=$this->login_model->login($username,$password);
+
 		if($user_id['errorcode']==Constant::LOGIN_SUCCESS)
 		{
 			$remember=$this->input->post('remember',true);
@@ -260,6 +270,38 @@ class Tizi_Login extends Tizi_Controller {
 		}
 		return $redirect;
    	}
+
+   	private function load_school_login(){
+		$cookie_school_id = $this->input->cookie(Constant::COOKIE_SCHOOL_LOGIN);
+		if ($cookie_school_id > 0){
+			$data = array();
+			$school_id = $cookie_school_id;
+			
+			$this->load->model("class/classes_agents_model");
+			$data["my"] = $this->classes_agents_model->get_by_school_id($school_id, "province_id,city_id,county_id,school_id");
+			$data["province"] = $this->classes_agents_model->get_province();
+			$data["province"] = $data["province"]["data"];
+			$city = $this->classes_agents_model->get_city($data["my"]["province_id"]);
+			foreach ($city as $key => $value){
+				$data["city"][] = array("city_id" => $key, "city_name" => $value);
+			}
+			$data["school"] = $this->classes_agents_model->get_school($data["my"]["city_id"]);
+			
+			/*特区替换*/
+			$this->load->helper("area");
+			ismunicipality($data["my"]["province_id"]) && $data["my"]["city_id"] = $data["my"]["county_id"];
+			
+			$this->smarty->assign("school_login_info", $data);
+			$this->smarty->assign("is_show_school", true);
+		} else {
+			$this->load->model("class/classes_agents_model");
+			$data = $this->classes_agents_model->get_province();
+			$this->smarty->assign("agents_province", $data["data"]);
+			$this->smarty->assign("is_show_school", false);
+		}
+		$html=$this->smarty->fetch('[lib]common/tizi_login_school_form.html');
+		return $html;
+	}
 
 }	
 /* End of file login.php */

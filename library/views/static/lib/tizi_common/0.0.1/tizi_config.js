@@ -39,6 +39,7 @@ aliasContent = {
     "tizi_download": libPath + "tizi_common/0.0.1/tizi_download",
     "tizi_feedback": libPath + "tizi_common/0.0.1/tizi_feedback",
     "tizi_login_form": libPath + "tizi_common/0.0.1/tizi_login_form",
+    "tizi_login_school": libPath + "tizi_common/0.0.1/tizi_login_school",
     "tizi_select": libPath + "tizi_common/0.0.1/tizi_select",
     "tizi_cookie": libPath + "tizi_common/0.0.1/tizi_cookie"
     //梯子公共方法结束

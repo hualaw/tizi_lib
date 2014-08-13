@@ -25,6 +25,12 @@ if (!function_exists('preg_uname')) {
     }
 }
 
+if (!function_exists('preg_suname')) {
+    function preg_suname($suname) {
+        return preg_match("/([\x{4e00}-\x{9fa5}]+)/u",$suname);
+    }
+}
+
 if (!function_exists('preg_qq')) {
     function preg_qq($qq) {
         return preg_match("/^[1-9]{1}\d{4,11}$/",$qq);
