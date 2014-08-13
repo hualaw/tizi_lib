@@ -31,7 +31,15 @@ class Tizi_Login extends Tizi_Controller {
 
 		$submit=array('errorcode'=>false,'error'=>'','redirect'=>'');
 
+		if(preg_suname($username))
+		{
+			$submit['login_type']='school_login';
+			echo json_token($submit);
+    		exit();
+		}
+
 		$user_id=$this->login_model->login($username,$password);
+
 		if($user_id['errorcode']==Constant::LOGIN_SUCCESS)
 		{
 			$remember=$this->input->post('remember',true);
