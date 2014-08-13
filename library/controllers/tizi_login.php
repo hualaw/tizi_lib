@@ -33,8 +33,7 @@ class Tizi_Login extends Tizi_Controller {
 
 		if(preg_suname($username))
 		{
-			$submit['redirect']=$redirect_type;
-			$submit['redirect_url']=$redirect_url;
+			//$submit['redirect_url']=$redirect_url;
 			$submit['slhtml']=$this->load_school_login();
 			echo json_token($submit);
     		exit();
