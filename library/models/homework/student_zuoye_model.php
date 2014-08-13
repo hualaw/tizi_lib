@@ -50,6 +50,7 @@ class Student_Zuoye_Model extends MY_Model {
                
         $data = $this->get(array('zuoye_student.id'=>$zuoye_id));
         $total_num = $complete_num = 0;
+        $db_data = array();
         if (isset($data[0]) && !empty($data[0])) {
             $student_zuoye = $data[0];
             $zuoye_info = !empty($student_zuoye['zuoye_info']) ? 
@@ -81,13 +82,16 @@ class Student_Zuoye_Model extends MY_Model {
             }
             $complete_status = 0;
             if ($complete_num) {
-                if ($total_num == $complete_num)
+                if ($total_num == $complete_num) {
                     $complete_status = 2;
+                    $db_data['end_time'] = time();
+                }
                 else 
                     $complete_status = 1;
-            } 
+            }
             if($complete_status == $student_zuoye['is_complete']) return false;
-            return $this->update($zuoye_id, array('is_complete'=>$complete_status));
+            $db_data['is_complete'] = $complete_status;
+            return $this->update($zuoye_id, $db_data);
         }
         return false;
         
