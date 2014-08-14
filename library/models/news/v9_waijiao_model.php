@@ -161,5 +161,22 @@ class v9_waijiao_model extends MY_Model{
 		return $this->db->affected_rows();
 	}
 
+	public function set_edition_status($stage_id, $edition_id, $status){
+		$this->db->query("UPDATE fls_stage_edition SET status=? WHERE stage_id=? AND edition_id=?", array($status, $stage_id, $edition_id));
+		return $this->db->affected_rows();
+	}
+
+	public function edition_update($stage_id, $edition_id, $img_url, $category_id){
+		$this->db->query("UPDATE fls_stage_edition SET img_url=? WHERE stage_id=? AND edition_id=?", array($img_url, $stage_id, $edition_id));
+		$this->db->query("UPDATE common_edition SET category_id=? WHERE id=?", array($category_id, $edition_id));
+		return $this->db->affected_rows();
+	}
+
+	public function update_unit($unit_id, $category_id, $unit_number, $unit_name, $prefix){
+		$this->db->query("UPDATE common_unit SET category_id=?,unit_number=?,unit_name=?,
+			prefix=? WHERE id=?", array($category_id, $unit_number, $unit_name, $prefix, $unit_id));
+		return $this->db->affected_rows();
+	}
+
 }
 /* end of v9_waijiao_model.php */
