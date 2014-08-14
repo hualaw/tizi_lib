@@ -19,43 +19,46 @@ $config['static_url'] = 'application/views/static/';
 $config['base_url'] = '';
 $config['base_static_url'] = 'application/views/static/';
 
-$config['tizi_url'] = 'http://192.168.11.12:8080/';
+$config['dev_url'] = explode(':',$_SERVER['HTTP_HOST']);
+$config['dev_url'] = 'http://'.$config['dev_url'][0];
+
+$config['tizi_url'] = $config['dev_url'].':8080/';
 $config['tizi_static_url'] = 'application/views/static/';
 
-$config['login_url'] = 'http://192.168.11.12:8282/';
+$config['login_url'] = $config['dev_url'].':8282/';
 $config['login_static_url'] = 'application/views/static/';
 
-$config['space_url'] = 'http://192.168.11.12:8688/';
+$config['space_url'] = $config['dev_url'].':8688/';
 $config['space_static_url'] = 'application/views/static/';
 
-$config['zl_url'] = 'http://192.168.11.12:8689/';
+$config['zl_url'] = $config['dev_url'].':8689/';
 $config['zl_static_url'] = 'application/views/static/';
 
-$config['jia_url'] = 'http://192.168.11.12:8091/';
+$config['jia_url'] = $config['dev_url'].':8091/';
 $config['jia_static_url'] = 'application/views/static/';
 
-$config['xue_url'] = 'http://192.168.11.12:8083/';
+$config['xue_url'] = $config['dev_url'].':8083/';
 $config['xue_static_url'] = 'application/views/static/';
 
-$config['survey_url'] = 'http://192.168.11.12:8090/';
+$config['survey_url'] = $config['dev_url'].':8090/';
 $config['survey_static_url'] = 'application/views/static/';
 
-$config['waijiao_url'] = 'http://192.168.11.12:8690/';
+$config['waijiao_url'] = $config['dev_url'].':8690/';
 $config['waijiao_static_url'] = 'application/views/static/';
 
-$config['huodong_url'] = 'http://192.168.11.12:8692/';
+$config['huodong_url'] = $config['dev_url'].':8692/';
 $config['huodong_static_url'] = 'application/views/static/';
 
-$config['ziyuan_url'] = 'http://192.168.11.12:8693/';
+$config['ziyuan_url'] = $config['dev_url'].':8693/';
 $config['ziyuan_static_url'] = 'application/views/static/';
 
-$config['dafen_url'] = 'http://192.168.11.12:8694/';
+$config['dafen_url'] = $config['dev_url'].':8694/';
 $config['dafen_static_url'] = 'application/views/static/';
 
-$config['api_url'] = 'http://192.168.11.12:8787/';
+$config['api_url'] = $config['dev_url'].':8787/';
 $config['api_static_url'] = 'application/views/static/';
 
-$config['bbs_url'] = 'http://192.168.11.12:8687/';
+$config['bbs_url'] = $config['dev_url'].':8687/';
 $config['nahao_url'] = '';
 $config['91_url'] = '';
 /*
