@@ -53,8 +53,8 @@ define(function(require, exports) {
                     curform.find('.username').next('.Validform_checktip').hide();
                     return false;
                 }
-                username = curform.find('.username').val();
-                passwd = curform.find('.password').val();
+                // username = curform.find('.username').val();
+                // passwd = curform.find('.password').val();
                 // 加载MD5加密
                 require.async("tizi_validform",function(ex){
                     ex.md5(curform);
@@ -98,8 +98,8 @@ define(function(require, exports) {
                                 width:400,
                                 ok:false,
                                 init:function(){
-                                    $('.classAccountForm .nameInput').val(username);
-                                    $('.classAccountForm .passInput').val(passwd);
+                                    // $('.classAccountForm .nameInput').val(username);
+                                    // $('.classAccountForm .passInput').val(passwd);
                                 }
                             });
                             exports.classLogin();
