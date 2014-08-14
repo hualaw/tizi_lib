@@ -27,14 +27,15 @@ class Game_Model extends MY_Model {
 
 	public function get_question($category_id, $game_type, $question_num = ''){
 		
-        $sql = "select * from `game_question` where `category_id` = {$category_id} and `game_type` = {$game_type} order by rand()";
-        if($question_num){
-            $sql .= " limit 0, $question_num ";
-        }
+        $sql = "select * from `game_question` where `category_id` = {$category_id} and `game_type` = {$game_type}";
 		$result = $this->db
 			->query($sql)
 			->result_array();
-		$game_data = array();
+        shuffle($result);
+        if($question_num && count($result) > $question_num){
+            $result = array_slice($result, 0, $question_num);
+        }
+        $game_data = array();
 		foreach($result as $val){
             $game_data[] = array_merge(array('id'=>$val['id']),
                 json_decode($val['content'], true)
