@@ -18,6 +18,8 @@ class Tizi_Login extends Tizi_Controller {
 		$password=$this->input->post("password",true);
 		$redirect_type=$this->input->post("redirect",true,false,'login');
 		$redirect_url=$this->input->post("redirect_url",true,false,'');
+		$remember=$this->input->post('remember',true);
+
 		if($redirect_type=='homepage')
 		{
 			$redirect_url='';
@@ -37,6 +39,9 @@ class Tizi_Login extends Tizi_Controller {
 			{
 				$this->session->set_userdata("sso_redirect",$redirect_url);
 			}
+			$this->smarty->assign('s_username',$username);
+			$this->smarty->assign('s_password',$password);
+			$this->smarty->assign('remember',$remember);
 			$submit['slhtml']=$this->load_school_login();
 			echo json_token($submit);
     		exit();
@@ -46,7 +51,6 @@ class Tizi_Login extends Tizi_Controller {
 
 		if($user_id['errorcode']==Constant::LOGIN_SUCCESS)
 		{
-			$remember=$this->input->post('remember',true);
 			if($remember) $cookie_time=Constant::COOKIE_REMEMBER_EXPIRE_TIME;
 			else $cookie_time=Constant::COOKIE_EXPIRE_TIME;
 			$session=$this->session_model->generate_session($user_id['user_id']);
