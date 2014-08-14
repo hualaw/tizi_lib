@@ -92,7 +92,7 @@
             </div>
         </li>
         {/if}
-        <li class="cf inputWrap cf">
+        <!-- <li class="cf inputWrap cf">
             <div class="posr fl">
                 <input type="text" class="cInput fl stuInput nameInput" placeholder="姓名" name="s_username"/>
                 <div class="nameInputTips ValidformInfo">
@@ -113,14 +113,17 @@
                   </span>
                 </div>
             </div>
-        </li>
+        </li> -->
     </ul>
-    <div class="remerberPass">
+    <!-- <div class="remerberPass">
          <label class="fl nextAuto cf" for="rememberPwd">
                 <input type="checkbox" id="rememberPwd" name="remember" class="fl" checked="checked">下次自动登录
             </label>
-    </div>
+    </div> -->
     <div class="submitWrap">
+        <input type="hidden" name="s_username" value="{$s_username}" />
+        <input type="hidden" name="s_password" value="{$s_password}" />
+        <input type="hidden" name="remember" value="{$remember}">
         <input type="submit" class="cBtnNormal fullColumn yh" value="登录" />
     </div>
 </form>
