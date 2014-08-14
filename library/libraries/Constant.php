@@ -78,19 +78,20 @@ Class CI_Constant {
 	const COOKIE_TZSUPPLY_EXPIRE_TIME = 31536000;//skip information supply
 
 	const COOKIE_TZUSERNAME = "TZU";//自动登录cookie name
+	const COOKIE_SCHOOL_LOGIN = "_schl";//学校真实姓名登录记录的school_id
+	const COOKIE_NOREDIS = "_nrd";//no redis cookie name
+	const COOKIE_NOMEMCACHED = "_nmc";//no redis cookie name
+	const COOKIE_INVITE = "invite";//invite cookie name
 	const COOKIE_TZMYSUBJECT = "_ms";//mysubject cookie name
 	const COOKIE_TZMYSUBJECT_PAPER = "_msp";//mysubject cookie name
 	const COOKIE_TZMYSUBJECT_DOC = "_msd";//mysubject cookie name
 	const COOKIE_TZMYSUBJECT_HOMEWORK = "_msh";//mysubject cookie name
-	const COOKIE_TZTIPS = "_tp_";//tips cookie perfix name
-	const COOKIE_NOREDIS = "_nrd";//no redis cookie name
-	const COOKIE_INVITE = "invite";//invite cookie name
 	const COOKIE_CURRENT_CLOUD_DIR = "_mdir";//cloud cookie name
 	const COOKIE_TZMOBILE = "_mobile";//cloud cookie name
-	const COOKIE_TZSUPPLY = "_sis";//skip information supply
 	const COOKIE_PARENT_AREA = "_jia";//家长端地区
 	const COOKIE_STUDENT_PK = "_pk";//专项挑战
-	const COOKIE_SCHOOL_LOGIN = "_schl";//学校真实姓名登录记录的school_id
+	const COOKIE_TZTIPS = "_tp_";//tips cookie perfix name//废弃
+	const COOKIE_TZSUPPLY = "_sis";//skip information supply//废弃
 
 	/*zujuan login errorcode*/
 	const LOGIN_SUCCESS = 1;
