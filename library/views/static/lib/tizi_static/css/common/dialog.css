@@ -17,6 +17,7 @@ table.aui_border, table.aui_dialog { border:0; margin:0; border-collapse:collaps
 .aui_buttons button{ margin-right:10px;cursor: pointer; text-align:center;outline: 0;
   border:0px;
   cursor: pointer;
+  font-family:'Microsoft Yahei',Tahoma,Arial,sans-serif;
   text-align: center;
   padding:0 20px;
   display: inline-block;
