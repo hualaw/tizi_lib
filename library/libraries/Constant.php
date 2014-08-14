@@ -80,7 +80,7 @@ Class CI_Constant {
 	const COOKIE_TZUSERNAME = "TZU";//自动登录cookie name
 	const COOKIE_SCHOOL_LOGIN = "_schl";//学校真实姓名登录记录的school_id
 	const COOKIE_NOREDIS = "_nrd";//no redis cookie name
-	const COOKIE_NOMEMCACHED = "_nmc";//no redis cookie name
+	const COOKIE_NOMEMCACHED = "_nmc";//no memcached cookie name
 	const COOKIE_INVITE = "invite";//invite cookie name
 	const COOKIE_TZMYSUBJECT = "_ms";//mysubject cookie name
 	const COOKIE_TZMYSUBJECT_PAPER = "_msp";//mysubject cookie name
