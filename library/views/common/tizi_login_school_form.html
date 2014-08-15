@@ -1,0 +1,39 @@
+{literal}
+<style>
+/*全站弹出登录框样式开始*/
+#comLogin{padding:0 60px;}
+#comLogin .yh{font-family: "Microsoft YaHei";font-weight:normal;}
+#comLogin .cInput{height:38px;color:#666;padding:0px 6px;}
+#comLogin .tizi_LoginStyle .cmbProvinceDiv{line-height: normal;}
+#comLogin .tizi_LoginStyle .cmbProvinceDiv select{width:105px;margin-right:10px;}
+#comLogin .tizi_LoginStyle .cmbCityDiv select{width:105px;}
+#comLogin .tizi_LoginStyle select.selectFull{width:220px;}
+#comLogin .tizi_LoginStyle .fullColumn{width:220px;}
+/*#comLogin .tizi_LoginStyle .cmbProvinceDiv{}*/
+#comLogin .tizi_LoginStyle li{margin-bottom:18px;position: relative;*zoom:1;*margin-bottom:15px;}
+#comLogin .tizi_LoginStyle li input{border-radius: 5px;font-size:14px;line-height: 38px;width:226px;border:1px solid #c4c5c4;box-shadow:1px 1px 1px #dadddc inset;}
+#comLogin .tizi_LoginStyle .remerberPass #remember{margin-top:6px;margin-right:5px;}
+#comLogin .tizi_LoginStyle .bottomLogin{padding:15px 0px 0;}
+#comLogin .tizi_LoginStyle .bottomLogin .submitLock{background:#b3b3b3;}
+#comLogin .tizi_LoginStyle .submitBtn{cursor: pointer;width:115px;height:37px;line-height:35px;font-size:18px;}
+#comLogin .tizi_LoginStyle .aReg{width:95px;text-align: center;height: 35px;line-height:35px;font-size:18px;}
+#comLogin .tizi_LoginStyle .aReg:hover{color: #333;}
+#comLogin .tizi_LoginStyle .fogetPw{color:#09aa83;}
+#comLogin .tizi_LoginStyle .fogetPw:hover{color: #f90}
+#comLogin .tizi_LoginStyle .ft{padding-top:5px;}
+#comLogin .tizi_LoginStyle .ft h3{font-size:14px;padding-bottom:10px;}
+#comLogin .tizi_LoginStyle .ft p span{margin-right:3px;*margin-right:0px;}
+#comLogin .tizi_LoginStyle .ft p span.last{margin-right:0px;}
+#comLogin .tizi_LoginStyle .ft p em{color:#f90;}
+#comLogin .oauthLogin{border-top:1px solid #b9d9d6;margin-top:15px;padding-top: 15px;line-height:20px;}
+#comLogin .oauthLogin a i{background:url({/literal}{$static_url}{$static_version}{literal}lib/tizi_static/image/common/ico_out_login.png) no-repeat;_background:url({/literal}{$static_url}{$static_version}{literal}lib/tizi_static/image/common/ico_out_login.gif) no-repeat;display: block;height:20px;margin-left:10px;margin-right:5px;display:inline-block;width:18px;}
+#comLogin .oauthLogin a .qq{}
+#comLogin .oauthLogin a .weibo{width:25px;background-position: -31px 0;}
+/*全站弹出登录框样式结束*/
+</style>
+{/literal}
+<div id="comLogin">
+    <div class="tizi_LoginStyle">
+        {include file='file:[lib]common/tizi_login_school.html'}
+    </div>
+</div>

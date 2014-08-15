@@ -1,0 +1,130 @@
+{nocache}
+<form action="{$login_url}school/login" method="post" dataType="jsonp" onsubmit="return false" class="classAccountForm" autocomplete="off">
+    <ul class="formUl">
+		{if $is_show_school}
+		<li class="cf">
+            <div class="fl posr cmbProvinceDiv">
+                <select name="province_id" id="cmbProvince" class="cmbProvince">
+                    <option value="">请选择省</option>
+                    {foreach $school_login_info.province as $value}
+                    <option value="{$value.province_id}"{if $value.province_id==$school_login_info.my.province_id} selected="selected"{/if}>{$value.name}</option>
+                    {/foreach}
+                </select>
+                <div class="ValidformInfo">
+                    <span class="Validform_checktip"></span>
+                    <span class="dec">
+                        <s class="dec1">&#9670;</s>
+                        <s class="dec2">&#9670;</s>
+                    </span>
+                </div>
+            </div>
+            <div class="fr posr cmbCityDiv">
+                <select name="city_id" id="cmbCity" class="cmbCity fr">
+					<option value="">请选择市</option>
+                    {foreach $school_login_info.city as $value}
+                    <option value="{$value.city_id}"{if $value.city_id==$school_login_info.my.city_id} selected="selected"{/if}>{$value.city_name}</option>
+                    {/foreach}
+                </select>
+                <div class="ValidformInfo">
+                    <span class="Validform_checktip"></span>
+                    <span class="dec">
+                        <s class="dec1">&#9670;</s>
+                        <s class="dec2">&#9670;</s>
+                    </span>
+                </div>
+            </div>
+        </li>
+        <li class="cf posr">
+            <select name="school_id" id="schoolNameSelect" class="fl selectFull">
+                <option value="">请选择学校</option>
+                {foreach $school_login_info.school as $value}
+                <option value="{$value.school_id}"{if $value.school_id==$school_login_info.my.school_id} selected="selected"{/if}>{$value.schoolname}</option>
+                {/foreach}
+            </select>
+            <div class="ValidformInfo">
+                <span class="Validform_checktip"></span>
+                <span class="dec">
+                    <s class="dec1">&#9670;</s>
+                    <s class="dec2">&#9670;</s>
+                </span>
+            </div>
+        </li>
+		{else}
+        <li class="cf">
+            <div class="fl posr cmbProvinceDiv">
+                <select name="province_id" id="cmbProvince" class="cmbProvince fl">
+                    <option value="">请选择省</option>
+                    {foreach $agents_province as $value}
+                    <option value="{$value.province_id}">{$value.name}</option>
+                    {/foreach}
+                </select>
+                <div class="ValidformInfo">
+                    <span class="Validform_checktip"></span>
+                    <span class="dec">
+                        <s class="dec1">&#9670;</s>
+                        <s class="dec2">&#9670;</s>
+                    </span>
+                </div>
+            </div>
+            <div class="fr posr cmbCityDiv">
+                <select name="city_id" id="cmbCity" class="cmbCity fr">
+                    <option value="">请选择市</option>
+                </select>
+                <div class="ValidformInfo">
+                    <span class="Validform_checktip"></span>
+                    <span class="dec">
+                        <s class="dec1">&#9670;</s>
+                        <s class="dec2">&#9670;</s>
+                    </span>
+                </div>
+            </div>
+        </li>
+        <li class="cf posr">
+            <select name="school_id" id="schoolNameSelect" class="fl selectFull">
+                <option value="">请选择学校</option>
+            </select>
+            <div class="ValidformInfo">
+                <span class="Validform_checktip"></span>
+                <span class="dec">
+                    <s class="dec1">&#9670;</s>
+                    <s class="dec2">&#9670;</s>
+                </span>
+            </div>
+        </li>
+        {/if}
+        <!-- <li class="cf inputWrap cf">
+            <div class="posr fl">
+                <input type="text" class="cInput fl stuInput nameInput" placeholder="姓名" name="s_username"/>
+                <div class="nameInputTips ValidformInfo">
+                  <span class="Validform_checktip"></span>
+                  <span class="dec">
+                    <s class="dec1">&#9670;</s>
+                    <s class="dec2">&#9670;</s>
+                  </span>
+                </div>
+            </div>
+            <div class="posr fr">
+                <input type="password" class="cInput fr stuInput passInput" placeholder="密码" name="s_password"/>
+                <div class="passInputTips ValidformInfo">
+                  <span class="Validform_checktip"></span>
+                  <span class="dec">
+                    <s class="dec1">&#9670;</s>
+                    <s class="dec2">&#9670;</s>
+                  </span>
+                </div>
+            </div>
+        </li> -->
+    </ul>
+    <!-- <div class="remerberPass">
+         <label class="fl nextAuto cf" for="rememberPwd">
+                <input type="checkbox" id="rememberPwd" name="remember" class="fl" checked="checked">下次自动登录
+            </label>
+    </div> -->
+    <div class="submitWrap">
+        <input type="hidden" name="s_username" value="{$s_username}" />
+        <input type="hidden" name="s_password" value="{$s_password}" />
+        <input type="hidden" name="remember" value="{$remember}">
+        <input type="submit" class="cBtnNormal fullColumn yh" value="确定" />
+    </div>
+</form>
+{/nocache}

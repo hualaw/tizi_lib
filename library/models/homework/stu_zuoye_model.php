@@ -9,7 +9,7 @@ class Stu_Zuoye_Model extends LI_Model{
 
     //获取某个学生的最新一条zuoye记录
     function get_lastest_stu_zuoye($class_id,$student_id){
-        $select = "za.end_time as zuoye_end_time, za.start_time as zuoye_start_time, za.unit_ids,za.unit_game_ids,za.video_ids,  zs.* ";
+        $select = "za.subject_id, za.end_time as zuoye_end_time, za.start_time as zuoye_start_time, za.unit_ids,za.unit_game_ids,za.video_ids,za.paper_ids,  zs.* ";
         $sql = "SELECT  $select  from zuoye_assign za 
                 left join zuoye_student zs on zs.zy_assign_id=za.id 
                 where class_id={$class_id} and za.status=1 and zs.user_id={$student_id} order by assign_time desc limit 1 ";
@@ -28,9 +28,28 @@ class Stu_Zuoye_Model extends LI_Model{
             $data[0]['is_over_due'] = true;
         }
         $this->load->model('homework/unit_model');
-        $tmp = $this->unit_model->get_banben_stage_by_unit($data[0]['unit_ids']);
-        $data[0]['units'] = $tmp['units'];
-// var_dump($data);die;
+        $this->load->model('question/question_category_model');
+        // $tmp = $this->unit_model->get_banben_stage_by_unit($data[0]['unit_ids']);
+        $tmp = $bb = array();
+        $_unit_ids = explode(',', $data[0]['unit_ids']);
+        if($_unit_ids){
+            foreach($_unit_ids as $_us=>$_u){
+                $node = $this->question_category_model->get_node($_u);
+                if(isset($node->name)){$tmp[$_u] = $node; }
+                $_parent = '';
+                if($_u){
+                    $_parent = $this->question_category_model->get_single_path($_u,'*');
+                }
+                if($_parent){
+                    foreach($_parent as $ps=>$p){
+                        if($p->depth==1){
+                            $bb[$p->id] = $p->name;
+                        }
+                    }
+                }
+            }
+        }
+        $data[0]['units'] = $tmp;
         $this->handle_zuoye_info($data);
 
         // $this->load->model('homework/zuoye_intro_model');
@@ -48,6 +67,7 @@ class Stu_Zuoye_Model extends LI_Model{
         $this->load->model('homework/student_zuoye_model');
         $this->load->model('homework/game_model');
         $this->load->model('question/question_category_model');
+        $this->load->model('question/question_subject_model');
         $this->load->model('video/videos_model');
         $this->load->library('qiniu');
         $this->qiniu->change_bucket('fls_');
@@ -58,19 +78,20 @@ class Stu_Zuoye_Model extends LI_Model{
             2 => '已完成'
         );
         foreach($data as $key=>$val){
-            $val['subject_name'] = '英语';
+            $val['subject_name'] = $this->question_subject_model->get_subject_name($val['subject_id']);
             $val['start_time'] = date("Y-m-d H:i", $val['start_time']);
             $val['end_time'] = date("Y-m-d H:i", $val['end_time']);
             $val['complete_status'] = $zuoye_status[$val['is_complete']];
             $val['score'] = '--';
             $zuoye_info = array();
-            $videos = $games = array();
+            $videos = $games = $papers = array();
             if(!empty($val['zuoye_info'])){
                 $zuoye_info  = json_decode($val['zuoye_info'], true);
             }
 
             $student_video = $student_game = array();
             if($val['is_complete'] != 2){
+                //处理视频作业
                 if(isset($val['video_ids']) && !empty($val['video_ids'])){
                     $video_ids = explode(',', $val['video_ids']);
                     if(isset($zuoye_info['video']) && !empty($zuoye_info['video'])){
@@ -90,6 +111,7 @@ class Stu_Zuoye_Model extends LI_Model{
                         $videos[] = $video;
                     }
                 }
+                //处理游戏作业
                 if(isset($val['unit_game_ids']) && !empty($val['unit_game_ids'])){
                     $unit_game_ids = json_decode($val['unit_game_ids'], true);
                     if(isset($zuoye_info['game']) && !empty($zuoye_info['game'])){
@@ -106,12 +128,26 @@ class Stu_Zuoye_Model extends LI_Model{
                         $games[] = $game;
                     }
                 }
+                //处理试卷作业
+                $paper_complete_sum = 0;
+                if(isset($val['paper_ids']) and $val['paper_ids']){
+                    $this->load->model('exercise_plan/student_homework_model');
+                    $paper_ids = json_decode($val['paper_ids'],true);
+                    foreach($paper_ids as $pas=>$p){//$val['user_id'] == student_id
+                        $_pap = $this->student_homework_model->get_student_homework($val['user_id'],$p['assignment_id']);
+                        if($_pap->is_completed){
+                            $paper_complete_sum ++;
+                        }
+                        $papers [] = $_pap;
+                        // var_dump($papers);
+                    }
+                }
             }
-
-            $val['task_num'] = count($videos) + count($games);
-            $val['task_num_completed'] = count($student_video) + count($student_game);
+            $val['task_num'] = count($videos) + count($games) + count($papers);
+            $val['task_num_completed'] = count($student_video) + count($student_game) + $paper_complete_sum;
             $val['videos'] = $videos;
             $val['games'] = $games;
+            $val['papers'] = $papers;
             $data[$key] = $val;
             //$unit_id = array_shift(json_decode($val['video_ids'], true));
         }

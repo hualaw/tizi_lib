@@ -1,7 +1,6 @@
 {nocache}
 {$page_name=page_uri()}
 {$page_token=generate_token($page_name)}
-{/nocache}
 <script>
 var baseUrlName = '{$site_url}',
 	tiziUrlName = '{$tizi_url}',
@@ -14,6 +13,7 @@ var baseUrlName = '{$site_url}',
 	baseCookieDomain = '{$tzc}',
 	basePageName = '{$page_name}',
 	basePageToken = '{$page_token}',
-	baseIsMobile = {nocache}{if isset($is_mobile)}{$is_mobile}{else}0{/if}{/nocache}
+	baseIsMobile = {if isset($is_mobile)}{$is_mobile}{else}0{/if}
 </script>
+{/nocache}
 <script src="{$static_url}{$static_version}lib/tizi_common/0.0.1/tizi_config.js"></script>
