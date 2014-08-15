@@ -9,15 +9,16 @@ class v9_waijiao_model extends MY_Model{
 		return $this->db->insert_id();
 	}
 	
-	public function add_video_lesson($unit_id, $en_title, $chs_title, $length, $thumb_uri, $date, $online, $lesson_model){
-		$this->db->query("INSERT INTO fls_video_lesson(unit_id,en_title,chs_title,length,thumb_uri,`date`,`online`,lesson_model) VALUES(?,?,?,?,?,?,?,?)", array($unit_id, 
-			$en_title, $chs_title, $length, $thumb_uri, $date, $online, $lesson_model));
+	public function add_video_lesson($unit_id, $en_title, $chs_title, $length, $thumb_uri, $date, $online, $lesson_model, $order_list){
+		$this->db->query("INSERT INTO fls_video_lesson(unit_id,en_title,chs_title,length,thumb_uri,`date`,`online`,lesson_model,
+			order_list) VALUES(?,?,?,?,?,?,?,?,?)", array($unit_id, 
+			$en_title, $chs_title, $length, $thumb_uri, $date, $online, $lesson_model, $order_list));
 		return $this->db->insert_id();
 	}
 	
-	public function update_video_lesson($TZID, $unit_id, $en_title, $chs_title, $length, $thumb_uri, $online, $lesson_model){
-		$this->db->query("UPDATE fls_video_lesson SET unit_id=?,en_title=?,chs_title=?,length=?,thumb_uri=?,`online`=?,lesson_model=? 
-			WHERE id=?", array($unit_id, $en_title, $chs_title, $length, $thumb_uri, $online, $lesson_model, $TZID));
+	public function update_video_lesson($TZID, $unit_id, $en_title, $chs_title, $length, $thumb_uri, $online, $lesson_model, $order_list){
+		$this->db->query("UPDATE fls_video_lesson SET unit_id=?,en_title=?,chs_title=?,length=?,thumb_uri=?,`online`=?,lesson_model=?,
+			order_list=? WHERE id=?", array($unit_id, $en_title, $chs_title, $length, $thumb_uri, $online, $lesson_model, $order_list, $TZID));
 		return $this->db->affected_rows();
 	}
 	
