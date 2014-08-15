@@ -50,7 +50,7 @@ $config['ziyuan_url'] = 'http://ziyuan.tizi.com/';
 $config['ziyuan_static_url'] = 'http://static.tizi.com/ziyuan/';
 
 $config['dafen_url'] = 'http://dafen-1.tizi.com/';
-$config['dafen_static_url'] = 'http://static.tizi.com/dafen/';
+$config['dafen_static_url'] = 'http://static-1.tizi.com/dafen/';
 
 $config['api_url'] = 'http://api-1.tizi.com/';
 $config['api_static_url'] = 'http://static.tizi.com/api/';
