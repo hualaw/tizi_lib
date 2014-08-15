@@ -40,8 +40,8 @@ $config['survey_static_url'] = 'http://static.tizi.com/survey/';
 $config['space_url'] = 'http://space.tizi.com/';
 $config['space_static_url'] = 'http://static.tizi.com/space/';
 
-$config['waijiao_url'] = 'http://waijiao.tizi.com/';
-$config['waijiao_static_url'] = 'http://static.tizi.com/waijiao/';
+$config['waijiao_url'] = 'http://waijiao-1.tizi.com/';
+$config['waijiao_static_url'] = 'http://static-1.tizi.com/waijiao/';
 
 $config['huodong_url'] = 'http://huodong.tizi.com/';
 $config['huodong_static_url'] = 'http://static.tizi.com/huodong/';
