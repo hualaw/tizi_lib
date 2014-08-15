@@ -172,6 +172,6 @@ class Videos_Model extends MY_Model {
     public function get_lesson_resource_list($lesson_id)
     {
         $this->db->order_by('order_list','desc');
-        return $this->db->get_where($this->_table_resources,array('lesson_id'=>$lesson_id))->result();
+        return $this->db->get_where($this->_table_resources,array('lesson_id'=>$lesson_id,'online'=>1))->result();
     }
 }
