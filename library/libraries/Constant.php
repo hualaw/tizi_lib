@@ -237,9 +237,9 @@ Class CI_Constant {
 			'tiku' => 1,
 			'xuetang' => 10,
 			'dafen' => 100,
-                        'shuati_chuzhong' => 1000,
-                        'shuati_zhongkao' => 10000,
-                        'shuati_gaozhong' => 100000
+            'shuati_chuzhong' => 1000,
+            'shuati_zhongkao' => 10000,
+            'shuati_gaozhong' => 100000
 		);
 		return isset($arr[$app_name]) ? $arr[$app_name] : $arr['tiku'];
 	}
