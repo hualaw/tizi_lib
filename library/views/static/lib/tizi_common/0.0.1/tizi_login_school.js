@@ -7,6 +7,7 @@ define(function(require,exports){
 	exports.selectProvince = function(){
 		$('#cmbProvince li').each(function(){
 			$(this).click(function(){
+				$('#cmbProvince').removeClass('error');
 				// 恢复学校为默认值
 				$('#cmbCity ul').html('<li class="grey">请稍候...</li>');
 				$('#schoolNameSelect ul').html('<li></li>');
@@ -29,6 +30,7 @@ define(function(require,exports){
 		                exports.selectCity();
 					}
 				});
+				$('#validError').html('').removeClass('Validform_wrong');
 			})
 		});
 	};
@@ -36,6 +38,7 @@ define(function(require,exports){
 	exports.selectCity = function(){
 		$('#cmbCity li').each(function(){
 			$(this).click(function(){
+				$('#cmbCity').removeClass('error');
 				$('#schoolNameSelect ul').html('<li class="grey">请稍候...</li>');
 				$(this).addClass('active').siblings().removeClass('active');
 				// 获取当前选择的城市
@@ -56,15 +59,19 @@ define(function(require,exports){
 		                exports.selectSchool();
 					}
 				});
-			})
+				$('#validError').html('').removeClass('Validform_wrong');
+			});
 		});
 	};
 	// 选择学校
 	exports.selectSchool = function(){
 		$('#schoolNameSelect li').each(function(){
 			$(this).click(function(){
+				$('#schoolNameSelect').removeClass('error');
 				$(this).addClass('active').siblings().removeClass('active');
-			})
+				$('#validError').html('').removeClass('Validform_wrong');
+			});
+
 		});
 	}
 });
