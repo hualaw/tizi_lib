@@ -96,6 +96,9 @@ define(function(require, exports) {
                                 content:data.slhtml,
                                 icon:null,
                                 width:400,
+                                beforeSubmit:function(curform){
+                                   console.log($('#cmbProvince li.active').length);
+                                },
                                 ok:function(){
                                     $('.classAccountForm').submit();
                                     return false;
