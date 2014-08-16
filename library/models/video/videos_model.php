@@ -48,7 +48,7 @@ class Videos_Model extends MY_Model {
     {
     	$query = $this->db->query("SELECT v.`id`,u.`unit_name` as name,u.`prefix`,u.`unit_number`,v.`unit_id`,v.`en_title`,v.`chs_title`,v.`thumb_uri`  
     		FROM {$this->_tb_unit} AS u LEFT JOIN {$this->_table} AS v ON u.`id`= v.unit_id 
-    		WHERE u.`stage_id` = ? AND u.`edition_id` = ? AND v.`online` = ? ORDER BY u.`id` ASC, v.`unit_id` ASC",array($stage_id,$edition_id,1));
+    		WHERE u.`stage_id` = ? AND u.`status`=1 AND u.`edition_id` = ? AND v.`online` = ? ORDER BY u.`id` ASC, v.`order_list` desc",array($stage_id,$edition_id,1));
     	$lesson_list = $query->result();
     	return self::prase_video_info($user_id,$lesson_list,1);
     }
@@ -172,6 +172,6 @@ class Videos_Model extends MY_Model {
     public function get_lesson_resource_list($lesson_id)
     {
         $this->db->order_by('order_list','desc');
-        return $this->db->get_where($this->_table_resources,array('lesson_id'=>$lesson_id))->result();
+        return $this->db->get_where($this->_table_resources,array('lesson_id'=>$lesson_id,'online'=>1))->result();
     }
 }

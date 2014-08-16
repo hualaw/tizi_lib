@@ -25,6 +25,17 @@ define(function(require, exports) {
                         city:_city
                     });
                 }
+                if(_this.attr('set') == '2'){
+                    // 获取默认省份id
+                    var _province = _this.attr('province');
+                    // 获取默认城市id
+                    var _city = _this.attr('city');
+                    // 默认省份
+                    exports.normalData({
+                        province:_province,
+                        city:_city
+                    });
+                }
                 //判断如果需要配置的话添加自定义属性set
             }
         });
@@ -421,11 +432,13 @@ define(function(require, exports) {
                                         // 展开默认城市结束
                                     };
                                     // 去除城市的默认值以外li的点击事件
-                                    if(!$(this).hasClass('class')){
-                                        $(this).addClass('default');
-                                        $(this).removeAttr('data-id').click(function(){
-                                            return false;
-                                        })
+                                    if($('a.resetSchool').attr('set') !== '2'){
+                                        if(!$(this).hasClass('class')){
+                                            $(this).addClass('default');
+                                            $(this).removeAttr('data-id').click(function(){
+                                                return false;
+                                            })
+                                        };
                                     };
                                     // 隐藏没有我的学校功能
                                     $('.noMySchollBtn').hide();

@@ -1,6 +1,7 @@
 define(function(require, exports) {
 	require('tizi_ajax');
 	exports.getNotice = function(){
+		return false;
 		$.tizi_ajax({
 			type:'GET',
 			url:loginUrlName + 'notice',
