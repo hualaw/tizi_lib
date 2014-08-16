@@ -73,15 +73,15 @@
 		    </div>
 		    <!-- 选择学校结束 -->
 		    {/if}
-	    </div>
-		    <input type="hidden" class="province_id_value" name="province_id" value="{if isset($school_login_info.my.school_id)}{$school_login_info.my.province_id}{/if}" />
-		    <input type="hidden" class="city_id_value" name="city_id" value="{if isset($school_login_info.my.school_id)}{$school_login_info.my.city_id}{/if}" />
 		    <input type="hidden" class="school_id_value" name="school_id" value="{if isset($school_login_info.my.school_id)}{$school_login_info.my.school_id}{/if}" />
 		    <input type="hidden" name="s_username" value="{$s_username}" />
 			<input type="hidden" name="s_password" value="{$s_password}" />
 			<input type="hidden" name="remember" value="{$remember}">
 			<input type="submit" class="undis" value="确定" />
 			<div id="validError"></div>
+			{$s_username}
+			{$s_password}
 		</form>
 	{/nocache}
+	</div>
 </div>

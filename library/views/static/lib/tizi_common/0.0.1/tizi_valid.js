@@ -238,6 +238,7 @@ define(function(require, exports) {
                 require.async("tizi_validform",function(ex){
                     ex.md5(curform);
                 });
+                $('.school_id_value').val($('#schoolNameSelect li.active').attr('value'));
             },
             ajaxPost: true,
             callback: function(data) {
