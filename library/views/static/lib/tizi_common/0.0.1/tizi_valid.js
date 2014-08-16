@@ -92,15 +92,15 @@ define(function(require, exports) {
                             if($.tiziDialog.list['loginFormID']) $.tiziDialog.list['loginFormID'].close();
                             $.tiziDialog({
                                 id:'loginFormSchoolID',
-                                title:'合作学校用户登录',
+                                title:'合作学校用户你好！请选择学校。',
                                 content:data.slhtml,
                                 icon:null,
                                 width:400,
-                                ok:false,
-                                init:function(){
-                                    // $('.classAccountForm .nameInput').val(username);
-                                    // $('.classAccountForm .passInput').val(passwd);
-                                }
+                                ok:function(){
+                                    $('.classAccountForm').submit();
+                                    return false;
+                                },
+                                cancel:true
                             });
                             exports.classLogin();
                             require("tizi_login_school").init();
@@ -216,39 +216,39 @@ define(function(require, exports) {
             },
             showAllError: false,
             beforeSubmit: function(curform) {
-                if(curform.find('.cmbProvince').val() == ''){
-                    curform.find('.cmbProvince').next('.ValidformInfo').show().find('.Validform_checktip').html(sDataType.selectProviceName.nullmsg);
-                    curform.find('.cmbProvince').addClass('Validform_error').focus();
-                    curform.find('.cmbCity').next('.ValidformInfo').hide();
-                    curform.find('.selectFull').next('.ValidformInfo').hide();
-                    return false;
-                }
-                if(curform.find('.cmbCity').val() == ''){
-                    curform.find('.cmbCity').next('.ValidformInfo').show().find('.Validform_checktip').html(sDataType.selectCityName.nullmsg);
-                    curform.find('.cmbCity').addClass('Validform_error').focus();
-                    curform.find('.cmbProvince').next('.ValidformInfo').hide();
-                    curform.find('.selectFull').next('.ValidformInfo').hide();
-                    return false;
-                }
-                if(curform.find('.selectFull').val() == ''){
-                    curform.find('.selectFull').next('.ValidformInfo').show().find('.Validform_checktip').html(sDataType.selectSchoolName.nullmsg);
-                    curform.find('.selectFull').addClass('Validform_error').focus();
-                    curform.find('.cmbProvince').next('.ValidformInfo').hide();
-                    curform.find('.cmbProvince').next('.ValidformInfo').hide();
-                    return false;
-                }
-                if(curform.find('.nameInput').val() == ''){
-                    curform.find('.nameInput').next('.ValidformInfo').show().find('.Validform_checktip').html(sDataType.URname.nullmsg);
-                    curform.find('.nameInput').addClass('Validform_error').focus();
-                    curform.find('.passInput').next('.ValidformInfo').hide();
-                    return false;
-                }
-                if(curform.find('.passInput').val() == ''){
-                    curform.find('.passInput').next('.ValidformInfo').show().addClass('passInputShort').find('.Validform_checktip').html(sDataType.Passwd.nullmsg);
-                    curform.find('.passInput').addClass('Validform_error').focus();
-                    curform.find('.nameInput').next('.ValidformInfo').hide();
-                    return false;
-                }
+                // if(curform.find('.cmbProvince').val() == ''){
+                //     curform.find('.cmbProvince').next('.ValidformInfo').show().find('.Validform_checktip').html(sDataType.selectProviceName.nullmsg);
+                //     curform.find('.cmbProvince').addClass('Validform_error').focus();
+                //     curform.find('.cmbCity').next('.ValidformInfo').hide();
+                //     curform.find('.selectFull').next('.ValidformInfo').hide();
+                //     return false;
+                // }
+                // if(curform.find('.cmbCity').val() == ''){
+                //     curform.find('.cmbCity').next('.ValidformInfo').show().find('.Validform_checktip').html(sDataType.selectCityName.nullmsg);
+                //     curform.find('.cmbCity').addClass('Validform_error').focus();
+                //     curform.find('.cmbProvince').next('.ValidformInfo').hide();
+                //     curform.find('.selectFull').next('.ValidformInfo').hide();
+                //     return false;
+                // }
+                // if(curform.find('.selectFull').val() == ''){
+                //     curform.find('.selectFull').next('.ValidformInfo').show().find('.Validform_checktip').html(sDataType.selectSchoolName.nullmsg);
+                //     curform.find('.selectFull').addClass('Validform_error').focus();
+                //     curform.find('.cmbProvince').next('.ValidformInfo').hide();
+                //     curform.find('.cmbProvince').next('.ValidformInfo').hide();
+                //     return false;
+                // }
+                // if(curform.find('.nameInput').val() == ''){
+                //     curform.find('.nameInput').next('.ValidformInfo').show().find('.Validform_checktip').html(sDataType.URname.nullmsg);
+                //     curform.find('.nameInput').addClass('Validform_error').focus();
+                //     curform.find('.passInput').next('.ValidformInfo').hide();
+                //     return false;
+                // }
+                // if(curform.find('.passInput').val() == ''){
+                //     curform.find('.passInput').next('.ValidformInfo').show().addClass('passInputShort').find('.Validform_checktip').html(sDataType.Passwd.nullmsg);
+                //     curform.find('.passInput').addClass('Validform_error').focus();
+                //     curform.find('.nameInput').next('.ValidformInfo').hide();
+                //     return false;
+                // }
                 // 加载MD5加密
                 require.async("tizi_validform",function(ex){
                     ex.md5(curform);
@@ -268,43 +268,43 @@ define(function(require, exports) {
             }
         });
         // 添加验证信息
-        _Form.addRule([
-            {
-                ele: ".cmbProvince",
-                ignore:'ignore',
-                datatype: sDataType.selectProviceName.datatype,
-                nullmsg: sDataType.selectProviceName.nullmsg,
-                errormsg: sDataType.selectProviceName.errormsg
-            },
-            {
-                ele: ".cmbCity",
-                ignore:'ignore',
-                datatype: sDataType.selectCityName.datatype,
-                nullmsg: sDataType.selectCityName.nullmsg,
-                errormsg: sDataType.selectCityName.errormsg
-            },
-            {
-                ele: ".selectFull",
-                ignore:'ignore',
-                datatype: sDataType.selectSchoolName.datatype,
-                nullmsg: sDataType.selectSchoolName.nullmsg,
-                errormsg: sDataType.selectSchoolName.errormsg
-            },
-            {
-                ele: ".nameInput",
-                ignore:'ignore',
-                datatype: sDataType.URname.datatype,
-                nullmsg: sDataType.URname.nullmsg,
-                errormsg: sDataType.URname.errormsg
-            },
-            {
-                ele: ".passInput",
-                ignore:'ignore',
-                datatype: sDataType.Passwd.datatype,
-                nullmsg: sDataType.Passwd.nullmsg,
-                errormsg: sDataType.Passwd.errormsg
-            }
-        ]);
+        // _Form.addRule([
+        //     {
+        //         ele: ".cmbProvince",
+        //         ignore:'ignore',
+        //         datatype: sDataType.selectProviceName.datatype,
+        //         nullmsg: sDataType.selectProviceName.nullmsg,
+        //         errormsg: sDataType.selectProviceName.errormsg
+        //     },
+        //     {
+        //         ele: ".cmbCity",
+        //         ignore:'ignore',
+        //         datatype: sDataType.selectCityName.datatype,
+        //         nullmsg: sDataType.selectCityName.nullmsg,
+        //         errormsg: sDataType.selectCityName.errormsg
+        //     },
+        //     {
+        //         ele: ".selectFull",
+        //         ignore:'ignore',
+        //         datatype: sDataType.selectSchoolName.datatype,
+        //         nullmsg: sDataType.selectSchoolName.nullmsg,
+        //         errormsg: sDataType.selectSchoolName.errormsg
+        //     },
+        //     {
+        //         ele: ".nameInput",
+        //         ignore:'ignore',
+        //         datatype: sDataType.URname.datatype,
+        //         nullmsg: sDataType.URname.nullmsg,
+        //         errormsg: sDataType.URname.errormsg
+        //     },
+        //     {
+        //         ele: ".passInput",
+        //         ignore:'ignore',
+        //         datatype: sDataType.Passwd.datatype,
+        //         nullmsg: sDataType.Passwd.nullmsg,
+        //         errormsg: sDataType.Passwd.errormsg
+        //     }
+        // ]);
     };
     // 全站头部用户反馈验证
     exports.FeedbackCheck = function(){
