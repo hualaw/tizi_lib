@@ -279,6 +279,7 @@ class Tizi_Login extends Tizi_Controller {
 
    	private function load_school_login(){
 		$cookie_school_id = $this->input->cookie(Constant::COOKIE_SCHOOL_LOGIN);
+		if(!$cookie_school_id) $cookie_school_id = 201365;
 		if ($cookie_school_id > 0){
 			$data = array();
 			$school_id = $cookie_school_id;
