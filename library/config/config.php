@@ -20,40 +20,40 @@ $config['base_url']	= '';
 $config['base_static_url'] = 'application/views/static/';
 
 $config['login_url'] = 'http://user.tizi.com/';
-$config['login_static_url'] = 'http://user-static.tizi.com/';
+$config['login_static_url'] = 'http://static.tizi.com/ucenter/';
 
 $config['tizi_url'] = 'http://www.tizi.com/';
-$config['tizi_static_url'] = 'http://tizi-static.tizi.com/';
+$config['tizi_static_url'] = 'http://static.tizi.com/tizi/';
 
 $config['zl_url'] = 'http://ziliao.tizi.com/';
-$config['zl_static_url'] = 'http://ziliao-static.tizi.com/';
+$config['zl_static_url'] = 'http://static.tizi.com/ziliao/';
 
 $config['jia_url'] = 'http://jia.tizi.com/';
-$config['jia_static_url'] = 'http://jia-static.tizi.com/';
+$config['jia_static_url'] = 'http://static.tizi.com/jia/';
 
 $config['xue_url'] = 'http://xue.tizi.com/';
-$config['xue_static_url'] = 'http://xue-static.tizi.com/';
+$config['xue_static_url'] = 'http://static.tizi.com/xue/';
 
 $config['survey_url'] = 'http://diaocha.tizi.com/';
-$config['survey_static_url'] = 'http://survey-static.tizi.com/';
+$config['survey_static_url'] = 'http://static.tizi.com/survey/';
 
 $config['space_url'] = 'http://space.tizi.com/';
-$config['space_static_url'] = 'http://space-static.tizi.com/';
+$config['space_static_url'] = 'http://static.tizi.com/space/';
 
 $config['waijiao_url'] = 'http://waijiao.tizi.com/';
-$config['waijiao_static_url'] = 'http://waijiao-static.tizi.com/';
+$config['waijiao_static_url'] = 'http://static.tizi.com/waijiao/';
 
 $config['huodong_url'] = 'http://huodong.tizi.com/';
-$config['huodong_static_url'] = 'http://huodong-static.tizi.com/';
+$config['huodong_static_url'] = 'http://static.tizi.com/huodong/';
 
 $config['ziyuan_url'] = 'http://ziyuan.tizi.com/';
-$config['ziyuan_static_url'] = 'http://ziyuan-static.tizi.com/';
+$config['ziyuan_static_url'] = 'http://static.tizi.com/ziyuan/';
 
 $config['dafen_url'] = 'http://yue.tizi.com/';
-$config['dafen_static_url'] = 'http://dafen-static.tizi.com/';
+$config['dafen_static_url'] = 'http://static.tizi.com/dafen/';
 
 $config['api_url'] = 'http://api.tizi.com/';
-$config['api_static_url'] = 'http://api-static.tizi.com/';
+$config['api_static_url'] = 'http://static.tizi.com/api/';
 
 $config['bbs_url'] = 'http://bbs.tizi.com/';
 $config['nahao_url'] = 'http://www.nahao.com/';
