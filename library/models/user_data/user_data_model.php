@@ -152,12 +152,13 @@ class User_Data_Model extends Data_Model{
 		$sql ="SELECT user_data.exp, `user`.`name`, `user`.id FROM `user` LEFT JOIN user_data ON user_data.user_id = `user`.id WHERE user_data.grade_id = {$grade_id}  AND `user`.register_origin IN (101,102,104) ORDER BY user_data.exp DESC LIMIT {$limit}";
 		//$sql = "SELECT user_id, exp FROM user_data WHERE grade_id = {$grade_id} ORDER BY exp DESC LIMIT {$limit}";
 		$user_rank = $this->db->query($sql)->result();
+		//echo $this->db->last_query();exit;
 		$this->load->model('login/register_model');
 		foreach ($user_rank as $ku => &$vu) {
-			if(empty($vu->user_id)){
+			if(empty($vu->id)){
 					continue;
 			}
-			$users = $this->register_model->get_user_info($vu->user_id);
+			$users = $this->register_model->get_user_info($vu->id);
 			$vu->user_info = $users['user'];
 			$vu->pet_level = $this->exp_to_level($vu->exp);
 		}
