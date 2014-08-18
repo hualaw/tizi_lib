@@ -83,7 +83,7 @@ class Teacher_Exercise_Plan_Model extends exercise_plan_model{
 
     //tizi 3.0   获取某个班级的作业   
     //update tizi4.0 2014-07-12   更换表
-    function get_class_exercise($class,$uid,$page=1,$pagesize=10,$total=false){
+    function get_class_exercise($class,$uid,$page=1,$pagesize=10,$total=false,$before_time=null){
         $start = ($page-1)*$pagesize;
         if($start<1)$start = 0;
         $uid_sql = "";
@@ -92,7 +92,13 @@ class Teacher_Exercise_Plan_Model extends exercise_plan_model{
             $uid_sql = " hw.user_id=$uid ";
         }
         $select = "select hw.*,hp.subject_id,s.name as sname ";
-        $_sql = " from {$this->_table} hw left join {$this->_table_paper} hp on hw.paper_id=hp.id left join subject s on s.id=hp.subject_id where 1=1 and hw.class_id=? and hw.is_assigned=1 ";
+        $_sql = " from {$this->_table} hw left join {$this->_table_paper} hp on hw.paper_id=hp.id 
+                left join subject s on s.id=hp.subject_id where 1=1 
+                and hw.class_id=? and hw.is_assigned=1 ";
+        if($before_time){
+            $before_time = " and start_time < ".strtotime(date('Y-m-d 18:00'));
+            $_sql .= $before_time;
+        }
         $order = " order by id desc ";
         $limit = " limit $start,$pagesize";
         $sql = $select.$_sql.$order.$limit;
