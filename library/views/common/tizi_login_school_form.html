@@ -1,0 +1,85 @@
+{literal}
+<style>
+#homepageChooseSchool{width:656px;margin:0 auto;}
+#homepageChooseSchool .index_school .line{border:1px solid #54c2a8;padding:15px 20px;margin-bottom:25px;}
+#homepageChooseSchool .index_school li.active{color:#fff;background: #ffa030;}
+#homepageChooseSchool .index_school li{display: block;float:left;cursor: pointer;height:24px;padding:0px 6px;white-space: nowrap;}
+#homepageChooseSchool .index_school li.grey{color:#999;}
+#homepageChooseSchool .index_school span.title{position: absolute;top:-13px;background:#fff;padding:0px 10px;left:10px;font-size:16px;}
+#homepageChooseSchool .index_school .error{border:1px solid #f90;}
+#homepageChooseSchool #validError{ position: absolute;bottom:58px;left:521px;}
+</style>
+{/literal}
+<div id="homepageChooseSchool">
+    <div class="index_school posr">
+    	{nocache}
+    	<form action="{$login_url}school/login" method="post" dataType="jsonp" onsubmit="return false" class="classAccountForm" autocomplete="off">
+	    	{if $is_show_school}
+	    		<!-- 选择省份开始 -->
+			    <div class="line province posr" id="cmbProvince">
+			        <span class="title">省/直辖市</span>
+			        <ul class="cf">
+				        {foreach $school_login_info.province as $value}
+				        <li value="{$value.province_id}"{if $value.province_id==$school_login_info.my.province_id} class="active"{/if}>{$value.name}</li>
+				        {/foreach}
+			        </ul>
+			    </div>
+			    <!-- 选择省份结束 -->
+			    <!-- 选择城市开始 -->
+			    <div class="line city posr" id="cmbCity">
+			    	<span class="title">市/区</span>
+			    	<ul class="cf">
+			    		 {foreach $school_login_info.city as $value}
+	                    <li value="{$value.city_id}"{if $value.city_id==$school_login_info.my.city_id} class="active"{/if}>{$value.city_name}</li>
+	                    {/foreach}
+			    	</ul>
+			    </div>
+			    <!-- 选择城市结束 -->
+			    <!-- 选择学校开始 -->
+			    <div class="line school posr"  id="schoolNameSelect">
+			    	<span class="title">学校</span>
+			    	<ul class="cf">
+			    		{foreach $school_login_info.school as $value}
+		                <li value="{$value.school_id}"{if $value.school_id==$school_login_info.my.school_id} class="active"{/if}>{$value.schoolname}</li>
+		                {/foreach}
+			    	</ul>
+			    </div>
+			    <!-- 选择学校结束 -->
+	    	{else}
+	        <!-- 选择省份开始 -->
+		    <div class="line province posr" id="cmbProvince">
+		        <span class="title">省/直辖市</span>
+		        <ul class="cf">
+		        	{foreach $agents_province as $value}
+                    <li value="{$value.province_id}">{$value.name}</li>
+                    {/foreach}
+		        </ul>
+		    </div>
+		    <!-- 选择省份结束 -->
+		    <!-- 选择城市开始 -->
+		    <div class="line city posr" id="cmbCity">
+		    	<span class="title">市/区</span>
+		    	<ul class="cf">
+		    		<li></li>
+		    	</ul>
+		    </div>
+		    <!-- 选择城市结束 -->
+		    <!-- 选择学校开始 -->
+		    <div class="line school posr"  id="schoolNameSelect">
+		    	<span class="title">学校</span>
+		    	<ul class="cf">
+		    		<li></li>
+		    	</ul>
+		    </div>
+		    <!-- 选择学校结束 -->
+		    {/if}
+		    <input type="hidden" class="school_id_value" name="school_id" value="{if isset($school_login_info.my.school_id)}{$school_login_info.my.school_id}{/if}" />
+		    <input type="hidden" name="s_username" value="{$s_username}" />
+			<input type="hidden" name="s_password" value="{$s_password}" />
+			<input type="hidden" name="remember" value="{$remember}">
+			<input type="submit" class="undis" value="确定" />
+			<div id="validError"></div>
+		</form>
+	{/nocache}
+	</div>
+</div>

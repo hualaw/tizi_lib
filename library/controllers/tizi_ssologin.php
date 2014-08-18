@@ -19,8 +19,7 @@ class Tizi_Ssologin extends Tizi_Controller {
 				$session = $this->session_model->generate_session($sso["user_id"]);
 				$this->session_model->generate_cookie($sso["open_id"], $sso["user_id"]);
 				$this->session_model->clear_mscookie();
-				$sso_redirect = $this->get_redirect($session["user_data"]["user_type"], 
-					$session["user_data"], "login", $sso_redirect);
+				$sso_redirect = $this->get_redirect($session["user_data"]["user_type"], $session["user_data"], "login", $sso_redirect);
 				redirect($sso_redirect);
 			} else {
 				$this->session->set_userdata("sso_t", Constant::LOGIN_SSO_TYPE_SSO);

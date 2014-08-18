@@ -23,7 +23,7 @@ aliasContent = {
     "swfObject" : libPath + "swfObject/2.2.0/swfobject",
     "everCookie" : libPath + "evercookie/0.4.0/js/evercookie",
     "flashCookie" : libPath + "flashcookie/1.9.1/swfstore",
-    // "soundManager2" : libPath + "soundmanager2/2.97/soundmanager2.min",
+    "tiziAvatar" : libPath + "TiZiavatar/0.0.2/TiZiavatar",
     //梯子公共方法
     "tizi_addon_setSchool": libPath + "tizi_addon/0.0.1/setSchool",
 	"tizi_addon_mp3Player" : libPath + "tizi_addon/0.0.1/mp3Player",
@@ -39,6 +39,7 @@ aliasContent = {
     "tizi_download": libPath + "tizi_common/0.0.1/tizi_download",
     "tizi_feedback": libPath + "tizi_common/0.0.1/tizi_feedback",
     "tizi_login_form": libPath + "tizi_common/0.0.1/tizi_login_form",
+    "tizi_login_school": libPath + "tizi_common/0.0.1/tizi_login_school",
     "tizi_select": libPath + "tizi_common/0.0.1/tizi_select",
     "tizi_cookie": libPath + "tizi_common/0.0.1/tizi_cookie"
     //梯子公共方法结束

@@ -26,11 +26,12 @@ $lang['error_reg_exist_email']="邮箱已存在，无法注册";
 $lang['error_reg_exist_phone']="手机已存在，无法注册";
 $lang['error_reg_exist_uname']="用户名已存在，无法注册";
 $lang['error_reg_exist_euname']="用户名或邮箱已存在，无法注册";
+$lang['error_reg_info']="您填写的信息不完整，请完善后再尝试";
 
 /*zujuan sms errormsg*/
 $lang['error_sms_invalid_phone']="无效的手机号码";
 $lang['error_sms_normal']="短信服务不可用";
-$lang['error_sms_code']='验证码错误或已失效';
+$lang['error_sms_code']='短信验证码错误或已失效';
 $lang['error_sms_exist_phone']="手机已存在";
 $lang['error_sms_invalid_phone']="手机不存在";
 
