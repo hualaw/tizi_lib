@@ -45,7 +45,6 @@ class User_Data_Model extends Data_Model{
 		if ($this->get_user_data($param['user_id'])) {
 			return $this->get_user_pet_data($param['user_id']);
 		}
-
 		$this->db->trans_start();
 		$this->db->insert($this->user_data_table, $param);
 		if ($this->db->trans_complete() === false) {
