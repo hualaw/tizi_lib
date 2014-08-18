@@ -82,7 +82,7 @@ $db['survey']['autoinit'] = TRUE;
 $db['survey']['stricton'] = FALSE;
 
 //移动题库
-$db['tiku']['hostname'] = '168.63.214.100';
+$db['tiku']['hostname'] = '207.46.154.189';
 $db['tiku']['username'] = 'mobile_tiku';
 $db['tiku']['password'] = 'ti_tiku_zi';
 $db['tiku']['database'] = 'tiku';
