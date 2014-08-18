@@ -40,7 +40,6 @@ $config['bucket_avatar'] = 'tizi';
 
 $config['domain_avatar'] = 'http://tizi.oss.aliyuncs.com/';
 $config['exts_avatar'] = 'jpg,gif,png,jpeg';//图片允许上传的类型
-$config['exts_space_avatar'] = 'jpg,gif,png,jpeg';//图片允许上传的类型
 $config['size_avatar'] = 1024 * 1024 * 2;//单个文件最大的文件大小
 $config['max_width_avatar'] = 180;//单个文件最大的宽度
 $config['max_height_avatar'] = 180;//单个文件最大的高度
@@ -50,6 +49,7 @@ $config['num_pf_avatar'] = 10000;
 
 //space
 $config['bucket_space_avatar'] = 'tizi';
+$config['exts_space_avatar'] = 'jpg,gif,png,jpeg';//图片允许上传的类型
 $config['size_space_avatar'] = 1024 * 1024 * 2;//单个文件最大的文件大小
 $config['max_width_space_avatar'] = 180;//单个文件最大的宽度
 $config['max_height_space_avatar'] = 180;//单个文件最大的高度

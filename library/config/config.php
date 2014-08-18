@@ -40,8 +40,8 @@ $config['survey_static_url'] = 'http://static.tizi.com/survey/';
 $config['space_url'] = 'http://space.tizi.com/';
 $config['space_static_url'] = 'http://static.tizi.com/space/';
 
-$config['waijiao_url'] = 'http://waijiao-1.tizi.com/';
-$config['waijiao_static_url'] = 'http://static-1.tizi.com/waijiao/';
+$config['waijiao_url'] = 'http://waijiao.tizi.com/';
+$config['waijiao_static_url'] = 'http://static.tizi.com/waijiao/';
 
 $config['huodong_url'] = 'http://huodong.tizi.com/';
 $config['huodong_static_url'] = 'http://static.tizi.com/huodong/';
@@ -49,10 +49,10 @@ $config['huodong_static_url'] = 'http://static.tizi.com/huodong/';
 $config['ziyuan_url'] = 'http://ziyuan.tizi.com/';
 $config['ziyuan_static_url'] = 'http://static.tizi.com/ziyuan/';
 
-$config['dafen_url'] = 'http://dafen-1.tizi.com/';
-$config['dafen_static_url'] = 'http://static-1.tizi.com/dafen/';
+$config['dafen_url'] = 'http://dafen.tizi.com/';
+$config['dafen_static_url'] = 'http://static.tizi.com/dafen/';
 
-$config['api_url'] = 'http://api-1.tizi.com/';
+$config['api_url'] = 'http://api.tizi.com/';
 $config['api_static_url'] = 'http://static.tizi.com/api/';
 
 $config['bbs_url'] = 'http://bbs.tizi.com/';
