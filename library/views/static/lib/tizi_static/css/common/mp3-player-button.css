@@ -1,5 +1,11 @@
-a.sm2_button{display:inline-block;width:19px;height:16px;text-indent:-999px;overflow:hidden}
-a.sm2_button:focus{outline:none}
-a.sm2_button{background: url(../../image/common/play/normal.gif) no-repeat;}
-a.sm2_button.sm2_playing{background: url(../../image/common/play/on.gif) no-repeat;}
-a.sm2_button.sm2_paused{background: url(../../image/common/play/pause.gif) no-repeat;}
+.sm2_button{display:block;width:19px;height:16px;text-indent:-999px;overflow:hidden; cursor: pointer;}
+.sm2_button:focus{outline:none}
+.sm2_button{background: url(../../image/common/play/normal.gif) no-repeat;}
+.sm2_playing{background: url(../../image/common/play/on.gif) no-repeat;}
+.sm2_paused{background: url(../../image/common/play/pause.gif) no-repeat;}
+
+.sm2_box{width:19px;height:17px;}
+.sm2_undisI{display: none!important;}
+.sm2_box .sm2_button{position: absolute;top:0px;left:0px;}
+.sm2_stop{background:#fff;opacity:0;filter: alpha(opacity=0);;width:19px;height:17px;display:block;cursor: pointer;}
+.sm2_covers{top:0px;left:0px; position: absolute;}
