@@ -7,5 +7,5 @@
 .sm2_box{width:19px;height:17px;}
 .sm2_undisI{display: none!important;}
 .sm2_box .sm2_button{position: absolute;top:0px;left:0px;}
-.sm2_stop{background:#fff;opacity:0;filter: alpha(opacity=0);;width:19px;height:17px;display:block;cursor: pointer;}
+.sm2_stop{background:#fff;opacity:0;filter: alpha(opacity=0);width:19px;height:17px;display:block;cursor: pointer;}
 .sm2_covers{top:0px;left:0px; position: absolute;}
