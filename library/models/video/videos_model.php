@@ -140,7 +140,8 @@ class Videos_Model extends MY_Model {
             return null;
         }
         $sql = "select name from user where id = $user_id";
-        $n = $this->db->query($sql)->row(0)->name;
+        $res = $this->db->query($sql)->row(0);
+        $n = isset($res->name)?$res->name:'';
         return $n;
     } 
 
