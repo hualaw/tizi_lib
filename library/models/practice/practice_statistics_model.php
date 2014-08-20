@@ -215,7 +215,7 @@ class Practice_Statistics_Model extends Practice_Model{
 	public function get_participants_stats($num = 10){
 		
 		return $this->db
-			->query("select a.`p_c_id`, a.`user_num`, b.`p_c_name` ,c.`grade`, c.`p_c_type` from `practice_participants_stats` as a left join `practice_category` as b on a.`p_c_id` = b.`id` left join `practice_category_info` as c on b.`id` = c.`p_c_id` order by a.`user_num` desc limit 0, {$num}")
+			->query("select a.`p_c_id`, a.`user_num`, b.`p_c_name` ,c.`grade`, c.`p_c_type` from `practice_participants_stats` as a left join `practice_category` as b on a.`p_c_id` = b.`id` left join `practice_category_info` as c on b.`id` = c.`p_c_id` where c.`online` = 1 order by a.`user_num` desc limit 0, {$num}")
 			->result_array();
 		
 	}
@@ -259,6 +259,7 @@ class Practice_Statistics_Model extends Practice_Model{
         if(!empty($pids)){
             foreach($pids as $p_c_id){
                 $category = $this->get_category_info($p_c_id);
+                if(empty($category)) continue;
                 $stats[] = $category;
             }
         }
