@@ -49,7 +49,7 @@ $config['huodong_static_url'] = 'http://static.tizi.com/huodong/';
 $config['ziyuan_url'] = 'http://ziyuan.tizi.com/';
 $config['ziyuan_static_url'] = 'http://static.tizi.com/ziyuan/';
 
-$config['dafen_url'] = 'http://yue.tizi.com/';
+$config['dafen_url'] = 'http://dafen.tizi.com/';
 $config['dafen_static_url'] = 'http://static.tizi.com/dafen/';
 
 $config['api_url'] = 'http://api.tizi.com/';

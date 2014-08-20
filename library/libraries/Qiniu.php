@@ -20,6 +20,10 @@ class Qiniu {
         $this->bucket = $this->_CI->config->item('bucket');
         $this->domain = $this->_CI->config->item('domain');
     }
+	
+	function get_domain(){
+		return $this->domain;
+	}
 
     function change_bucket($bucket_prefix='certification_'){
         $this->_CI->load->config('qiniu',false,true);

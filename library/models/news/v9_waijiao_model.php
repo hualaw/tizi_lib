@@ -9,15 +9,16 @@ class v9_waijiao_model extends MY_Model{
 		return $this->db->insert_id();
 	}
 	
-	public function add_video_lesson($unit_id, $en_title, $chs_title, $length, $thumb_uri, $date, $online, $lesson_model){
-		$this->db->query("INSERT INTO fls_video_lesson(unit_id,en_title,chs_title,length,thumb_uri,`date`,`online`,lesson_model) VALUES(?,?,?,?,?,?,?,?)", array($unit_id, 
-			$en_title, $chs_title, $length, $thumb_uri, $date, $online, $lesson_model));
+	public function add_video_lesson($unit_id, $en_title, $chs_title, $length, $thumb_uri, $date, $online, $lesson_model, $order_list){
+		$this->db->query("INSERT INTO fls_video_lesson(unit_id,en_title,chs_title,length,thumb_uri,`date`,`online`,lesson_model,
+			order_list) VALUES(?,?,?,?,?,?,?,?,?)", array($unit_id, 
+			$en_title, $chs_title, $length, $thumb_uri, $date, $online, $lesson_model, $order_list));
 		return $this->db->insert_id();
 	}
 	
-	public function update_video_lesson($TZID, $unit_id, $en_title, $chs_title, $length, $thumb_uri, $online, $lesson_model){
-		$this->db->query("UPDATE fls_video_lesson SET unit_id=?,en_title=?,chs_title=?,length=?,thumb_uri=?,`online`=?,lesson_model=? 
-			WHERE id=?", array($unit_id, $en_title, $chs_title, $length, $thumb_uri, $online, $lesson_model, $TZID));
+	public function update_video_lesson($TZID, $unit_id, $en_title, $chs_title, $length, $thumb_uri, $online, $lesson_model, $order_list){
+		$this->db->query("UPDATE fls_video_lesson SET unit_id=?,en_title=?,chs_title=?,length=?,thumb_uri=?,`online`=?,lesson_model=?,
+			order_list=? WHERE id=?", array($unit_id, $en_title, $chs_title, $length, $thumb_uri, $online, $lesson_model, $order_list, $TZID));
 		return $this->db->affected_rows();
 	}
 	
@@ -158,6 +159,23 @@ class v9_waijiao_model extends MY_Model{
 
 	public function set_unit_status($unit_id, $status){
 		$this->db->query("UPDATE common_unit SET status=? WHERE id=?", array($status, $unit_id));
+		return $this->db->affected_rows();
+	}
+
+	public function set_edition_status($stage_id, $edition_id, $status){
+		$this->db->query("UPDATE fls_stage_edition SET status=? WHERE stage_id=? AND edition_id=?", array($status, $stage_id, $edition_id));
+		return $this->db->affected_rows();
+	}
+
+	public function edition_update($stage_id, $edition_id, $img_url, $category_id){
+		$this->db->query("UPDATE fls_stage_edition SET img_url=? WHERE stage_id=? AND edition_id=?", array($img_url, $stage_id, $edition_id));
+		$this->db->query("UPDATE common_edition SET category_id=? WHERE id=?", array($category_id, $edition_id));
+		return $this->db->affected_rows();
+	}
+
+	public function update_unit($unit_id, $category_id, $unit_number, $unit_name, $prefix){
+		$this->db->query("UPDATE common_unit SET category_id=?,unit_number=?,unit_name=?,
+			prefix=? WHERE id=?", array($category_id, $unit_number, $unit_name, $prefix, $unit_id));
 		return $this->db->affected_rows();
 	}
 
