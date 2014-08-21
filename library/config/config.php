@@ -287,14 +287,14 @@ $config['encryption_key'] = 'Dj*H&^(#x43)[=Na!';
 |
 */
 $config['sess_cookie_name']		= 'TZID';
-$config['sess_expiration']		= 7200;
+$config['sess_expiration']		= 86400;
 $config['sess_expire_on_close']	= TRUE;
 $config['sess_encrypt_cookie']	= FALSE;
 $config['sess_use_database']	= TRUE;
 $config['sess_table_name']		= 'session_tizi';
 $config['sess_match_ip']		= FALSE;
 $config['sess_match_useragent']	= FALSE;
-$config['sess_time_to_update']	= 7200;
+$config['sess_time_to_update']	= 86400;
 
 /*
 |--------------------------------------------------------------------------
