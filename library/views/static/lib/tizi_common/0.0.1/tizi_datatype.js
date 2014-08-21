@@ -41,7 +41,7 @@ define(function(require, exports) {
             Username:{
                 datatype:"e | *2-20",
                 nullmsg:"请输入用户名/学号/手机号/邮箱",
-                nullmsg_nostuid:"请输入用户名/学号/手机号/邮箱",
+                nullmsg_nostuid:"请输入用户名/手机号/邮箱",
                 errormsg:"长度2-20个字符"
             },
             //email
