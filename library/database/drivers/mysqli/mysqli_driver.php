@@ -65,7 +65,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	function db_connect($slave = false)
+	function db_connect($slave = null)
 	{
 		$slave_prefix = '';
 
@@ -93,7 +93,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	function db_pconnect($slave = false)
+	function db_pconnect($slave = null)
 	{
 		return $this->db_connect($slave);
 	}

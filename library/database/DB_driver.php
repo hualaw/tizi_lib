@@ -98,7 +98,7 @@ class CI_DB_driver {
 	 * @param	mixed
 	 * @return	void
 	 */
-	function initialize($slave = false)
+	function initialize($slave = null)
 	{
 		if($slave)
 		{
@@ -249,7 +249,7 @@ class CI_DB_driver {
 	 * @param	array	An array of binding data
 	 * @return	mixed
 	 */
-	function query($sql, $binds = FALSE, $return_object = TRUE)
+	function query($sql, $binds = FALSE, $return_object = TRUE, $slave = null)
 	{
 		if ($sql == '')
 		{
@@ -298,7 +298,7 @@ class CI_DB_driver {
 		$time_start = list($sm, $ss) = explode(' ', microtime());
 
 		// Run the Query
-		if (FALSE === ($this->result_id = $this->simple_query($sql)))
+		if (FALSE === ($this->result_id = $this->simple_query($sql, $slave)))
 		{
 			if ($this->save_queries == TRUE)
 			{
@@ -307,6 +307,8 @@ class CI_DB_driver {
 
 			// This will trigger a rollback if transactions are being used
 			$this->_trans_status = FALSE;
+
+			if($slave) $this->conn_id = FALSE;
 
 			if ($this->db_debug)
 			{
@@ -445,13 +447,13 @@ class CI_DB_driver {
 	 * @param	string	the sql query
 	 * @return	mixed
 	 */
-	function simple_query($sql)
+	function simple_query($sql, $slave = null)
 	{
 		//$this->conn_id = FALSE;
 
 		if ( ! $this->conn_id)
 		{
-			$this->initialize($this->db_slave);
+			$this->initialize($slave);
 		}
 
 		//liuhua add at 20140327 to debug sql
