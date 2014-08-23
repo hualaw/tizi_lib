@@ -67,8 +67,13 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	function db_connect($slave = false)
 	{
-		$slave_prefix = $slave?'sl_':'';
-		
+		$slave_prefix = '';
+
+		if($slave && isset($this->{$slave_prefix.'hostname'}) && isset($this->{$slave_prefix.'username'}) && isset($this->{$slave_prefix.'password'}) && isset($this->{$slave_prefix.'database'}))
+		{
+			$slave_prefix = 'sl_';
+		}
+
 		if (isset($this->{$slave_prefix.'port'}) && $this->{$slave_prefix.'port'} != '')
 		{
 			return @mysqli_connect($this->{$slave_prefix.'hostname'}, $this->{$slave_prefix.'username'}, $this->{$slave_prefix.'password'}, $this->{$slave_prefix.'database'}, $this->{$slave_prefix.'port'});

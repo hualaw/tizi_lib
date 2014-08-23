@@ -70,6 +70,9 @@ class CI_DB_driver {
 	var $curs_id;
 	var $limit_used;
 
+	//slave
+	var $db_slave = true;
+
 	/**
 	 * Constructor.  Accepts one parameter containing the database
 	 * connection settings.
@@ -155,6 +158,12 @@ class CI_DB_driver {
 			}
 		}
 
+		return TRUE;
+	}
+
+	function set_slave($slave = false)
+	{
+		$this->db_slave = TRUE;
 		return TRUE;
 	}
 
@@ -447,9 +456,14 @@ class CI_DB_driver {
 	 */
 	function simple_query($sql)
 	{
+		if( $this->db_slave )
+		{
+			$this->conn_id = FALSE;
+		}
+
 		if ( ! $this->conn_id)
 		{
-			$this->initialize();
+			$this->initialize($this->db_slave);
 		}
 
 		//liuhua add at 20140327 to debug sql
