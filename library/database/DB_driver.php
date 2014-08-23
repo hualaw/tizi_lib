@@ -69,7 +69,6 @@ class CI_DB_driver {
 	var $stmt_id;
 	var $curs_id;
 	var $limit_used;
-	var $sql_log_file = "/tmp/sql.log";
 
 
 
@@ -456,7 +455,21 @@ class CI_DB_driver {
 		{
 			$debug_sql = preg_replace("/\s\s+/", "", $sql);
 			$debug_sql = str_replace("\n", " ", $debug_sql);
-			error_log($_SERVER['REQUEST_URI']."\t|||\t".$debug_sql."\n", 3, $this->sql_log_file);
+			$msg = $_SERVER['REQUEST_URI']."\t|||\t".$debug_sql;
+
+			$_log_path = APPPATH.'logs/';
+			$filepath = $_log_path.'sql-'.date('Y-m-d').'.php';
+			$message  = '';
+
+			if($fp = @fopen($filepath, FOPEN_WRITE_CREATE))
+			{
+				$message .= '- '.date("Y-m-d"). ' --> '.$msg."\n";
+				flock($fp, LOCK_EX);
+				fwrite($fp, $message);
+				flock($fp, LOCK_UN);
+				fclose($fp);
+				@chmod($filepath, FILE_WRITE_MODE);
+			}
 		}
 		
 		return $this->_execute($sql);

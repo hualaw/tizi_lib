@@ -66,7 +66,7 @@ Class CI_Constant {
 	const REDIS_QRTOKEN_TIMEOUT = 300;//二维码登录token有效期
 
 	/*zujuan session and cookie expire*/
-	const SESSION_EXPIRE_TIME = "2 hour";
+	const SESSION_EXPIRE_TIME = "24 hour";
 	const COOKIE_EXPIRE_TIME = 0;//14400-4hour,0-with session expire
 	const COOKIE_INVITE_EXPIRE_TIME = 86400;//邀请码过期时间24小时
 	const COOKIE_REMEMBER_EXPIRE_TIME = 2592000;//30天免登录;//604800;//七天免登录
@@ -167,7 +167,7 @@ Class CI_Constant {
 	const DEFAULT_PAGE_LIMIT = 100;
 
 	/*zujuan qcount timeout*/
-    const REDIS_AUTHLOGIN_TIMEOUT = 14400;//默认auto login用户名的缓存时间
+    const REDIS_AUTHLOGIN_TIMEOUT = 86400;//24h/默认auto login用户名的缓存时间
 
     const DEFAULT_SUBJECT_ID = 2;//默认科目，初中数学
     const DEFAULT_SUBJECT_TYPE = 2;//数学
