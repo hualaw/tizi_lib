@@ -116,9 +116,9 @@ class CI_DB_driver {
 
 		// Connect to the database and set the connection ID
 		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect($slave) : $this->db_pconnect($slave);
-		if ($this->conn_id && $slave) 
+		if ($this->conn_id) 
 		{
-			$this->sl_conn = TRUE;
+			$this->sl_conn = $slave?TRUE:FALSE;
 		}
 
 		// No connection resource?  Throw an error
@@ -302,7 +302,7 @@ class CI_DB_driver {
 		// Start the Query Timer
 		$time_start = list($sm, $ss) = explode(' ', microtime());
 
-		if($this->sl_enable === TRUE && $slave === null && $this->_trans_depth > -1 && $this->is_write_type($sql) === FALSE)
+		if($this->sl_enable === TRUE && $slave === null && $this->_trans_depth === -1 && $this->is_write_type($sql) === FALSE)
 		{
 			$slave = true;
 		}
@@ -464,6 +464,11 @@ class CI_DB_driver {
 		if ($slave != $this->sl_conn)
 		{
 			$this->conn_id = FALSE;
+			$reconn = TRUE;
+		}
+		else
+		{
+			$reconn = FALSE;
 		}
 
 		if ( ! $this->conn_id)
@@ -476,7 +481,7 @@ class CI_DB_driver {
 		{
 			$debug_sql = preg_replace("/\s\s+/", "", $sql);
 			$debug_sql = str_replace("\n", " ", $debug_sql);
-			$msg = ($slave?'slave':'master')."\t|||\t".microtime()."\t|||\t".$_SERVER['REQUEST_URI']."\t|||\t".$debug_sql;
+			$msg = ($slave?'slave':'master').($reconn?'_rc':'')."\t|||\t".microtime()."\t|||\t".$_SERVER['REQUEST_URI']."\t|||\t".$debug_sql;
 
 			$_log_path = APPPATH.'logs/';
 			$filepath = $_log_path.'sql-'.date('Y-m-d').'.php';
