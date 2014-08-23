@@ -34,7 +34,7 @@ class CI_DB_driver {
 	var $password;
 	var $hostname;
 	var $database;
-	var $dbdriver		= 'mysql';
+	var $dbdriver		= 'mysqli';
 	var $dbprefix		= '';
 	var $char_set		= 'utf8';
 	var $dbcollat		= 'utf8_general_ci';
@@ -70,8 +70,6 @@ class CI_DB_driver {
 	var $curs_id;
 	var $limit_used;
 
-
-
 	/**
 	 * Constructor.  Accepts one parameter containing the database
 	 * connection settings.
@@ -100,8 +98,12 @@ class CI_DB_driver {
 	 * @param	mixed
 	 * @return	void
 	 */
-	function initialize()
+	function initialize($force_connect = false)
 	{
+		if($force_connect)
+		{
+			$this->conn_id = FALSE;
+		}
 		// If an existing connection resource is available
 		// there is no need to connect and select the database
 		if (is_resource($this->conn_id) OR is_object($this->conn_id))

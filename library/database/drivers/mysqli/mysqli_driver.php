@@ -65,15 +65,17 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	function db_connect()
+	function db_connect($slave = false)
 	{
-		if ($this->port != '')
+		$slave_prefix = $slave?'sl_':'';
+		
+		if (isset($this->{$slave_prefix.'port'}) && $this->{$slave_prefix.'port'} != '')
 		{
-			return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database, $this->port);
+			return @mysqli_connect($this->{$slave_prefix.'hostname'}, $this->{$slave_prefix.'username'}, $this->{$slave_prefix.'password'}, $this->{$slave_prefix.'database'}, $this->{$slave_prefix.'port'});
 		}
 		else
 		{
-			return @mysqli_connect($this->hostname, $this->username, $this->password, $this->database);
+			return @mysqli_connect($this->{$slave_prefix.'hostname'}, $this->{$slave_prefix.'username'}, $this->{$slave_prefix.'password'}, $this->{$slave_prefix.'database'});
 		}
 
 	}
@@ -86,9 +88,9 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 * @access	private called by the base class
 	 * @return	resource
 	 */
-	function db_pconnect()
+	function db_pconnect($slave = false)
 	{
-		return $this->db_connect();
+		return $this->db_connect($slave);
 	}
 
 	// --------------------------------------------------------------------
