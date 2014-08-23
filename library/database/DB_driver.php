@@ -70,6 +70,7 @@ class CI_DB_driver {
 	var $curs_id;
 	var $limit_used;
 
+	var $sl_conn = FALSE;
 	/**
 	 * Constructor.  Accepts one parameter containing the database
 	 * connection settings.
@@ -100,7 +101,7 @@ class CI_DB_driver {
 	 */
 	function initialize($slave = null)
 	{
-		if($slave)
+		if($slave != $this->sl_conn)
 		{
 			$this->conn_id = FALSE;
 		}
@@ -115,6 +116,10 @@ class CI_DB_driver {
 
 		// Connect to the database and set the connection ID
 		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect($slave) : $this->db_pconnect($slave);
+		if ($this->conn_id && $slave) 
+		{
+			$this->sl_conn = TRUE;
+		}
 
 		// No connection resource?  Throw an error
 		if ( ! $this->conn_id)
@@ -297,6 +302,15 @@ class CI_DB_driver {
 		// Start the Query Timer
 		$time_start = list($sm, $ss) = explode(' ', microtime());
 
+		if($this->sl_enable === TRUE && $slave === null && $this->_trans_depth == 0 && $this->is_write_type($sql) === FALSE)
+		{
+			$slave = true;
+		}
+		else if($this->_trans_depth > 0 || $this->is_write_type($sql) === TRUE)
+		{
+			$slave = false;
+		}
+		
 		// Run the Query
 		if (FALSE === ($this->result_id = $this->simple_query($sql, $slave)))
 		{
@@ -332,8 +346,6 @@ class CI_DB_driver {
 										);
 			}
 
-			if($slave) $this->conn_id = FALSE;
-
 			return FALSE;
 		}
 
@@ -360,8 +372,6 @@ class CI_DB_driver {
 				$this->CACHE->delete();
 			}
 
-			if($slave) $this->conn_id = FALSE;
-
 			return TRUE;
 		}
 
@@ -370,8 +380,6 @@ class CI_DB_driver {
 		// procedures are used
 		if ($return_object !== TRUE)
 		{
-			if($slave) $this->conn_id = FALSE;
-
 			return TRUE;
 		}
 
@@ -415,8 +423,6 @@ class CI_DB_driver {
 			$this->CACHE->write($sql, $CR);
 		}
 
-		if($slave) $this->conn_id = FALSE;
-		
 		return $RES;
 	}
 
@@ -455,7 +461,10 @@ class CI_DB_driver {
 	 */
 	function simple_query($sql, $slave = null)
 	{
-		//$this->conn_id = FALSE;
+		if ($slave != $this->sl_conn)
+		{
+			$this->conn_id = FALSE;
+		}
 
 		if ( ! $this->conn_id)
 		{
@@ -467,7 +476,7 @@ class CI_DB_driver {
 		{
 			$debug_sql = preg_replace("/\s\s+/", "", $sql);
 			$debug_sql = str_replace("\n", " ", $debug_sql);
-			$msg = $_SERVER['REQUEST_URI']."\t|||\t".$debug_sql;
+			$msg = ($slave?'slave':'master')."\t|||\t".$_SERVER['REQUEST_URI']."\t|||\t".$debug_sql;
 
 			$_log_path = APPPATH.'logs/';
 			$filepath = $_log_path.'sql-'.date('Y-m-d').'.php';
