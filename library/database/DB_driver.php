@@ -98,9 +98,9 @@ class CI_DB_driver {
 	 * @param	mixed
 	 * @return	void
 	 */
-	function initialize($force_connect = false)
+	function initialize($slave = false)
 	{
-		if($force_connect)
+		if($slave)
 		{
 			$this->conn_id = FALSE;
 		}
@@ -114,7 +114,7 @@ class CI_DB_driver {
 		// ----------------------------------------------------------------
 
 		// Connect to the database and set the connection ID
-		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
+		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect($slave) : $this->db_pconnect($slave);
 
 		// No connection resource?  Throw an error
 		if ( ! $this->conn_id)
