@@ -54,7 +54,7 @@ class CI_DB_driver {
 	var $data_cache		= array();
 	var $trans_enabled	= TRUE;
 	var $trans_strict	= TRUE;
-	var $_trans_depth	= 0;
+	var $_trans_depth	= -1;
 	var $_trans_status	= TRUE; // Used with transactions to determine if a rollback should occur
 	var $cache_on		= FALSE;
 	var $cachedir		= '';
@@ -302,11 +302,11 @@ class CI_DB_driver {
 		// Start the Query Timer
 		$time_start = list($sm, $ss) = explode(' ', microtime());
 
-		if($this->sl_enable === TRUE && $slave === null && $this->_trans_depth == 0 && $this->is_write_type($sql) === FALSE)
+		if($this->sl_enable === TRUE && $slave === null && $this->_trans_depth > -1 && $this->is_write_type($sql) === FALSE)
 		{
 			$slave = true;
 		}
-		else if($this->_trans_depth > 0 || $this->is_write_type($sql) === TRUE)
+		else if($this->_trans_depth > -1 || $this->is_write_type($sql) === TRUE)
 		{
 			$slave = false;
 		}
@@ -476,7 +476,7 @@ class CI_DB_driver {
 		{
 			$debug_sql = preg_replace("/\s\s+/", "", $sql);
 			$debug_sql = str_replace("\n", " ", $debug_sql);
-			$msg = ($slave?'slave':'master')."\t|||\t".$_SERVER['REQUEST_URI']."\t|||\t".$debug_sql;
+			$msg = ($slave?'slave':'master')."\t|||\t".microtime()."\t|||\t".$_SERVER['REQUEST_URI']."\t|||\t".$debug_sql;
 
 			$_log_path = APPPATH.'logs/';
 			$filepath = $_log_path.'sql-'.date('Y-m-d').'.php';
@@ -542,10 +542,11 @@ class CI_DB_driver {
 			return FALSE;
 		}
 
+		$this->_trans_depth += 1;
+
 		// When transactions are nested we only begin/commit/rollback the outermost ones
 		if ($this->_trans_depth > 0)
 		{
-			$this->_trans_depth += 1;
 			return;
 		}
 
@@ -567,10 +568,10 @@ class CI_DB_driver {
 			return FALSE;
 		}
 
+		$this->_trans_depth -= 1;
 		// When transactions are nested we only begin/commit/rollback the outermost ones
 		if ($this->_trans_depth > 1)
 		{
-			$this->_trans_depth -= 1;
 			return TRUE;
 		}
 
