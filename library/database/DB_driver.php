@@ -308,8 +308,6 @@ class CI_DB_driver {
 			// This will trigger a rollback if transactions are being used
 			$this->_trans_status = FALSE;
 
-			if($slave) $this->conn_id = FALSE;
-
 			if ($this->db_debug)
 			{
 				// grab the error number and message now, as we might run some
@@ -333,6 +331,8 @@ class CI_DB_driver {
 											)
 										);
 			}
+
+			if($slave) $this->conn_id = FALSE;
 
 			return FALSE;
 		}
@@ -360,6 +360,8 @@ class CI_DB_driver {
 				$this->CACHE->delete();
 			}
 
+			if($slave) $this->conn_id = FALSE;
+
 			return TRUE;
 		}
 
@@ -368,6 +370,8 @@ class CI_DB_driver {
 		// procedures are used
 		if ($return_object !== TRUE)
 		{
+			if($slave) $this->conn_id = FALSE;
+
 			return TRUE;
 		}
 
@@ -411,6 +415,8 @@ class CI_DB_driver {
 			$this->CACHE->write($sql, $CR);
 		}
 
+		if($slave) $this->conn_id = FALSE;
+		
 		return $RES;
 	}
 

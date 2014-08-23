@@ -1008,7 +1008,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	 * @param	string	the offset clause
 	 * @return	object
 	 */
-	public function get_where($table = '', $where = null, $limit = null, $offset = null)
+	public function get_where($table = '', $where = null, $limit = null, $offset = null, $slave = null)
 	{
 		if ($table != '')
 		{
@@ -1027,7 +1027,7 @@ class CI_DB_active_record extends CI_DB_driver {
 
 		$sql = $this->_compile_select();
 
-		$result = $this->query($sql);
+		$result = $this->query($sql, $slave);
 		$this->_reset_select();
 		return $result;
 	}
