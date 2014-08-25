@@ -1,4 +1,7 @@
 define(function(require,exports){
+
+	require('tizi_ajax');
+
 	exports.init = function(){
 		// 选择省份
 		exports.selectProvince();
@@ -15,10 +18,10 @@ define(function(require,exports){
 				$(this).addClass('active').siblings().removeClass('active');
 				// 获取当前选择的省份
 				var _proValue = $(this).val();
-				$.ajax({
-					url:baseUrlName + 'class/agents_school/get_city?province_id=' + _proValue,
+				$.tizi_ajax({
+					url:loginUrlName + 'class/agents_school/get_city?province_id=' + _proValue,
 					'type' : 'GET',
-					'dataType' : 'json',
+					'dataType' : 'jsonp',
 					success : function(json, status){
 						// 循环json数据结果
 						var listr = '';
@@ -43,10 +46,10 @@ define(function(require,exports){
 				$(this).addClass('active').siblings().removeClass('active');
 				// 获取当前选择的城市
 				var _cityValue = $(this).val();
-				$.ajax({
-					url:baseUrlName + 'class/agents_school/get_school?city_id=' + _cityValue,
+				$.tizi_ajax({
+					url:loginUrlName + 'class/agents_school/get_school?city_id=' + _cityValue,
 					'type' : 'GET',
-					'dataType' : 'json',
+					'dataType' : 'jsonp',
 					success : function(json, status){
 						// 循环json数据结果
 						var listr = '';
