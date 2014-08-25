@@ -302,7 +302,7 @@ class CI_DB_driver {
 		// Start the Query Timer
 		$time_start = list($sm, $ss) = explode(' ', microtime());
 
-		if($this->sl_enable === TRUE && $slave === null && $this->_trans_depth === -1 && $this->is_write_type($sql) === FALSE)
+		if(isset($this->sl_enable) && $this->sl_enable === TRUE && $slave === null && $this->_trans_depth === -1 && $this->is_write_type($sql) === FALSE)
 		{
 			$slave = true;
 		}
