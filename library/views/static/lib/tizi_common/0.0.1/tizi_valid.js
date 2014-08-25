@@ -8,6 +8,9 @@ define(function(require, exports) {
     var sDataType = require("tizi_datatype").dataType();
 
     exports.indexLogin = function(tip_type,callback_login){
+        // 隐藏登陆按钮并显示登录中开始
+        $('#comLogin .submitBtn,.homePage .submitBtn,.oauth .submitBtn').removeAttr('disabled').val('登录').removeClass('submitLock');
+        // 隐藏登陆按钮并显示登录中结束
          // 加载placeHolder插件
         seajs.use('placeHolder',function(ex){
             ex.JPlaceHolder.init();
