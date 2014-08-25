@@ -23,6 +23,7 @@ define(function(require,exports){
 					'type' : 'GET',
 					'dataType' : 'jsonp',
 					success : function(json, status){
+						json = json.data;
 						// 循环json数据结果
 						var listr = '';
 						for (var i = 0; i < json.length; i++){
@@ -51,6 +52,7 @@ define(function(require,exports){
 					'type' : 'GET',
 					'dataType' : 'jsonp',
 					success : function(json, status){
+						json = json.data;
 						// 循环json数据结果
 						var listr = '';
 						for (var i = 0; i < json.length; i++){
