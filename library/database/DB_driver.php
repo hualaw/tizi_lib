@@ -464,11 +464,11 @@ class CI_DB_driver {
 		if ($slave != $this->sl_conn)
 		{
 			$this->conn_id = FALSE;
-			$reconn = TRUE;
+			$reconn = '_rc_sl:'.($slave?1:0).'_sc:'.($this->sl_conn?1:0);
 		}
 		else
 		{
-			$reconn = FALSE;
+			$reconn = '';
 		}
 
 		if ( ! $this->conn_id)
@@ -481,7 +481,7 @@ class CI_DB_driver {
 		{
 			$debug_sql = preg_replace("/\s\s+/", "", $sql);
 			$debug_sql = str_replace("\n", " ", $debug_sql);
-			$msg = ($slave?'slave':'master').($reconn?'_rc':'')."\t|||\t".microtime()."\t|||\t".$_SERVER['REQUEST_URI']."\t|||\t".$debug_sql;
+			$msg = ($slave?'slave':'master').$reconn."\t|||\t".microtime()."\t|||\t".$_SERVER['REQUEST_URI']."\t|||\t".$debug_sql;
 
 			$_log_path = APPPATH.'logs/';
 			$filepath = $_log_path.'sql-'.date('Y-m-d').'.php';
