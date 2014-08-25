@@ -172,6 +172,7 @@ function count(){
 	start += step;
 	if(start <1 ){
 		window.location.href = '<?php echo $redirect; ?>';
+    return false;
 	}
 	setTimeout("count()",1000);
 }
