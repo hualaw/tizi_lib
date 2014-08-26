@@ -80,7 +80,6 @@ class Tizi_Verify extends Tizi_Controller {
 		if($email)
         {
 			$user_id=$this->register_model->get_user_id($email);
-			log_message('error',json_encode($user_id));
 			if(!empty($user_id)&&$this->tizi_uid&&$this->tizi_uid==$user_id['user_id'])
 			{
 				$user_id=array('user_id'=>$this->tizi_uid,'user_type'=>$this->tizi_utype);
@@ -90,7 +89,6 @@ class Tizi_Verify extends Tizi_Controller {
 				$user_id=array('user_id'=>'','user_type'=>'');
 			}
 			$authcode = $this->verify_model->generate_authcode_email($email,$code_type,$user_id['user_id'],$user_id['user_type']);
-			log_message('error',json_encode($authcode));
 			if($authcode['errorcode']&&$authcode['authcode'])
 			{
 				$errorcode=$this->verify_model->send_authcode_email($authcode['authcode'],$email,$code_type);
