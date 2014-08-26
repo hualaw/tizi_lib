@@ -40,8 +40,8 @@ define(function(require, exports) {
             //登录用户名
             Username:{
                 datatype:"e | *2-20",
-                nullmsg:"请输入邮箱/手机号/用户名/学号",
-                nullmsg_nostuid:"请输入邮箱/手机号/用户名",
+                nullmsg:"请输入用户名/学号/手机号/邮箱",
+                nullmsg_nostuid:"请输入用户名/手机号/邮箱",
                 errormsg:"长度2-20个字符"
             },
             //email
