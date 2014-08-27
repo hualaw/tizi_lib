@@ -165,12 +165,21 @@ function &DB($params = '', $active_record_override = NULL)
 		$active_record = $active_record_override;
 	}
 
-	//require_once(LIBPATH.'database/DB_driver.php');
-	require_once(BASEPATH.'database/DB_driver.php');
+	if(!file_exists($file_path = LIBPATH.'database/DB_driver.php'))
+	{
+		$file_path = BASEPATH.'database/DB_driver.php';
+	}
+	require_once($file_path);
+	//require_once(BASEPATH.'database/DB_driver.php');
 
 	if ( ! isset($active_record) OR $active_record == TRUE)
 	{
-		require_once(BASEPATH.'database/DB_active_rec.php');
+		if(!file_exists($file_path = LIBPATH.'database/DB_active_rec.php'))
+		{
+			$file_path = BASEPATH.'database/DB_active_rec.php';
+		}
+		require_once($file_path);
+		//require_once(BASEPATH.'database/DB_active_rec.php');
 
 		if ( ! class_exists('CI_DB'))
 		{
@@ -185,8 +194,13 @@ function &DB($params = '', $active_record_override = NULL)
 		}
 	}
 
-	require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php');
-
+	if(!file_exists($file_path = LIBPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php'))
+	{
+		$file_path = BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php';
+	}
+	require_once($file_path);
+	//require_once(BASEPATH.'database/drivers/'.$params['dbdriver'].'/'.$params['dbdriver'].'_driver.php');
+	
 	// Instantiate the DB adapter
 	$driver = 'CI_DB_'.$params['dbdriver'].'_driver';
 	$DB = new $driver($params);

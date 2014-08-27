@@ -64,6 +64,12 @@ $db['tizi']['swap_pre'] = '';
 $db['tizi']['autoinit'] = TRUE;
 $db['tizi']['stricton'] = FALSE;
 
+// $db['tizi']['sl_enable'] = TRUE;
+// $db['tizi']['sl_hostname'] = '192.168.11.12';
+// $db['tizi']['sl_username'] = 'tizi';
+// $db['tizi']['sl_password'] = 'tizi';
+// $db['tizi']['sl_database'] = 'new_zujuan';
+
 //问卷调查
 $db['survey']['hostname'] = '192.168.11.12';
 $db['survey']['username'] = 'tizi';
@@ -82,7 +88,7 @@ $db['survey']['autoinit'] = TRUE;
 $db['survey']['stricton'] = FALSE;
 
 //移动题库
-$db['tiku']['hostname'] = '168.63.214.100';
+$db['tiku']['hostname'] = '207.46.154.189';
 $db['tiku']['username'] = 'mobile_tiku';
 $db['tiku']['password'] = 'ti_tiku_zi';
 $db['tiku']['database'] = 'tiku';

@@ -140,7 +140,8 @@ class Videos_Model extends MY_Model {
             return null;
         }
         $sql = "select name from user where id = $user_id";
-        $n = $this->db->query($sql)->row(0)->name;
+        $res = $this->db->query($sql)->row(0);
+        $n = isset($res->name)?$res->name:'';
         return $n;
     } 
 
@@ -174,5 +175,15 @@ class Videos_Model extends MY_Model {
         $this->db->order_by('order_list','desc');
         $this->db->order_by('id','ASC');
         return $this->db->get_where($this->_table_resources,array('lesson_id'=>$lesson_id,'online'=>1))->result();
+    }
+
+    /*从数据库中获取 本单元/本chapter学习了多少天*/
+    function learn_days_num($user_id,$unit_ids=null){
+        $sql = "SELECT count(DISTINCT(FROM_UNIXTIME(op_time,'%Y-%m-%d'))) as num from fls_learn_log where user_id=$user_id ";
+        if($unit_ids){
+            $sql.= " and unit_id IN (" . implode(", ", $unit_ids) . ") ";
+        }
+        $num = $this->db->query($sql)->row(0)->num;
+        return $num;         
     }
 }

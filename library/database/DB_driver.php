@@ -34,7 +34,7 @@ class CI_DB_driver {
 	var $password;
 	var $hostname;
 	var $database;
-	var $dbdriver		= 'mysql';
+	var $dbdriver		= 'mysqli';
 	var $dbprefix		= '';
 	var $char_set		= 'utf8';
 	var $dbcollat		= 'utf8_general_ci';
@@ -54,7 +54,7 @@ class CI_DB_driver {
 	var $data_cache		= array();
 	var $trans_enabled	= TRUE;
 	var $trans_strict	= TRUE;
-	var $_trans_depth	= 0;
+	var $_trans_depth	= -1;
 	var $_trans_status	= TRUE; // Used with transactions to determine if a rollback should occur
 	var $cache_on		= FALSE;
 	var $cachedir		= '';
@@ -69,10 +69,8 @@ class CI_DB_driver {
 	var $stmt_id;
 	var $curs_id;
 	var $limit_used;
-	var $sql_log_file = "/tmp/sql.log";
 
-
-
+	var $sl_conn = FALSE;
 	/**
 	 * Constructor.  Accepts one parameter containing the database
 	 * connection settings.
@@ -101,8 +99,12 @@ class CI_DB_driver {
 	 * @param	mixed
 	 * @return	void
 	 */
-	function initialize()
+	function initialize($slave = null)
 	{
+		if($slave != $this->sl_conn)
+		{
+			$this->conn_id = FALSE;
+		}
 		// If an existing connection resource is available
 		// there is no need to connect and select the database
 		if (is_resource($this->conn_id) OR is_object($this->conn_id))
@@ -113,7 +115,11 @@ class CI_DB_driver {
 		// ----------------------------------------------------------------
 
 		// Connect to the database and set the connection ID
-		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect() : $this->db_pconnect();
+		$this->conn_id = ($this->pconnect == FALSE) ? $this->db_connect($slave) : $this->db_pconnect($slave);
+		if ($this->conn_id) 
+		{
+			$this->sl_conn = $slave?TRUE:FALSE;
+		}
 
 		// No connection resource?  Throw an error
 		if ( ! $this->conn_id)
@@ -248,7 +254,7 @@ class CI_DB_driver {
 	 * @param	array	An array of binding data
 	 * @return	mixed
 	 */
-	function query($sql, $binds = FALSE, $return_object = TRUE)
+	function query($sql, $binds = FALSE, $return_object = TRUE, $slave = null)
 	{
 		if ($sql == '')
 		{
@@ -296,8 +302,17 @@ class CI_DB_driver {
 		// Start the Query Timer
 		$time_start = list($sm, $ss) = explode(' ', microtime());
 
+		if(isset($this->sl_enable) && $this->sl_enable === TRUE && $slave === null && $this->_trans_depth === -1 && $this->is_write_type($sql) === FALSE)
+		{
+			$slave = true;
+		}
+		else if($this->_trans_depth > -1 || $this->is_write_type($sql) === TRUE)
+		{
+			$slave = false;
+		}
+		
 		// Run the Query
-		if (FALSE === ($this->result_id = $this->simple_query($sql)))
+		if (FALSE === ($this->result_id = $this->simple_query($sql, $slave)))
 		{
 			if ($this->save_queries == TRUE)
 			{
@@ -444,11 +459,21 @@ class CI_DB_driver {
 	 * @param	string	the sql query
 	 * @return	mixed
 	 */
-	function simple_query($sql)
+	function simple_query($sql, $slave = null)
 	{
+		if ($slave != $this->sl_conn)
+		{
+			$this->conn_id = FALSE;
+			$reconn = '_rc_sl:'.($slave?1:0).'_sc:'.($this->sl_conn?1:0);
+		}
+		else
+		{
+			$reconn = '';
+		}
+
 		if ( ! $this->conn_id)
 		{
-			$this->initialize();
+			$this->initialize($slave);
 		}
 
 		//liuhua add at 20140327 to debug sql
@@ -456,7 +481,21 @@ class CI_DB_driver {
 		{
 			$debug_sql = preg_replace("/\s\s+/", "", $sql);
 			$debug_sql = str_replace("\n", " ", $debug_sql);
-			error_log($_SERVER['REQUEST_URI']."\t|||\t".$debug_sql."\n", 3, $this->sql_log_file);
+			$msg = ($slave?'slave':'master').$reconn."\t|||\t".microtime()."\t|||\t".$_SERVER['REQUEST_URI']."\t|||\t".$debug_sql;
+
+			$_log_path = APPPATH.'logs/';
+			$filepath = $_log_path.'sql-'.date('Y-m-d').'.php';
+			$message  = '';
+
+			if($fp = @fopen($filepath, FOPEN_WRITE_CREATE))
+			{
+				$message .= '- '.date("Y-m-d"). ' --> '.$msg."\n";
+				flock($fp, LOCK_EX);
+				fwrite($fp, $message);
+				flock($fp, LOCK_UN);
+				fclose($fp);
+				@chmod($filepath, FILE_WRITE_MODE);
+			}
 		}
 		
 		return $this->_execute($sql);
@@ -508,10 +547,11 @@ class CI_DB_driver {
 			return FALSE;
 		}
 
+		$this->_trans_depth += 1;
+
 		// When transactions are nested we only begin/commit/rollback the outermost ones
 		if ($this->_trans_depth > 0)
 		{
-			$this->_trans_depth += 1;
 			return;
 		}
 
@@ -533,10 +573,10 @@ class CI_DB_driver {
 			return FALSE;
 		}
 
+		$this->_trans_depth -= 1;
 		// When transactions are nested we only begin/commit/rollback the outermost ones
 		if ($this->_trans_depth > 1)
 		{
-			$this->_trans_depth -= 1;
 			return TRUE;
 		}
 

@@ -80,7 +80,7 @@ class Tizi_Verify extends Tizi_Controller {
 		if($email)
         {
 			$user_id=$this->register_model->get_user_id($email);
-			if(empty($user_id)&&$this->tizi_uid)
+			if(!empty($user_id)&&$this->tizi_uid&&$this->tizi_uid==$user_id['user_id'])
 			{
 				$user_id=array('user_id'=>$this->tizi_uid,'user_type'=>$this->tizi_utype);
 			}
