@@ -559,7 +559,7 @@ class Practice_Model extends MY_Model{
         if($type){
             $sql_ext = " and `type` = {$type} ";
         }
-        $resources = $this->db->query("select * from `practice_resources` where `p_c_id` = {$p_c_id} ".$sql_ext)->result_array();
+        $resources = $this->db->query("select * from `practice_resources` where is_online=1 and `p_c_id` = {$p_c_id} ".$sql_ext)->result_array();
         foreach($resources as $key => $resource){
             foreach($resource as $r_key => $val){
                 $resource[$r_key] = stripslashes($val);
