@@ -5,7 +5,7 @@
         this.setupOptions = {
             'url': (smURL || null),
             'flashVersion': 9,
-            'debugMode': true,
+            'debugMode': false,
             'debugFlash': false,
             'useConsole': true,
             'consoleOnly': true,
