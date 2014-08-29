@@ -1,7 +1,7 @@
 ﻿function TiZiavatar() {
 	var id				= 'TiZiavatar'				//flash文件的ID
 	var file			= staticUrlName + staticVersion + 'lib/TiZiavatar/TiZiavatar.swf';		//flash文件的路径
-	var	version			= "10.1.0";					//播放该flash所需的最低版本
+	var	version			= baseFlashVersion;					//播放该flash所需的最低版本
 	var	expressInstall	= '/expressInstall.swf';	//expressInstall.swf的路径
 	var	width			= 710;						//flash文件的宽度
 	var	height			= 430;						//flash文件的高度
