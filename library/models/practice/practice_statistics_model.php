@@ -246,9 +246,13 @@ class Practice_Statistics_Model extends Practice_Model{
     }
 
     public function pk_random($num = 3){
-        
+        //学生个人中心  没做过专项的推荐专项  2014-08-29 加上了年级限制
         $categories = $this->db
-            ->query("select a.*,b.*,c.`user_num` from `practice_category` as a  left join `practice_category_info` as b on a.`id` = b.`p_c_id` left join `practice_participants_stats` as c on a.`id` = b.`p_c_id` where b.`online` = 1 order by rand() limit 0 , $num")
+            ->query("select a.*,b.*,c.`user_num` from `practice_category` as a 
+                     left join `practice_category_info` as b on a.`id` = b.`p_c_id` 
+                     left join `practice_participants_stats` as c on a.`id` = b.`p_c_id` 
+                     where b.`online` = 1 and b.grade in (1,2,3,4,5,6,7) 
+                     order by rand() limit 0 , $num")
             ->result_array();
         return $this->_construct_p_c_list($categories);
 
