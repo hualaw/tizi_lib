@@ -139,7 +139,8 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('tzu', Constant::COOKIE_TZUSERNAME);
         $this->smarty->assign('tzc', $this->config->item('cookie_domain'));
         $this->smarty->assign('is_mobile', $this->tizi_mobile);
-        
+        $this->smarty->assign('flash_base_version','10.1.0');
+
         $this->smarty->assign('static_url', static_url($this->site));
         $this->smarty->assign('static_base_url', static_url('base'));
 		$this->smarty->assign('version','?v='.$this->config->item('version'));
