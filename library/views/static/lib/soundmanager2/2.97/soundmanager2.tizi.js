@@ -18,7 +18,7 @@
             'wmode': null,
             'allowScriptAccess': 'always',
             'useFlashBlock': false,
-            'useHTML5Audio': true,
+            'useHTML5Audio': false,
             'html5Test': /^(probably|maybe)$/i,
             'preferFlash': false,
             'noSWFCache': false,
