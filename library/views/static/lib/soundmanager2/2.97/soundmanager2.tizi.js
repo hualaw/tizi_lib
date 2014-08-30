@@ -3622,9 +3622,9 @@ function BasicMP3Player() {
 var basicMP3Player = null;
 
 soundManager.setup({
-	'url':staticPath + 'lib/soundmanager2/2.97/swf/',
+	'url':staticUrlName + staticVersion + 'lib/soundmanager2/2.97/swf/',
 	preferFlash: false,
 	onready: function() {
-    	basicMP3Player = new BasicMP3Player();
+		basicMP3Player = new BasicMP3Player();
 	}
 });
