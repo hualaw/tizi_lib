@@ -58,6 +58,8 @@ $config['dafen_static_url'] = 'application/views/static/';
 $config['api_url'] = $config['dev_url'].':8787/';
 $config['api_static_url'] = 'application/views/static/';
 
+$config['lib_static_url'] = $config['dev_url'].':8092/libraries/views/static/';
+
 $config['bbs_url'] = $config['dev_url'].':8687/';
 $config['nahao_url'] = '';
 $config['91_url'] = '';
