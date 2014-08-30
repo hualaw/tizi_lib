@@ -3542,9 +3542,7 @@ function BasicMP3Player() {
     }
     sm._writeDebug('handleClick()');
     soundURL = (sURL);
-    console.log(soundURL)
     thisSound = self.getSoundByURL(soundURL);
-    console.log(thisSound)
     if (thisSound) {
       // already exists
       if (thisSound === self.lastSound) {
