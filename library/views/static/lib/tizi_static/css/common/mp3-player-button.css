@@ -3,6 +3,7 @@
 .sm2_button{background: url(../../image/common/play/normal.gif) no-repeat;}
 .sm2_playing{background: url(../../image/common/play/on.gif) no-repeat;}
 .sm2_paused{background: url(../../image/common/play/pause.gif) no-repeat;}
+.sm2_noplay{background: url(../../image/common/play/pause.gif) no-repeat;}
 
 .sm2_box{width:19px;height:17px;}
 .sm2_undisI{display: none!important;}
