@@ -55,6 +55,8 @@ $config['dafen_static_url'] = 'http://static.tizi.com/dafen/';
 $config['api_url'] = 'http://api.tizi.com/';
 $config['api_static_url'] = 'http://static.tizi.com/api/';
 
+$config['lib_static_url'] = 'http://static.tizi.com/lib/';
+
 $config['bbs_url'] = 'http://bbs.tizi.com/';
 $config['nahao_url'] = 'http://www.nahao.com/';
 $config['91_url'] = 'http://www.91waijiao.com/';
