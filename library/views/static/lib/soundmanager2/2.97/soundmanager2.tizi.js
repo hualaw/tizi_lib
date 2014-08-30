@@ -3409,7 +3409,8 @@ function BasicMP3Player() {
     sDefault: 'sm2_button', // default state
     sLoading: 'sm2_loading',
     sPlaying: 'sm2_playing',
-    sPaused: 'sm2_paused'
+    sPaused: 'sm2_paused',
+    sNoplay: 'sm2_noplay'
   };
 
   // event + DOM utils
@@ -3535,6 +3536,8 @@ function BasicMP3Player() {
     }
     sURL = o.getAttribute('url');
     if (!sURL || !soundManager.canPlayLink(o) || self.classContains(o,self.excludeClass)) {
+      sm._writeDebug('pass-thru for non-MP3/non-links');
+      self.addClass(o,self.css.sNoplay);
       return true; // pass-thru for non-MP3/non-links
     }
     if (!self.classContains(o,self.includeClass)) {
