@@ -33,6 +33,7 @@ class LI_Controller extends CI_Controller{
 	protected $_unloginlist=array();
 	protected $_dnloginlist=array();
 	protected $_captchalist=array();
+	protected $_authcodelist=array();
 	protected $_postlist=array();
 
 	protected $_errormsg='';
@@ -44,6 +45,7 @@ class LI_Controller extends CI_Controller{
 	protected $_check_login=true;
 	protected $_check_token=true;
 	protected $_check_captcha=true;
+	protected $_check_authcode=false;
 	protected $_check_post=true;
 
 	public function __construct($site='')
