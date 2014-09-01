@@ -378,6 +378,37 @@ class LI_Controller extends CI_Controller{
 				}
 			}
 		}
+
+		//post 检测authcode
+		if($this->_check_authcode)
+		{
+			$check_authcode=0;
+			foreach($this->_segmenttype as $st)
+			{
+				if(!empty($this->_segment[$st])&&isset($this->_authcodelist[$st])&&!empty($this->_authcodelist[$st])&&in_array($this->_segment[$st],$this->_authcodelist[$st]))
+				{
+					$check_authcode++;
+				}
+			}
+			if($check_authcode)
+			{
+				if($this->tizi_ajax) 
+	            {
+	            	$this->load->config('version');
+					$this->smarty->assign('static_url', static_url($this->site));
+			        $this->smarty->assign('static_version',$this->config->item('static_version')
+			        	.($this->config->item('static_version')?'/':''));
+
+					$html=$this->smarty->fetch('[lib]common/tizi_auth_form.html');
+			    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_auth'),'auth'=>true,'html'=>$html,'redirect'=>'','token'=>false,'code'=>1));
+				    exit();
+	            }
+	            else
+	            {
+	                redirect($this->tizi_redirect);
+	            }
+			}
+		}
 	}
 
 	protected function token_list()
