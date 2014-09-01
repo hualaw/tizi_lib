@@ -388,6 +388,8 @@ class LI_Controller extends CI_Controller{
 		$this->_dnloginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//必须经过验证码验证的请求
 		$this->_captchalist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
+		//必须经过手机验证的请求
+		$this->_authcodelist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//强制post的请求
 		$this->_postlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 	}
