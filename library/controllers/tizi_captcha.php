@@ -19,7 +19,7 @@ class Tizi_Captcha extends MY_Controller {
         }
 
         $need_check=$this->captcha_rule($captcha_name);
-        if($need_check['check'])
+        if($need_check)
         {
             if($this->input->get('captcha_type',true,true,'') == 'base64')
             {
@@ -73,7 +73,7 @@ class Tizi_Captcha extends MY_Controller {
         }
 
         $need_check=$this->captcha_rule($captcha_name);
-        if($need_check['check'])
+        if($need_check)
         {
             if($keep_captcha) $unset_word=false;
             else $unset_word=true;
@@ -103,7 +103,7 @@ class Tizi_Captcha extends MY_Controller {
 
     protected function captcha_rule($captcha_name)
     {
-        $need_check=array('check'=>true, 'rule'=>'captcha');
+        $need_check=true;
         return $need_check;
     }
 }
