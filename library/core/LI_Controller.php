@@ -392,21 +392,26 @@ class LI_Controller extends CI_Controller{
 			}
 			if($check_authcode)
 			{
-				if($this->tizi_ajax) 
-	            {
-	            	$this->load->config('version');
-					$this->smarty->assign('static_url', static_url($this->site));
-			        $this->smarty->assign('static_version',$this->config->item('static_version')
-			        	.($this->config->item('static_version')?'/':''));
+				$this->load->model('login/register_model');
+				$user_info=$this->register_model->get_user_info($this->tizi_uid,0,'phone_verified');
+				if(!$user_info['errorcode']||$user_info['user']->phone_verified!=='1')
+				{
+					if($this->tizi_ajax) 
+		            {
+		            	$this->load->config('version');
+						$this->smarty->assign('static_url', static_url($this->site));
+				        $this->smarty->assign('static_version',$this->config->item('static_version')
+				        	.($this->config->item('static_version')?'/':''));
 
-					$html=$this->smarty->fetch('[lib]common/tizi_auth_form.html');
-			    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_auth'),'auth'=>true,'html'=>$html,'redirect'=>'','token'=>false,'code'=>1));
-				    exit();
-	            }
-	            else
-	            {
-	                redirect($this->tizi_redirect);
-	            }
+						$html=$this->smarty->fetch('[lib]common/tizi_auth_form.html');
+				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_auth'),'auth'=>true,'html'=>$html,'redirect'=>'','token'=>false,'code'=>1));
+					    exit();
+		            }
+		            else
+		            {
+		                redirect($this->tizi_redirect);
+		            }
+		        }
 			}
 		}
 	}
