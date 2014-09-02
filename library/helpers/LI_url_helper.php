@@ -111,7 +111,7 @@ if ( ! function_exists('static_url'))
 	{
 		$CI =& get_instance();
 		$static_url = $CI->config->item(($site ? $site.'_' : '').'static_url');
-		if(stripos($static_url,'http') === false) $static_url = site_url($static_url, $site).'/';
+		if(stripos($static_url,'http') === false) $static_url = $site ? site_url($static_url, $site).'/' : site_url($static_url).'/';
 		return $static_url;
 	}
 }
