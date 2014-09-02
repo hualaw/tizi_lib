@@ -31,8 +31,10 @@ define(function(require, exports) {
             tiptype: 3,
             showAllError: false,
             beforeSubmit: function(curform) { 
-                // 加载MD5加密
-                require("tizi_validform").md5(curform);
+                /*调用验证码验证服务端信息*/
+                if(!require("tizi_validform").checkPhoneCode($('.forgetTelCaptap').val(),$('.modifyPhone').val(),4)){
+                    return false;
+                }
             },
             ajaxPost: true,
             callback: function(data) {
