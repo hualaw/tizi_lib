@@ -52,14 +52,6 @@ class Stu_Zuoye_Model extends LI_Model{
         $data[0]['units'] = $tmp;
         $this->handle_zuoye_info($data);
 
-        // $this->load->model('homework/zuoye_intro_model');
-        // $data[0]['video_entities'] = $this->zuoye_intro_model->get_videos_ids($data[0]['video_ids']);
-        // $data[0]['game_entities'] = $this->zuoye_intro_model->get_game_entites($data[0]['unit_game_ids']);
-        // if($data[0]['game_entities']){
-        //     foreach($data[0]['game_entities'] as $k=>&$val){
-        //         $val['is_finish'] = 1;//每个作业有没有完成
-        //     }
-        // }
     }
 
     //某次作业的游戏、视频信息，完成情况 , 通用，可同时处理 数组条记录

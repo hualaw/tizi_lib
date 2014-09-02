@@ -13,6 +13,13 @@ class Game_Type_Model extends MY_Model {
         $res = $this->db->query($sql)->row_array();
         return $res;
     }
+
+    function get_game_type($game_type_id){
+        $select  =  "gt.name as type_name ";
+        $sql="select $select from game_type  gt  where gt.id=$game_type_id";
+        $res = $this->db->query($sql)->row_array();
+        return $res;   
+    }
      
 
 }
