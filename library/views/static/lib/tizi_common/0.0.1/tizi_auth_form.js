@@ -18,4 +18,26 @@ define(function(require, exports) {
         // 执行第三方登录
         //exports.oauthLogin();
     }
+
+    exports.authCheckClick = function(){
+        $('.authCheck').live('click',function(){
+            if(typeof callbackfn != 'function'){
+                callbackfn = function(){}
+            }
+            exports.loginCheck(param,callbackfn);
+            return false;
+        });
+    }
+
+    exports.authCheck = function(param,callbackfn){
+        $.tizi_ajax({
+            url: loginUrlName + 'login/check',
+            type: "get",
+            dataType: "jsonp",
+            data: param,
+            success: function(data) {
+            }
+        });
+    }
+
 });
