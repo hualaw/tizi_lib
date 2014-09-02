@@ -14,9 +14,7 @@ define(function(require, exports) {
                 
             }
         });
-        //require("tizi_valid").indexLogin();
-        // 执行第三方登录
-        //exports.oauthLogin();
+        //require("tizi_valid").indexAuth();
     }
 
     exports.authCheckClick = function(){
@@ -31,11 +29,19 @@ define(function(require, exports) {
 
     exports.authCheck = function(param,callbackfn){
         $.tizi_ajax({
-            url: loginUrlName + 'login/check',
+            url: loginUrlName + 'login/auth_check',
             type: "get",
             dataType: "jsonp",
             data: param,
             success: function(data) {
+                if(data.errorcode){
+                    if(typeof callbackfn == 'function'){
+                        callbackfn();
+                    }
+                }else{
+                    exports.authForm(data.html);
+                    seajs.use('placeHolder');
+                }
             }
         });
     }
