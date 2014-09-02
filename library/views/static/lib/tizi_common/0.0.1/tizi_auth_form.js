@@ -39,18 +39,8 @@ define(function(require, exports) {
             ajaxPost: true,
             callback: function(data) {
                 if(data.errorcode){
-                    // var phone = $('.modifyPhone').val();
-                    // phone = phone.substr(0,3) + '****' + phone.substr(7,10);
-                    // var html = '<span class="bindPhoneInfo"><em class="green">' + phone + '</em></span>';
-                    // $('.bindPhoneInfo').html(html);
-                    // $('#bindPhoneStatus').addClass('current');
-                    // $.tiziDialog({
-                    //     icon: 'succeed',
-                    //     content:data.error,
-                    //     close:function(){
-                    //         $('.modifyMyPhoneForm ul').slideUp();
-                    //     }
-                    // });
+                    $.tiziDialog.list['authFormID'].close();
+                    $.tiziDialog({icon:"succeed",content:data.error});
                 }else{
                     $.tiziDialog({icon:"error",content:data.error});
                 }
