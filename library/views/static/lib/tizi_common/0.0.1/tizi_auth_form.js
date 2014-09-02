@@ -5,7 +5,7 @@ define(function(require, exports) {
     exports.authForm = function(html){
         $.tiziDialog({
             id:'authFormID',
-        	title:'用户登录',
+        	title:'手机验证',
             content:html,
             icon:null,
             width:400,
