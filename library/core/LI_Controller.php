@@ -402,7 +402,7 @@ class LI_Controller extends CI_Controller{
 				        $this->smarty->assign('static_version',$this->config->item('static_version')
 				        	.($this->config->item('static_version')?'/':''));
 
-				        $this->smarty->assign('login_url', site_url('login'));
+				        $this->smarty->assign('login_url', site_url('','login'));
 						$html=$this->smarty->fetch('[lib]common/tizi_auth_form.html');
 				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_auth'),'auth'=>true,'html'=>$html,'redirect'=>'','token'=>false,'code'=>1));
 					    exit();
