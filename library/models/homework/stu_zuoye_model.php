@@ -12,7 +12,7 @@ class Stu_Zuoye_Model extends LI_Model{
         $select = "za.subject_id, za.end_time as zuoye_end_time, za.start_time as zuoye_start_time, za.unit_ids,za.unit_game_ids,za.video_ids,za.paper_ids,  zs.* ";
         $sql = "SELECT  $select  from zuoye_assign za 
                 left join zuoye_student zs on zs.zy_assign_id=za.id 
-                where class_id={$class_id} and za.status=1 and zs.user_id={$student_id} order by assign_time desc limit 1 ";
+                where class_id={$class_id} and za.status=1 and zs.user_id={$student_id} and zs.is_complete<>2 order by assign_time desc limit 1 ";
         $res = $this->db->query($sql)->result_array();
         if(!$res){return null;}
         $this->lastest_info($res);
