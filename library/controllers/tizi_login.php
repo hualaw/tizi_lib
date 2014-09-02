@@ -184,31 +184,6 @@ class Tizi_Login extends Tizi_Controller {
 			redirect(site_url('',$site));
 		}
 	}
-	
-	function check_code()
-	{
-		$phone=$this->input->post('phone',true);		
-		$authcode=$this->input->post('check_code',true);
-		$code_type=$this->input->post('code_type',true);
-
-		$error='';
-		
-		$this->load->model("login/verify_model");
-    	$auth=$this->verify_model->verify_authcode_phone($authcode,$phone,false);
-	
-		if($auth['errorcode'])
-		{
-			$errorcode=true;
-		}
-		else 
-		{
-			$errorcode=false;	
-			$error=$this->lang->line('error_sms_code');
-		}
-
-		echo json_token(array('errorcode'=>$errorcode,'error'=>$error));
-		exit();
-	}
 
 	public function check_login()
     {
