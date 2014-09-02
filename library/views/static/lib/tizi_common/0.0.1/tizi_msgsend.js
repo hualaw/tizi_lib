@@ -49,7 +49,7 @@ define(function(require,exports){
 				require.async("tizi_validform",function(ex){
                     ex.sendEmailCode(email,code_type,function(){
 					_this.emailWaitTime(email,code_type);
-					$('.aSendEmail').addClass('aSendCaptapOk').attr("disabled",true);
+					$('.aSendEmail').addClass('aSendEmailOk').attr("disabled",true);
 				},function(data){
 					$(".aSendEmailTip").html(data.error).addClass("error").removeClass("undis");
 				});
