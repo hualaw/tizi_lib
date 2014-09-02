@@ -144,5 +144,27 @@ class Classes_agents_model extends LI_Model{
 		$res = $this->db->query("SELECT id FROM classes_agents_user WHERE user_id=?", $user_id)->row_array();
 		return isset($res["id"]) ? true : false;
 	}
+
+	public function get_info_bsr($school_id, $arr_data){
+		$this->db->where('school_id', $school_id);
+		$this->db->where_in('username', $arr_data);
+		$data = $this->db->get('classes_agents_user')->result_array();
+		return $data;
+	}
+
+	public function delete($id){
+		$this->db->query("DELETE FROM classes_agents_user WHERE id=?", array($id));
+		return $this->db->affected_rows();
+	}
+
+	public function delete_create($id){
+		$this->db->query("DELETE FROM classes_student_create WHERE id=?", array($id));
+		return $this->db->affected_rows();
+	}
+
+	public function insert_log($action, $data){
+		$this->db->query("INSERT INTO classes_agents_logs(action,data) VALUES(?,?)", array($action, $data));
+		return $this->db->insert_id();
+	}
 	
 }

@@ -179,5 +179,14 @@ class v9_waijiao_model extends MY_Model{
 		return $this->db->affected_rows();
 	}
 
+	public function update_thumb($id, $name, $uri){
+		if ($name == "thumb50_uri"){
+			$this->db->query("update student_video set thumb50_uri=? where id=?", array($uri, $id));
+		} else if ($name == "thumb_uri"){
+			$this->db->query("update student_video set thumb_uri=? where id=?", array($uri, $id));
+		}
+		return $this->db->affected_rows();
+	}
+
 }
 /* end of v9_waijiao_model.php */
