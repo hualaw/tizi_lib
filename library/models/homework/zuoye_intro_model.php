@@ -30,7 +30,11 @@ class Zuoye_Intro_Model extends LI_Model{
         if(!$games){return null;}
         $this->load->model('homework/game_type_model');
         foreach($games as $k=>&$val){
-            $tmp = $this->game_type_model->get_game_with_game_type($val['game_id']);
+            if(isset($val['game_type_id']) and intval($val['game_type_id'])){
+                $tmp = $this->game_type_model->get_game_type($val['game_type_id']);
+            }else{
+                $tmp = $this->game_type_model->get_game_with_game_type($val['game_id']); //以前的 作业中没有带上game_type
+            }
             $val['game_type_name'] = $tmp['type_name'];
         }
         return $games;

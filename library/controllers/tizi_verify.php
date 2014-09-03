@@ -164,6 +164,31 @@ class Tizi_Verify extends Tizi_Controller {
 		exit();
 	}
 
+	function check_code()
+	{
+		$phone=$this->input->post('phone',true);		
+		$authcode=$this->input->post('check_code',true);
+		$code_type=$this->input->post('code_type',true);
+
+		$error='';
+		
+		$this->load->model("login/verify_model");
+    	$auth=$this->verify_model->verify_authcode_phone($authcode,$phone,false);
+	
+		if($auth['errorcode'])
+		{
+			$errorcode=true;
+		}
+		else 
+		{
+			$errorcode=false;	
+			$error=$this->lang->line('error_sms_code');
+		}
+
+		echo json_token(array('errorcode'=>$errorcode,'error'=>$error));
+		exit();
+	}
+
 }
 /* End of file verify.php */
 /* Location: ./application/controllers/login/verify.php */
