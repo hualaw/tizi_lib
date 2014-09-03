@@ -112,7 +112,7 @@ Class CI_Constant {
 	const LOGIN_TYPE_STUID = 3;
 	const LOGIN_TYPE_UNAME = 4;
 	const LOGIN_TYPE_ERROR = 9;
-	
+
 	/*login sso type*/
 	const LOGIN_SSO_TYPE_OAUTH = 1;		//OAUTH 第三方登录
 	const LOGIN_SSO_TYPE_SSO = 2;		//SSO	厂商登录
@@ -148,11 +148,11 @@ Class CI_Constant {
 
 	/*zujuan send authcode interval*/
 	const SEND_AUTHCODE_INTERVAL_EMAIL = "90 second";
-	const SEND_AUTHCODE_INTERVAL_PHONE = "90 second";	
+	const SEND_AUTHCODE_INTERVAL_PHONE = "90 second";
 	const SEND_REDIS_AUTHCODE_INTERVAL_EMAIL = 90;//邮件短信发送间隔1分半钟
 	const SEND_REDIS_AUTHCODE_INTERVAL_PHONE = 90;
 	const SEND_REDIS_AUTHCODE_TIMES = 10;//每2分钟单个ip可以发送短信的次数，推广期暂定10次
-	
+
 	/*zujuan authcode expire time*/
 	const AUTHCODE_EXPIRE_EMAIL = "24 hour";
 	const AUTHCODE_EXPIRE_PHONE = "30 minute";
@@ -182,18 +182,19 @@ Class CI_Constant {
 	const USER_MEDAL_TIMEOUT = 86400;		//勋章过期时间 24h
 
 	const CLASS_STORAGE = 10737418240;//班级分享文件总容量 10GB = 10*1024*1024*1024
- 
+	const TEACHER_CLASS_MAX_NUM = 200;//老师最大创建班级数
+
 	const USER_DISTINCT_MEDAL_COUNT_TIMEOUT = 3600;		// 1h
-	
+
 	//about devote
 	const DEVOTE_LESSON_SHARE = 19;			//文件共享贡献
-	
+
 	//about credit
 	const CREDIT_STORE_MAXBUY_PERDAY = 3;	//积分商城一天最大兑换次数
 
     function __construct()
 	{
-	
+
 	}
 
 	public static function redirect_url($user_type, $redirect_type='login', $redirect='')
@@ -244,7 +245,7 @@ Class CI_Constant {
 		);
 		return isset($arr[$app_name]) ? $arr[$app_name] : $arr['tiku'];
 	}
-	
+
 	public static function school_type(){
 		$define = array(
 			1 => "公立小学",
@@ -270,7 +271,7 @@ Class CI_Constant {
 	}
 
     public static function oauth_platform($platform){
-        
+
         $platforms = array(
             1 => 'qq',
             2 => 'weibo',
@@ -278,7 +279,7 @@ Class CI_Constant {
         );
 
         return array_search($platform, $platforms);
-        
+
     }
 
 	/* 教师空间配置 以前在space下 拿到lib 开通空间用 */

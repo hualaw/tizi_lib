@@ -41,3 +41,18 @@ if( ! function_exists('json_output') )
         die;
     }
 }
+
+// Wangnan Dafen
+if( ! function_exists('json_decode_to_array') )
+{
+    /**
+     * 解析JSON串到数组
+     *
+     * @param  string  $data JSON数据串
+     * @author wangnan <wangnan@tizi.com>
+     */
+    function json_decode_to_array($data)
+    {
+        return is_string($data) ? json_decode(str_replace("'", '"', $data), true) : false;
+    }
+}
