@@ -3611,7 +3611,8 @@ function BasicMP3Player() {
         foundItems++;
       }
     }
-    if (foundItems>0) {
+    //force init
+    if (foundItems>=0) {
       self.addEventHandler(document,'click',self.handleClick);
       if (self.config.autoPlay) {
         self.handleClick({target:self.links[0],preventDefault:function(){}});
