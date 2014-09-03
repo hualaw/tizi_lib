@@ -1,20 +1,64 @@
 define(function(require, exports) {
     require('tiziDialog');
     require('tizi_ajax');
-    
+    // 请求验证库
+    require("validForm");
+    // 请求公共验证信息
+    var sDataType = require("tizi_datatype").dataType();
+
     exports.authForm = function(html){
         $.tiziDialog({
             id:'authFormID',
         	title:'手机验证',
             content:html,
             icon:null,
-            width:400,
-            ok:false,
+            width:530,
+            ok:function(){
+                $('.modifyMyPhoneFormSubmit').submit();
+                return false;
+            },
             close:function(){
                 
             }
         });
-        //require("tizi_valid").indexAuth();
+        // 发送手机验证码
+        seajs.use('tizi_msgsend',function(ex){
+          ex.sms.init($('.modifyPhone').val(),4,'.modifyPhone');
+        });
+        // 验证规则
+        var _Form = $(".modifyMyPhoneForm").Validform({
+            // 自定义tips在输入框上面显示
+            tiptype: 3,
+            showAllError: false,
+            beforeSubmit: function(curform) { 
+                /*调用验证码验证服务端信息*/
+                if(!require("tizi_validform").checkPhoneCode($('.forgetTelCaptap').val(),$('.modifyPhone').val(),4)){
+                    return false;
+                }
+            },
+            ajaxPost: true,
+            callback: function(data) {
+                if(data.errorcode){
+                    $.tiziDialog.list['authFormID'].close();
+                    $.tiziDialog({icon:"succeed",content:data.error});
+                }else{
+                    $.tiziDialog({icon:"error",content:data.error});
+                }
+            }
+        });
+        _Form.addRule([{
+                ele: ".modifyPhone",
+                datatype: sDataType.Phone.datatype,
+                nullmsg: sDataType.Phone.nullmsg,
+                errormsg: sDataType.Phone.errormsg
+            },{
+                ele: ".forgetTelCaptap",
+                datatype: sDataType.PhoneCode.datatype,
+                nullmsg: sDataType.PhoneCode.nullmsg,
+                errormsg: sDataType.PhoneCode.errormsg
+            }
+            
+        ]);
     }
 
     exports.authCheckClick = function(){
