@@ -81,7 +81,11 @@ class Homework_Assign_Model extends LI_Model{
         $this->db->where('id',$id);
         $res = $this->db->get($this->_table);
         $res = $res->result_array();
-        return $res[0];
+        if(isset($res[0]) and $res[0]){
+          return $res[0];
+        }else{
+          return null;
+        }
     }
 
     //获取，当前条件下的总数（用于分页）

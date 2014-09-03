@@ -82,7 +82,8 @@ class Teacher_Exercise_Plan_Model extends exercise_plan_model{
     }
 
     //tizi 3.0   获取某个班级的作业   
-    //update tizi4.0 2014-07-12   更换表
+    //update tizi4.0 2014-07-12   更换表     
+    //update  2014-08-18 18:00 从单纯的布置paper 变成 布置游戏
     function get_class_exercise($class,$uid,$page=1,$pagesize=10,$total=false,$before_time=null){
         $start = ($page-1)*$pagesize;
         if($start<1)$start = 0;
@@ -96,7 +97,7 @@ class Teacher_Exercise_Plan_Model extends exercise_plan_model{
                 left join subject s on s.id=hp.subject_id where 1=1 
                 and hw.class_id=? and hw.is_assigned=1 ";
         if($before_time){
-            $before_time = " and start_time < ".strtotime(date('Y-m-d 18:00'));
+            $before_time = " and start_time < ".strtotime(date('2014-08-18 18:00'));
             $_sql .= $before_time;
         }
         $order = " order by id desc ";
