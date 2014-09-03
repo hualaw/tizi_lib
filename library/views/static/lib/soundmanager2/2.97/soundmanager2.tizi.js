@@ -3390,7 +3390,7 @@ function BasicMP3Player() {
       sm = soundManager, // soundManager instance
       isTouchDevice = (navigator.userAgent.match(/ipad|iphone/i)),
       isIE = (navigator.userAgent.match(/msie/i));
-  this.excludeClass = 'button-exclude'; // CSS class for ignoring MP3 links
+  this.excludeClass = 'sm2_exclude'; // CSS class for ignoring MP3 links
   this.links = [];
   this.sounds = [];
   this.soundsByURL = {};
@@ -3536,8 +3536,10 @@ function BasicMP3Player() {
     }
     sURL = o.getAttribute('url');
     if (!sURL || !soundManager.canPlayLink(o) || self.classContains(o,self.excludeClass)) {
-      sm._writeDebug('pass-thru for non-MP3/non-links');
-      self.addClass(o,self.css.sNoplay);
+      if (self.classContains(o,self.css.sDefault) && !self.classContains(o,self.excludeClass)) {
+        sm._writeDebug('pass-thru for non-MP3/non-links');
+        self.addClass(o,self.css.sNoplay);
+      }
       return true; // pass-thru for non-MP3/non-links
     }
     if (!self.classContains(o,self.includeClass)) {
