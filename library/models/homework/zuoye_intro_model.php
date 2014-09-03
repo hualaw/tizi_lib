@@ -14,11 +14,13 @@ class Zuoye_Intro_Model extends LI_Model{
             $this->load->model('exercise_plan/homework_assign_model');
             $paper_ids = json_decode($zy['paper_ids'],true);
             foreach($paper_ids as $pas=>$p){
-                $_pap = $this->homework_assign_model->get_assigned_homework_info_by_id($p['assignment_id']);       
-                if(isset($p['package_id'])){
-                    $_pap['package_id'] = $p['package_id'];
+                if(isset($p['assignment_id'])){
+                    $_pap = $this->homework_assign_model->get_assigned_homework_info_by_id($p['assignment_id']);       
+                    if(isset($p['package_id'])){
+                        $_pap['package_id'] = $p['package_id'];
+                    }
+                    $papers [] = $_pap;
                 }
-                $papers [] = $_pap;
             }
         }
         // var_dump($papers);
