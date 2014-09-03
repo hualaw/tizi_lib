@@ -152,6 +152,7 @@ class Paper_Question_Model extends MY_Model {
     	{
 			$this->load->library('thrift_zujuan');
 			$paper_question_id_list_array=is_array($paper_question_id_list)?$paper_question_id_list:array($paper_question_id_list);
+	    	if($question_origin===false) $question_origin=-1;
 	    	$qdel = $this->thrift_zujuan->del_question($paper_id,$paper_question_id_list_array,$question_origin,$is_paper_question_id);
 	    	return ($qdel == 'success')?true:false;
 	    }
