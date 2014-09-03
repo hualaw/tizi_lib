@@ -68,7 +68,7 @@ class Videos_Model extends MY_Model {
         $this->db->join($this->_tb_unit, "{$this->_tb_unit}.id = {$this->_table}.unit_id", 'left');
         //2014-08-07 end
 
-    	//$this->db->order_by('date','desc');
+    	$this->db->order_by($this->_table.'.order_list','desc');
     	$video_list = $this->db->get_where($this->_table,array('unit_id'=>$unit_id,'online'=>1))->result();
         if($parse){
     	   self::prase_video_info($user_id,$video_list,2);
