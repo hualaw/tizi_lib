@@ -19,6 +19,16 @@
 				}
 			});
 			return false;
+		}else if(data.auth === true){
+			if(typeof seajs == 'object'){
+				// 加载公共登录框
+				seajs.use('tizi_auth_form',function(ex){
+					ex.authForm(data.html);
+				});
+			}else{
+				window.location.href = baseUrlName;
+			}
+			return false;
 		}else if(data.token === false){
 			window.location.reload();
 			return false;

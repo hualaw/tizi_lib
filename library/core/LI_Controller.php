@@ -33,6 +33,7 @@ class LI_Controller extends CI_Controller{
 	protected $_unloginlist=array();
 	protected $_dnloginlist=array();
 	protected $_captchalist=array();
+	protected $_authcodelist=array();
 	protected $_postlist=array();
 
 	protected $_errormsg='';
@@ -44,6 +45,7 @@ class LI_Controller extends CI_Controller{
 	protected $_check_login=true;
 	protected $_check_token=true;
 	protected $_check_captcha=true;
+	protected $_check_authcode=false;
 	protected $_check_post=true;
 
 	public function __construct($site='')
@@ -139,9 +141,11 @@ class LI_Controller extends CI_Controller{
         $this->smarty->assign('tzu', Constant::COOKIE_TZUSERNAME);
         $this->smarty->assign('tzc', $this->config->item('cookie_domain'));
         $this->smarty->assign('is_mobile', $this->tizi_mobile);
-        
+        $this->smarty->assign('flash_base_version','11.4.0');
+
         $this->smarty->assign('static_url', static_url($this->site));
         $this->smarty->assign('static_base_url', static_url('base'));
+        $this->smarty->assign('static_lib_url', static_url('lib'));
 		$this->smarty->assign('version','?v='.$this->config->item('version'));
         $this->smarty->assign('swfversion','?v='.$this->config->item('swfversion'));
         $this->smarty->assign('static_version',$this->config->item('static_version')
@@ -374,6 +378,42 @@ class LI_Controller extends CI_Controller{
 				}
 			}
 		}
+		//post 检测authcode
+		if($this->_check_authcode)
+		{
+			$check_authcode=0;
+			foreach($this->_segmenttype as $st)
+			{
+				if(!empty($this->_segment[$st])&&isset($this->_authcodelist[$st])&&!empty($this->_authcodelist[$st])&&in_array($this->_segment[$st],$this->_authcodelist[$st]))
+				{
+					$check_authcode++;
+				}
+			}
+			if($check_authcode)
+			{
+				$this->load->model('login/register_model');
+				$user_info=$this->register_model->get_user_info($this->tizi_uid,0,'phone_verified');
+				if(!$user_info['errorcode']||$user_info['user']->phone_verified!=='1')
+				{
+					if($this->tizi_ajax) 
+		            {
+		            	$this->load->config('version');
+						$this->smarty->assign('static_url', static_url($this->site));
+				        $this->smarty->assign('static_version',$this->config->item('static_version')
+				        	.($this->config->item('static_version')?'/':''));
+
+				        $this->smarty->assign('login_url', site_url('','login'));
+						$html=$this->smarty->fetch('[lib]common/tizi_auth_form.html');
+				    	echo json_ntoken(array('errorcode'=>false,'error'=>$this->lang->line('default_error_auth'),'auth'=>true,'html'=>$html,'redirect'=>'','token'=>false,'code'=>1));
+					    exit();
+		            }
+		            else
+		            {
+		                redirect($this->tizi_redirect);
+		            }
+		        }
+			}
+		}
 	}
 
 	protected function token_list()
@@ -386,6 +426,8 @@ class LI_Controller extends CI_Controller{
 		$this->_dnloginlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//必须经过验证码验证的请求
 		$this->_captchalist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
+		//必须经过手机验证的请求
+		$this->_authcodelist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 		//强制post的请求
 		$this->_postlist=array('n'=>array(),'an'=>array(),'r'=>array(),'ar'=>array());
 	}
