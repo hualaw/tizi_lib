@@ -27,7 +27,7 @@ class Game_Model extends MY_Model {
 
 	public function get_question($category_id, $game_type, $question_num = ''){
 		
-        $sql = "select * from `game_question` where `category_id` = {$category_id} and `game_type` = {$game_type}";
+        $sql = "select * from `game_question` where `category_id` = {$category_id} and `game_type` = {$game_type} and is_online=1";
 		$result = $this->db
 			->query($sql)
 			->result_array();
