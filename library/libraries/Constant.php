@@ -202,23 +202,23 @@ Class CI_Constant {
 		if(!$redirect_type) $redirect_type='login';
 		$redirect_url = array(
 			'login' => array(
-				self::USER_TYPE_STUDENT => login_url("student/user/center"),
 			    self::USER_TYPE_TEACHER => login_url("teacher/user/center"),
+				self::USER_TYPE_STUDENT => login_url("student/user/center"),
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'logout' => array(
-				self::USER_TYPE_STUDENT => waijiao_url(),
-			    self::USER_TYPE_TEACHER => tizi_url('juanzi'),
+			    self::USER_TYPE_TEACHER => tizi_url('banji'),
+				self::USER_TYPE_STUDENT => tizi_url('ban'),
 			    self::USER_TYPE_PARENT => jia_url()
 			),
 			'register' => array(
-				self::USER_TYPE_STUDENT => login_url('register/success'),
 			    self::USER_TYPE_TEACHER => login_url('register/success'),
+				self::USER_TYPE_STUDENT => login_url('register/success'),
 			    self::USER_TYPE_PARENT => login_url('register/success')
 			),
 			'tizi' => array(
-				self::USER_TYPE_STUDENT => waijiao_url(),
-			    self::USER_TYPE_TEACHER => tizi_url('juanzi'),
+			    self::USER_TYPE_TEACHER => tizi_url('banji'),
+				self::USER_TYPE_STUDENT => tizi_url('banji'),
 			    self::USER_TYPE_PARENT => jia_url()
 			)
 		);
