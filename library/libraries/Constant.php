@@ -218,7 +218,7 @@ Class CI_Constant {
 			),
 			'tizi' => array(
 			    self::USER_TYPE_TEACHER => tizi_url('banji'),
-				self::USER_TYPE_STUDENT => tizi_url('banji'),
+				self::USER_TYPE_STUDENT => tizi_url('ban'),
 			    self::USER_TYPE_PARENT => jia_url()
 			)
 		);
