@@ -58,6 +58,9 @@ define(function(require, exports) {
                 }
                 // username = curform.find('.username').val();
                 // passwd = curform.find('.password').val();
+                // 隐藏登陆按钮并显示登录中开始
+                curform.find('.submitBtn').val('登录中...').attr('disabled','disabled').addClass('submitLock');
+                // 隐藏登陆按钮并显示登录中结束
                 // 加载MD5加密
                 require.async("tizi_validform",function(ex){
                     ex.md5(curform);
